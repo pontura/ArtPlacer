@@ -41,7 +41,7 @@ public class WebCamPhotoCamera : MonoBehaviour
         //Encode to a PNG
         byte[] bytes = Data.Instance.lastPhotoTexture.EncodeToPNG();
         //Write out the PNG. Of course you have to substitute your_path for something sensible
-        File.WriteAllBytes(Application.dataPath + "XXX.png", bytes);
+		File.WriteAllBytes(Application.dataPath + "XXX.png", bytes);
 
         Data.Instance.LoadLevel("Walls");
     }
