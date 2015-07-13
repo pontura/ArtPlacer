@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
+using System.IO;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ArtWorks : MonoBehaviour
 {
-
+    public Text debugText;
     public ThumbImage button;
     public GameObject container;
+    
+
 
     [Serializable]
     public class ThumbData
@@ -23,20 +28,24 @@ public class ArtWorks : MonoBehaviour
     private bool isOn;
     public void Toogle()
     {
-        if (isOn)
-            SetOff();
-        else
-            Start();
+        //if (isOn)
+        //    SetOff();
+        //else
+            SetOn();
         isOn = !isOn;
     }
-    void Start()
+    void SetOn()
     {
         thumbSize += separation;
 
         int id = 1;
         int separationY = 0;
         int separationx = 0;
-        foreach (ThumbData dropData in data)
+
+        debugText.text = "CARGANDO";
+
+        FileInfo[] files =  Data.Instance.GetFilesIn("Images");
+        foreach (FileInfo info in files)
         {
             ThumbImage newButton = Instantiate(button);
             newButton.transform.SetParent(container.transform);
@@ -46,17 +55,15 @@ public class ArtWorks : MonoBehaviour
             float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
             print(_x);
             newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
-          //  newButton.Init(dropData.title, dropData.id);
+            debugText.text += info.FullName;
 
-            if (separationx == cols-1)
+            if (separationx == cols - 1)
             {
                 separationY++;
                 separationx = 0;
             }
             else separationx++;
             id++;
-            
-            
         }
     }
     void SetOff()

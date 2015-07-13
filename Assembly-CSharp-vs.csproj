@@ -56,7 +56,6 @@
      <Compile Include="Assets\Fade.cs" />
      <Compile Include="Assets\Intro.cs" />
      <Compile Include="Assets\LoadRoomScreen.cs" />
-     <Compile Include="Assets\PlaneEditor.cs" />
      <Compile Include="Assets\Scripts\StyledComboBox.cs" />
      <Compile Include="Assets\Scripts\StyledComboBoxPrefab.cs" />
      <Compile Include="Assets\Scripts\StyledItem.cs" />

@@ -71,8 +71,9 @@ public class Data : MonoBehaviour
     }
     public FileInfo[] GetFilesIn(string folderName)
     {
-        var info = new DirectoryInfo(folderName);
-        FileInfo[] fileInfo = info.GetFiles();
+        string info = Path.Combine(Application.persistentDataPath, folderName);
+        var folder = new DirectoryInfo(info);
+        FileInfo[] fileInfo = folder.GetFiles();
         return fileInfo;
     }
 }
