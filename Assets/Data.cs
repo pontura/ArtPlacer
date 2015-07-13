@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -56,5 +57,22 @@ public class Data : MonoBehaviour
     public void Reset()
     {
 
+    }
+    public string GetImagesPath(string imageName)
+    {
+        string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Images");
+
+        if (!Directory.Exists(imagesFolderPath))
+            Directory.CreateDirectory(imagesFolderPath);
+
+        string path = Path.Combine(imagesFolderPath, Data.Instance.imagePath);
+
+        return path;
+    }
+    public FileInfo[] GetFilesIn(string folderName)
+    {
+        var info = new DirectoryInfo(folderName);
+        FileInfo[] fileInfo = info.GetFiles();
+        return fileInfo;
     }
 }

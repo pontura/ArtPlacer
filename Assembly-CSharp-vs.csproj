@@ -46,12 +46,23 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ArtWorks.cs" />
+     <Compile Include="Assets\ComboBox.cs" />
      <Compile Include="Assets\Data.cs" />
+     <Compile Include="Assets\Dropbox.cs" />
+     <Compile Include="Assets\DropboxButton.cs" />
      <Compile Include="Assets\Events.cs" />
      <Compile Include="Assets\Fade.cs" />
      <Compile Include="Assets\Intro.cs" />
      <Compile Include="Assets\LoadRoomScreen.cs" />
+     <Compile Include="Assets\Scripts\StyledComboBox.cs" />
+     <Compile Include="Assets\Scripts\StyledComboBoxPrefab.cs" />
+     <Compile Include="Assets\Scripts\StyledItem.cs" />
+     <Compile Include="Assets\Scripts\StyledItemButtonImageText.cs" />
+     <Compile Include="Assets\Scripts\TestStyledComboBox.cs" />
+     <Compile Include="Assets\ScrollLimit.cs" />
      <Compile Include="Assets\TakePhotoScreen.cs" />
+     <Compile Include="Assets\ThumbImage.cs" />
      <Compile Include="Assets\Walls.cs" />
      <Compile Include="Assets\WebCamPhotoCamera.cs" />
  <Reference Include="UnityEngine.UI">

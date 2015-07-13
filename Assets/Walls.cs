@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
 
 public class Walls : MonoBehaviour {
 
@@ -15,16 +16,20 @@ public class Walls : MonoBehaviour {
     {
         Data.Instance.LoadLevel("LoadRoom");
     }
+    public void ArtBrowser()
+    {
+        Data.Instance.LoadLevel("ArtBrowser");
+    }    
     public void Refresh()
     {
-        var filePath = Data.Instance.imagePath;
+        var filePath = Data.Instance.GetImagesPath(Data.Instance.imagePath);
+
         if (System.IO.File.Exists(filePath))
         {
-            field.text += " EXISTS!!!";
             var bytes = System.IO.File.ReadAllBytes(filePath);
             var tex = new Texture2D(1, 1);
             tex.LoadImage(bytes);
-            rawImage2.material.mainTexture = tex;
+            rawImage2.texture = tex;
         }
     }
 }
