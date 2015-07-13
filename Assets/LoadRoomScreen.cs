@@ -7,4 +7,9 @@ public class LoadRoomScreen : MonoBehaviour {
     {
         Data.Instance.LoadLevel("TakePhoto");
     }
+    public void Browse()
+    {
+
+    }
 }
+

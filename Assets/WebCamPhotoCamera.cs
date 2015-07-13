@@ -30,6 +30,7 @@ public class WebCamPhotoCamera : MonoBehaviour
     }
     public void TakePhoto()
     {
+        
         takePhotoButton.gameObject.SetActive(false);
 
       //  Application.CaptureScreenshot("Screenshot.png");
@@ -41,7 +42,10 @@ public class WebCamPhotoCamera : MonoBehaviour
         //Encode to a PNG
         byte[] bytes = Data.Instance.lastPhotoTexture.EncodeToPNG();
         //Write out the PNG. Of course you have to substitute your_path for something sensible
-        File.WriteAllBytes(Application.dataPath + "XXX.png", bytes);
+        string path = Application.persistentDataPath + "/Resources/XXX.png";
+        File.WriteAllBytes(path, bytes);
+
+        Data.Instance.imagePath = path;
 
         Data.Instance.LoadLevel("Walls");
     }

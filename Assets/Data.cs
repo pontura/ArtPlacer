@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Data : MonoBehaviour
 {
-
+    public string imagePath;
     const string PREFAB_PATH = "Data";
     private Fade fade;
     static Data mInstance = null;
