@@ -40,12 +40,9 @@ public class WebCamPhotoCamera : MonoBehaviour
         //Encode to a PNG
         byte[] bytes = Data.Instance.lastPhotoTexture.EncodeToPNG();
         //Write out the PNG. Of course you have to substitute your_path for something sensible
-<<<<<<< HEAD
-        string path = "XXX.png";
+
+        string path = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
         Data.Instance.imagePath = path;
-=======
-		File.WriteAllBytes(Application.dataPath + "XXX.png", bytes);
->>>>>>> f162d467c859b35a186188574f1a5ab496c000f7
 
         var filePath = Data.Instance.GetImagesPath(Data.Instance.imagePath);
         File.WriteAllBytes(filePath, bytes);
