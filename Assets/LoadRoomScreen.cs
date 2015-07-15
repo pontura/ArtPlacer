@@ -9,7 +9,7 @@ public class LoadRoomScreen : MonoBehaviour {
     }
     public void Browse()
     {
-
+        Data.Instance.LoadLevel("SavedPhotoBrowser");        
     }
 }
 

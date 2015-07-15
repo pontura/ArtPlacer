@@ -2,10 +2,7 @@
 using System.Collections;
 
 public class WallPlane : MonoBehaviour {
-
-	public float width = 1000f;
-	public float height = 1000f;
-
+    
 	public float zPointers = -10;
 
 	public GameObject[] pointer;
@@ -45,7 +42,6 @@ public class WallPlane : MonoBehaviour {
 			//pointer[i].tag = "Pointer"+i;
 			//pointer[i].transform.parent = transform;
 			//Debug.Log ("Punto"+i+": "+pointer[i].transform.position);
-			pointer[i].GetComponent<Renderer>().material.color = Color.blue;
 			pointer[i].name = "Pointer_"+gameObject.GetInstanceID()+"_"+i;
 
 		}	
@@ -132,6 +128,8 @@ public class WallPlane : MonoBehaviour {
 		int lineSize4 = (int)Vector3.Distance(pointer[3].transform.position,pointer[0].transform.position);
 		int totalLineS = lineSize1 + lineSize2 + lineSize3 + lineSize4;
 		LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
+
+        lineRenderer.SetColors(Color.black, Color.black);
 		lineRenderer.SetVertexCount(totalLineS);
 		for(int j=0;j<totalLineS;j++){
 			if(j<lineSize1){

@@ -5,7 +5,7 @@ public class PhotoAddWall : MonoBehaviour {
 
 	public GameObject sector;
 	public bool add = true;
-
+    private int numWalls;
 	Camera cam;
 
 	// Use this for initialization
@@ -17,9 +17,10 @@ public class PhotoAddWall : MonoBehaviour {
 			}
 		}
 	}
-	
-	// Update is called once per frame
-
+    public void ActiveAdd()
+    {
+        add = true;
+    }
 	void Update () {
 		if (add) {
 			//if (Input.GetKeyDown(KeyCode.Space)) {
@@ -32,10 +33,9 @@ public class PhotoAddWall : MonoBehaviour {
 				//GameObject obj = Instantiate (sector, new Vector3 (mousePos.x, mousePos.y, 9.9f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (0, 0, 10), Quaternion.identity) as GameObject;
 				add=false;
+                numWalls++;
+                Events.OnNumWallsChanged(numWalls);
 			}
-		}
-		
-		
-		
+		}		
 	}
 }

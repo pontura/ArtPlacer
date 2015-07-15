@@ -5,13 +5,27 @@ using System.IO;
 
 public class Walls : MonoBehaviour {
 
-    public Text field;
+    public GameObject ResetedContainer;
+    public GameObject ReadyContainer;
+
     public RawImage rawImage;
-    public RawImage rawImage2;
 
 	void Start () {
         rawImage.texture = Data.Instance.lastPhotoTexture;
+        Reseted();
+        Events.OnNumWallsChanged += OnNumWallsChanged;
 	}
+    void OnDestroy()
+    {
+        Events.OnNumWallsChanged -= OnNumWallsChanged;
+    }
+    void OnNumWallsChanged(int qty)
+    {
+        if (qty < 1)
+            Reseted();
+        else
+            Started();
+    }
     public void GotoLoadRoom()
     {
         Data.Instance.LoadLevel("LoadRoom");
@@ -19,17 +33,15 @@ public class Walls : MonoBehaviour {
     public void ArtBrowser()
     {
         Data.Instance.LoadLevel("ArtBrowser");
-    }    
-    public void Refresh()
+    }
+    public void Reseted()
     {
-        //var filePath = Data.Instance.GetImagesPath(Data.Instance.imagePath);
-
-        //if (System.IO.File.Exists(filePath))
-        //{
-        //    var bytes = System.IO.File.ReadAllBytes(filePath);
-        //    var tex = new Texture2D(1, 1);
-        //    tex.LoadImage(bytes);
-        //    rawImage2.texture = tex;
-        //}
+        ResetedContainer.gameObject.SetActive(true);
+        ReadyContainer.gameObject.SetActive(false);
+    }
+    public void Started()
+    {
+        ResetedContainer.gameObject.SetActive(false);
+        ReadyContainer.gameObject.SetActive(true);
     }
 }

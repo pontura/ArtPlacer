@@ -7,12 +7,9 @@ using System.Collections.Generic;
 
 public class SavedPhotoBrowser : MonoBehaviour
 {
-    public Text debugText;
     public ThumbImage button;
     public GameObject container;
     
-
-
     [Serializable]
     public class ThumbData
     {
@@ -42,7 +39,6 @@ public class SavedPhotoBrowser : MonoBehaviour
         int separationY = 0;
         int separationx = 0;
 
-        debugText.text = "CARGANDO";
 
         FileInfo[] files =  Data.Instance.GetFilesIn("Images");
         foreach (FileInfo info in files)
@@ -55,7 +51,6 @@ public class SavedPhotoBrowser : MonoBehaviour
             float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
             print(_x);
             newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
-            debugText.text += info.FullName;
 
             if (separationx == cols - 1)
             {
