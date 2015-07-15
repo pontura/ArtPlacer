@@ -5,11 +5,14 @@ using System.Collections.Generic;
 
 public class Data : MonoBehaviour
 {
-    public string imagePath;
+    public Texture2D lastArtTexture;
+    public Texture2D lastPhotoTexture;
+    public ArtData artData;
+
     const string PREFAB_PATH = "Data";
     private Fade fade;
     static Data mInstance = null;
-    public Texture2D lastPhotoTexture;
+    
 
     public static Data Instance
     {
@@ -39,9 +42,7 @@ public class Data : MonoBehaviour
     }
     void Awake()
     {
-        fade = GetComponentInChildren<Fade>();
-
-        fade.gameObject.SetActive(true);
+        
         if (!mInstance)
             mInstance = this;
         //otherwise, if we do, kill this thing
@@ -51,23 +52,31 @@ public class Data : MonoBehaviour
             return;
         }
 
+        fade = GetComponentInChildren<Fade>();
+        artData = GetComponent<ArtData>();
+
+        fade.gameObject.SetActive(true);
         DontDestroyOnLoad(this.gameObject);
 
+
+
+        
+
+
+        
     }
     public void Reset()
     {
 
     }
-    public string GetImagesPath(string imageName)
+    public string GetImagesPath()
     {
         string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Images");
 
         if (!Directory.Exists(imagesFolderPath))
             Directory.CreateDirectory(imagesFolderPath);
 
-        string path = Path.Combine(imagesFolderPath, Data.Instance.imagePath);
-
-        return path;
+        return imagesFolderPath;
     }
     public FileInfo[] GetFilesIn(string folderName)
     {
@@ -75,5 +84,15 @@ public class Data : MonoBehaviour
         var folder = new DirectoryInfo(info);
         FileInfo[] fileInfo = folder.GetFiles();
         return fileInfo;
+    }
+    public void SavePhotoTaken()
+    {
+        byte[] bytes = lastPhotoTexture.EncodeToPNG();
+
+        string path = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+
+        string folder = Data.Instance.GetImagesPath();
+        var filePath = Path.Combine(folder, path);
+        File.WriteAllBytes(filePath, bytes);
     }
 }

@@ -22,14 +22,14 @@ public class Walls : MonoBehaviour {
     }    
     public void Refresh()
     {
-        var filePath = Data.Instance.GetImagesPath(Data.Instance.imagePath);
+        //var filePath = Data.Instance.GetImagesPath(Data.Instance.imagePath);
 
-        if (System.IO.File.Exists(filePath))
-        {
-            var bytes = System.IO.File.ReadAllBytes(filePath);
-            var tex = new Texture2D(1, 1);
-            tex.LoadImage(bytes);
-            rawImage2.texture = tex;
-        }
+        //if (System.IO.File.Exists(filePath))
+        //{
+        //    var bytes = System.IO.File.ReadAllBytes(filePath);
+        //    var tex = new Texture2D(1, 1);
+        //    tex.LoadImage(bytes);
+        //    rawImage2.texture = tex;
+        //}
     }
 }

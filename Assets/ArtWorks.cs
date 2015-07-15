@@ -1,76 +1,76 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class ArtWorks : MonoBehaviour
 {
-    public Text debugText;
     public ThumbImage button;
     public GameObject container;
-    
+    public ScrollLimit scrollLimit;
 
-
-    [Serializable]
-    public class ThumbData
-    {
-        public string title;
-        public int id;
-    }
-
-    public ThumbData[] data;
     public Vector2 thumbSize = new Vector2(195, 120);
     public Vector2 separation = new Vector2(2, 2);
     public int cols;
 
+    private int selectionId;
     private bool isOn;
-    public void Toogle()
+    private int separationY = 0;
+    private int separationx = 0;
+    private int id;
+
+    void Start()
     {
-        //if (isOn)
-        //    SetOff();
-        //else
-            SetOn();
-        isOn = !isOn;
-    }
-    void SetOn()
-    {
+        Events.OnDropBoxSelect += OnDropBoxSelect;
         thumbSize += separation;
+    }
+    void OnDestroy()
+    {
+        Events.OnDropBoxSelect -= OnDropBoxSelect;
+    }
+   
+    public void OnDropBoxSelect(int dropBoxId, int selectionId)
+    {
+       this.selectionId = selectionId;
+       SetOff();
 
-        int id = 1;
-        int separationY = 0;
-        int separationx = 0;
-
-        debugText.text = "CARGANDO";
-
-        FileInfo[] files =  Data.Instance.GetFilesIn("Images");
-        foreach (FileInfo info in files)
-        {
-            ThumbImage newButton = Instantiate(button);
-            newButton.transform.SetParent(container.transform);
-            newButton.transform.localScale = Vector3.one;
-            newButton.transform.localPosition = Vector3.zero;
-            float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
-            float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
-            print(_x);
-            newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
-            debugText.text += info.FullName;
-
-            if (separationx == cols - 1)
-            {
-                separationY++;
-                separationx = 0;
-            }
-            else separationx++;
-            id++;
-        }
+       foreach (ArtData.GalleryData.ArtData data in Data.Instance.artData.galleries[selectionId].artWorksData)
+       {
+           data.gallery = Data.Instance.artData.galleries[selectionId].title;
+           AddThumb(data.url);
+       }
+       if (separationY > 3) scrollLimit.SetMaxScroll(100);
+    }
+    private void AddThumb(string url)
+    {
+        ThumbImage newButton = Instantiate(button);        
+        newButton.transform.SetParent(container.transform);
+        newButton.transform.localScale = Vector3.one;
+        newButton.transform.localPosition = Vector3.zero;
+        newButton.Init(this, url, id);
+        float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
+        float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
+        newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
+        if (separationx == cols - 1)  {  separationY++;   separationx = 0; }  else separationx++;
+        id++;
     }
     void SetOff()
     {
-        foreach (DropboxButton child in container.GetComponentsInChildren<DropboxButton>())
-        {
+        scrollLimit.ResetScroll();
+        separationY = 0;
+        separationx = 0;
+        foreach (ThumbImage child in container.GetComponentsInChildren<ThumbImage>())
             Destroy(child.gameObject);
-        }
+    }
+    public void Back()
+    {
+        Data.Instance.LoadLevel("Walls");
+    }
+    public void OnSelect(int id)
+    {
+        print(selectionId + "    " + id);
+        Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[selectionId].artWorksData[id];
+        Data.Instance.LoadLevel("ConfirmArtWork");
     }
 }

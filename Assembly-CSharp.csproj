@@ -46,16 +46,21 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ArtData.cs" />
      <Compile Include="Assets\ArtWorks.cs" />
      <Compile Include="Assets\ComboBox.cs" />
+     <Compile Include="Assets\ConfirmArtWork.cs" />
+     <Compile Include="Assets\ConfirmPhoto.cs" />
      <Compile Include="Assets\CreatePlaneMesh.cs" />
      <Compile Include="Assets\Data.cs" />
      <Compile Include="Assets\Dropbox.cs" />
      <Compile Include="Assets\DropboxButton.cs" />
      <Compile Include="Assets\Events.cs" />
      <Compile Include="Assets\Fade.cs" />
+     <Compile Include="Assets\InfoBar.cs" />
      <Compile Include="Assets\Intro.cs" />
      <Compile Include="Assets\LoadRoomScreen.cs" />
+     <Compile Include="Assets\SavedPhotoBrowser.cs" />
      <Compile Include="Assets\Scripts\StyledComboBox.cs" />
      <Compile Include="Assets\Scripts\StyledComboBoxPrefab.cs" />
      <Compile Include="Assets\Scripts\StyledItem.cs" />

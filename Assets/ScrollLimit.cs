@@ -18,4 +18,15 @@ public class ScrollLimit : MonoBehaviour {
         else if (rectTransform.anchoredPosition.y < limitY.y)
             rectTransform.anchoredPosition = new Vector3(0, limitY.y, 0);
 	}
+    public void ResetScroll()
+    {
+        limitY.x = limitY.y;
+        Vector2 rt = GetComponent<RectTransform>().anchoredPosition;
+        rt.y = limitY.y;
+        GetComponent<RectTransform>().anchoredPosition = rt;
+    }
+    public void SetMaxScroll(int maxScroll)
+    {
+        limitY.x = maxScroll;
+    }
 }
