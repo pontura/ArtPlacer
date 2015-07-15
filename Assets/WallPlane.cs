@@ -12,6 +12,7 @@ public class WallPlane : MonoBehaviour {
 	public GameObject area;
 	
 	public GameObject planoContenedor;
+	Camera cam;
 	
 	int select = -1;
 
@@ -20,10 +21,18 @@ public class WallPlane : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		area.name = "Area_" + gameObject.GetInstanceID ();
+		foreach (Camera c in Camera.allCameras) {
+			if(c.name == "CameraWallArea"){
+				cam = c;
+				break;
+			}
+		}
+
+		//area.name = "Area_" + gameObject.GetInstanceID ();
 
 
-		MeshFilter mf = GameObject.Find("Area_" + gameObject.GetInstanceID ()).GetComponent<MeshFilter> ();
+		//MeshFilter mf = GameObject.Find("Area_" + gameObject.GetInstanceID ()).GetComponent<MeshFilter> ();
+		MeshFilter mf = area.GetComponent<MeshFilter> ();
 
 		for(int i=0;i<mf.mesh.vertexCount;i++){
 			Vector3 vertexWorldPos = area.transform.TransformPoint(mf.mesh.vertices[i]);
@@ -35,17 +44,17 @@ public class WallPlane : MonoBehaviour {
 			//pointer[i].transform.localScale += new Vector3(200F, 200F, 0);
 			//pointer[i].tag = "Pointer"+i;
 			//pointer[i].transform.parent = transform;
-			Debug.Log ("Punto"+i+": "+pointer[i].transform.position);
+			//Debug.Log ("Punto"+i+": "+pointer[i].transform.position);
 			pointer[i].GetComponent<Renderer>().material.color = Color.blue;
 			pointer[i].name = "Pointer_"+gameObject.GetInstanceID()+"_"+i;
 
 		}	
 
-		LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
+		//LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
 		//lineRenderer.SetColors(Color.blue,Color.blue);
 		//lineRenderer.SetWidth(50F, 50F);
 
-		RedrawLine ();
+		//RedrawLine ();
 	
 	}
 	
@@ -54,15 +63,19 @@ public class WallPlane : MonoBehaviour {
 					
 		if( Input.GetButton ("Fire1")) {
 			Vector3 mousePos = new Vector3(Input.mousePosition.x,Input.mousePosition.y,0);
-			Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+			//Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+			Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
 			
-			Ray screenRay = Camera.main.ScreenPointToRay(mousePos);
+			//Ray screenRay = Camera.main.ScreenPointToRay(mousePos);
+			Ray screenRay = cam.ScreenPointToRay(mousePos);
 			RaycastHit rayhit;
 			if(Physics.Raycast(screenRay, out rayhit)){
-				Mesh mesh = GameObject.Find("Area_" + gameObject.GetInstanceID ()).GetComponent<MeshFilter> ().mesh;
+				//Mesh mesh = GameObject.Find("Area_" + gameObject.GetInstanceID ()).GetComponent<MeshFilter> ().mesh;
+				Mesh mesh = area.GetComponent<MeshFilter> ().mesh;
 				
 				if(select<0){
-					print ("Mesh Id Selected: "+mesh.GetInstanceID());
+					//print ("Mesh Id Selected: "+mesh.GetInstanceID());
 					for(int i=0;i<mesh.vertexCount;i++){
 						if(rayhit.collider.name == "Pointer_"+gameObject.GetInstanceID()+"_"+i){ 
 							//Debug.Log ("Pointer Sel: "+i);
@@ -78,7 +91,7 @@ public class WallPlane : MonoBehaviour {
 							vertex[select] = areaPos;
 							mesh.vertices = vertex;
 							//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
-							GameObject ponter = GameObject.Find("Area_" + gameObject.GetInstanceID ());
+							//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
 							rayhit.collider.transform.position = new Vector3(pos.x,pos.y,zPointers);						
 							
 						}
@@ -95,7 +108,7 @@ public class WallPlane : MonoBehaviour {
 						vertex[select] = areaPos;						
 						mesh.vertices = vertex;
 						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,zPointers);
-						RedrawLine();					
+						//RedrawLine();					
 					}
 				}
 			}
@@ -108,7 +121,7 @@ public class WallPlane : MonoBehaviour {
 
 
 		if (transform.hasChanged){
-			RedrawLine();
+			//RedrawLine();
 		}
 	}
 
