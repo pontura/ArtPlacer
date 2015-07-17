@@ -24,7 +24,7 @@ public class Dropbox : MonoBehaviour {
     public List<DropData> data;
     public int separation;
 
-    private bool isOn;
+    public bool isOn;
 
     void Start()
     {
@@ -40,21 +40,27 @@ public class Dropbox : MonoBehaviour {
                 }
                 break;
         }
+        if (isOn)
+            SetOn();
     }
     public void Toogle()
     {
         if (isOn)
             SetOff();
         else
+        {
             SetOn();
+            otherDropBox.SetOff();
+        }
     }
 	void SetOn () {
         isOn = true;
         selfButton.GetComponent<Image>().color = activeColor;
-        otherDropBox.SetOff();
+        
         int id = 1;
         foreach (DropData dropData in data)
         {
+            print("title" + dropData.title);
             DropboxButton newButton = Instantiate(button);
             newButton.transform.SetParent( container.transform );
             newButton.transform.localScale = Vector3.one;
