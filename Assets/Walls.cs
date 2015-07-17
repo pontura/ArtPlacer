@@ -13,7 +13,10 @@ public class Walls : MonoBehaviour {
 
 	void Start () {
         rawImage.texture = Data.Instance.lastPhotoTexture;
-        Reseted();
+		if (Data.Instance.artArea.areas.Count > 0)
+			Started();
+		else
+        	Reseted();
         Events.OnNumWallsChanged += OnNumWallsChanged;
 	}
     void OnDestroy()
@@ -46,5 +49,6 @@ public class Walls : MonoBehaviour {
     {
         ResetedContainer.gameObject.SetActive(false);
         ReadyContainer.gameObject.SetActive(true);
+		GetComponent<PhotoAddWall> ().DeactiveAdd ();
     }
 }
