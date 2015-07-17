@@ -11,8 +11,8 @@ public class ConfirmArtWork : MonoBehaviour {
 	}
     public void Confirm()
     {
-        Data.Instance.SavePhotoTaken();
-        Data.Instance.LoadLevel("Walls");
+        //Data.Instance.SavePhotoTaken();
+        Data.Instance.LoadLevel("ArtPlaced");
     }
     public void Back()
     {
