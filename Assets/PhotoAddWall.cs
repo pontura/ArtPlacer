@@ -21,6 +21,10 @@ public class PhotoAddWall : MonoBehaviour {
     {
         add = true;
     }
+	public void DeactiveAdd()
+	{
+		add = false;
+	}
 	void Update () {
 		if (add) {
 			//if (Input.GetKeyDown(KeyCode.Space)) {
@@ -32,10 +36,29 @@ public class PhotoAddWall : MonoBehaviour {
 				GameObject obj = Instantiate (sector, new Vector3 (worldPos.x, worldPos.y, 9.9f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (mousePos.x, mousePos.y, 9.9f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (0, 0, 10), Quaternion.identity) as GameObject;
+
 				add=false;
                 numWalls++;
+				obj.GetComponent<WallPlane>().SetId(-1*numWalls);
                 Events.OnNumWallsChanged(numWalls);
 			}
 		}		
+	}
+
+	public void RemoveArea(){
+		if (numWalls > 0) {
+			GameObject obj = GameObject.Find ("CreatedPlane_" + (-1 * numWalls));
+			GameObject.Destroy (obj);
+			numWalls--;
+			Events.OnNumWallsChanged (numWalls);
+		} else {
+			int last = Data.Instance.artArea.areas.Count - 1;
+			GameObject obj = GameObject.Find ("CreatedPlane_" + last);
+			GameObject.Destroy (obj);
+			Data.Instance.artArea.areas.RemoveAt (last);
+			if (Data.Instance.artArea.areas.Count == 0) {
+				Events.OnNumWallsChanged (0);
+			}
+		}
 	}
 }

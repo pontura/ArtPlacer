@@ -7,6 +7,7 @@ public class WallPlane : MonoBehaviour {
 
 	public GameObject[] pointer;
 	public GameObject area;
+	public int AreaId=-1;
 	
 	public GameObject planoContenedor;
 	Camera cam;
@@ -17,6 +18,8 @@ public class WallPlane : MonoBehaviour {
 		
 	// Use this for initialization
 	void Start () {
+
+		Events.SaveAreas += SaveArea;
 
 		foreach (Camera c in Camera.allCameras) {
 			if(c.name == "CameraWallArea"){
@@ -121,6 +124,12 @@ public class WallPlane : MonoBehaviour {
 		}
 	}
 
+	public void SetId(int id){
+		AreaId = id;
+		gameObject.name = "CreatedPlane_" + AreaId;
+		
+	}
+
 	void RedrawLine(){
 		int lineSize1 = (int)Vector3.Distance(pointer[0].transform.position,pointer[2].transform.position);
 		int lineSize2 = (int)Vector3.Distance(pointer[2].transform.position,pointer[1].transform.position);
@@ -142,5 +151,16 @@ public class WallPlane : MonoBehaviour {
 				lineRenderer.SetPosition(j, Vector3.Lerp(pointer[3].transform.position,pointer[0].transform.position,1f*(j-lineSize1-lineSize2-lineSize4)/lineSize4));		
 			}
 		}
+	}
+
+	void SaveArea()
+	{
+		Mesh mesh = area.GetComponent<MeshFilter> ().mesh;
+		Data.Instance.AddArea (AreaId, mesh.vertices, transform.position);
+	}
+
+	void OnDestroy()
+	{
+		Events.SaveAreas -= SaveArea;
 	}
 }

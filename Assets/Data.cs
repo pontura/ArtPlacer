@@ -8,6 +8,7 @@ public class Data : MonoBehaviour
     public Texture2D lastArtTexture;
     public Texture2D lastPhotoTexture;
     public ArtData artData;
+	public ArtArea artArea;
 
     const string PREFAB_PATH = "Data";
     private Fade fade;
@@ -55,14 +56,11 @@ public class Data : MonoBehaviour
         fade = GetComponentInChildren<Fade>();
         artData = GetComponent<ArtData>();
 
-        fade.gameObject.SetActive(true);
-        DontDestroyOnLoad(this.gameObject);
+        fade.gameObject.SetActive(true); 
 
+		artArea = GetComponent<ArtArea>();
 
-
-        
-
-
+		DontDestroyOnLoad(this.gameObject);
         
     }
     public void Reset()
@@ -95,4 +93,7 @@ public class Data : MonoBehaviour
         var filePath = Path.Combine(folder, path);
         File.WriteAllBytes(filePath, bytes);
     }
+	public void AddArea(int id, Vector3[] pointers, Vector3 position){
+		artArea.AddAreas(id,pointers,position);
+	}
 }
