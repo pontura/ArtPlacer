@@ -18,9 +18,13 @@ public class ConfirmSizes : MonoBehaviour {
             // GetComponent<PhotoAddWall>().DeactiveAdd();
             for (int i = 0; i < Data.Instance.artArea.areas.Count; i++)
             {
+                float _x = Data.Instance.artArea.areas[i].pointers[1].x + Data.Instance.artArea.areas[i].position.x;
+                float _y = Data.Instance.artArea.areas[i].pointers[1].y + Data.Instance.artArea.areas[i].position.y;
+
                 SizeSignal newSizeSignal = Instantiate(sizeSignal);
                 newSizeSignal.transform.SetParent(container.transform);
-
+                newSizeSignal.transform.localPosition = new Vector3(_x * 150, _y * 150, 0);
+                newSizeSignal.transform.localScale = Vector3.one;
             }
         }
 
