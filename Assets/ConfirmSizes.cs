@@ -19,7 +19,7 @@ public class ConfirmSizes : MonoBehaviour {
             for (int i = 0; i < Data.Instance.artArea.areas.Count; i++)
             {
                 SizeSignal newSizeSignal = Instantiate(sizeSignal);
-                newSizeSignal.transform.SetParent(newSizeSignal.transform);
+                newSizeSignal.transform.SetParent(container.transform);
 
             }
         }
@@ -32,7 +32,7 @@ public class ConfirmSizes : MonoBehaviour {
     public void Ready()
     {
         Events.SaveAreas();
-        Data.Instance.LoadLevel("Walls");
+        Data.Instance.LoadLevel("ArtPlaced");
     }
 
 }
