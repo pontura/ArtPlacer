@@ -65,7 +65,7 @@ public class ArtWorks : MonoBehaviour
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("Walls");
+        Data.Instance.LoadLevel("ArtPlaced");
     }
     public void OnSelect(int id)
     {

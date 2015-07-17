@@ -16,6 +16,6 @@ public class ConfirmArtWork : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("TakePhoto");
+        Data.Instance.LoadLevel("ArtBrowser");
     }
 }
