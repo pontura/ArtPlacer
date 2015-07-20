@@ -9,9 +9,14 @@ public class WebCamPhotoCamera : MonoBehaviour
     public RawImage rawImage;
     public Button takePhotoButton;
 
+    public Quaternion baseRotation;
+
     void Start()
     {
         webCamTexture = new WebCamTexture();
+
+        baseRotation = transform.rotation;
+
         if (webCamTexture.isPlaying)
         {
             webCamTexture.Stop();
@@ -20,6 +25,7 @@ public class WebCamPhotoCamera : MonoBehaviour
     }
     void Update()
     {
+        transform.rotation = baseRotation * Quaternion.AngleAxis(webCamTexture.videoRotationAngle, Vector3.up);
         rawImage.texture = webCamTexture;
     }
     void OnDestroy()
@@ -33,6 +39,7 @@ public class WebCamPhotoCamera : MonoBehaviour
         Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
         Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
         Data.Instance.lastPhotoTexture.Apply();
+
 
         Data.Instance.LoadLevel("ConfirmPhoto");
         
