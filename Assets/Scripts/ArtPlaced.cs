@@ -12,8 +12,11 @@ public class ArtPlaced : MonoBehaviour {
 	
 	void Start () {
 		rawImage.texture = Data.Instance.lastPhotoTexture;
+#if UNITY_IOS
+       rawImage.transform.localScale = new Vector3(1, -1, 1);
+#endif
 
-		if (Data.Instance.artArea.areas.Count > 0)
+        if (Data.Instance.artArea.areas.Count > 0)
 		{
 			// GetComponent<PhotoAddWall>().DeactiveAdd();
 			for (int i = 0; i < Data.Instance.artArea.areas.Count; i++)

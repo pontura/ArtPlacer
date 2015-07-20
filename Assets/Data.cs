@@ -9,6 +9,7 @@ public class Data : MonoBehaviour
     public Texture2D lastPhotoTexture;
     public ArtData artData;
 	public ArtArea artArea;
+    public MainMenu mainMenu;
 
     const string PREFAB_PATH = "Data";
     private Fade fade;
@@ -27,6 +28,7 @@ public class Data : MonoBehaviour
                 {
                     GameObject go = Instantiate(Resources.Load<GameObject>(PREFAB_PATH)) as GameObject;
                     mInstance = go.GetComponent<Data>();
+                    go.transform.localPosition = new Vector3(0, 0, 0);
                 }
             }
             return mInstance;
@@ -96,4 +98,23 @@ public class Data : MonoBehaviour
 	public void AddArea(int id, Vector3[] pointers, Vector3 position){
 		artArea.AddAreas(id,pointers,position);
 	}
+
+
+    private bool mainMenuOpened;
+    public GameObject hamburguerButon;
+    public void SetMainMenuActive(bool stateActivation)
+    {
+        hamburguerButon.SetActive(stateActivation);
+    }
+    public void ToggleMainMenu()
+    {
+        if (mainMenuOpened)
+            mainMenu.Close();
+        else
+        {
+            mainMenu.gameObject.SetActive(true);
+            mainMenu.Open();
+        }
+        mainMenuOpened = !mainMenuOpened;              
+    }
 }

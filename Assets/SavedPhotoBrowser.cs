@@ -23,6 +23,12 @@ public class SavedPhotoBrowser : MonoBehaviour
     public int cols;
 
     private bool isOn;
+
+    void Start()
+    {
+        Data.Instance.SetMainMenuActive(true);
+    }
+
     public void Toogle()
     {
         //if (isOn)

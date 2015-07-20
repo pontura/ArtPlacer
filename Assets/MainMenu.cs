@@ -3,13 +3,14 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 
-    void Start()
+    public void Open()
     {
         GetComponent<Animation>().Play("MainMenuOpen");
     }
     public void NewRoom()
     {
         Data.Instance.LoadLevel("LoadRoom");
+        Close();
     }
 
     public void Close()
@@ -19,6 +20,6 @@ public class MainMenu : MonoBehaviour {
     }
     void ResetClose()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
