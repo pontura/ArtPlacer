@@ -6,6 +6,11 @@ public class ThumbImage : MonoBehaviour {
 
     private Sprite sprite;
 
+    public void InitRoom(string url, int id)
+    {
+        StartCoroutine(RealLoadImage(url));
+    }
+
     public void Init(ArtWorks artWorks, string url, int id)
     {
         StartCoroutine(RealLoadImage(url));

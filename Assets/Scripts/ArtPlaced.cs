@@ -13,15 +13,16 @@ public class ArtPlaced : MonoBehaviour {
 	void Start () {
         Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
 
-        if (Data.Instance.artArea.areas.Count > 0)
+        if (Data.Instance.areaData.areas.Count > 0)
 		{
 			// GetComponent<PhotoAddWall>().DeactiveAdd();
-			for (int i = 0; i < Data.Instance.artArea.areas.Count; i++)
+            for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
 			{
-				GameObject obj = Instantiate(CreatedPlane, Data.Instance.artArea.getPosition(i), Quaternion.identity) as GameObject;
-				obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.artArea.getPointers(i);
+                GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
+                obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
 				obj.GetComponent<WallPlane>().SetId(i);
-				if (Data.Instance.artArea.areas.Count > 0 && Data.Instance.lastArtTexture != null) {
+                if (Data.Instance.areaData.areas.Count > 0 && Data.Instance.lastArtTexture != null)
+                {
 					PlaceArt(artCount);
 				}
 			}
@@ -49,7 +50,7 @@ public class ArtPlaced : MonoBehaviour {
 		GameObject q = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		Vector3[] am = new Vector3[4];
 		for (int i=0; i<am.Length; i++) {
-			am[i]=Data.Instance.artArea.areas[n].pointers[i]*0.5f;
+            am[i] = Data.Instance.areaData.areas[n].pointers[i] * 0.5f;
 
 		}
 		float top = (am [3].y + am [1].y) * 0.5f;

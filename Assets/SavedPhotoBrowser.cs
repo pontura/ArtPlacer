@@ -26,19 +26,6 @@ public class SavedPhotoBrowser : MonoBehaviour
 
     void Start()
     {
-        Data.Instance.SetMainMenuActive(true);
-    }
-
-    public void Toogle()
-    {
-        //if (isOn)
-        //    SetOff();
-        //else
-            SetOn();
-        isOn = !isOn;
-    }
-    void SetOn()
-    {
         thumbSize += separation;
 
         int id = 1;
@@ -46,10 +33,19 @@ public class SavedPhotoBrowser : MonoBehaviour
         int separationx = 0;
 
 
-        FileInfo[] files =  Data.Instance.GetFilesIn("Images");
-        foreach (FileInfo info in files)
+        //FileInfo[] files =  Data.Instance.GetFilesIn("Images");
+
+        foreach (RoomsData.Room room in Data.Instance.roomsData.rooms)
         {
             ThumbImage newButton = Instantiate(button);
+
+            string folder = Data.Instance.GetRoomsPath();
+            var filePath = Path.Combine(folder, room.url + ".png");
+
+            print(filePath);
+
+            newButton.InitRoom(filePath, id);
+
             newButton.transform.SetParent(container.transform);
             newButton.transform.localScale = Vector3.one;
             newButton.transform.localPosition = Vector3.zero;

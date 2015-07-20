@@ -9,8 +9,9 @@ public class Data : MonoBehaviour
     public Texture2D lastArtTexture;
     public Texture2D lastPhotoTexture;
     public ArtData artData;
-	public ArtArea artArea;
+	public AreaData areaData;
     public MainMenu mainMenu;
+    public RoomsData roomsData;
 
     const string PREFAB_PATH = "Data";
     private Fade fade;
@@ -65,11 +66,12 @@ public class Data : MonoBehaviour
         }
 
         fade = GetComponentInChildren<Fade>();
+        areaData = GetComponent<AreaData>();
+
+        fade.gameObject.SetActive(true);
+
+        roomsData = GetComponent<RoomsData>();
         artData = GetComponent<ArtData>();
-
-        fade.gameObject.SetActive(true); 
-
-		artArea = GetComponent<ArtArea>();
 
 		DontDestroyOnLoad(this.gameObject);
         
@@ -78,9 +80,9 @@ public class Data : MonoBehaviour
     {
 
     }
-    public string GetImagesPath()
+    public string GetRoomsPath()
     {
-        string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Images");
+        string imagesFolderPath = Path.Combine(Application.dataPath, "Rooms");
 
         if (!Directory.Exists(imagesFolderPath))
             Directory.CreateDirectory(imagesFolderPath);
@@ -89,7 +91,7 @@ public class Data : MonoBehaviour
     }
     public FileInfo[] GetFilesIn(string folderName)
     {
-        string info = Path.Combine(Application.persistentDataPath, folderName);
+        string info = Path.Combine(Application.dataPath, folderName);
         var folder = new DirectoryInfo(info);
         FileInfo[] fileInfo = folder.GetFiles();
         return fileInfo;
@@ -98,14 +100,17 @@ public class Data : MonoBehaviour
     {
         byte[] bytes = lastPhotoTexture.EncodeToPNG();
 
-        string path = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        string path = System.DateTime.Now.ToString("yyyyMMddHHmmss");
 
-        string folder = Data.Instance.GetImagesPath();
+        areaData.url = path;
+        areaData.Save();
+
+        string folder = Data.Instance.GetRoomsPath();
         var filePath = Path.Combine(folder, path);
-        File.WriteAllBytes(filePath, bytes);
+        File.WriteAllBytes(filePath + ".png", bytes);
     }
 	public void AddArea(int id, Vector3[] pointers, Vector3 position){
-		artArea.AddAreas(id,pointers,position);
+		areaData.AddAreas(id,pointers,position);
 	}
 
 

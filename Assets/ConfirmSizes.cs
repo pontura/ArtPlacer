@@ -13,13 +13,13 @@ public class ConfirmSizes : MonoBehaviour {
     {
         Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
 
-        if (Data.Instance.artArea.areas.Count > 0)
+        if (Data.Instance.areaData.areas.Count > 0)
         {
             // GetComponent<PhotoAddWall>().DeactiveAdd();
-            for (int i = 0; i < Data.Instance.artArea.areas.Count; i++)
+            for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
             {
-                float _x = Data.Instance.artArea.areas[i].pointers[1].x + Data.Instance.artArea.areas[i].position.x;
-                float _y = Data.Instance.artArea.areas[i].pointers[1].y + Data.Instance.artArea.areas[i].position.y;
+                float _x = Data.Instance.areaData.areas[i].pointers[1].x + Data.Instance.areaData.areas[i].position.x;
+                float _y = Data.Instance.areaData.areas[i].pointers[1].y + Data.Instance.areaData.areas[i].position.y;
 
                 SizeSignal newSizeSignal = Instantiate(sizeSignal);
                 newSizeSignal.transform.SetParent(container.transform);
@@ -36,8 +36,8 @@ public class ConfirmSizes : MonoBehaviour {
     public void Ready()
     {
         Events.SaveAreas();
+        Data.Instance.areaData.Save();
         Data.Instance.LoadLevel("ArtPlaced");
-        Data.Instance.artArea.Save();
     }
 
 }
