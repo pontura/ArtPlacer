@@ -8,9 +8,6 @@ public class ConfirmArtWork : MonoBehaviour {
 
 	void Start () {
         rawImage.texture = Data.Instance.lastArtTexture;
-#if UNITY_IOS
-       rawImage.transform.localScale = new Vector3(1, -1, 1);
-#endif
     }
     public void Confirm()
     {

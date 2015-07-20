@@ -11,6 +11,7 @@ public class ArtArea : MonoBehaviour {
 	public class Area{
 		public Vector3[] pointers;
 		public Vector3 position;
+        public int height;
 		public Area(){
 			pointers = new Vector3[4];
 		}
@@ -23,7 +24,7 @@ public class ArtArea : MonoBehaviour {
 			area.position = position;
 			areas.Add (area);
 		} else {
-			areas[id].pointers=pointers;
+			areas[id].pointers = pointers;
 			areas[id].position = position;
 		}		
 	}
@@ -35,4 +36,19 @@ public class ArtArea : MonoBehaviour {
 	public Vector3 getPosition(int id){
 		return areas[id].position;
 	}
+
+    public void Save()
+    {
+        string result = "";
+        foreach (Area area in areas)
+        {
+            result += Math.Round(area.position.x, 2) + "_" + Math.Round(area.position.y,2) + "_";
+            foreach (Vector3 pointers in area.pointers)
+            {
+                result += Math.Round(pointers.x, 2) + "_" + Math.Round(pointers.y, 2) + "_";
+            }
+            result += "+";
+        }
+        print("Guarda:   " + result);
+    }
 }

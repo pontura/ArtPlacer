@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,6 +34,14 @@ public class Data : MonoBehaviour
             }
             return mInstance;
         }
+    }
+    public RawImage SetTexture(RawImage rawImage, Texture2D texture2d)
+    {
+        rawImage.texture = texture2d;
+#if UNITY_IOS
+       rawImage.transform.localScale = new Vector3(-1, -1, 1);
+#endif
+        return rawImage;
     }
     public void LoadLevel(string aLevelName)
     {

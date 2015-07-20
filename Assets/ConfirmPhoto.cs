@@ -8,11 +8,7 @@ public class ConfirmPhoto : MonoBehaviour {
 
 	void Start ()
     {
-        rawImage.texture = Data.Instance.lastPhotoTexture;        
-#if UNITY_IOS
-       rawImage.transform.localScale = new Vector3(1, -1, 1);
-#endif
-
+        Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
     }
     public void Confirm()
     {
