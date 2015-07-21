@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 public class SavedPhotoBrowser : MonoBehaviour
 {
+    public Text debbugText;
     public ThumbImage button;
     public GameObject container;
     
@@ -26,6 +27,8 @@ public class SavedPhotoBrowser : MonoBehaviour
 
     void Start()
     {
+        Data.Instance.SetMainMenuActive(true);
+
         thumbSize += separation;
 
         int id = 1;
@@ -40,7 +43,11 @@ public class SavedPhotoBrowser : MonoBehaviour
             ThumbImage newButton = Instantiate(button);
 
             string folder = Data.Instance.GetRoomsPath();
-            var filePath = Path.Combine(folder, room.url + ".png");
+
+            string imageName = room.url + ".png";
+            var filePath = Path.Combine(folder, imageName);
+
+            debbugText.text = filePath;
 
             print(filePath);
 

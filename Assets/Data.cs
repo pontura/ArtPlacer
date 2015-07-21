@@ -82,16 +82,16 @@ public class Data : MonoBehaviour
     }
     public string GetRoomsPath()
     {
-        string imagesFolderPath = Path.Combine(Application.dataPath, "Rooms");
+        string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Rooms");
 
-        if (!Directory.Exists(imagesFolderPath))
-            Directory.CreateDirectory(imagesFolderPath);
-
+#if UNITY_ANDROID
+        imagesFolderPath = "file:///" + imagesFolderPath;
+#endif
         return imagesFolderPath;
     }
     public FileInfo[] GetFilesIn(string folderName)
     {
-        string info = Path.Combine(Application.dataPath, folderName);
+        string info = Path.Combine(Application.persistentDataPath, folderName);
         var folder = new DirectoryInfo(info);
         FileInfo[] fileInfo = folder.GetFiles();
         return fileInfo;
@@ -105,7 +105,11 @@ public class Data : MonoBehaviour
         areaData.url = path;
         areaData.Save();
 
-        string folder = Data.Instance.GetRoomsPath();
+        string folder = Path.Combine(Application.persistentDataPath, "Rooms");
+
+        if (!Directory.Exists(folder))
+            Directory.CreateDirectory(folder);
+
         var filePath = Path.Combine(folder, path);
         File.WriteAllBytes(filePath + ".png", bytes);
     }
@@ -130,5 +134,11 @@ public class Data : MonoBehaviour
             mainMenu.Open();
         }
         mainMenuOpened = !mainMenuOpened;              
+    }
+    public void ResetApp()
+    {
+        PlayerPrefs.DeleteAll();
+        Application.LoadLevel("Intro");
+        Destroy(gameObject);
     }
 }

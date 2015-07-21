@@ -42,7 +42,6 @@ public class AreaData : MonoBehaviour {
 
     public void Save()
     {
-        this.id = Data.Instance.roomsData.rooms.Count;
         string result = url + ":";
 
         foreach (Area area in areas)
@@ -54,8 +53,13 @@ public class AreaData : MonoBehaviour {
             }
             result += "+";
         }
-        PlayerPrefs.SetString("room_" + id, result);
-        print("graba: " + "room_" + id + " : " + result);
+        string DataName = GetComponent<RoomsData>().GetRoomName(url);
+
+        PlayerPrefs.SetString(DataName, result);
+
+        print("graba: " + DataName + " : " + result);
+
+        GetComponent<RoomsData>().ReadRoomsData();
     }
 
 }

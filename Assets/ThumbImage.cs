@@ -23,6 +23,8 @@ public class ThumbImage : MonoBehaviour {
     private IEnumerator RealLoadImage(string url)
     {
         WWW imageURLWWW = new WWW(url);
+
+        print("url: " + url);
         yield return imageURLWWW;
         if (imageURLWWW.texture != null)
         {
