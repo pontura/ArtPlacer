@@ -113,10 +113,9 @@ public class Data : MonoBehaviour
         var filePath = Path.Combine(folder, path);
         File.WriteAllBytes(filePath + ".png", bytes);
     }
-	public void AddArea(int id, Vector3[] pointers, Vector3 position){
-		areaData.AddAreas(id,pointers,position);
+	public void AddArea(int id, Vector3[] pointers, Vector3 position, int height){
+		areaData.AddAreas(id,pointers,position, height);
 	}
-
 
     private bool mainMenuOpened;
     public GameObject hamburguerButon;

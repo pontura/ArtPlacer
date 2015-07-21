@@ -20,11 +20,13 @@ public class AreaData : MonoBehaviour {
 		}
 	}
 
-	public void AddAreas(int id, Vector3[] pointers, Vector3 position){
+    public void AddAreas(int id, Vector3[] pointers, Vector3 position, int height)
+    {
 		if (id < 0) {
 			Area area = new Area();
 			area.pointers = pointers;
 			area.position = position;
+            area.height = height;
 			areas.Add (area);
 		} else {
 			areas[id].pointers = pointers;

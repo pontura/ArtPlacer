@@ -77,7 +77,7 @@ public class SavedPhotoBrowser : MonoBehaviour
         Data.Instance.areaData.id = 1;
         foreach (RoomsData.RoomArea roomArea in room.area)
         {
-            Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position);
+            Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.height);
         }
         Data.Instance.LoadLevel("ArtPlaced");
     }

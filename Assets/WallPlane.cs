@@ -157,7 +157,7 @@ public class WallPlane : MonoBehaviour {
 	void SaveArea()
 	{
 		Mesh mesh = area.GetComponent<MeshFilter> ().mesh;
-		Data.Instance.AddArea (AreaId, mesh.vertices, transform.position);
+		Data.Instance.AddArea (AreaId, mesh.vertices, transform.position, 0);
 	}
 
 	void OnDestroy()
