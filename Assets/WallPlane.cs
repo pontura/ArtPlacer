@@ -35,8 +35,8 @@ public class WallPlane : MonoBehaviour {
 		MeshFilter mf = area.GetComponent<MeshFilter> ();
 
 		for(int i=0;i<mf.mesh.vertexCount;i++){
-			Vector3 vertexWorldPos = area.transform.TransformPoint(mf.mesh.vertices[i]);
-			vertexWorldPos = new Vector3(vertexWorldPos.x,vertexWorldPos.y,zPointers);
+            Vector3 vertexWorldPos = area.transform.TransformPoint(mf.mesh.vertices[i]);
+			vertexWorldPos = new Vector3(vertexWorldPos.x,vertexWorldPos.y,10);
 
 			//Instantiate(pointer[i], vertexWorldPos, Quaternion.identity);
 			//pointer[i] = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -81,7 +81,8 @@ public class WallPlane : MonoBehaviour {
 							
 							select= i;
 							//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
-							Vector3 pos = screenRay.GetPoint(rayhit.distance);							
+							Vector3 pos = screenRay.GetPoint(rayhit.distance);
+                            pos.z = 10;
 							Vector3 areaPos = area.transform.InverseTransformPoint(pos);
 							
 							Vector3[] vertex = new Vector3[4];

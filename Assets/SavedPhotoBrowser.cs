@@ -31,7 +31,7 @@ public class SavedPhotoBrowser : MonoBehaviour
 
         thumbSize += separation;
 
-        int id = 1;
+        int id = 0;
         int separationY = 0;
         int separationx = 0;
 
@@ -51,15 +51,15 @@ public class SavedPhotoBrowser : MonoBehaviour
 
             print(filePath);
 
-            newButton.InitRoom(filePath, id);
+            newButton.InitRoom(this, filePath, id);
 
             newButton.transform.SetParent(container.transform);
             newButton.transform.localScale = Vector3.one;
             newButton.transform.localPosition = Vector3.zero;
             float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
             float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
-            print(_x);
-            newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
+
+            newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 1);
 
             if (separationx == cols - 1)
             {
@@ -69,6 +69,17 @@ public class SavedPhotoBrowser : MonoBehaviour
             else separationx++;
             id++;
         }
+    }
+    public void OnSelect(int id)
+    {
+        RoomsData.Room room = Data.Instance.roomsData.rooms[id];
+        Data.Instance.areaData.url = room.url;
+        Data.Instance.areaData.id = 1;
+        foreach (RoomsData.RoomArea roomArea in room.area)
+        {
+            Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position);
+        }
+        Data.Instance.LoadLevel("ArtPlaced");
     }
     void SetOff()
     {

@@ -5,10 +5,15 @@ using System.Collections;
 public class ThumbImage : MonoBehaviour {
 
     private Sprite sprite;
+    private Texture2D texture2d;
 
-    public void InitRoom(string url, int id)
+    public void InitRoom(SavedPhotoBrowser savedPhotoBrowser, string url, int id)
     {
-        StartCoroutine(RealLoadImage(url));
+        StartCoroutine(RealLoadRoomImage(url));
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            OnSelectedRoom(savedPhotoBrowser, id);
+        });
     }
 
     public void Init(ArtWorks artWorks, string url, int id)
@@ -19,7 +24,23 @@ public class ThumbImage : MonoBehaviour {
             OnSelected(artWorks, id);
         });
     }
+    private IEnumerator RealLoadRoomImage(string url)
+    {
+        WWW imageURLWWW = new WWW(url);
 
+        print("url: " + url);
+        yield return imageURLWWW;
+
+        texture2d = imageURLWWW.texture;
+
+        if (imageURLWWW.texture != null)
+        {
+            sprite = new Sprite();
+            sprite = Sprite.Create(ScaleTexture(imageURLWWW.texture, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+            GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+        }
+        yield return null;
+    }
     private IEnumerator RealLoadImage(string url)
     {
         WWW imageURLWWW = new WWW(url);
@@ -60,5 +81,12 @@ public class ThumbImage : MonoBehaviour {
         if(sprite)
              Data.Instance.lastArtTexture = sprite.texture;
         artWorks.OnSelect(id);
+    }
+    public void OnSelectedRoom(SavedPhotoBrowser savedPhotoBrowser, int id)
+    {
+        if (sprite)
+            Data.Instance.lastPhotoTexture = texture2d;
+        savedPhotoBrowser.OnSelect(id);
+        texture2d = null;
     }
 }
