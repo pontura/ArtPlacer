@@ -9,12 +9,14 @@ public class WallPlane : MonoBehaviour {
 	public GameObject area;
 	public int AreaId=-1;
 	
-	public GameObject planoContenedor;
+	public GameObject artWork;
 	Camera cam;
 	
 	int select = -1;
 
 	LineRenderer lineRenderer;
+
+	public int artWorkNumber = 0;
 		
 	// Use this for initialization
 	void Start () {
@@ -164,4 +166,5 @@ public class WallPlane : MonoBehaviour {
 	{
 		Events.SaveAreas -= SaveArea;
 	}
+
 }
