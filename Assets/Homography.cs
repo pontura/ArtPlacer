@@ -52,16 +52,16 @@ public class Homography : MonoBehaviour {
 			}
 		}
 		
-		print (camera.name);
+		//print (camera.name);
 		MVP = camera.projectionMatrix * camera.worldToCameraMatrix; 
-		print (MVP);
+		//print (MVP);
 
 		meshMaterial = GameObject.Find(meshName).GetComponent<Renderer>().material;
 		GameObject quad = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		Vector3[] originalPointers = quad.GetComponent<MeshFilter>().mesh.vertices;
 		Destroy (quad);
 		Vector3[] pointers = gameObject.GetComponent<WallPlane> ().area.GetComponent<MeshFilter> ().mesh.vertices;
-		print (MVP);
+		//print (MVP);
 			
 		for (int i = 0; i < pointers.Length; i++) {
 			//print ("P"+i+": "+originalPointers[i]);
@@ -86,10 +86,10 @@ public class Homography : MonoBehaviour {
 
 		//print ("Matrix-Pre");
 
-		print (matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]);
+		/*print (matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]);
 		print (matrix[4]+","+matrix[5]+","+matrix[6]+","+matrix[7]);
 		print (matrix[8]+","+matrix[9]+","+matrix[10]+","+matrix[11]);
-		print (matrix[12]+","+matrix[13]+","+matrix[14]+","+matrix[15]);
+		print (matrix[12]+","+matrix[13]+","+matrix[14]+","+matrix[15]);*/
 
         FindHomography(ref source, ref destination, ref matrix);
 		    
@@ -100,10 +100,10 @@ public class Homography : MonoBehaviour {
                 
 		//print ("Matrix-Post");
 
-		print (matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]);
+		/*print (matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]);
 		print (matrix[4]+","+matrix[5]+","+matrix[6]+","+matrix[7]);
 		print (matrix[8]+","+matrix[9]+","+matrix[10]+","+matrix[11]);
-		print (matrix[12]+","+matrix[13]+","+matrix[14]+","+matrix[15]);
+		print (matrix[12]+","+matrix[13]+","+matrix[14]+","+matrix[15]);*/
 	}
 	
 	void FindHomography(ref Vector3[] src, ref Vector3[] dest, ref float[] homography) 
@@ -154,7 +154,7 @@ public class Homography : MonoBehaviour {
 	      
 	    for (int i=0; i<16; i++) {
 			homography [i] = aux_H [i];
-			print ("H: "+ homography [i]);
+			//print ("H: "+ homography [i]);
 		}
 		
 	}

@@ -14,9 +14,36 @@ public class AreaData : MonoBehaviour {
 		public Vector3[] pointers;
 		public Vector3 position;
         public int height;
+		public List<ArtWork> artworks;
 
 		public Area(){
 			pointers = new Vector3[4];
+			artworks = new List<ArtWork>();
+		}
+
+		public Vector3 GetArtWorkScale(int i){
+			float scaleY = 1f*artworks[i].height/height;
+			float scaleX = scaleY * artworks [i].width / artworks [i].height;
+			return new Vector3 (scaleX, scaleY, 1f);
+		}
+
+		public void AddArtWork(int w, int h, Texture tex){
+			ArtWork artwork = new ArtWork (w, h, tex);
+			artworks.Add (artwork);
+		}
+	}
+
+	[Serializable]
+	public class ArtWork{
+		public Vector3 position;
+		public int width;
+		public int height;
+		public Texture texture;
+		
+		public ArtWork(int w, int h, Texture tex){
+			width = w;
+			height = h;
+			texture = tex;
 		}
 	}
 
@@ -32,6 +59,7 @@ public class AreaData : MonoBehaviour {
 			areas[id].pointers = pointers;
 			areas[id].position = position;
 		}		
+
 	}
 
 	public Vector3[] getPointers(int id){

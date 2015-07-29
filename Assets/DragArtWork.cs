@@ -8,7 +8,10 @@ public class DragArtWork : MonoBehaviour {
 	public Vector3 positionOrigin;
 	public bool showZone;
 	public Material material;
+	public int areaId = -1;
+	public int artWorkId = -1;
 	GameObject zone;
+
 
 	// Use this for initialization
 	void Start () {
@@ -20,16 +23,24 @@ public class DragArtWork : MonoBehaviour {
 			}
 		}
 
-		positionOrigin = gameObject.transform.position;
+		positionOrigin = gameObject.transform.parent.transform.position;
 
 		if (showZone) {
 			zone = GameObject.CreatePrimitive(PrimitiveType.Quad);
 			zone.GetComponent<Renderer>().material = material;
 			zone.transform.localScale = new Vector3(0.2f,0.2f,1f);
-			zone.transform.position = positionOrigin;
-			zone.transform.parent = gameObject.transform;
+			zone.transform.position = new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.parent.transform.position.z-0.1f);
+			zone.transform.parent = gameObject.transform.parent.transform;
 			zone.name = "Cursor_"+gameObject.name;
 		}
+	}
+
+	public void SetAreaId(int id){
+		areaId = id;
+	}
+
+	public void SetArtWorkId(int id){
+		artWorkId = id;
 	}
 	
 	// Update is called once per frame
@@ -61,12 +72,13 @@ public class DragArtWork : MonoBehaviour {
 					//print ("ParentPos: "+parentPos);
 					//print ("GameOPos: "+gameObject.transform.position);
 					gameObject.transform.position = new Vector3(positionOrigin.x+areaPos.x,positionOrigin.y+areaPos.y,positionOrigin.z);
-					zone.transform.position = gameObject.transform.position;
+					zone.transform.position = new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.parent.transform.position.z-0.1f);
 				}
 			}
 		}else{
 			if(selected){
 				selected=false;
+				Data.Instance.areaData.areas[areaId].artworks[artWorkId].position = gameObject.transform.position;
 			}
 		}
 	

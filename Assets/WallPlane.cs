@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WallPlane : MonoBehaviour {
     
-	public float zPointers = -10;
+	public float zPointers = 0;
 
 	public GameObject[] pointer;
 	public GameObject area;
@@ -38,7 +38,7 @@ public class WallPlane : MonoBehaviour {
 
 		for(int i=0;i<mf.mesh.vertexCount;i++){
             Vector3 vertexWorldPos = area.transform.TransformPoint(mf.mesh.vertices[i]);
-			vertexWorldPos = new Vector3(vertexWorldPos.x,vertexWorldPos.y,10);
+			vertexWorldPos = new Vector3(vertexWorldPos.x,vertexWorldPos.y,vertexWorldPos.z);
 
 			//Instantiate(pointer[i], vertexWorldPos, Quaternion.identity);
 			//pointer[i] = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -94,7 +94,7 @@ public class WallPlane : MonoBehaviour {
 							mesh.vertices = vertex;
 							//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
 							//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
-							rayhit.collider.transform.position = new Vector3(pos.x,pos.y,zPointers);						
+							rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);						
 							
 						}
 					}
@@ -109,7 +109,7 @@ public class WallPlane : MonoBehaviour {
 						vertex = mesh.vertices;					
 						vertex[select] = areaPos;						
 						mesh.vertices = vertex;
-						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,zPointers);
+						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);
 						//RedrawLine();					
 					}
 				}
@@ -159,7 +159,13 @@ public class WallPlane : MonoBehaviour {
 	void SaveArea()
 	{
 		Mesh mesh = area.GetComponent<MeshFilter> ().mesh;
+		/*Debug.Log("AreaZ_0: "+ mesh.vertices[0].z);
+		Vector3[] vertices = new Vector3[4];
+		for (int i=0; i<vertices.Length; i++)
+			vertices [i] = area.transform.TransformPoint(mesh.vertices[i]);			
+		Debug.Log("AreaZ_1: "+ vertices[0].z);*/
 		Data.Instance.AddArea (AreaId, mesh.vertices, transform.position, 0);
+		//Data.Instance.areaData.AddAreas (AreaId, mesh.vertices, transform.position, 0);
 	}
 
 	void OnDestroy()

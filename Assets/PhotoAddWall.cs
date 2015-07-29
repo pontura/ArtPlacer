@@ -30,10 +30,10 @@ public class PhotoAddWall : MonoBehaviour {
 			//if (Input.GetKeyDown(KeyCode.Space)) {
 			if( Input.GetButton ("Fire1")) {
 				Vector3 mousePos = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
-				print ("mouse: "+mousePos);
+				//print ("mouse: "+mousePos);
 				Vector3 worldPos = cam.ScreenToWorldPoint (mousePos);
-				print ("worldPos: "+worldPos);
-				GameObject obj = Instantiate (sector, new Vector3 (worldPos.x, worldPos.y, 9.9f), Quaternion.identity) as GameObject;
+				//print ("worldPos: "+worldPos);
+				GameObject obj = Instantiate (sector, new Vector3 (worldPos.x, worldPos.y, 1f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (mousePos.x, mousePos.y, 9.9f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (0, 0, 10), Quaternion.identity) as GameObject;
 
