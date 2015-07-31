@@ -58,14 +58,26 @@ public class Homography : MonoBehaviour {
 
 		meshMaterial = GameObject.Find(meshName).GetComponent<Renderer>().material;
 		GameObject quad = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		int w = Data.Instance.areaData.areas [gameObject.GetComponent<WallPlane>().AreaId].width;
+		int h = Data.Instance.areaData.areas [gameObject.GetComponent<WallPlane>().AreaId].height;
+		float factor;
+		Vector3 scale;
+		if (w > h) {
+			factor = 1f * w / h;
+			scale = new Vector3(factor,1f,1f);
+		} else {
+			factor = 1f * h / w;
+			scale = new Vector3(1f,factor,1f);
+		}
+		//quad.transform.localScale = scale;
 		Vector3[] originalPointers = quad.GetComponent<MeshFilter>().mesh.vertices;
 		Destroy (quad);
 		Vector3[] pointers = gameObject.GetComponent<WallPlane> ().area.GetComponent<MeshFilter> ().mesh.vertices;
 		//print (MVP);
 			
 		for (int i = 0; i < pointers.Length; i++) {
-			//print ("P"+i+": "+originalPointers[i]);
-			source[pointOrder[i]] = MVP.MultiplyPoint(originalPointers[i]);
+			print ("P"+i+": "+Vector3.Scale (originalPointers[i],scale));
+			source[pointOrder[i]] = MVP.MultiplyPoint(Vector3.Scale (originalPointers[i],scale));
 			//print ("s"+i+": "+MVP.MultiplyPoint(originalPointers[i]));
 			destination[pointOrder[i]] = MVP.MultiplyPoint(pointers[i]);
 		}

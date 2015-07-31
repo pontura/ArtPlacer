@@ -50,7 +50,7 @@ public class Data : MonoBehaviour
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
     {
-        Time.timeScale = 1;
+        Time.timeScale = 10;
         fade.LoadLevel(aLevelName, aFadeOutTime, aFadeInTime, aColor);
     }
     void Awake()

@@ -6,6 +6,12 @@ using System.IO;
 public class ArtPlaced : MonoBehaviour {
 
 	public GameObject CreatedPlane;
+
+	public GameObject bg;
+	public GameObject edit;
+	public GameObject addArtwork;
+	public GameObject preview;
+	public GameObject back;
 	
 	public RawImage rawImage;
 	int artCount = 0;
@@ -32,6 +38,49 @@ public class ArtPlaced : MonoBehaviour {
 
 	}
 
+	public void Back(){
+		bg.gameObject.SetActive(true);
+		edit.gameObject.SetActive(true);
+		addArtwork.gameObject.SetActive(true);
+		preview.gameObject.SetActive(true);
+		back.gameObject.SetActive(false);
+
+		if (Data.Instance.areaData.areas.Count > 0){
+			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
+				GameObject area = GameObject.Find ("CreatedPlane_" + i);
+				area.GetComponent<WallPlane>().area.gameObject.SetActive(true);				
+				if (Data.Instance.areaData.areas[i].artworks.Count > 0) {				
+					for (int j=0; j<Data.Instance.areaData.areas[i].artworks.Count; j++) {
+						print ("Cursor_ArtWork_" + i +"_"+j);
+						GameObject.Find ("Cursor_ArtWork_" + i +"_"+j).GetComponent<MeshRenderer>().enabled = true;
+					}
+				}
+			}
+		}
+	}
+
+	public void Preview(){
+		bg.gameObject.SetActive(false);
+		edit.gameObject.SetActive(false);
+		addArtwork.gameObject.SetActive(false);
+		preview.gameObject.SetActive(false);
+		back.gameObject.SetActive(true);
+
+		if (Data.Instance.areaData.areas.Count > 0){
+			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
+				GameObject area = GameObject.Find ("CreatedPlane_" + i);
+				area.GetComponent<WallPlane>().area.gameObject.SetActive(false);				
+				if (Data.Instance.areaData.areas[i].artworks.Count > 0) {				
+					for (int j=0; j<Data.Instance.areaData.areas[i].artworks.Count; j++) {
+						print ("Cursor_ArtWork_" + i +"_"+j);
+						GameObject.Find ("Cursor_ArtWork_" + i +"_"+j).GetComponent<MeshRenderer>().enabled = false;
+					}
+				}
+			}
+		}
+
+	}
+
 	public void ArtBrowser()
 	{
 		Data.Instance.LoadLevel("ArtBrowser");
@@ -44,9 +93,6 @@ public class ArtPlaced : MonoBehaviour {
 
 	void PlaceArt(int n){
 		GameObject area = GameObject.Find ("CreatedPlane_" + n);
-		Debug.Log ("ACA1");
-		Debug.Log ("Area Artworks " + Data.Instance.areaData.areas [n].artworks);
-		Debug.Log ("ArtW Count"+Data.Instance.areaData.areas [n].artworks.Count);
 		if (Data.Instance.areaData.areas[n].artworks.Count > 0) {
 			Debug.Log ("ACA2");
 			for (int i=0; i<Data.Instance.areaData.areas[n].artworks.Count; i++) {

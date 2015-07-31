@@ -16,6 +16,7 @@ public class RoomsData : MonoBehaviour {
     [Serializable]
     public class RoomArea
     {
+		public int width;
         public int height;
         public Vector3[] pointers;
         public Vector3 position;
@@ -47,19 +48,20 @@ public class RoomsData : MonoBehaviour {
                 foreach (string area in areas)
                 {
                     string[] res = area.Split("_"[0]);
-                    //print("area: " + area);
+                    print("area: " + area);
                     if (res.Length > 1)
                     {
                         RoomArea roomArea = new RoomArea();
-                        roomArea.height = int.Parse(res[0]);
-                        roomArea.position = new Vector3(GetFloat(res[1]), GetFloat(res[2]), 0);
+						roomArea.width = int.Parse(res[0]);
+                        roomArea.height = int.Parse(res[1]);
+                        roomArea.position = new Vector3(GetFloat(res[2]), GetFloat(res[3]), 0);
 
                         roomArea.pointers = new Vector3[4];
 
-                        roomArea.pointers[0] = new Vector3(GetFloat(res[3]), GetFloat(res[4]), 0);
-                        roomArea.pointers[1] = new Vector3(GetFloat(res[5]), GetFloat(res[6]), 0);
-                        roomArea.pointers[2] = new Vector3(GetFloat(res[7]), GetFloat(res[8]), 0);
-                        roomArea.pointers[3] = new Vector3(GetFloat(res[9]), GetFloat(res[10]), 0);
+                        roomArea.pointers[0] = new Vector3(GetFloat(res[4]), GetFloat(res[5]), 0);
+                        roomArea.pointers[1] = new Vector3(GetFloat(res[6]), GetFloat(res[7]), 0);
+                        roomArea.pointers[2] = new Vector3(GetFloat(res[8]), GetFloat(res[9]), 0);
+                        roomArea.pointers[3] = new Vector3(GetFloat(res[10]), GetFloat(res[11]), 0);
 
                         room.area.Add(roomArea);
                     }

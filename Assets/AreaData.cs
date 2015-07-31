@@ -13,6 +13,7 @@ public class AreaData : MonoBehaviour {
 	public class Area{
 		public Vector3[] pointers;
 		public Vector3 position;
+		public int width;
         public int height;
 		public List<ArtWork> artworks;
 
@@ -76,7 +77,7 @@ public class AreaData : MonoBehaviour {
 
         foreach (Area area in areas)
         {
-            result += area.height + "_" + Math.Round(area.position.x, 2) + "_" + Math.Round(area.position.y,2) + "_";
+			result += area.width + "_" + area.height + "_" + Math.Round(area.position.x, 2) + "_" + Math.Round(area.position.y,2) + "_";
             foreach (Vector3 pointers in area.pointers)
             {
                 result += Math.Round(pointers.x, 2) + "_" + Math.Round(pointers.y, 2) + "_";
