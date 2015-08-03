@@ -5,6 +5,13 @@ using System;
 
 public class RoomsData : MonoBehaviour {
 
+    public types type;
+    public enum types
+    {
+        ONLINE,
+        LOCAL
+    }
+
     public int actualRoomId;
 
     [Serializable]
@@ -22,6 +29,7 @@ public class RoomsData : MonoBehaviour {
         public Vector3 position;
     }
     public List<Room> rooms;
+    public List<Room> onlineRooms;
 
 	void Start () {
         ReadRoomsData();

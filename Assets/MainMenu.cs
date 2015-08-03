@@ -9,7 +9,19 @@ public class MainMenu : MonoBehaviour {
     }
     public void NewRoom()
     {
-        Data.Instance.LoadLevel("LoadRoom");
+        Data.Instance.LoadLevel("TakePhoto");
+        Close();
+    }
+    public void PublicRooms()
+    {
+        Data.Instance.roomsData.type = RoomsData.types.ONLINE;
+        Data.Instance.LoadLevel("SavedPhotoBrowser");
+        Close();
+    }
+    public void MyRooms()
+    {
+        Data.Instance.roomsData.type = RoomsData.types.LOCAL;
+        Data.Instance.LoadLevel("SavedPhotoBrowser");
         Close();
     }
 

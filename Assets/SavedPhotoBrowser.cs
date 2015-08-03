@@ -8,6 +8,8 @@ using System.Collections.Generic;
 public class SavedPhotoBrowser : MonoBehaviour
 {
     public Text debbugText;
+    public Text titleField;
+
     public ThumbImage button;
     public GameObject container;
     
@@ -24,10 +26,15 @@ public class SavedPhotoBrowser : MonoBehaviour
     public int cols;
 
     private bool isOn;
+    private bool onlineRooms;
+    private RoomsData roomData;
+
 
     void Start()
     {
         Data.Instance.SetMainMenuActive(true);
+
+        roomData = Data.Instance.roomsData;
 
         thumbSize += separation;
 
@@ -35,19 +42,38 @@ public class SavedPhotoBrowser : MonoBehaviour
         int separationY = 0;
         int separationx = 0;
 
+        List<RoomsData.Room> rooms;
+        string title;
 
-        //FileInfo[] files =  Data.Instance.GetFilesIn("Images");
+        switch (roomData.type)
+        {
+            case RoomsData.types.LOCAL: 
+                title = "YOUR SAVED ROOMS";  
+                rooms = Data.Instance.roomsData.rooms; 
+                break;
+            default: 
+                title = "PUBLIC ROOMS"; 
+                rooms = Data.Instance.roomsData.onlineRooms; 
+                break;
+        }
 
-        foreach (RoomsData.Room room in Data.Instance.roomsData.rooms)
+        titleField.text = title;
+
+        foreach (RoomsData.Room room in rooms)
         {
             ThumbImage newButton = Instantiate(button);
 
             string folder = Data.Instance.GetRoomsPath();
 
-            string imageName = room.url + ".png";
-            var filePath = Path.Combine(folder, imageName);
+            string filePath;
 
-            debbugText.text = filePath;
+            if (roomData.type == RoomsData.types.LOCAL)
+                filePath = Path.Combine(folder, room.url + ".png");
+            else
+                filePath = room.url;
+
+
+          //  debbugText.text = filePath;
 
             print(filePath);
 
@@ -72,7 +98,13 @@ public class SavedPhotoBrowser : MonoBehaviour
     }
     public void OnSelect(int id)
     {
-        RoomsData.Room room = Data.Instance.roomsData.rooms[id];
+        RoomsData.Room room;
+
+        if (roomData.type == RoomsData.types.LOCAL)
+            room = Data.Instance.roomsData.rooms[id];
+        else
+            room = Data.Instance.roomsData.onlineRooms[id];
+
         Data.Instance.areaData.url = room.url;
         Data.Instance.areaData.id = 1;
         foreach (RoomsData.RoomArea roomArea in room.area)
