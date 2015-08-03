@@ -4,11 +4,11 @@ using System.Collections;
 
 public class ConfirmPhoto : MonoBehaviour {
 
-    public RawImage rawImage;
+    public Game game;
 
-	void Start ()
+    void Update()
     {
-        Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
+      //  game.LoadLastPhotoTexture();
     }
     public void Confirm()
     {

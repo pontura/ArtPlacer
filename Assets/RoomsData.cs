@@ -23,8 +23,8 @@ public class RoomsData : MonoBehaviour {
     [Serializable]
     public class RoomArea
     {
-		public int width;
-        public int height;
+		public float width;
+        public float height;
         public Vector3[] pointers;
         public Vector3 position;
     }
@@ -60,8 +60,8 @@ public class RoomsData : MonoBehaviour {
                     if (res.Length > 1)
                     {
                         RoomArea roomArea = new RoomArea();
-						roomArea.width = int.Parse(res[0]);
-                        roomArea.height = int.Parse(res[1]);
+						roomArea.width = float.Parse(res[0]);
+                        roomArea.height = float.Parse(res[1]);
                         roomArea.position = new Vector3(GetFloat(res[2]), GetFloat(res[3]), 0);
 
                         roomArea.pointers = new Vector3[4];

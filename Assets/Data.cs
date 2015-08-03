@@ -36,14 +36,14 @@ public class Data : MonoBehaviour
             return mInstance;
         }
     }
-    public RawImage SetTexture(RawImage rawImage, Texture2D texture2d)
-    {
-        rawImage.texture = texture2d;
-#if UNITY_IOS
-       rawImage.transform.localScale = new Vector3(-1, -1, 1);
-#endif
-        return rawImage;
-    }
+//    public RawImage SetTexture(RawImage rawImage, Texture2D texture2d)
+//    {
+//        rawImage.texture = texture2d;
+//#if UNITY_IOS
+//       rawImage.transform.localScale = new Vector3(-1, -1, 1);
+//#endif
+//        return rawImage;
+//    }
     public void LoadLevel(string aLevelName)
     {
         LoadLevel(aLevelName, 0.5f, 0.5f, Color.black);
@@ -113,8 +113,8 @@ public class Data : MonoBehaviour
         var filePath = Path.Combine(folder, path);
         File.WriteAllBytes(filePath + ".png", bytes);
     }
-	public void AddArea(int id, Vector3[] pointers, Vector3 position, int height){
-		areaData.AddAreas(id,pointers,position, height);
+	public void AddArea(int id, Vector3[] pointers, Vector3 position, float width, float height){
+        areaData.AddAreas(id, pointers, position, width, height);
 	}
 
     private bool mainMenuOpened;

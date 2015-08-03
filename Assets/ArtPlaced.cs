@@ -13,11 +13,9 @@ public class ArtPlaced : MonoBehaviour {
 	public GameObject preview;
 	public GameObject back;
 	
-	public RawImage rawImage;
 	int artCount = 0;
 	
 	void Start () {
-        Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
 
         if (Data.Instance.areaData.areas.Count > 0)
 		{

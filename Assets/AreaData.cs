@@ -13,8 +13,8 @@ public class AreaData : MonoBehaviour {
 	public class Area{
 		public Vector3[] pointers;
 		public Vector3 position;
-		public int width;
-        public int height;
+		public float width;
+        public float height;
 		public List<ArtWork> artworks;
 
 		public Area(){
@@ -48,13 +48,14 @@ public class AreaData : MonoBehaviour {
 		}
 	}
 
-    public void AddAreas(int id, Vector3[] pointers, Vector3 position, int height)
+    public void AddAreas(int id, Vector3[] pointers, Vector3 position, float width, float height)
     {
 		if (id < 0) {
 			Area area = new Area();
 			area.pointers = pointers;
 			area.position = position;
             area.height = height;
+            area.width = width;
 			areas.Add (area);
 		} else {
 			areas[id].pointers = pointers;

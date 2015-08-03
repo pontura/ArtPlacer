@@ -58,8 +58,8 @@ public class Homography : MonoBehaviour {
 
 		meshMaterial = GameObject.Find(meshName).GetComponent<Renderer>().material;
 		GameObject quad = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		int w = Data.Instance.areaData.areas [gameObject.GetComponent<WallPlane>().AreaId].width;
-		int h = Data.Instance.areaData.areas [gameObject.GetComponent<WallPlane>().AreaId].height;
+		float w = Data.Instance.areaData.areas [gameObject.GetComponent<WallPlane>().AreaId].width;
+        float h = Data.Instance.areaData.areas[gameObject.GetComponent<WallPlane>().AreaId].height;
 		float factor;
 		Vector3 scale;
 		if (w > h) {

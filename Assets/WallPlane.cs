@@ -164,7 +164,7 @@ public class WallPlane : MonoBehaviour {
 		for (int i=0; i<vertices.Length; i++)
 			vertices [i] = area.transform.TransformPoint(mesh.vertices[i]);			
 		Debug.Log("AreaZ_1: "+ vertices[0].z);*/
-		Data.Instance.AddArea (AreaId, mesh.vertices, transform.position, 0);
+		Data.Instance.AddArea (AreaId, mesh.vertices, transform.position, 1.0f, 1.0f);
 		//Data.Instance.areaData.AddAreas (AreaId, mesh.vertices, transform.position, 0);
 	}
 

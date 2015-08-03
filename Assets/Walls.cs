@@ -13,7 +13,7 @@ public class Walls : MonoBehaviour {
 
 	void Start () {
 
-        Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
+      //  Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
 
         if (Data.Instance.areaData.areas.Count > 0)
 			Started();
