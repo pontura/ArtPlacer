@@ -3,6 +3,7 @@ using System.Collections;
 
 public class WallCreator : MonoBehaviour {
 
+    public Game gameContainer;
     public GameObject createdPlane;
 
     void Start()
@@ -15,6 +16,8 @@ public class WallCreator : MonoBehaviour {
                 GameObject obj = Instantiate(createdPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
                 obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
                 obj.GetComponent<WallPlane>().SetId(i);
+
+                obj.transform.SetParent(gameContainer.transform);
             }
         }
     }

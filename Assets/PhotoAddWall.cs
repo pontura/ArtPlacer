@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PhotoAddWall : MonoBehaviour {
 
+    public Game gameContainer;
 	public GameObject sector;
 	public bool add = true;
     private int numWalls;
@@ -36,6 +37,8 @@ public class PhotoAddWall : MonoBehaviour {
 				GameObject obj = Instantiate (sector, new Vector3 (worldPos.x, worldPos.y, 1f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (mousePos.x, mousePos.y, 9.9f), Quaternion.identity) as GameObject;
 				//GameObject obj = Instantiate (sector, new Vector3 (0, 0, 10), Quaternion.identity) as GameObject;
+
+                obj.transform.SetParent(gameContainer.transform);
 
 				add=false;
                 numWalls++;

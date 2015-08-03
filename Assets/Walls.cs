@@ -7,14 +7,8 @@ public class Walls : MonoBehaviour {
 
     public GameObject ResetedContainer;
     public GameObject ReadyContainer;
-	
-
-    public RawImage rawImage;
 
 	void Start () {
-
-      //  Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
-
         if (Data.Instance.areaData.areas.Count > 0)
 			Started();
 		else
