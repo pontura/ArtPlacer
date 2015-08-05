@@ -28,7 +28,7 @@ public class AreaData : MonoBehaviour {
 			return new Vector3 (scaleX, scaleY, 1f);
 		}
 
-		public void AddArtWork(int w, int h, Texture tex){
+		public void AddArtWork(int w, int h, Texture2D tex){
 			ArtWork artwork = new ArtWork (w, h, tex);
 			artworks.Add (artwork);
 		}
@@ -39,9 +39,9 @@ public class AreaData : MonoBehaviour {
 		public Vector3 position;
 		public int width;
 		public int height;
-		public Texture texture;
+		public Texture2D texture;
 		
-		public ArtWork(int w, int h, Texture tex){
+		public ArtWork(int w, int h, Texture2D tex){
 			width = w;
 			height = h;
 			texture = tex;

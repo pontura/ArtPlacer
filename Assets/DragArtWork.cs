@@ -44,7 +44,7 @@ public class DragArtWork : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 
 		if( Input.GetButton ("Fire1")) {
 			Vector3 mousePos = new Vector3(Input.mousePosition.x,Input.mousePosition.y,0);
@@ -82,5 +82,5 @@ public class DragArtWork : MonoBehaviour {
 			}
 		}
 	
-	}
+	}*/
 }

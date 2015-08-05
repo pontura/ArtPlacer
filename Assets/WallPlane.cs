@@ -83,14 +83,13 @@ public class WallPlane : MonoBehaviour {
 							
 							select= i;
 							//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
-							Vector3 pos = screenRay.GetPoint(rayhit.distance);
-                            pos.z = 10;
+							Vector3 pos = screenRay.GetPoint(rayhit.distance);                            
 							Vector3 areaPos = area.transform.InverseTransformPoint(pos);
 							
 							Vector3[] vertex = new Vector3[4];
 							vertex = mesh.vertices;														
 							
-							vertex[select] = areaPos;
+							vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
 							mesh.vertices = vertex;
 							//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
 							//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
@@ -107,9 +106,11 @@ public class WallPlane : MonoBehaviour {
 						
 						Vector3[] vertex = new Vector3[4];
 						vertex = mesh.vertices;					
-						vertex[select] = areaPos;						
+						//vertex[select] = areaPos;						
+						vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
 						mesh.vertices = vertex;
 						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);
+						//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
 						//RedrawLine();					
 					}
 				}
