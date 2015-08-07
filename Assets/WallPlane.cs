@@ -76,6 +76,9 @@ public class WallPlane : MonoBehaviour {
 				Mesh mesh = area.GetComponent<MeshFilter> ().mesh;
 				
 				if(select<0){
+
+                    Events.OnWallEdgeSelected();
+
 					//print ("Mesh Id Selected: "+mesh.GetInstanceID());
 					for(int i=0;i<mesh.vertexCount;i++){
 						if(rayhit.collider.name == "Pointer_"+gameObject.GetInstanceID()+"_"+i){ 

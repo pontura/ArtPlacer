@@ -5,7 +5,10 @@ using System.IO;
 
 public class ArtPlaced : MonoBehaviour {
 
-	public GameObject CreatedPlane;
+	//public GameObject CreatedPlane;
+
+    public Animation tooltipAddArt;
+    public GameObject buttonAddArt;
 
 	public GameObject bg;
 	public GameObject edit;
@@ -15,24 +18,22 @@ public class ArtPlaced : MonoBehaviour {
 
 	Camera cam;
 	
-	public RawImage rawImage;
 	string selected = null;
 	
 	void Start () {
-        //Data.Instance.SetTexture(rawImage, Data.Instance.lastPhotoTexture);
 
-        if (Data.Instance.areaData.areas.Count > 0)
-		{
-			// GetComponent<PhotoAddWall>().DeactiveAdd();
-            for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
-			{
-				//Debug.Log (Data.Instance.areaData.getPosition(i));
-                GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
-				obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
-				obj.GetComponent<WallPlane>().SetId(i);
-                PlaceArt(i);
-			}
-		}
+        tooltipAddArt.gameObject.SetActive(false);
+
+        //if (Data.Instance.areaData.areas.Count > 0)
+        //{
+        //    for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
+        //    {
+        //        GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
+        //        obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
+        //        obj.GetComponent<WallPlane>().SetId(i);
+        //        PlaceArt(i);
+        //    }
+        //}
 
 
 		foreach (Camera c in Camera.allCameras) {
@@ -41,7 +42,16 @@ public class ArtPlaced : MonoBehaviour {
 				break;
 			}
 		}
-	}
+        if(Data.Instance.lastArtTexture == null)
+            Invoke("startTooltip", 0.5f);
+        else buttonAddArt.GetComponent<Animation>().Stop();
+    }
+    void startTooltip()
+    {
+        tooltipAddArt.gameObject.SetActive(true);
+        tooltipAddArt.Play("tooltipOn");
+        
+    }
 
 	void Update() {
 
@@ -147,7 +157,7 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void ArtBrowser()
 	{
-		Data.Instance.LoadLevel("ArtBrowser");
+		Data.Instance.LoadLevel("Galleries");
 	}
 
 	public void EditWalls()
@@ -156,6 +166,10 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	void PlaceArt(int n){
+
+        tooltipAddArt.Stop();
+        buttonAddArt.GetComponent<Animation>().Stop();
+
 		GameObject area = GameObject.Find ("CreatedPlane_" + n);
 		if (Data.Instance.areaData.areas[n].artworks.Count > 0) {
 			float aW = Data.Instance.areaData.areas[n].width*100;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class Data : MonoBehaviour
 {
+    public Color selectedColor;
     public Texture2D lastArtTexture;
     public Texture2D lastPhotoTexture;
     public ArtData artData;
@@ -46,11 +47,10 @@ public class Data : MonoBehaviour
 //    }
     public void LoadLevel(string aLevelName)
     {
-        LoadLevel(aLevelName, 0.5f, 0.5f, Color.black);
+        LoadLevel(aLevelName, 0.1f, 0.1f, Color.black);
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
     {
-        Time.timeScale = 10;
         fade.LoadLevel(aLevelName, aFadeOutTime, aFadeInTime, aColor);
     }
     void Awake()

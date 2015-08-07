@@ -5,26 +5,58 @@ using System.IO;
 
 public class Walls : MonoBehaviour {
 
-    public GameObject ResetedContainer;
-    public GameObject ReadyContainer;
+    public Animation tooltipAddWall;
+    public Animation tooltipSelectWall;
+    public Animation tooltipFitEdges;
+
+    public GameObject State2;
+    public Button AddButton;
 
 	void Start () {
+
+        GetComponent<PhotoAddWall>().DeactiveAdd();
+
+        tooltipAddWall.gameObject.SetActive(false);
+        tooltipSelectWall.gameObject.SetActive(false);
+        tooltipFitEdges.gameObject.SetActive(false);
+
+        print("Data.Instance.areaData.areas.Count: " + Data.Instance.areaData.areas.Count);
+
         if (Data.Instance.areaData.areas.Count > 0)
 			Started();
 		else
         	Reseted();
+
         Events.OnNumWallsChanged += OnNumWallsChanged;
+        Events.OnWallEdgeSelected += OnNumWallsChanged;
 	}
     void OnDestroy()
     {
         Events.OnNumWallsChanged -= OnNumWallsChanged;
+        Events.OnWallEdgeSelected -= OnNumWallsChanged;
     }
+    private int totalWalls;
+
     void OnNumWallsChanged(int qty)
     {
+        if (totalWalls < qty)
+        {
+            tooltipFitEdges.gameObject.SetActive(true);
+            tooltipFitEdges.Play("tooltipOnVertical");
+        }
+        AddButton.GetComponentInChildren<Image>().color = Color.white;
+        tooltipSelectWall.gameObject.SetActive(false);
+
         if (qty < 1)
             Reseted();
         else
             Started();
+
+        totalWalls = qty;
+    }
+    void OnNumWallsChanged()
+    {
+        tooltipFitEdges.gameObject.SetActive(false);
     }
     public void GotoLoadRoom()
     {
@@ -35,16 +67,28 @@ public class Walls : MonoBehaviour {
 		Events.SaveAreas ();
         Data.Instance.LoadLevel("ConfirmSizes");
     }
+    public void Add()
+    {
+        AddButton.GetComponent<Animation>().Stop();
+        AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
+        tooltipAddWall.gameObject.SetActive(false);
+        tooltipSelectWall.gameObject.SetActive(true);
+
+        tooltipSelectWall.Play("tooltipOnVertical");
+        Invoke("AddAvailable", 0.5f);
+    }
+    void AddAvailable()
+    {
+        GetComponent<PhotoAddWall>().ActiveAdd();
+    }
     public void Reseted()
     {
-        ResetedContainer.gameObject.SetActive(true);
-        ReadyContainer.gameObject.SetActive(false);
-		GetComponent<PhotoAddWall>().ActiveAdd();
+        tooltipAddWall.gameObject.SetActive(true);
+        tooltipAddWall.Play("tooltipOn");
+        State2.gameObject.SetActive(false);
     }
     public void Started()
     {
-        ResetedContainer.gameObject.SetActive(false);
-        ReadyContainer.gameObject.SetActive(true);
-		GetComponent<PhotoAddWall> ().DeactiveAdd ();
+        State2.gameObject.SetActive(true);
     }
 }

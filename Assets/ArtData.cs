@@ -6,6 +6,8 @@ public class ArtData : MonoBehaviour {
 
     public GalleryData.ArtData selectedArtWork;
 
+    public int selectedGallery;
+
     public GalleryData[] galleries;
 
     [Serializable]

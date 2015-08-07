@@ -5,15 +5,27 @@ using System.Collections;
 public class ConfirmPhoto : MonoBehaviour {
 
     public Game game;
+    public Animation toolTipConfirm;
 
+    void Start()
+    {
+        toolTipConfirm.gameObject.SetActive(false);
+        Invoke("OpenTooltip", 0.7f);
+    }
     void Update()
     {
-      //  game.LoadLastPhotoTexture();
+        game.LoadLastPhotoTexture();
     }
     public void Confirm()
     {
         Data.Instance.SavePhotoTaken();
         Data.Instance.LoadLevel("Walls");
+        
+    }
+    void OpenTooltip()
+    {
+        toolTipConfirm.gameObject.SetActive(true);
+        toolTipConfirm.Play("tooltipOn");
     }
     public void Back()
     {

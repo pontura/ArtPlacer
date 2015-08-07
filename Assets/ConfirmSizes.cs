@@ -6,12 +6,15 @@ using System.Collections.Generic;
 public class ConfirmSizes : MonoBehaviour {
 
     public SizeSignal sizeSignal;
+    public Animation tooltipSizes;
     public GameObject container;
+
     public List<SizeSignal> sizeSignals;
 
 
     void Start()
     {
+        tooltipSizes.gameObject.SetActive(false);
 
         if (Data.Instance.areaData.areas.Count > 0)
         {
@@ -32,11 +35,16 @@ public class ConfirmSizes : MonoBehaviour {
 				id++;
 			}
 		}
-		
-	}
-	public void GotoLoadRoom()
+        Invoke("startTooltip", 0.5f);
+    }
+    void startTooltip()
+    {
+        tooltipSizes.gameObject.SetActive(true);
+        tooltipSizes.Play("tooltipOnVertical");
+    }
+	public void Back()
 	{
-		// Data.Instance.LoadLevel("LoadRoom");
+		Data.Instance.LoadLevel("Walls");
     }
     public void Ready()
     {

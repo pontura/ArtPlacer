@@ -10,7 +10,7 @@ public class ArtWorks : MonoBehaviour
     public GameObject container;
     public ScrollLimit scrollLimit;
 
-    public Vector2 thumbSize = new Vector2(195, 120);
+    public Vector2 thumbSize = new Vector2(180, 180);
     public Vector2 separation = new Vector2(2, 2);
     public int cols;
 
@@ -22,25 +22,14 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
-        Events.OnDropBoxSelect += OnDropBoxSelect;
         thumbSize += separation;
-    }
-    void OnDestroy()
-    {
-        Events.OnDropBoxSelect -= OnDropBoxSelect;
-    }
-   
-    public void OnDropBoxSelect(int dropBoxId, int selectionId)
-    {
-       this.selectionId = selectionId;
-       SetOff();
 
-       foreach (ArtData.GalleryData.ArtData data in Data.Instance.artData.galleries[selectionId].artWorksData)
+       foreach (ArtData.GalleryData.ArtData data in Data.Instance.artData.galleries[Data.Instance.artData.selectedGallery].artWorksData)
        {
            data.gallery = Data.Instance.artData.galleries[selectionId].title;
            AddThumb(data.url);
        }
-       if (separationY > 3) scrollLimit.SetMaxScroll(100);
+       //if (separationY > 3) scrollLimit.SetMaxScroll(100);
     }
     private void AddThumb(string url)
     {
@@ -63,9 +52,13 @@ public class ArtWorks : MonoBehaviour
         foreach (ThumbImage child in container.GetComponentsInChildren<ThumbImage>())
             Destroy(child.gameObject);
     }
-    public void Back()
+    public void GotoRoom()
     {
         Data.Instance.LoadLevel("ArtPlaced");
+    }
+    public void Back()
+    {
+        Data.Instance.LoadLevel("Galleries");
     }
     public void OnSelect(int id)
     {

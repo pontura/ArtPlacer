@@ -7,4 +7,8 @@ public class Intro : MonoBehaviour {
     {
         Data.Instance.LoadLevel("LoadRoom");
     }
+    public void Galleries()
+    {
+        Data.Instance.LoadLevel("Galleries");
+    }
 }
