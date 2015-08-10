@@ -3,8 +3,6 @@ using System.Collections;
 
 public class WallPlane : MonoBehaviour {
     
-	public float zPointers = 0;
-
 	public GameObject[] pointer;
 	public GameObject area;
 	public int AreaId=-1;
