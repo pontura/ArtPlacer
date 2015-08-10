@@ -6,6 +6,7 @@ using System.IO;
 public class ArtPlaced : MonoBehaviour {
 
 	public GameObject CreatedPlane;
+	//public GameObject Thumb;
 
     public Animation tooltipAddArt;
     public GameObject buttonAddArt;
@@ -19,6 +20,8 @@ public class ArtPlaced : MonoBehaviour {
 	Camera cam;
 	
 	string selected = null;
+
+	bool dragOut = false;
 	
 	void Start () {
 
@@ -29,7 +32,7 @@ public class ArtPlaced : MonoBehaviour {
             for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
             {
                 GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
-                obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
+	                obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
                 obj.GetComponent<WallPlane>().SetId(i);
                 PlaceArt(i);
             }
@@ -113,15 +116,23 @@ public class ArtPlaced : MonoBehaviour {
 						break;
 					}					
 				}
-				if(!hited)print ("Mouse Overflow");
+				dragOut=!hited;
 			}
 		} else {
 			if(selected!=null){
+				print ("Deselect");
 				GameObject sel = GameObject.Find(selected);
-				Renderer rend = sel.transform.GetComponent<Renderer> ();
 				int areaId = sel.GetComponent<DragArtWork>().areaId;
 				int artWorkId = sel.GetComponent<DragArtWork>().artWorkId;
-				Data.Instance.areaData.areas[areaId].artworks[artWorkId].position = rend.material.mainTextureOffset;
+				if(dragOut){
+					print ("Destroy");
+					Data.Instance.areaData.areas[areaId].artworks.RemoveAt(artWorkId);
+					GameObject.Find ("CreatedPlane_" + areaId).GetComponent<WallPlane>().artWorkNumber--;
+					Destroy(sel);
+				}else{
+					Renderer rend = sel.transform.GetComponent<Renderer> ();
+					Data.Instance.areaData.areas[areaId].artworks[artWorkId].position = rend.material.mainTextureOffset;
+				}
 				selected=null;
 			}
 		}
@@ -219,6 +230,9 @@ public class ArtPlaced : MonoBehaviour {
 
 				int w = Data.Instance.areaData.areas[n].artworks[i].width;
 				int h = Data.Instance.areaData.areas[n].artworks[i].height;
+				float aspect = 1f*Data.Instance.areaData.areas[n].artworks[i].texture.width/Data.Instance.areaData.areas[n].artworks[i].texture.height;
+				h=h==0?100:h;
+				w=w==0?(int)(h*aspect):w;
 				//artWork.GetComponent<Renderer> ().material.SetTextureScale("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,new Vector2(0.5f*aW/w,0.5f*aH/h));
 				artWork.GetComponent<Renderer> ().material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
 				//area.GetComponent<Homography> ().SetHomography (artWork.name);
@@ -245,6 +259,9 @@ public class ArtPlaced : MonoBehaviour {
 
 			int w = (int)Data.Instance.artData.selectedArtWork.size.x;
 			int h = (int)Data.Instance.artData.selectedArtWork.size.y;
+			float aspect = 1f*Data.Instance.lastArtTexture.width/Data.Instance.lastArtTexture.height;
+			h=h==0?100:h;
+			w=w==0?(int)(h*aspect):w;
 			Data.Instance.areaData.areas[n].AddArtWork(w,h,Data.Instance.lastArtTexture);
 			Texture2D tex = new Texture2D(Data.Instance.lastArtTexture.width*2,Data.Instance.lastArtTexture.height*2);
 			tex.wrapMode = TextureWrapMode.Clamp;
@@ -269,6 +286,9 @@ public class ArtPlaced : MonoBehaviour {
 			rend.material.mainTextureOffset = offset;
 
 			Data.Instance.areaData.areas[n].artworks[area.GetComponent<WallPlane> ().artWorkNumber].position = offset;
+
+			/*Sprite sprite = Thumb.GetComponent<Sprite>();
+			sprite = Sprite.Create(tex, new Rect(0, 0, w, h), Vector2.zero);*/
 
 			//artWork.GetComponent<Renderer> ().material.mainTextureOffset = new Vector2();
 			//artWork.GetComponent<Renderer> ().material.t
