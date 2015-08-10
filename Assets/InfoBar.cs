@@ -17,16 +17,4 @@ public class InfoBar : MonoBehaviour {
         field.text += "Sizes: " + Data.Instance.artData.selectedArtWork.size + "\n";
         field.text += "Technique: " + Data.Instance.artData.selectedArtWork.technique + "\n";
     }
-    //public void SetOn()
-    //{
-    //    anim.Play("InfoBarOn");
-    //    infoOnButton.gameObject.SetActive(false);
-    //    infoOffButton.gameObject.SetActive(true);
-    //}
-    //public void SetOff()
-    //{
-    //    infoOnButton.gameObject.SetActive(true);
-    //    infoOffButton.gameObject.SetActive(false);
-    //    anim.Play("InfoBarOff");
-    //}
 }

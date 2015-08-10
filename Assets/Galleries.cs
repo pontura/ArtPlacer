@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Galleries : MonoBehaviour {
 
+    public GalleryButton favouritesButton;
     public GalleryButton galleryButton;
     public ScrollLimit scrollLimit;
     public GameObject buttonsContainer;
@@ -20,6 +21,7 @@ public class Galleries : MonoBehaviour {
             AddThumb(data.title, "");
         }
         if (separationY > 3) scrollLimit.SetMaxScroll(100);
+        favouritesButton.Init(this, -1, "MY FAVOURITES (" + Data.Instance.artData.favorites.Count + ")", "");
     }
     private int id = 0;
     private void AddThumb(string _title, string url)

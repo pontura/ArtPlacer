@@ -15,11 +15,20 @@ public class GalleryButton : MonoBehaviour {
             OnSelected(galleries, id);
         });
 
-        ArtData.GalleryData gallertData = Data.Instance.artData.galleries[id];
-        string url = gallertData.artWorksData[0].url;
-        if (url.Length > 6)
+        ArtData.GalleryData.ArtData artData = null;
+
+        if (id == -1 && Data.Instance.artData.favorites.Count>0)
+            artData = Data.Instance.artData.GetArtData(Data.Instance.artData.favorites[0].galleryId, Data.Instance.artData.favorites[0].artId);
+        else  if (id > -1)
+            artData = Data.Instance.artData.GetArtData(id, 0);
+
+        if (artData != null)
         {
-            StartCoroutine(LoadThumb(url));
+            string url = artData.url;
+            if (url.Length > 6)
+            {
+                StartCoroutine(LoadThumb(url));
+            }
         }
     }
     public void OnSelected(Galleries galleries, int id)

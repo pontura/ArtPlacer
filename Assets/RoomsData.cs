@@ -43,7 +43,7 @@ public class RoomsData : MonoBehaviour {
 
             if (roomData != "" && roomData != null)
             {
-                print("room_" + id + "   ---->  " + roomData);
+              //  print("room_" + id + "   ---->  " + roomData);
                 Room room = new Room();
 
                 string[] result = roomData.Split(":"[0]);
@@ -56,7 +56,7 @@ public class RoomsData : MonoBehaviour {
                 foreach (string area in areas)
                 {
                     string[] res = area.Split("_"[0]);
-                    print("area: " + area);
+                   // print("area: " + area);
                     if (res.Length > 1)
                     {
                         RoomArea roomArea = new RoomArea();
