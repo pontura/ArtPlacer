@@ -5,7 +5,7 @@ using System.IO;
 
 public class ArtPlaced : MonoBehaviour {
 
-	//public GameObject CreatedPlane;
+	public GameObject CreatedPlane;
 
     public Animation tooltipAddArt;
     public GameObject buttonAddArt;
@@ -24,16 +24,16 @@ public class ArtPlaced : MonoBehaviour {
 
         tooltipAddArt.gameObject.SetActive(false);
 
-        //if (Data.Instance.areaData.areas.Count > 0)
-        //{
-        //    for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
-        //    {
-        //        GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
-        //        obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
-        //        obj.GetComponent<WallPlane>().SetId(i);
-        //        PlaceArt(i);
-        //    }
-        //}
+        if (Data.Instance.areaData.areas.Count > 0)
+        {
+            for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
+            {
+                GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
+                obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
+                obj.GetComponent<WallPlane>().SetId(i);
+                PlaceArt(i);
+            }
+        }
 
 
 		foreach (Camera c in Camera.allCameras) {
@@ -86,6 +86,7 @@ public class ArtPlaced : MonoBehaviour {
 				GameObject sel = GameObject.Find(selected);
 				RaycastHit[] hits;
 				hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);
+				bool hited = false;
 				
 				for (int i = 0; i < hits.Length; i++) {
 					if(hits[i].collider.name==selected){
@@ -94,11 +95,25 @@ public class ArtPlaced : MonoBehaviour {
 						Vector2 scale = new Vector2(1/rend.material.mainTextureScale.x,1/rend.material.mainTextureScale.y);
 						Vector2 pixelUV = 0.5f*(scale)-hit.textureCoord;
 						Vector2 offset = new Vector2(pixelUV.x*rend.material.mainTextureScale.x,pixelUV.y*rend.material.mainTextureScale.y);
+						if(hit.textureCoord.x-0.25f*scale.x<0f){
+							print ("Overflow Left");
+						}else if(hit.textureCoord.x+0.25f*scale.x>1f){
+							print ("Overflow Right");
+						}
+						
+						if(hit.textureCoord.y-0.25f*scale.y<0f){
+							print ("Overflow Bottom");
+						}else if(hit.textureCoord.y+0.25f*scale.y>1f){
+							print ("Overflow Top");
+						}
+
 						rend.material.mainTextureOffset = offset;
+						//print ("Hit: "+hit.textureCoord+" Scale: "+scale+" pixelUV: "+pixelUV+" Offset: "+offset);
+						hited = true;
 						break;
 					}					
 				}
-
+				if(!hited)print ("Mouse Overflow");
 			}
 		} else {
 			if(selected!=null){
