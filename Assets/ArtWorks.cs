@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class ArtWorks : MonoBehaviour
 {
+    public Text title;
     public ThumbImage button;
     public GameObject container;
     public ScrollLimit scrollLimit;
@@ -22,6 +23,8 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
+        title.text = Data.Instance.artData.GetCurrentGallery().title;
+
         thumbSize += separation;
 
        foreach (ArtData.GalleryData.ArtData data in Data.Instance.artData.galleries[Data.Instance.artData.selectedGallery].artWorksData)

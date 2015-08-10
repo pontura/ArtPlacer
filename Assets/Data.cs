@@ -47,7 +47,7 @@ public class Data : MonoBehaviour
 //    }
     public void LoadLevel(string aLevelName)
     {
-        LoadLevel(aLevelName, 0.1f, 0.1f, Color.black);
+        LoadLevel(aLevelName, 0.01f, 0.01f, Color.black);
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
     {

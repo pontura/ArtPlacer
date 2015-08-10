@@ -28,6 +28,9 @@ public class ArtData : MonoBehaviour {
 
         } 
 
-    }       
-
+    }
+    public GalleryData GetCurrentGallery()
+    {
+        return galleries[selectedGallery];
+    }
 }

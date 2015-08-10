@@ -24,10 +24,10 @@ public class Fade : MonoBehaviour
     {
         graphicRaycaster.enabled = true;
         float t = 0;
-		while (t < 1)
+        while (t < 1)
 		{
 			yield return new WaitForEndOfFrame();
-			t+=Time.deltaTime;
+            t += Time.deltaTime + aFadeOutTime;
 			masker.color = new Color(0,0,0,t);
 		}
 
@@ -38,7 +38,7 @@ public class Fade : MonoBehaviour
 		while (t > 0f)
 		{
 			yield return new WaitForEndOfFrame();
-			t-=Time.deltaTime;
+            t -= Time.deltaTime + aFadeInTime;
 			masker.color = new Color(0,0,0,t);
 		}
         graphicRaycaster.enabled = false;
