@@ -24,7 +24,7 @@ public class Fade : MonoBehaviour
     {
         graphicRaycaster.enabled = true;
         float t = 0;
-		while (t < 1)
+		while (t < 1f)
 		{
 			yield return new WaitForEndOfFrame();
 			t+=Time.deltaTime;
