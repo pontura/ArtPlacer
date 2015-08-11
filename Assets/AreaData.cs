@@ -16,6 +16,7 @@ public class AreaData : MonoBehaviour {
 		public float width;
         public float height;
 		public List<ArtWork> artworks;
+		public int artworkIDCount;
 
 		public Area(){
 			pointers = new Vector3[4];
@@ -40,6 +41,7 @@ public class AreaData : MonoBehaviour {
 		public int width;
 		public int height;
 		public Texture2D texture;
+		public int id;
 		
 		public ArtWork(int w, int h, Texture2D tex){
 			width = w;

@@ -56,6 +56,11 @@ public class WallPlane : MonoBehaviour {
 		//RedrawLine ();
 	
 	}
+
+	public void EnableAreaCollider(){
+		area.GetComponent<MeshCollider> ().enabled = true;
+		area.GetComponent<MeshCollider> ().sharedMesh = area.GetComponent<MeshFilter> ().mesh;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -92,6 +97,8 @@ public class WallPlane : MonoBehaviour {
 							
 							vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
 							mesh.vertices = vertex;
+							if(area.GetComponent<MeshCollider>()!=null)area.GetComponent<MeshCollider>().sharedMesh = mesh;
+
 							//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
 							//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
 							rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);						
@@ -110,6 +117,7 @@ public class WallPlane : MonoBehaviour {
 						//vertex[select] = areaPos;						
 						vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
 						mesh.vertices = vertex;
+						if(area.GetComponent<MeshCollider>()!=null)area.GetComponent<MeshCollider>().sharedMesh = mesh;
 						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);
 						//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
 						//RedrawLine();					
