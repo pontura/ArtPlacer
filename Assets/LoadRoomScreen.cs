@@ -22,5 +22,9 @@ public class LoadRoomScreen : MonoBehaviour {
         Data.Instance.roomsData.type = RoomsData.types.LOCAL;
         Data.Instance.LoadLevel("SavedPhotoBrowser");
     }
+    public void Back()
+    {
+        Data.Instance.Back();
+    }
 }
 

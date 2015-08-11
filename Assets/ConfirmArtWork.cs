@@ -23,7 +23,10 @@ public class ConfirmArtWork : MonoBehaviour {
     }
     public void Confirm()
     {
-        Data.Instance.LoadLevel("ArtPlaced");
+        if (Data.Instance.lastPhotoTexture == null)
+            Data.Instance.LoadLevel("LoadRoom");
+        else
+            Data.Instance.LoadLevel("ArtPlaced");
     }
     public void Back()
     {

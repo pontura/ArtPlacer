@@ -95,5 +95,21 @@ public class AreaData : MonoBehaviour {
 
         GetComponent<RoomsData>().ReadRoomsData();
     }
+    public int CountWalls()
+    {
+        int num = 0;
+        foreach (Area area in areas)
+            num++;
+        return num;
+    }
+    public int CountArtPlaced()
+    {
+        int num = 0;
+        foreach (Area area in areas)
+            foreach (ArtWork art in area.artworks)
+                num++;
+
+        return num;
+    }
 
 }

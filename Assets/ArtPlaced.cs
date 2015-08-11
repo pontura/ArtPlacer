@@ -49,7 +49,11 @@ public class ArtPlaced : MonoBehaviour {
 				break;
 			}
 		}
-        if(Data.Instance.lastArtTexture == null)
+        CheckOpenHelp();       
+    }
+    void CheckOpenHelp()
+    {
+        if (Data.Instance.areaData.CountArtPlaced() == 0 && Data.Instance.lastArtTexture == null)
             Invoke("startTooltip", 0.5f);
         else buttonAddArt.GetComponent<Animation>().Stop();
     }

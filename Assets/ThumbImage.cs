@@ -7,6 +7,15 @@ public class ThumbImage : MonoBehaviour {
     private Sprite sprite;
     private Texture2D texture2d;
 
+    public void Init(Footer footer, string url, int id)
+    {
+        StartCoroutine(RealLoadRoomImage(url));
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            OnSelected(footer, id);
+        });
+    }
+
     public void InitRoom(SavedPhotoBrowser savedPhotoBrowser, string url, int id)
     {
         StartCoroutine(RealLoadRoomImage(url));
@@ -75,9 +84,14 @@ public class ThumbImage : MonoBehaviour {
         result.Apply();
         return result;
     }
+    public void OnSelected(Footer footer, int id)
+    {
+        if (sprite)
+            Data.Instance.lastArtTexture = sprite.texture;
+        footer.OnSelect(id);
+    }
     public void OnSelected(ArtWorks artWorks, int id)
     {
-        print(artWorks + " _ " + id);
         if(sprite)
              Data.Instance.lastArtTexture = sprite.texture;
         artWorks.OnSelect(id);

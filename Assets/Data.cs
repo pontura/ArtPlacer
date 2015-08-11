@@ -45,8 +45,16 @@ public class Data : MonoBehaviour
 //#endif
 //        return rawImage;
 //    }
+
+    public void Back()
+    {
+        if (lastScene != "")
+        LoadLevel(lastScene);
+    }
+    string lastScene = "";
     public void LoadLevel(string aLevelName)
     {
+        lastScene = Application.loadedLevelName;
         LoadLevel(aLevelName, 0.01f, 0.01f, Color.black);
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
@@ -140,4 +148,5 @@ public class Data : MonoBehaviour
         Application.LoadLevel("Intro");
         Destroy(gameObject);
     }
+    
 }
