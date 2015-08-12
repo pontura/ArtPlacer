@@ -12,10 +12,6 @@ public class ArtPlaced : MonoBehaviour {
     public GameObject buttonAddArt;
 
 	public GameObject bg;
-	public GameObject edit;
-	public GameObject addArtwork;
-	public GameObject preview;
-	public GameObject back;
 
 	Camera cam;
 	
@@ -200,10 +196,6 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void Back(){
 		bg.gameObject.SetActive(true);
-		edit.gameObject.SetActive(true);
-		addArtwork.gameObject.SetActive(true);
-		preview.gameObject.SetActive(true);
-		back.gameObject.SetActive(false);
 
 		if (Data.Instance.areaData.areas.Count > 0){
 			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
@@ -221,10 +213,6 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void Preview(){
 		bg.gameObject.SetActive(false);
-		edit.gameObject.SetActive(false);
-		addArtwork.gameObject.SetActive(false);
-		preview.gameObject.SetActive(false);
-		back.gameObject.SetActive(true);
 
 		if (Data.Instance.areaData.areas.Count > 0){
 			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
