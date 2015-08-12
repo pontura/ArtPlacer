@@ -2,19 +2,29 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ThumbImage : MonoBehaviour {
+public class ThumbImage : MonoBehaviour{
 
     private Sprite sprite;
     private Texture2D texture2d;
+	Footer footer;
+	int id;
 
-    public void Init(Footer footer, string url, int id)
+    public void Init(Footer _footer, string url, int _id)
     {
         StartCoroutine(RealLoadRoomImage(url));
-        GetComponent<Button>().onClick.AddListener(() =>
+		footer = _footer;
+		id=_id;
+        /*GetComponent<Button>().OnClick.AddListener(() =>
         {
+			print("aca");
             OnSelected(footer, id);
-        });
+        });*/
     }
+
+	public void OnPointerDown()
+	{
+		OnSelected(footer, id);
+	}
 
     public void InitRoom(SavedPhotoBrowser savedPhotoBrowser, string url, int id)
     {
@@ -86,8 +96,10 @@ public class ThumbImage : MonoBehaviour {
     }
     public void OnSelected(Footer footer, int id)
     {
-        if (sprite)
-            Data.Instance.lastArtTexture = sprite.texture;
+        if (sprite) {
+			Data.Instance.lastArtTexture = sprite.texture;
+			Events.OnSelectFooterArtwork();
+		}
         footer.OnSelect(id);
     }
     public void OnSelected(ArtWorks artWorks, int id)

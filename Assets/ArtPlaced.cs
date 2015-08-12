@@ -21,10 +21,13 @@ public class ArtPlaced : MonoBehaviour {
 	
 	string selected = null;
 	GameObject thumbClone;
+	SpriteRenderer thumbRenderer;
 
 	bool dragOut = false;
 	
 	void Start () {
+
+		Events.OnSelectFooterArtwork += AddFromFooter;
 
         tooltipAddArt.gameObject.SetActive(false);
 
@@ -49,7 +52,8 @@ public class ArtPlaced : MonoBehaviour {
 				break;
 			}
 		}
-        CheckOpenHelp();       
+        CheckOpenHelp();  
+
     }
     void CheckOpenHelp()
     {
@@ -67,120 +71,131 @@ public class ArtPlaced : MonoBehaviour {
 	void Update() {
 
 		if (Input.GetButton ("Fire1")) {
-			Ray ray = cam.ScreenPointToRay (Input.mousePosition);
+
 			if (selected == null) {
-				RaycastHit[] hits;
-				hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);
-		
-				for (int i = 0; i < hits.Length; i++) {
-					RaycastHit hit = hits [i];			
-					Renderer rend = hit.transform.GetComponent<Renderer> ();
-
-					if (rend == null || rend.material.mainTexture == null)
-						return;
-
-					Texture2D tex = rend.material.mainTexture as Texture2D;
-					Vector2 pixelUV = hit.textureCoord;
-					//print (rend.material.mainTextureOffset.x);
-					pixelUV.x *= tex.width * rend.material.mainTextureScale.x;
-					pixelUV.x += tex.width * rend.material.mainTextureOffset.x;
-					//print (pixelUV.x);
-					pixelUV.y *= tex.height * rend.material.mainTextureScale.y;
-					pixelUV.y += tex.height * rend.material.mainTextureOffset.y;
-					if (tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y).a == 1) {
-						//print (hit.collider.name+" Selected, RGBA: "+tex.GetPixel((int)pixelUV.x,(int)pixelUV.y));
-						selected = hit.collider.name;
-
-						int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
-						int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;
-
-						Texture2D t = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;
-
-						thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(areaId), Quaternion.identity) as GameObject;
-						thumbClone.name = "thumb_"+selected;
-						thumbClone.GetComponent<SpriteRenderer>().sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
-						thumbClone.GetComponent<SpriteRenderer>().enabled = false;
-						break;
-					}					
-				}
+				SelectArtwork2Drag();
 			} else {
 				GameObject sel = GameObject.Find(selected);
+				Ray ray = cam.ScreenPointToRay (Input.mousePosition);
 				RaycastHit[] hits;
 				hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);
-				bool hited = false;
-				
+				bool hited = false;				
 				for (int i = 0; i < hits.Length; i++) {
 					if(hits[i].collider.name==selected){
-						//Debug.Log (hits[i].collider.name);
-						RaycastHit hit = hits [i];
-						Renderer rend = hit.transform.GetComponent<Renderer> ();
-						Vector2 scale = new Vector2(1/rend.material.mainTextureScale.x,1/rend.material.mainTextureScale.y);
-						Vector2 pixelUV = 0.5f*(scale)-hit.textureCoord;
-						Vector2 offset = new Vector2(pixelUV.x*rend.material.mainTextureScale.x,pixelUV.y*rend.material.mainTextureScale.y);
-						//if(hit.textureCoord.x-0.25f*scale.x>0f&&hit.textureCoord.x+0.25f*scale.x<1f&&hit.textureCoord.y-0.25f*scale.y>0f&&hit.textureCoord.y+0.25f*scale.y<1f){
-						if(hit.textureCoord.x>0f&&hit.textureCoord.x<1f&&hit.textureCoord.y>0f&&hit.textureCoord.y<1f){
-							thumbClone.GetComponent<SpriteRenderer>().enabled = false;
-							hits[i].collider.GetComponent<MeshRenderer>().enabled=true;
-						}else{
-							thumbClone.GetComponent<SpriteRenderer>().enabled = true;
-							hits[i].collider.GetComponent<MeshRenderer>().enabled=false;
-						}
-
-						rend.material.mainTextureOffset = offset;
-						//print ("Hit: "+hit.textureCoord+" Scale: "+scale+" pixelUV: "+pixelUV+" Offset: "+offset);
+						DragArtWork(hits[i]);
 						hited = true;
 						break;
 					}
-					/*else{
-						Debug.Log (hits[i].collider.name);
-					}*/
 				}
 
 				Vector3 mPos = Input.mousePosition;
 				mPos.z = 1.0f;
 				thumbClone.transform.position = cam.ScreenToWorldPoint(mPos)-thumbClone.transform.localScale;
+
 				dragOut=!hited;
 				if(dragOut){
-					thumbClone.GetComponent<SpriteRenderer>().enabled = true;
+					thumbRenderer.enabled = true;
 					sel.GetComponent<MeshRenderer>().enabled=false;
 				}
 			}
 		} else {
 			if(selected!=null){
 				GameObject sel = GameObject.Find(selected);
-				int areaId = sel.GetComponent<DragArtWork>().areaId;
-				int artWorkId = sel.GetComponent<DragArtWork>().artWorkId;
-				if(dragOut){
-					Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;
-					//Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks[artWorkId].texture;
-					//Data.Instance.areaData.areas[areaId].artworks.RemoveAt(artWorkId);
-					Data.Instance.areaData.areas[areaId].artworks.Remove(Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId));
-					GameObject.Find ("CreatedPlane_" + areaId).GetComponent<WallPlane>().artWorkNumber--;
-					Destroy(sel);
-					Destroy(thumbClone);
-					selected=null;
-					Ray ray = cam.ScreenPointToRay (Input.mousePosition);
-					RaycastHit[] hits;
-					hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);						
-					for (int i = 0; i < hits.Length; i++) {
-						//Debug.Log(hits[i].collider.gameObject.transform.parent);
-						if(hits[i].collider.gameObject.transform.parent.name.Contains("CreatedPlane_")){
-							int newAreaID = hits[i].collider.gameObject.transform.parent.GetComponent<WallPlane>().AreaId;
-							AddArt(newAreaID);
-							break;
-						}
-					}
 
+				if(dragOut){
+					Artwork2Trash(sel);
 				}else{
-					Renderer rend = sel.transform.GetComponent<Renderer> ();
-					//Data.Instance.areaData.areas[areaId].artworks[artWorkId].position = rend.material.mainTextureOffset;
-					Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).position = rend.material.mainTextureOffset;
-					if(!sel.GetComponent<MeshRenderer>().enabled)sel.GetComponent<MeshRenderer>().enabled=true;
-					Destroy(thumbClone);
-					selected=null;
+					SetArtworkPosition(sel);
 				}
 			}
 		}
+	}
+
+	void SelectArtwork2Drag(){
+		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
+		RaycastHit[] hits;
+		hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);
+		
+		for (int i = 0; i < hits.Length; i++) {
+			RaycastHit hit = hits [i];			
+			Renderer rend = hit.transform.GetComponent<Renderer> ();
+			
+			if (rend == null || rend.material.mainTexture == null)
+				return;
+			
+			Texture2D tex = rend.material.mainTexture as Texture2D;
+			Vector2 pixelUV = hit.textureCoord;
+			pixelUV.x *= tex.width * rend.material.mainTextureScale.x;
+			pixelUV.x += tex.width * rend.material.mainTextureOffset.x;
+			pixelUV.y *= tex.height * rend.material.mainTextureScale.y;
+			pixelUV.y += tex.height * rend.material.mainTextureOffset.y;
+			if (tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y).a == 1) {
+				//print (hit.collider.name+" Selected, RGBA: "+tex.GetPixel((int)pixelUV.x,(int)pixelUV.y));
+				selected = hit.collider.name;				
+				int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
+				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;				
+				Texture2D t = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;				
+				thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(areaId), Quaternion.identity) as GameObject;
+				thumbClone.name = "thumb_"+selected;
+				thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
+				thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
+				thumbRenderer.enabled = false;
+				break;
+			}					
+		}
+	}
+
+	void DragArtWork(RaycastHit hit){
+				 
+		Renderer rend = hit.transform.GetComponent<Renderer> ();
+		Vector2 scale = new Vector2(1/rend.material.mainTextureScale.x,1/rend.material.mainTextureScale.y);
+		Vector2 pixelUV = 0.5f*(scale)-hit.textureCoord;
+		Vector2 offset = new Vector2(pixelUV.x*rend.material.mainTextureScale.x,pixelUV.y*rend.material.mainTextureScale.y);
+		//if(hit.textureCoord.x-0.25f*scale.x>0f&&hit.textureCoord.x+0.25f*scale.x<1f&&hit.textureCoord.y-0.25f*scale.y>0f&&hit.textureCoord.y+0.25f*scale.y<1f){
+		if(hit.textureCoord.x>0f&&hit.textureCoord.x<1f&&hit.textureCoord.y>0f&&hit.textureCoord.y<1f){
+			thumbRenderer.enabled = false;
+			hit.collider.GetComponent<MeshRenderer>().enabled=true;
+		}else{
+			thumbRenderer.enabled = true;
+			hit.collider.GetComponent<MeshRenderer>().enabled=false;
+		}		
+		rend.material.mainTextureOffset = offset;
+		//print ("Hit: "+hit.textureCoord+" Scale: "+scale+" pixelUV: "+pixelUV+" Offset: "+offset);
+	}
+
+	void Artwork2Trash(GameObject sel){
+		int areaId = sel.GetComponent<DragArtWork>().areaId;
+		int artWorkId = sel.GetComponent<DragArtWork>().artWorkId;
+		Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;
+		//Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks[artWorkId].texture;
+		//Data.Instance.areaData.areas[areaId].artworks.RemoveAt(artWorkId);
+		Data.Instance.areaData.areas[areaId].artworks.Remove(Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId));
+		GameObject.Find ("CreatedPlane_" + areaId).GetComponent<WallPlane>().artWorkNumber--;
+		Destroy(sel);
+		Destroy(thumbClone);
+		selected=null;
+		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
+		RaycastHit[] hits;
+		hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);						
+		for (int i = 0; i < hits.Length; i++) {
+			//Debug.Log(hits[i].collider.gameObject.transform.parent);
+			if(hits[i].collider.gameObject.transform.parent.name.Contains("CreatedPlane_")){
+				int newAreaID = hits[i].collider.gameObject.transform.parent.GetComponent<WallPlane>().AreaId;
+				AddArt(newAreaID);
+				break;
+			}
+		}
+	}
+
+	void SetArtworkPosition(GameObject sel){
+		int areaId = sel.GetComponent<DragArtWork> ().areaId;
+		int artWorkId = sel.GetComponent<DragArtWork> ().artWorkId;
+		Renderer rend = sel.transform.GetComponent<Renderer> ();
+		//Data.Instance.areaData.areas[areaId].artworks[artWorkId].position = rend.material.mainTextureOffset;
+		Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).position = rend.material.mainTextureOffset;
+		if(!sel.GetComponent<MeshRenderer>().enabled)sel.GetComponent<MeshRenderer>().enabled=true;
+		Destroy(thumbClone);
+		selected=null;
 	}
 
 	public void Back(){
@@ -235,6 +250,19 @@ public class ArtPlaced : MonoBehaviour {
 	public void EditWalls()
 	{
 		Data.Instance.LoadLevel("Walls");
+	}
+
+	public void AddFromFooter(){
+		if (Data.Instance.areaData.areas.Count > 0) {
+			selected = "ArtWork_" + 0 + "_" + Data.Instance.areaData.areas[0].artworkIDCount;
+			thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(0), Quaternion.identity) as GameObject;
+			thumbClone.name = "thumb_"+selected;
+			thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
+			Texture2D t = Data.Instance.lastArtTexture;				
+			thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
+			AddArt (0);
+
+		}
 	}
 
 	void PlaceArt(int n){
@@ -356,5 +384,10 @@ public class ArtPlaced : MonoBehaviour {
 		area.GetComponent<WallPlane> ().artWorkNumber++;
 		Data.Instance.areaData.areas [n].artworkIDCount++;
 	}
+	void OnDestroy()
+	{
+		Events.OnSelectFooterArtwork -= AddFromFooter;
+	}
+
 }
 
