@@ -19,9 +19,7 @@ public class Walls : MonoBehaviour {
         tooltipAddWall.gameObject.SetActive(false);
         tooltipSelectWall.gameObject.SetActive(false);
         tooltipFitEdges.gameObject.SetActive(false);
-
-        print("Data.Instance.areaData.areas.Count: " + Data.Instance.areaData.areas.Count);
-
+        
         if (Data.Instance.areaData.areas.Count > 0)
 			Started();
 		else
@@ -29,7 +27,7 @@ public class Walls : MonoBehaviour {
 
         Events.OnNumWallsChanged += OnNumWallsChanged;
         Events.OnWallEdgeSelected += OnNumWallsChanged;
-	}
+    }
     void OnDestroy()
     {
         Events.OnNumWallsChanged -= OnNumWallsChanged;

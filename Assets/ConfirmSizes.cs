@@ -11,31 +11,40 @@ public class ConfirmSizes : MonoBehaviour {
 
     public List<SizeSignal> sizeSignals;
 
+    private int areaActiveID;
+    private SizeSignal newSizeSignal;
+
 
     void Start()
     {
         tooltipSizes.gameObject.SetActive(false);
 
-        if (Data.Instance.areaData.areas.Count > 0)
-        {
-            int id = 0;
-            for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
-            {
-                float _x = Data.Instance.areaData.areas[i].position.x;
-                float _y = Data.Instance.areaData.areas[i].position.y;              
+        areaActiveID = 0;
 
-                SizeSignal newSizeSignal = Instantiate(sizeSignal);
-                newSizeSignal.id = id;
-                newSizeSignal.transform.SetParent(container.transform);
-                newSizeSignal.transform.localPosition = new Vector3(_x * 250, _y * 250, 0);
-                newSizeSignal.transform.localScale = Vector3.one;
-                newSizeSignal.Init(Data.Instance.areaData.areas[i].width, Data.Instance.areaData.areas[i].height);
-                sizeSignals.Add(newSizeSignal);
-				
-				id++;
-			}
-		}
+        //if (Data.Instance.areaData.areas.Count > 0)
+        AddConfirmSizes(Data.Instance.areaData.areas[0]);
+
         Invoke("startTooltip", 0.5f);
+    }
+    void AddConfirmSizes(AreaData.Area area)
+    {
+        
+     //   float _x = Data.Instance.areaData.areas[areaActiveID].position.x;
+     //   float _y = Data.Instance.areaData.areas[areaActiveID].position.y;
+
+        newSizeSignal = Instantiate(sizeSignal);
+        newSizeSignal.id = areaActiveID;
+        newSizeSignal.transform.SetParent(container.transform);
+        newSizeSignal.transform.localPosition = new Vector3(0,0,0);
+        newSizeSignal.transform.localScale = Vector3.one;
+        newSizeSignal.Init(Data.Instance.areaData.areas[areaActiveID].width, Data.Instance.areaData.areas[areaActiveID].height);
+        sizeSignals.Add(newSizeSignal);
+
+        Invoke("SelectArea", 0.1f);
+    }
+    void SelectArea()
+    {
+        GetComponent<WallCreator>().SelectArea(areaActiveID);
     }
     void startTooltip()
     {
@@ -50,13 +59,25 @@ public class ConfirmSizes : MonoBehaviour {
     {
         foreach (SizeSignal sizeSignal in sizeSignals)
         {
+
             Data.Instance.areaData.areas[sizeSignal.id].height = sizeSignal.GetHeight();
             Data.Instance.areaData.areas[sizeSignal.id].width = sizeSignal.GetWidth();
         }
 		
 		Events.SaveAreas();
         Data.Instance.areaData.Save();
-        Data.Instance.LoadLevel("ArtPlaced");
+
+        areaActiveID++;
+
+        if (Data.Instance.areaData.areas.Count > areaActiveID)
+        {
+            Destroy(newSizeSignal);
+            AddConfirmSizes(Data.Instance.areaData.areas[areaActiveID]);
+        }
+        else
+        {
+            Data.Instance.LoadLevel("ArtPlaced");
+        }
     }
 
 }

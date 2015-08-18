@@ -5,6 +5,7 @@ using System.IO;
 
 public class ArtPlaced : MonoBehaviour {
 
+    private int defaultHeight = 50;
 	public GameObject CreatedPlane;
 	public GameObject Thumb;
 
@@ -296,7 +297,7 @@ public class ArtPlaced : MonoBehaviour {
 				int w = Data.Instance.areaData.areas[n].artworks[i].width;
 				int h = Data.Instance.areaData.areas[n].artworks[i].height;
 				float aspect = 1f*Data.Instance.areaData.areas[n].artworks[i].texture.width/Data.Instance.areaData.areas[n].artworks[i].texture.height;
-				h=h==0?100:h;
+				h=h==0?defaultHeight:h;
 				w=w==0?(int)(h*aspect):w;
 				//artWork.GetComponent<Renderer> ().material.SetTextureScale("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,new Vector2(0.5f*aW/w,0.5f*aH/h));
 				artWork.GetComponent<Renderer> ().material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
@@ -335,7 +336,7 @@ public class ArtPlaced : MonoBehaviour {
 		int w = (int)Data.Instance.artData.selectedArtWork.size.x;
 		int h = (int)Data.Instance.artData.selectedArtWork.size.y;
 		float aspect = 1f*Data.Instance.lastArtTexture.width/Data.Instance.lastArtTexture.height;
-		h=h==0?100:h;
+        h = h == 0 ? defaultHeight : h;
 		w=w==0?(int)(h*aspect):w;
 		Data.Instance.areaData.areas[n].AddArtWork(w,h,Data.Instance.lastArtTexture);
 		Texture2D tex = new Texture2D(Data.Instance.lastArtTexture.width*2,Data.Instance.lastArtTexture.height*2);
