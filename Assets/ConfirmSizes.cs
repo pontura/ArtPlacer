@@ -59,7 +59,6 @@ public class ConfirmSizes : MonoBehaviour {
     {
         foreach (SizeSignal sizeSignal in sizeSignals)
         {
-
             Data.Instance.areaData.areas[sizeSignal.id].height = sizeSignal.GetHeight();
             Data.Instance.areaData.areas[sizeSignal.id].width = sizeSignal.GetWidth();
         }
