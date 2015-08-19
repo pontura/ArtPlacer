@@ -48,10 +48,12 @@ public class Footer : MonoBehaviour {
     {
         anim.Play("FooterOff");
         closeFooter.SetActive(true);
+		Events.ArtworkPreview (false);
     }
     public void Open()
     {
         closeFooter.SetActive(false);
         anim.Play("FooterOn");
+		Events.ArtworkPreview (true);
     }
 }

@@ -28,8 +28,11 @@ public class WallCreator : MonoBehaviour {
                 createdPlanes.Add(obj.GetComponent<WallPlane>());
             }
         }
-        foreach (WallPlane wallPlanes in createdPlanes)
-            wallPlanes.area.GetComponent<MeshRenderer>().material = UnselectedMaterial;
+        foreach (WallPlane wallPlanes in createdPlanes) {
+			wallPlanes.EnableAreaCollider (true);
+			wallPlanes.EnableMoveArea (true);
+			wallPlanes.area.GetComponent<MeshRenderer> ().material = UnselectedMaterial;
+		}
     }
     public void SelectAllAreas()
     {

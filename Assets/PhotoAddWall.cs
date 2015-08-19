@@ -39,10 +39,13 @@ public class PhotoAddWall : MonoBehaviour {
 				//GameObject obj = Instantiate (sector, new Vector3 (0, 0, 10), Quaternion.identity) as GameObject;
 
                 obj.transform.SetParent(gameContainer.transform);
+				WallPlane wp = obj.GetComponent<WallPlane>();
 
 				add=false;
                 numWalls++;
-				obj.GetComponent<WallPlane>().SetId(-1*numWalls);
+				wp.SetId(-1*numWalls);
+				wp.EnableAreaCollider(true);
+				wp.EnableMoveArea(true);
                 Events.OnNumWallsChanged(numWalls);
 			}
 		}		

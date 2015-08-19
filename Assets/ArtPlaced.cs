@@ -17,6 +17,8 @@ public class ArtPlaced : MonoBehaviour {
 	Camera cam;
 	
 	string selected = null;
+	GameObject selectedArtwork;
+	GameObject[] areas;
 	GameObject thumbClone;
 	SpriteRenderer thumbRenderer;
 
@@ -25,19 +27,23 @@ public class ArtPlaced : MonoBehaviour {
 	void Start () {
 
 		Events.OnSelectFooterArtwork += AddFromFooter;
+		Events.ArtworkPreview += Preview;
 
         tooltipAddArt.gameObject.SetActive(false);
 
         if (Data.Instance.areaData.areas.Count > 0)
         {
+			areas = new GameObject[Data.Instance.areaData.areas.Count];
             for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
             {
                 GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
-				obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
-				obj.GetComponent<WallPlane>().EnableAreaCollider();
-				//obj.GetComponent<WallPlane>().area.GetComponent<MeshCollider>().sharedMesh = mesh;
-                obj.GetComponent<WallPlane>().SetId(i);
+				WallPlane wp = obj.GetComponent<WallPlane>();
+				wp.area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
+				wp.EnableAreaCollider(true);
+				//wp.area.GetComponent<MeshCollider>().sharedMesh = mesh;
+                wp.SetId(i);
 				Data.Instance.areaData.areas[i].artworkIDCount = 0;
+				areas[i] = obj;
                 PlaceArt(i);
             }
         }
@@ -72,7 +78,6 @@ public class ArtPlaced : MonoBehaviour {
 			if (selected == null) {
 				SelectArtwork2Drag();
 			} else {
-				GameObject sel = GameObject.Find(selected);
 				Ray ray = cam.ScreenPointToRay (Input.mousePosition);
 				RaycastHit[] hits;
 				hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);
@@ -92,17 +97,15 @@ public class ArtPlaced : MonoBehaviour {
 				dragOut=!hited;
 				if(dragOut){
 					thumbRenderer.enabled = true;
-					sel.GetComponent<MeshRenderer>().enabled=false;
+					selectedArtwork.GetComponent<MeshRenderer>().enabled=false;
 				}
 			}
 		} else {
 			if(selected!=null){
-				GameObject sel = GameObject.Find(selected);
-
 				if(dragOut){
-					Artwork2Trash(sel);
+					Artwork2Trash(selectedArtwork);
 				}else{
-					SetArtworkPosition(sel);
+					SetArtworkPosition(selectedArtwork);
 				}
 			}
 		}
@@ -128,7 +131,8 @@ public class ArtPlaced : MonoBehaviour {
 			pixelUV.y += tex.height * rend.material.mainTextureOffset.y;
 			if (tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y).a == 1) {
 				//print (hit.collider.name+" Selected, RGBA: "+tex.GetPixel((int)pixelUV.x,(int)pixelUV.y));
-				selected = hit.collider.name;				
+				selected = hit.collider.name;
+				selectedArtwork = hit.collider.gameObject;
 				int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
 				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;				
 				Texture2D t = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;				
@@ -167,7 +171,8 @@ public class ArtPlaced : MonoBehaviour {
 		//Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks[artWorkId].texture;
 		//Data.Instance.areaData.areas[areaId].artworks.RemoveAt(artWorkId);
 		Data.Instance.areaData.areas[areaId].artworks.Remove(Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId));
-		GameObject.Find ("CreatedPlane_" + areaId).GetComponent<WallPlane>().artWorkNumber--;
+		//Debug.Log ("Parent: " + sel.transform.parent.gameObject.name);
+		sel.transform.parent.gameObject.GetComponent<WallPlane>().artWorkNumber--;
 		Destroy(sel);
 		Destroy(thumbClone);
 		selected=null;
@@ -195,39 +200,13 @@ public class ArtPlaced : MonoBehaviour {
 		selected=null;
 	}
 
-	public void Back(){
-		bg.gameObject.SetActive(true);
-
+	public void Preview(bool enable){
+		bg.gameObject.SetActive(enable);
 		if (Data.Instance.areaData.areas.Count > 0){
 			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
-				GameObject area = GameObject.Find ("CreatedPlane_" + i);
-				area.GetComponent<WallPlane>().area.gameObject.SetActive(true);				
-				/*if (Data.Instance.areaData.areas[i].artworks.Count > 0) {				
-					for (int j=0; j<Data.Instance.areaData.areas[i].artworks.Count; j++) {
-						print ("Cursor_ArtWork_" + i +"_"+j);
-						GameObject.Find ("Cursor_ArtWork_" + i +"_"+j).GetComponent<MeshRenderer>().enabled = true;
-					}
-				}*/
+				areas[i].GetComponent<WallPlane>().area.gameObject.SetActive(enable);				
 			}
 		}
-	}
-
-	public void Preview(){
-		bg.gameObject.SetActive(false);
-
-		if (Data.Instance.areaData.areas.Count > 0){
-			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
-				GameObject area = GameObject.Find ("CreatedPlane_" + i);
-				area.GetComponent<WallPlane>().area.gameObject.SetActive(false);				
-				/*if (Data.Instance.areaData.areas[i].artworks.Count > 0) {				
-					for (int j=0; j<Data.Instance.areaData.areas[i].artworks.Count; j++) {
-						print ("Cursor_ArtWork_" + i +"_"+j);
-						GameObject.Find ("Cursor_ArtWork_" + i +"_"+j).GetComponent<MeshRenderer>().enabled = false;
-					}
-				}*/
-			}
-		}
-
 	}
 
 	public void ArtBrowser()
@@ -249,7 +228,7 @@ public class ArtPlaced : MonoBehaviour {
 			thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
 			Texture2D t = Data.Instance.lastArtTexture;				
 			thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
-			AddArt (0);
+			selectedArtwork = AddArt (0);
 
 		}
 	}
@@ -259,7 +238,7 @@ public class ArtPlaced : MonoBehaviour {
         tooltipAddArt.Stop();
         buttonAddArt.GetComponent<Animation>().Stop();
 
-		GameObject area = GameObject.Find ("CreatedPlane_" + n);
+		GameObject area = areas[n];
 		if (Data.Instance.areaData.areas[n].artworks.Count > 0) {
 
 			tooltipAddArt.gameObject.SetActive(false);
@@ -318,9 +297,9 @@ public class ArtPlaced : MonoBehaviour {
 		}
 	}
 
-	void AddArt(int n){
+	GameObject AddArt(int n){
 
-		GameObject area = GameObject.Find ("CreatedPlane_" + n);
+		GameObject area = areas[n];
 		float aW = Data.Instance.areaData.areas[n].width*100;
 		float aH = Data.Instance.areaData.areas[n].height*100;
 		
@@ -372,10 +351,12 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkIDCount;
 		area.GetComponent<WallPlane> ().artWorkNumber++;
 		Data.Instance.areaData.areas [n].artworkIDCount++;
+		return artWork;	
 	}
 	void OnDestroy()
 	{
 		Events.OnSelectFooterArtwork -= AddFromFooter;
+		Events.ArtworkPreview -= Preview;
 	}
 
 }
