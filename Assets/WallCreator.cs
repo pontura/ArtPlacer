@@ -12,6 +12,8 @@ public class WallCreator : MonoBehaviour {
     public Material SelectedMaterial;
     public Material UnselectedMaterial;
 
+	public bool moveAreas = false;
+
     void Start()
     {
         if (Data.Instance.areaData.areas.Count > 0)
@@ -29,8 +31,8 @@ public class WallCreator : MonoBehaviour {
             }
         }
         foreach (WallPlane wallPlanes in createdPlanes) {
-			wallPlanes.EnableAreaCollider (true);
-			wallPlanes.EnableMoveArea (true);
+			wallPlanes.EnableAreaCollider (moveAreas);
+			wallPlanes.EnableMoveArea (moveAreas);
 			wallPlanes.area.GetComponent<MeshRenderer> ().material = UnselectedMaterial;
 		}
     }
