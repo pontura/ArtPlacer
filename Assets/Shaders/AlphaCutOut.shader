@@ -9,12 +9,21 @@ Properties {
 	_Cutoff ("Alpha cutoff", Range(0,1)) = 0.5
 }
 SubShader {
-	Tags {"Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="Transparent"}
+	Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
 	LOD 150
 
 	Lighting Off
 
 	Pass {  
+	 		// Dont write to the depth buffer
+            ZWrite off
+            // Don't write pixels we have already written.
+            ZTest Less
+            // Only render pixels less or equal to the value
+            //AlphaTest LEqual [_Cutoff]
+
+            // Set up alpha blending
+            Blend SrcAlpha OneMinusSrcAlpha
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag			
@@ -46,7 +55,11 @@ SubShader {
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.texcoord);
-				clip(col.a - _Cutoff);				
+				//clip(col.a - _Cutoff);				
+				if(col.a-_Cutoff<0){
+					//discard;
+					col = fixed4(0.0f,0.0f,0.0f,0.0f);
+				}
 				return col;
 			}
 		ENDCG
