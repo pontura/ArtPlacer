@@ -26,12 +26,12 @@ public class ThumbImage : MonoBehaviour{
 		OnSelected(footer, id);
 	}
 
-    public void InitRoom(SavedPhotoBrowser savedPhotoBrowser, string url, int id)
+    public void InitRoom(Rooms rooms, string url, int id)
     {
         StartCoroutine(RealLoadRoomImage(url));
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            OnSelectedRoom(savedPhotoBrowser, id);
+            OnSelectedRoom(rooms, id);
         });
     }
 
@@ -108,11 +108,11 @@ public class ThumbImage : MonoBehaviour{
              Data.Instance.lastArtTexture = sprite.texture;
         artWorks.OnSelect(id);
     }
-    public void OnSelectedRoom(SavedPhotoBrowser savedPhotoBrowser, int id)
+    public void OnSelectedRoom(Rooms rooms, int id)
     {
         if (sprite)
             Data.Instance.lastPhotoTexture = texture2d;
-        savedPhotoBrowser.OnSelect(id);
+        rooms.OnSelect(id);
         texture2d = null;
     }
 }

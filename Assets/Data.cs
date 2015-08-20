@@ -55,7 +55,7 @@ public class Data : MonoBehaviour
     public void LoadLevel(string aLevelName)
     {
         lastScene = Application.loadedLevelName;
-        LoadLevel(aLevelName, 0.01f, 0.01f, Color.black);
+        LoadLevel(aLevelName, 0.005f, 0.005f, Color.black);
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
     {

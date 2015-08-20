@@ -4,21 +4,29 @@ using System.Collections;
 public class ScrollLimit : MonoBehaviour {
 
     public Vector2 limitY;
-    public GameObject container;
-    public RectTransform rectTransform;
+    public RectTransform container;
     private Vector3 initialPos;
+    public bool horizontal;
 
     void Start()
     {
-        initialPos = transform.localPosition;
-        rectTransform = GetComponent<RectTransform>();
+        initialPos = container.anchoredPosition;
     }
 	void Update () {
+        if (horizontal)
+        {
 
-        if (rectTransform.anchoredPosition.y > limitY.x)
-            rectTransform.anchoredPosition = new Vector3(initialPos.x, limitY.x, 0);
-        else if (rectTransform.anchoredPosition.y < limitY.y)
-            rectTransform.anchoredPosition = new Vector3(initialPos.x, limitY.y, 0);
+            if (container.anchoredPosition.x > limitY.x)
+                container.anchoredPosition = new Vector3(limitY.x, initialPos.y, 0);
+            else if (container.anchoredPosition.x < limitY.y)
+                container.anchoredPosition = new Vector3(limitY.y, initialPos.y, 0);
+
+            return;
+        }
+        if (container.anchoredPosition.y > limitY.x)
+            container.anchoredPosition = new Vector3(initialPos.x, limitY.x, 0);
+        else if (container.anchoredPosition.y < limitY.y)
+            container.anchoredPosition = new Vector3(initialPos.x, limitY.y, 0);
 	}
     public void ResetScroll()
     {

@@ -15,12 +15,12 @@ public class LoadRoomScreen : MonoBehaviour {
     public void Browse()
     {
         Data.Instance.roomsData.type = RoomsData.types.ONLINE;
-        Data.Instance.LoadLevel("SavedPhotoBrowser");        
+        Data.Instance.LoadLevel("Rooms");        
     }
     public void Open()
     {
         Data.Instance.roomsData.type = RoomsData.types.LOCAL;
-        Data.Instance.LoadLevel("SavedPhotoBrowser");
+        Data.Instance.LoadLevel("Rooms");
     }
     public void Back()
     {
