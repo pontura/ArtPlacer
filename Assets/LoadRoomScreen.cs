@@ -3,9 +3,13 @@ using System.Collections;
 
 public class LoadRoomScreen : MonoBehaviour {
 
+    public GameObject openButton;
+
     void Start()
     {
         Data.Instance.SetMainMenuActive(false);
+        if (Data.Instance.roomsData.rooms.Count == 0)
+            openButton.SetActive(false);
     }
     public void TakePhoto()
     {

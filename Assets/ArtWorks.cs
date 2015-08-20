@@ -33,10 +33,12 @@ public class ArtWorks : MonoBehaviour
            data.gallery = Data.Instance.artData.galleries[selectionId].title;
            AddThumb(data.url);
        }
-       int totalThumbs = currentGallery.artWorksData.Count;
-       int totalRows = totalThumbs / cols;
+       float totalThumbs = currentGallery.artWorksData.Count;
+       float totalRows = totalThumbs / cols;
        int maxScroll = (int)((totalRows - 1) * (thumbSize.y +separationY));
-       if (totalRows > 3) scrollLimit.SetMaxScroll(maxScroll);
+       if (totalRows > 2) scrollLimit.SetMaxScroll(maxScroll);
+
+       print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
     }
     private void AddThumb(string url)
     {

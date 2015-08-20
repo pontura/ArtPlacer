@@ -64,7 +64,7 @@ public class ThumbImage : MonoBehaviour{
     {
         WWW imageURLWWW = new WWW(url);
 
-        print("url: " + url);
+       // print("url: " + url);
         yield return imageURLWWW;
         if (imageURLWWW.texture != null)
         {
