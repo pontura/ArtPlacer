@@ -12,19 +12,17 @@ public class MainMenu : MonoBehaviour {
         Data.Instance.LoadLevel("TakePhoto");
         Close();
     }
-    public void PublicRooms()
-    {
-        Data.Instance.roomsData.type = RoomsData.types.ONLINE;
-        Data.Instance.LoadLevel("SavedPhotoBrowser");
-        Close();
-    }
-    public void MyRooms()
+    public void Rooms()
     {
         Data.Instance.roomsData.type = RoomsData.types.LOCAL;
-        Data.Instance.LoadLevel("SavedPhotoBrowser");
+        Data.Instance.LoadLevel("Rooms");
         Close();
     }
-
+    public void Galleries()
+    {
+        Data.Instance.LoadLevel("Galleries");
+        Close();
+    }
     public void Close()
     {
         GetComponent<Animation>().Play("MainMenuClose");

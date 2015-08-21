@@ -7,7 +7,7 @@ public class LoadRoomScreen : MonoBehaviour {
 
     void Start()
     {
-        Data.Instance.SetMainMenuActive(false);
+       // Data.Instance.SetMainMenuActive(false);
         if (Data.Instance.roomsData.rooms.Count == 0)
             openButton.SetActive(false);
     }

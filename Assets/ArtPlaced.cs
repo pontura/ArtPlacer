@@ -215,6 +215,12 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.LoadLevel("Galleries");
 	}
 
+    public void GotoGallery()
+    {
+        tooltipAddArt.gameObject.SetActive(false);
+        Data.Instance.LoadLevel("Artworks");
+    }
+
 	public void EditWalls()
 	{
 		Data.Instance.LoadLevel("Walls");
