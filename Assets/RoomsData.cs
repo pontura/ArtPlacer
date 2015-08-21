@@ -62,7 +62,7 @@ public class RoomsData : MonoBehaviour {
                         RoomArea roomArea = new RoomArea();
 						roomArea.width = float.Parse(res[0]);
                         roomArea.height = float.Parse(res[1]);
-                        roomArea.position = new Vector3(GetFloat(res[2]), GetFloat(res[3]), 0);
+                        roomArea.position = new Vector3(GetFloat(res[2]), GetFloat(res[3]), 1);
 
                         roomArea.pointers = new Vector3[4];
 
