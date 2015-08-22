@@ -133,6 +133,7 @@ public class ArtPlaced : MonoBehaviour {
 				//print (hit.collider.name+" Selected, RGBA: "+tex.GetPixel((int)pixelUV.x,(int)pixelUV.y));
 				selected = hit.collider.name;
 				selectedArtwork = hit.collider.gameObject;
+				selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
 				int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
 				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;				
 				Texture2D t = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;				
@@ -190,6 +191,7 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	void SetArtworkPosition(GameObject sel){
+		sel.transform.position = sel.transform.position+new Vector3(0,0,0.1f);
 		int areaId = sel.GetComponent<DragArtWork> ().areaId;
 		int artWorkId = sel.GetComponent<DragArtWork> ().artWorkId;
 		Renderer rend = sel.transform.GetComponent<Renderer> ();
@@ -235,7 +237,7 @@ public class ArtPlaced : MonoBehaviour {
 			Texture2D t = Data.Instance.lastArtTexture;				
 			thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
 			selectedArtwork = AddArt (0);
-
+			selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
 		}
 	}
 

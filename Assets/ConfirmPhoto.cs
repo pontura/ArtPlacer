@@ -18,9 +18,14 @@ public class ConfirmPhoto : MonoBehaviour {
     }
     public void Confirm()
     {
-        Data.Instance.SavePhotoTaken();
-        Data.Instance.LoadLevel("Walls");
         
+		if (Data.Instance.isPhoto4Room) {
+			Data.Instance.SavePhotoTaken ();
+			Data.Instance.LoadLevel ("Walls");
+		} else {
+			Data.Instance.SavePhotoArt();
+			Data.Instance.LoadLevel ("Galleries");
+		}
     }
     void OpenTooltip()
     {

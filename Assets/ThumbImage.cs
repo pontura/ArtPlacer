@@ -62,10 +62,10 @@ public class ThumbImage : MonoBehaviour{
     }
     private IEnumerator RealLoadImage(string url)
     {
-        WWW imageURLWWW = new WWW(url);
-
-       // print("url: " + url);
+        WWW imageURLWWW = new WWW(url);        
         yield return imageURLWWW;
+
+		print("url: " + url);
         if (imageURLWWW.texture != null)
         {
             sprite = new Sprite();

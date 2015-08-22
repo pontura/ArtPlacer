@@ -97,9 +97,5 @@ public class RoomsData : MonoBehaviour {
         float.TryParse(stringValue, out result);
         return result;
     }
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+
 }

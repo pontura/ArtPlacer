@@ -13,7 +13,7 @@ public class LoadRoomScreen : MonoBehaviour {
     }
     public void TakePhoto()
     {
-        
+		Data.Instance.isPhoto4Room = true;
         Data.Instance.LoadLevel("TakePhoto");
     }
     public void Browse()

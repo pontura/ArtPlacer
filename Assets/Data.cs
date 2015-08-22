@@ -17,6 +17,8 @@ public class Data : MonoBehaviour
     const string PREFAB_PATH = "Data";
     private Fade fade;
     static Data mInstance = null;
+
+	public bool isPhoto4Room = true;
     
 
     public static Data Instance
@@ -97,6 +99,17 @@ public class Data : MonoBehaviour
 #endif
         return imagesFolderPath;
     }
+
+	public string GetArtPath()
+	{
+		string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Artworks");
+		
+		#if UNITY_ANDROID
+		imagesFolderPath = "file:///" + imagesFolderPath;
+		#endif
+		return imagesFolderPath;
+	}
+
     public FileInfo[] GetFilesIn(string folderName)
     {
         string info = Path.Combine(Application.persistentDataPath, folderName);
@@ -121,6 +134,22 @@ public class Data : MonoBehaviour
         var filePath = Path.Combine(folder, path);
         File.WriteAllBytes(filePath + ".png", bytes);
     }
+	public void SavePhotoArt()
+	{
+		byte[] bytes = lastPhotoTexture.EncodeToPNG();
+		
+		string path = System.DateTime.Now.ToString("yyyyMMddHHmmss");
+
+		artData.SaveArtWork(path);
+		
+		string folder = Path.Combine(Application.persistentDataPath, "Artworks");
+		
+		if (!Directory.Exists(folder))
+			Directory.CreateDirectory(folder);
+		
+		var filePath = Path.Combine(folder, path);
+		File.WriteAllBytes(filePath + ".png", bytes);
+	}
 	public void AddArea(int id, Vector3[] pointers, Vector3 position, float width, float height){
         areaData.AddAreas(id, pointers, position, width, height);
 	}

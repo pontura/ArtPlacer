@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class ArtWorks : MonoBehaviour
 {
@@ -26,12 +27,17 @@ public class ArtWorks : MonoBehaviour
         title.text = Data.Instance.artData.GetCurrentGallery().title;
 
         thumbSize += separation;
-       ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
+        ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {
-           data.gallery = Data.Instance.artData.galleries[selectionId].title;
-           AddThumb(data.url);
+           	data.gallery = Data.Instance.artData.galleries[selectionId].title;           
+			string path = data.url;
+			if(title.text.Equals("My Artworks")){
+				string folder = Data.Instance.GetArtPath();		
+				path = Path.Combine(folder, data.url + ".png");
+			}
+			AddThumb(path);
        }
        float totalThumbs = currentGallery.artWorksData.Count;
        float totalRows = totalThumbs / cols;
@@ -40,6 +46,7 @@ public class ArtWorks : MonoBehaviour
 
        print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
     }
+
     private void AddThumb(string url)
     {
         ThumbImage newButton = Instantiate(button);        
