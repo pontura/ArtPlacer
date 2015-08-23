@@ -24,7 +24,11 @@ public class Game : MonoBehaviour {
         myCamera.enabled = false;
         myCamera.enabled = true;
 
-        Sprite sprite = Sprite.Create(Data.Instance.lastPhotoTexture,  new Rect(0, 0, 640, 480), new Vector2(0.5f,0.5f));
+        Texture2D texture = Data.Instance.lastPhotoTexture;
+        if (!Data.Instance.isPhoto4Room)
+            texture = Data.Instance.lastArtTexture;
+
+        Sprite sprite = Sprite.Create( texture,  new Rect(0, 0, 640, 480), new Vector2(0.5f,0.5f));
         background.sprite = sprite;
 
         background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);

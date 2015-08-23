@@ -28,11 +28,21 @@ public class WebCamPhotoCamera : MonoBehaviour
     }
     public void TakePhoto()
     {        
+        
         takePhotoButton.gameObject.SetActive(false);
 
-        Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
-        Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
-        Data.Instance.lastPhotoTexture.Apply();
+        if (Data.Instance.isPhoto4Room)
+        {
+            Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
+            Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
+            Data.Instance.lastPhotoTexture.Apply();
+        }
+        else
+        {
+            Data.Instance.lastArtTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
+            Data.Instance.lastArtTexture.SetPixels(webCamTexture.GetPixels());
+            Data.Instance.lastArtTexture.Apply();
+        }
 
         Data.Instance.LoadLevel("ConfirmPhoto");
         

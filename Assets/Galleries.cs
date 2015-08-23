@@ -17,6 +17,7 @@ public class Galleries : MonoBehaviour {
     private int cols = 2;
 
 	void Start () {
+        Data.Instance.isPhoto4Room = true;
         foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
         {
             AddThumb(data.title, "");

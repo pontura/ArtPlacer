@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 using System.Collections;
 
 public class Footer : MonoBehaviour {
@@ -42,7 +43,14 @@ public class Footer : MonoBehaviour {
             thumbButton.transform.SetParent(container.transform);
             thumbButton.transform.localScale = Vector3.one;
 
-            thumbButton.Init(this, artData.url, a);
+            string url = artData.url;
+            if( Data.Instance.artData.selectedGallery == -2)
+            {
+                string folder = Data.Instance.GetArtPath();
+                url = Path.Combine(folder, url + ".png");
+            }
+
+            thumbButton.Init(this, url , a);
 
             Vector3 pos = Vector3.zero;
             pos.x = separation * a;

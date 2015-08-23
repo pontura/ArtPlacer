@@ -136,7 +136,7 @@ public class Data : MonoBehaviour
     }
 	public void SavePhotoArt()
 	{
-		byte[] bytes = lastPhotoTexture.EncodeToPNG();
+		byte[] bytes = lastArtTexture.EncodeToPNG();
 		
 		string path = System.DateTime.Now.ToString("yyyyMMddHHmmss");
 
