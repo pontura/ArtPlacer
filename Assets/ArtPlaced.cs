@@ -24,6 +24,9 @@ public class ArtPlaced : MonoBehaviour {
 	SpriteRenderer thumbRenderer;
 
 	bool dragOut = false;
+
+	public int sel_galleryID;
+	public int sel_galleryArtID;
 	
 	void Start () {
 
@@ -136,13 +139,18 @@ public class ArtPlaced : MonoBehaviour {
 				selectedArtwork = hit.collider.gameObject;
 				selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
 				int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
-				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;				
-				Texture2D t = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;				
+				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;			
+				AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
+				Texture2D t = aw.texture;
+				sel_galleryID = aw.galleryID;
+				sel_galleryArtID = aw.galleryArtID;
 				thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(areaId), Quaternion.identity) as GameObject;
 				thumbClone.name = "thumb_"+selected;
 				thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
 				thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
 				thumbRenderer.enabled = false;
+				Data.Instance.lastArtTexture = t;
+				buttonInfo.SetActive(true);
 				break;
 			}					
 		}
@@ -358,10 +366,32 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.lastArtTexture = null;
 		artWork.GetComponent<DragArtWork> ().SetArtWorkId(Data.Instance.areaData.areas [n].artworkIDCount);
 		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkIDCount;
+		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].galleryID = Data.Instance.artData.selectedArtWork.galleryId;
+		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].galleryArtID = Data.Instance.artData.selectedArtWork.artId;
 		area.GetComponent<WallPlane> ().artWorkNumber++;
 		Data.Instance.areaData.areas [n].artworkIDCount++;
 		return artWork;	
 	}
+
+	public void GetArtInfo(){
+		//My artworks;
+		if (sel_galleryID == -2)
+		{
+			Data.Instance.artData.selectedArtWork = Data.Instance.artData.myArtWorks.artWorksData[sel_galleryArtID];
+			Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.myArtWorks.title;
+			Data.Instance.artData.selectedArtWork.galleryId = sel_galleryID;
+			Data.Instance.artData.selectedArtWork.artId = sel_galleryArtID;
+		}else{
+			Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[sel_galleryID].artWorksData[sel_galleryArtID];
+			Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.galleries[sel_galleryID].title;
+			Data.Instance.artData.selectedArtWork.galleryId = sel_galleryID;
+			Data.Instance.artData.selectedArtWork.artId = sel_galleryArtID;
+		}
+		Data.Instance.isArtworkInfo2Place = false;
+		Data.Instance.LoadLevel("ConfirmArtWork");
+
+	}
+
 	void OnDestroy()
 	{
 		Events.OnSelectFooterArtwork -= AddFromFooter;

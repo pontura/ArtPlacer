@@ -6,6 +6,7 @@ public class ConfirmArtWork : MonoBehaviour {
 
     public Button FavoriteOn;
     public Button FavoriteOff;
+	public Button PlaceItButton;
 
     public RawImage rawImage;
     public Text title;
@@ -24,15 +25,23 @@ public class ConfirmArtWork : MonoBehaviour {
 			SetFavorite ();
 		}
 
-
+		if (Data.Instance.isArtworkInfo2Place == false)
+			PlaceItButton.GetComponentInChildren<Text> ().text = "BACK TO WALLS";
     }
     public void Confirm()
     {
         if (Data.Instance.lastPhotoTexture == null)
-            Data.Instance.LoadLevel("LoadRoom");
-        else
-            Data.Instance.LoadLevel("ArtPlaced");
+			Data.Instance.LoadLevel ("LoadRoom");
+		else {
+			if(Data.Instance.isArtworkInfo2Place == false)Data.Instance.lastArtTexture = null;
+			Data.Instance.LoadLevel ("ArtPlaced");
+		}
     }
+	public void Back2Walls()
+	{
+		if(Data.Instance.isArtworkInfo2Place == false)Data.Instance.lastArtTexture = null;
+		Data.Instance.LoadLevel ("ArtPlaced");
+	}
     public void Back()
     {
         Data.Instance.LoadLevel("Artworks");

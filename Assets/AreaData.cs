@@ -42,6 +42,8 @@ public class AreaData : MonoBehaviour {
 		public int height;
 		public Texture2D texture;
 		public int id;
+		public int galleryID;
+		public int galleryArtID;
 		
 		public ArtWork(int w, int h, Texture2D tex){
 			width = w;

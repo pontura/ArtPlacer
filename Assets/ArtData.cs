@@ -131,7 +131,7 @@ public class ArtData : MonoBehaviour {
 		string DataName = "artwork_"+(myArtWorks.artWorksData.Count-1);*/
 		
 
-		result += url + "_" + "El reino de Mongo" + "_" + "Dali" + "_" + 1 + "_" + 1 + "_";
+		result += url + "_" + "El reino de Mongo" + "_" + "Dali" + "_" + 100 + "_" + 100 + "_";
 
 		string DataName = "artwork_"+id;
 

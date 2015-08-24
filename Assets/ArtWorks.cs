@@ -107,7 +107,7 @@ public class ArtWorks : MonoBehaviour
             Data.Instance.artData.selectedArtWork.galleryId = Data.Instance.artData.selectedGallery;
             Data.Instance.artData.selectedArtWork.artId = id;
         }
-               
+		Data.Instance.isArtworkInfo2Place = true;  
         Data.Instance.LoadLevel("ConfirmArtWork");
     }
 }

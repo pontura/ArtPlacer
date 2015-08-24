@@ -19,6 +19,8 @@ public class Data : MonoBehaviour
     static Data mInstance = null;
 
 	public bool isPhoto4Room = true;
+
+	public bool isArtworkInfo2Place = true;
     
 
     public static Data Instance
