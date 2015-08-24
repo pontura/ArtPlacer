@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
 
 public class GalleryButton : MonoBehaviour {
 
@@ -19,12 +20,19 @@ public class GalleryButton : MonoBehaviour {
 
         if (id == -1 && Data.Instance.artData.favorites.Count>0)
             artData = Data.Instance.artData.GetArtData(Data.Instance.artData.favorites[0].galleryId, Data.Instance.artData.favorites[0].artId);
+		else if(id == -2 && Data.Instance.artData.myArtWorks.artWorksData.Count>0)
+			artData = Data.Instance.artData.myArtWorks.artWorksData[0];
         else  if (id > -1)
             artData = Data.Instance.artData.GetArtData(id, 0);
 
         if (artData != null)
         {
             string url = artData.url;
+
+			if(id == -2){
+				string folder = Data.Instance.GetArtPath();		
+				url = Path.Combine(folder, url + ".png");
+			}
             if (url.Length > 6)
             {
                 StartCoroutine(LoadThumb(url));

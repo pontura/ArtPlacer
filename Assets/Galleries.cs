@@ -23,10 +23,15 @@ public class Galleries : MonoBehaviour {
             AddThumb(data.title, "");
         }
         if (separationY > 3) scrollLimit.SetMaxScroll(100);
-		favouritesButton.Init (this, -1, "MY FAVOURITES (" + Data.Instance.artData.favorites.Count + ")", "");
-		if (Data.Instance.artData.favorites.Count == 0)
-			favouritesButton.gameObject.SetActive(false);
 
+		if (Data.Instance.artData.favorites.Count == 0)
+			favouritesButton.gameObject.SetActive (false);
+		else
+			favouritesButton.Init (this, -1, "MY FAVOURITES (" + Data.Instance.artData.favorites.Count + ")", "");
+		if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0)
+			myArtWorks.gameObject.SetActive(false);
+		else
+			myArtWorks.Init (this, -2, "MY ARTWORKS (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
     }
     private int id = 0;
     private void AddThumb(string _title, string url)
@@ -57,12 +62,11 @@ public class Galleries : MonoBehaviour {
     }
 
 	public void AddArtWorks(){
-		if (Data.Instance.artData.myArtWorks.artWorksData.Count > 0) {
-			OnSelect(-2);
-		} else {
-			Data.Instance.isPhoto4Room = false;
-			Data.Instance.LoadLevel("TakePhoto");
-		}
+		Data.Instance.isPhoto4Room = false;
+		Data.Instance.LoadLevel("TakePhoto");
+	}
 
+	public void GotoMyArtWorks(){
+		OnSelect(-2);
 	}
 }

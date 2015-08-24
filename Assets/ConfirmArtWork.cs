@@ -15,11 +15,17 @@ public class ConfirmArtWork : MonoBehaviour {
 	void Start () {
         rawImage.texture = Data.Instance.lastArtTexture;
         title.text = Data.Instance.artData.selectedArtWork.title;
+		print (Data.Instance.artData.selectedArtWork.gallery);
+		if (Data.Instance.artData.selectedArtWork.gallery.Equals("My Artworks")) {
+			FavoriteOn.gameObject.SetActive(false);
+			FavoriteOff.gameObject.SetActive(false);
+		} else {
+			if (Data.Instance.artData.isFavorite (Data.Instance.artData.selectedArtWork.galleryId, Data.Instance.artData.selectedArtWork.artId))
+				isFavorite = true;            
+			SetFavorite ();
+		}
 
-        if (Data.Instance.artData.isFavorite(Data.Instance.artData.selectedArtWork.galleryId, Data.Instance.artData.selectedArtWork.artId))
-            isFavorite = true;
-            
-        SetFavorite();
+
     }
     public void Confirm()
     {

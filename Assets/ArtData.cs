@@ -39,9 +39,10 @@ public class ArtData : MonoBehaviour {
             public Vector2 size;
         } 
     }
-    void Start()
+    void Awake()
     {
         LoadFavorites();
+		ReadArtworkData ();
     }
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {
