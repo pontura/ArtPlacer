@@ -8,6 +8,7 @@ public class ThumbImage : MonoBehaviour{
     private Texture2D texture2d;
 	Footer footer;
 	int id;
+	string url;
 
     public void Init(Footer _footer, string url, int _id)
     {
@@ -35,12 +36,13 @@ public class ThumbImage : MonoBehaviour{
         });
     }
 
-    public void Init(ArtWorks artWorks, string url, int id)
+    public void Init(ArtWorks artWorks, string url_, int id)
     {
+		url = url_;
         StartCoroutine(RealLoadImage(url));
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            OnSelected(artWorks, id);
+            StartCoroutine(OnSelected(artWorks, id));
         });
     }
     private IEnumerator RealLoadRoomImage(string url)
@@ -75,6 +77,18 @@ public class ThumbImage : MonoBehaviour{
         yield return null;
     }
 
+	private IEnumerator RealGetTexture(string url)
+	{
+		WWW imageURLWWW = new WWW(url);		
+		print("ACA: " + url);
+		yield return imageURLWWW;
+		
+		texture2d = imageURLWWW.texture;
+		Data.Instance.lastArtTexture = texture2d;
+
+		yield return null;
+	}
+
     private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
     {
         Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
@@ -102,12 +116,20 @@ public class ThumbImage : MonoBehaviour{
 		}
         footer.OnSelect(id);
     }
-    public void OnSelected(ArtWorks artWorks, int id)
+	public IEnumerator OnSelected(ArtWorks artWorks, int id)
     {
-        if(sprite)
-             Data.Instance.lastArtTexture = sprite.texture;
-        artWorks.OnSelect(id);
+		print ("HOLA "+url);
+		WWW imageURLWWW = new WWW(url);		
+		print("ACA: " + url);
+		yield return imageURLWWW;
+		
+		texture2d = imageURLWWW.texture;
+		Data.Instance.lastArtTexture = texture2d;
+
+		artWorks.OnSelect(id);
+		yield return null;
     }
+
     public void OnSelectedRoom(Rooms rooms, int id)
     {
         if (sprite)

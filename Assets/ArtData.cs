@@ -131,7 +131,7 @@ public class ArtData : MonoBehaviour {
 		string DataName = "artwork_"+(myArtWorks.artWorksData.Count-1);*/
 		
 
-		result += url + "_" + "El reino de Mongo" + "_" + "Dali" + "_" + 100 + "_" + 100 + "_";
+		result += url + "_" + "El reino de Mongo" + "_" +id+ "_" + "Dali" + "_" + 100 + "_" + 100 ;
 
 		string DataName = "artwork_"+id;
 
@@ -146,6 +146,7 @@ public class ArtData : MonoBehaviour {
 
 	public void ReadArtworkData()
 	{
+
 		myArtWorks.artWorksData.Clear ();
 		for (var id = 0; id < 100; id++)
 		{
@@ -160,13 +161,20 @@ public class ArtData : MonoBehaviour {
 				last.url = result[0];
 				string[] res = result[1].Split("_"[0]);
 				last.title = res[1];
-				last.autor = res[2];
-				last.size = new Vector2(float.Parse(res[3]), float.Parse(res[4]));
+				last.artId = int.Parse(res[2]);
+				last.autor = res[3];
+				last.size = new Vector2(float.Parse(res[4]), float.Parse(res[5]));
+				last.galleryId=-2;
 
 				myArtWorks.artWorksData.Add(last);			
 
 			}
 		}
+	}
+
+	public void DeleteArtworkData (int id){
+		PlayerPrefs.DeleteKey ("artwork_" + id);
+		ReadArtworkData ();
 	}
 
     private void LoadFavorites()
