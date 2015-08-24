@@ -122,7 +122,7 @@ public class ArtData : MonoBehaviour {
 	{
 		string result = url + ":";
 
-		int id = 0;
+		int id = myArtWorks.artWorksData.Count;
 
 		/*GalleryData.ArtData last = myArtWorks.artWorksData [myArtWorks.artWorksData.Count - 1];
 

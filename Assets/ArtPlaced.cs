@@ -11,6 +11,7 @@ public class ArtPlaced : MonoBehaviour {
 
     public Animation tooltipAddArt;
     public GameObject buttonAddArt;
+	public GameObject buttonInfo;
 
 	public GameObject bg;
 

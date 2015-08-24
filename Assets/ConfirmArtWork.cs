@@ -15,8 +15,7 @@ public class ConfirmArtWork : MonoBehaviour {
 	void Start () {
         rawImage.texture = Data.Instance.lastArtTexture;
         title.text = Data.Instance.artData.selectedArtWork.title;
-		print (Data.Instance.artData.selectedArtWork.gallery);
-		if (Data.Instance.artData.selectedArtWork.gallery.Equals("My Artworks")) {
+		if (Data.Instance.artData.selectedArtWork.galleryId == -2 ) {
 			FavoriteOn.gameObject.SetActive(false);
 			FavoriteOff.gameObject.SetActive(false);
 		} else {

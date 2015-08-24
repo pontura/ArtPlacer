@@ -89,8 +89,8 @@ public class ArtWorks : MonoBehaviour
         //My artworks;
         if (Data.Instance.artData.selectedGallery == -2)
         {
-            Data.Instance.artData.selectedArtWork.gallery = "My Artworks";
-            Data.Instance.artData.selectedArtWork.galleryId = 0;
+			Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.myArtWorks.title;
+            Data.Instance.artData.selectedArtWork.galleryId = -2;
             Data.Instance.artData.selectedArtWork.artId = 0;
         }
         //My favourites;
