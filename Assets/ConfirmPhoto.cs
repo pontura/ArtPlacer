@@ -22,8 +22,7 @@ public class ConfirmPhoto : MonoBehaviour {
 			Data.Instance.SavePhotoTaken ();
 			Data.Instance.LoadLevel ("Walls");
 		} else {
-			Data.Instance.SavePhotoArt();
-			Data.Instance.LoadLevel ("Galleries");
+			Data.Instance.LoadLevel ("ConfirmArtworkSize");
 		}
     }
     void OpenTooltip()

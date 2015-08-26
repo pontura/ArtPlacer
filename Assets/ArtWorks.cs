@@ -30,8 +30,7 @@ public class ArtWorks : MonoBehaviour
         ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
-       {
-           	data.gallery = Data.Instance.artData.galleries[selectionId].title;           
+       {           	
 			string path = data.url;
 			if(title.text.Equals("My Artworks")){
 				string folder = Data.Instance.GetArtPath();		

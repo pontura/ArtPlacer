@@ -136,13 +136,13 @@ public class Data : MonoBehaviour
         var filePath = Path.Combine(folder, path);
         File.WriteAllBytes(filePath + ".png", bytes);
     }
-	public void SavePhotoArt()
+	public void SavePhotoArt(string name, string author, float width, float height)
 	{
 		byte[] bytes = lastArtTexture.EncodeToPNG();
 		
 		string path = System.DateTime.Now.ToString("yyyyMMddHHmmss");
 
-		artData.SaveArtWork(path);
+		artData.SaveArtWork(path, name, author, width, height);
 		
 		string folder = Path.Combine(Application.persistentDataPath, "Artworks");
 		

@@ -50,7 +50,7 @@ public class ArtData : MonoBehaviour {
         return galleryData.artWorksData[artId];
     }
     public GalleryData GetCurrentGallery()
-    {
+	{	
 		print ("Selected: " + selectedGallery);
         if (selectedGallery == -1)
 			return GetFavourites ();
@@ -118,7 +118,7 @@ public class ArtData : MonoBehaviour {
 
         print("SAVE: " + str);
     }
-	public void SaveArtWork(string url)
+	public void SaveArtWork(string url, string name, string author, float width, float height)
 	{
 		string result = url + ":";
 
@@ -131,7 +131,7 @@ public class ArtData : MonoBehaviour {
 		string DataName = "artwork_"+(myArtWorks.artWorksData.Count-1);*/
 		
 
-		result += url + "_" + "El reino de Mongo" + "_" +id+ "_" + "Dali" + "_" + 100 + "_" + 100 ;
+		result += url + "_" + name + "_" +id+ "_" + author + "_" + width + "_" + height ;
 
 		string DataName = "artwork_"+id;
 
@@ -165,6 +165,7 @@ public class ArtData : MonoBehaviour {
 				last.autor = res[3];
 				last.size = new Vector2(float.Parse(res[4]), float.Parse(res[5]));
 				last.galleryId=-2;
+				last.gallery="My Artworks";
 
 				myArtWorks.artWorksData.Add(last);			
 
