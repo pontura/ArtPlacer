@@ -6,10 +6,12 @@ using System.Collections.Generic;
 public class ConfirmArtworkSize : MonoBehaviour {
 
     public ArtworkSignal artworkSignal;
+	public ArtworkArea artworkArea;
     public Animation tooltipSizes;
     public GameObject container;  
 
 	private ArtworkSignal signal;
+	public ArtworkArea area;
 
     void Start()
     {
@@ -22,6 +24,12 @@ public class ConfirmArtworkSize : MonoBehaviour {
 		signal.transform.SetParent(container.transform);
 		signal.transform.localPosition = new Vector3(0,0,0);
 		signal.transform.localScale = Vector3.one;
+
+		/*area = Instantiate (artworkArea);
+		area.transform.SetParent(container.transform);
+		area.transform.localPosition = new Vector3(0,0,0);
+		area.transform.localScale = Vector3.one;*/
+
         Invoke("startTooltip", 0.5f);
     }   
     
@@ -36,8 +44,6 @@ public class ConfirmArtworkSize : MonoBehaviour {
     }
     public void Ready()
     {
-		Debug.Log ("Name: " + signal.GetName ());
-		Debug.Log ("Author: " + signal.GetAuthor ());
 		Data.Instance.SavePhotoArt (signal.GetName (), signal.GetAuthor(), signal.GetWidth ()*100, signal.GetHeight ()*100);
 		      
        	Data.Instance.LoadLevel("Galleries");

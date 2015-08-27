@@ -100,6 +100,7 @@ public class Rooms : MonoBehaviour
         else
             room = Data.Instance.roomsData.onlineRooms[id];
 
+		Data.Instance.areaData.areas.Clear ();
         Data.Instance.areaData.url = room.url;
         Data.Instance.areaData.id = 1;
         foreach (RoomsData.RoomArea roomArea in room.area)

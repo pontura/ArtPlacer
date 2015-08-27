@@ -8,6 +8,7 @@ public class Data : MonoBehaviour
 {
     public Color selectedColor;
     public Texture2D lastArtTexture;
+	public Texture2D lastArtThumbTexture;
     public Texture2D lastPhotoTexture;
     public ArtData artData;
 	public AreaData areaData;
@@ -21,7 +22,7 @@ public class Data : MonoBehaviour
 	public bool isPhoto4Room = true;
 
 	public bool isArtworkInfo2Place = true;
-    
+	public int thumbHeight = 100;
 
     public static Data Instance
     {
@@ -179,5 +180,35 @@ public class Data : MonoBehaviour
         Application.LoadLevel("Intro");
         Destroy(gameObject);
     }
+
+	public void SetLastArtTexture(Texture2D tex){
+		lastArtTexture = tex;
+		SetlastArtThumbTexture (thumbHeight);
+	}
+
+	private void SetlastArtThumbTexture(int height){
+		lastArtThumbTexture = ScaleTexture (lastArtTexture, height);
+	}
     
+	private Texture2D ScaleTexture(Texture2D source, int targetHeight)
+	{
+		float aspect = 1f*source.width / source.height;
+		
+		Texture2D result = new Texture2D((int)(aspect * targetHeight), targetHeight, source.format, false);
+		
+		float incX = (1.0f / aspect * targetHeight);
+		float incY = (1.0f / (float)targetHeight);
+		
+		for (int i = 0; i < result.height; ++i)
+		{
+			for (int j = 0; j < result.width; ++j)
+			{
+				Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
+				result.SetPixel(j, i, newColor);
+			}
+		}
+		
+		result.Apply();
+		return result;
+	}
 }

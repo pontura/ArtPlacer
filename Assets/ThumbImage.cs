@@ -67,6 +67,8 @@ public class ThumbImage : MonoBehaviour{
         WWW imageURLWWW = new WWW(url);        
         yield return imageURLWWW;
 
+		texture2d = imageURLWWW.texture;
+
 		print("url: " + url);
         if (imageURLWWW.texture != null)
         {
@@ -80,7 +82,6 @@ public class ThumbImage : MonoBehaviour{
 	private IEnumerator RealGetTexture(string url)
 	{
 		WWW imageURLWWW = new WWW(url);		
-		print("ACA: " + url);
 		yield return imageURLWWW;
 		
 		texture2d = imageURLWWW.texture;
@@ -111,20 +112,20 @@ public class ThumbImage : MonoBehaviour{
     public void OnSelected(Footer footer, int id)
     {
         if (sprite) {
-			Data.Instance.lastArtTexture = sprite.texture;
+			Data.Instance.SetLastArtTexture(texture2d);
+			//Data.Instance.lastArtTexture = sprite.texture;
 			Events.OnSelectFooterArtwork();
 		}
         footer.OnSelect(id);
     }
+
 	public IEnumerator OnSelected(ArtWorks artWorks, int id)
     {
-		print ("HOLA "+url);
 		WWW imageURLWWW = new WWW(url);		
-		print("ACA: " + url);
 		yield return imageURLWWW;
 		
 		texture2d = imageURLWWW.texture;
-		Data.Instance.lastArtTexture = texture2d;
+		Data.Instance.SetLastArtTexture(texture2d);
 
 		artWorks.OnSelect(id);
 		yield return null;

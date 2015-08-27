@@ -37,6 +37,7 @@ public class AreaData : MonoBehaviour {
 
 	[Serializable]
 	public class ArtWork{
+		public string url;
 		public Vector3 position;
 		public int width;
 		public int height;

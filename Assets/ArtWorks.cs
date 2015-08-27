@@ -79,17 +79,20 @@ public class ArtWorks : MonoBehaviour
         Data.Instance.LoadLevel("Galleries");
     }
     public void OnSelect(int id)
-    {
-        print(selectionId + "    " + id); 
+    {        
+
+		int selGal = Data.Instance.artData.selectedGallery;
+
+		print("Gallery Id: "+selGal+"Artworks Id: "+ id);
 
         //My artworks;
-        if (Data.Instance.artData.selectedGallery == -2)
+		if (selGal == -2)
         {
 			Data.Instance.artData.selectedArtWork = Data.Instance.artData.myArtWorks.artWorksData[id];
         }
         //My favourites;
         else
-        if (Data.Instance.artData.selectedGallery == -1)
+			if (selGal == -1)
         {
 			Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[Data.Instance.artData.favorites[id].galleryId].artWorksData[id];
             Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.galleries[Data.Instance.artData.favorites[id].galleryId].title;
@@ -98,7 +101,7 @@ public class ArtWorks : MonoBehaviour
         }
         else
         {
-			Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[selectionId].artWorksData[id];
+			Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[selGal].artWorksData[id];
             Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.galleries[Data.Instance.artData.selectedGallery].title;
             Data.Instance.artData.selectedArtWork.galleryId = Data.Instance.artData.selectedGallery;
             Data.Instance.artData.selectedArtWork.artId = id;

@@ -96,7 +96,7 @@ public class ArtPlaced : MonoBehaviour {
 
 				Vector3 mPos = Input.mousePosition;
 				mPos.z = 1.0f;
-				thumbClone.transform.position = cam.ScreenToWorldPoint(mPos)-thumbClone.transform.localScale;
+				thumbClone.transform.position = cam.ScreenToWorldPoint(mPos)-new Vector3(thumbClone.transform.localScale.x*0.5f,thumbClone.transform.localScale.y*0.5f,0f);
 
 				dragOut=!hited;
 				if(dragOut){
@@ -141,7 +141,8 @@ public class ArtPlaced : MonoBehaviour {
 				int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
 				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;			
 				AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
-				Texture2D t = aw.texture;
+				Data.Instance.SetLastArtTexture(aw.texture);
+				Texture2D t = Data.Instance.lastArtThumbTexture;
 				sel_galleryID = aw.galleryID;
 				sel_galleryArtID = aw.galleryArtID;
 				thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(areaId), Quaternion.identity) as GameObject;
@@ -149,7 +150,6 @@ public class ArtPlaced : MonoBehaviour {
 				thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
 				thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
 				thumbRenderer.enabled = false;
-				Data.Instance.lastArtTexture = t;
 				buttonInfo.SetActive(true);
 				break;
 			}					
@@ -237,13 +237,18 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.LoadLevel("Walls");
 	}
 
+	public void Ready()
+	{
+		Debug.Log ("Ready");
+	}
+
 	public void AddFromFooter(){
 		if (Data.Instance.areaData.areas.Count > 0) {
 			selected = "ArtWork_" + 0 + "_" + Data.Instance.areaData.areas[0].artworkIDCount;
 			thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(0), Quaternion.identity) as GameObject;
 			thumbClone.name = "thumb_"+selected;
 			thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
-			Texture2D t = Data.Instance.lastArtTexture;				
+			Texture2D t = Data.Instance.lastArtThumbTexture;				
 			thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
 			selectedArtwork = AddArt (0);
 			selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
