@@ -30,7 +30,7 @@ public class AreaData : MonoBehaviour {
 		}
 
 		public void AddArtWork(int w, int h, Texture2D tex, ArtData.GalleryData.ArtData artdata){
-			ArtWork artwork = new ArtWork (w, h, tex);
+			ArtWork artwork = new ArtWork (	w, h, tex);
 			artwork.SetGalleryData (artdata);
 			artworks.Add (artwork);
 		}
@@ -46,7 +46,7 @@ public class AreaData : MonoBehaviour {
 		public int id;
 		public int galleryID;
 		public int galleryArtID;
-		
+
 		public ArtWork(int w, int h, Texture2D tex){
 			width = w;
 			height = h;
@@ -93,10 +93,15 @@ public class AreaData : MonoBehaviour {
             foreach (Vector3 pointers in area.pointers)
             {
                 result += Math.Round(pointers.x, 2) + "_" + Math.Round(pointers.y, 2) + "_";
-            }
-            result += "+";
+            }            
+			foreach (ArtWork artwork in area.artworks) {
+				result += Math.Round(artwork.position.x, 2) + "/" + Math.Round(artwork.position.x, 2) + "/" + artwork.galleryID + "/" + artwork.galleryArtID;
+				result += "*";
+			}
+			result += "+";
         }
-        string DataName = GetComponent<RoomsData>().GetRoomName(url);
+			
+		string DataName = GetComponent<RoomsData>().GetRoomName(url);
 
         PlayerPrefs.SetString(DataName, result);
 

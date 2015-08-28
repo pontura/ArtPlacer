@@ -213,10 +213,6 @@ public class ArtData : MonoBehaviour {
 
                 favorites.Add(newFavorite);
             }
-        }
-
-        print("LoadFavorites: " + str);
-
-        
+        }        
     }
 }

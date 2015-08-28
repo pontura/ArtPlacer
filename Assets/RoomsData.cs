@@ -27,9 +27,20 @@ public class RoomsData : MonoBehaviour {
         public float height;
         public Vector3[] pointers;
         public Vector3 position;
+		public List<RoomAreaArtWork> artworks;
     }
     public List<Room> rooms;
     public List<Room> onlineRooms;
+
+	[Serializable]
+	public class RoomAreaArtWork{
+		public string url;
+		public Vector3 position;
+		public int height;
+		public int id;
+		public int galleryID;
+		public int galleryArtID;
+	}
 
 	void Start () {
         ReadRoomsData();
@@ -70,6 +81,22 @@ public class RoomsData : MonoBehaviour {
                         roomArea.pointers[1] = new Vector3(GetFloat(res[6]), GetFloat(res[7]), 0);
                         roomArea.pointers[2] = new Vector3(GetFloat(res[8]), GetFloat(res[9]), 0);
                         roomArea.pointers[3] = new Vector3(GetFloat(res[10]), GetFloat(res[11]), 0);
+
+						string[] artworks = res[12].Split("*"[0]);
+
+						roomArea.artworks = new List<RoomAreaArtWork>();
+
+						foreach (string artwork in artworks){
+							string[] resu = artwork.Split("/"[0]);
+							// print("area: " + area);
+							if (resu.Length > 1){
+								RoomAreaArtWork roomArt = new RoomAreaArtWork();
+								roomArt.position = new Vector3(GetFloat(resu[0]),GetFloat(resu[1]),0);
+								roomArt.galleryID = int.Parse(resu[2]);
+								roomArt.galleryArtID = int.Parse(resu[3]);
+								roomArea.artworks.Add(roomArt);
+							}
+						}
 
                         room.area.Add(roomArea);
                     }

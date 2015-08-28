@@ -120,7 +120,7 @@ public class Data : MonoBehaviour
         FileInfo[] fileInfo = folder.GetFiles();
         return fileInfo;
     }
-    public void SavePhotoTaken()
+    public void SaveRoom()
     {
         byte[] bytes = lastPhotoTexture.EncodeToPNG();
 

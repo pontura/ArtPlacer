@@ -64,7 +64,7 @@ public class ConfirmSizes : MonoBehaviour {
         }
 		
 		Events.SaveAreas();
-        Data.Instance.areaData.Save();
+        //Data.Instance.areaData.Save();
 
         areaActiveID++;
 

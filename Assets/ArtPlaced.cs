@@ -242,6 +242,8 @@ public class ArtPlaced : MonoBehaviour {
 	public void Ready()
 	{
 		Debug.Log ("Ready");
+		//Data.Instance.areaData.Save();
+		Data.Instance.SaveRoom ();
 	}
 
 	public void AddFromFooter(){
@@ -297,11 +299,10 @@ public class ArtPlaced : MonoBehaviour {
 				//artWork.GetComponent<Renderer> ().material.SetTexture ("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,tex);
 				artWork.GetComponent<Renderer>().material.mainTexture = tex;
 
-				int w = Data.Instance.areaData.areas[n].artworks[i].width;
 				int h = Data.Instance.areaData.areas[n].artworks[i].height;
 				float aspect = 1f*Data.Instance.areaData.areas[n].artworks[i].texture.width/Data.Instance.areaData.areas[n].artworks[i].texture.height;
 				h=h==0?defaultHeight:h;
-				w=w==0?(int)(h*aspect):w;
+				int w=(int)(h*aspect);
 				//artWork.GetComponent<Renderer> ().material.SetTextureScale("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,new Vector2(0.5f*aW/w,0.5f*aH/h));
 				artWork.GetComponent<Renderer> ().material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
 				//area.GetComponent<Homography> ().SetHomography (artWork.name);
@@ -335,12 +336,12 @@ public class ArtPlaced : MonoBehaviour {
 		artWork.GetComponent<CustomPlane>().SetPointers(Data.Instance.areaData.getPointers(n));
 		artWork.GetComponent<CustomPlane>().CustomMesh();
 		artWork.GetComponent<DragArtWork> ().SetAreaId(n);
-		
-		int w = (int)Data.Instance.artData.selectedArtWork.size.x;
+
 		int h = (int)Data.Instance.artData.selectedArtWork.size.y;
 		float aspect = 1f*Data.Instance.lastArtTexture.width/Data.Instance.lastArtTexture.height;
         h = h == 0 ? defaultHeight : h;
-		w=w==0?(int)(h*aspect):w;
+		//w=w==0?(int)(h*aspect):w;
+		int w = (int)(h * aspect);
 		Data.Instance.areaData.areas[n].AddArtWork(w,h,Data.Instance.lastArtTexture,Data.Instance.artData.selectedArtWork);
 		sel_galleryID = Data.Instance.artData.selectedArtWork.galleryId;
 		sel_galleryArtID = Data.Instance.artData.selectedArtWork.artId;

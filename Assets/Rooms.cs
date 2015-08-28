@@ -23,6 +23,9 @@ public class Rooms : MonoBehaviour
     private int id;
 
     private RoomsData roomData;
+	private int defaultArtHeight = 50;
+	private int totalArtworks2Load=0;
+	private int LoadedArtwork=0;
 
     void Start()
     {
@@ -103,11 +106,38 @@ public class Rooms : MonoBehaviour
 		Data.Instance.areaData.areas.Clear ();
         Data.Instance.areaData.url = room.url;
         Data.Instance.areaData.id = 1;
+
+		foreach (RoomsData.RoomArea rArea in room.area)
+			totalArtworks2Load += rArea.artworks.Count;
+
         foreach (RoomsData.RoomArea roomArea in room.area)
         {
             Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
+			foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks){
+				StartCoroutine(GetArtData(areaArtwork,Data.Instance.areaData.areas.Count-1,room));
+			}
         }
-        Data.Instance.LoadLevel("ArtPlaced");
-       
+
+		Debug.Log ("Loading...");
     }
+
+	public IEnumerator GetArtData(RoomsData.RoomAreaArtWork areaArtwork, int areaId, RoomsData.Room room)
+	{
+		ArtData.GalleryData.ArtData artData = Data.Instance.artData.galleries[areaArtwork.galleryID].artWorksData[areaArtwork.galleryArtID];
+		WWW imageURLWWW = new WWW(artData.url);		
+		yield return imageURLWWW;
+		
+		Texture2D tex = imageURLWWW.texture;
+
+		int h = (int)artData.size.y;		
+		float aspect = 1f*tex.width/tex.height;
+		h = h == 0 ? defaultArtHeight : h;
+		int w = (int)(h * aspect);
+		Data.Instance.areaData.areas[areaId].AddArtWork(w,h,tex,artData);
+		Data.Instance.areaData.areas [areaId].artworks [Data.Instance.areaData.areas [areaId].artworks.Count - 1].position = areaArtwork.position;
+		Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
+		LoadedArtwork++;
+		if(totalArtworks2Load==LoadedArtwork)Data.Instance.LoadLevel("ArtPlaced");
+		yield return null;
+	}
 }
