@@ -29,8 +29,9 @@ public class AreaData : MonoBehaviour {
 			return new Vector3 (scaleX, scaleY, 1f);
 		}
 
-		public void AddArtWork(int w, int h, Texture2D tex){
+		public void AddArtWork(int w, int h, Texture2D tex, ArtData.GalleryData.ArtData artdata){
 			ArtWork artwork = new ArtWork (w, h, tex);
+			artwork.SetGalleryData (artdata);
 			artworks.Add (artwork);
 		}
 	}
@@ -50,6 +51,11 @@ public class AreaData : MonoBehaviour {
 			width = w;
 			height = h;
 			texture = tex;
+		}
+
+		public void SetGalleryData(ArtData.GalleryData.ArtData artdata){
+			galleryID = artdata.galleryId;
+			galleryArtID = artdata.artId;
 		}
 	}
 

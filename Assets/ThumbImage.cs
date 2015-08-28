@@ -114,7 +114,6 @@ public class ThumbImage : MonoBehaviour{
         if (sprite) {
 			Data.Instance.SetLastArtTexture(texture2d);
 			//Data.Instance.lastArtTexture = sprite.texture;
-			Events.OnSelectFooterArtwork();
 		}
         footer.OnSelect(id);
     }

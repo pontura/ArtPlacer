@@ -63,30 +63,8 @@ public class Footer : MonoBehaviour {
     public void OnSelect(int id)
     {
         print("Footer " + id);
-
-		int selGal = Data.Instance.artData.selectedGallery;
-
-		//My footer;
-		if (selGal == -2)
-		{
-			Data.Instance.artData.selectedArtWork = Data.Instance.artData.myArtWorks.artWorksData[id];
-		}
-		//My favourites;
-		else
-			if (selGal == -1)
-		{
-			Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[Data.Instance.artData.favorites[id].galleryId].artWorksData[id];
-			Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.galleries[Data.Instance.artData.favorites[id].galleryId].title;
-			Data.Instance.artData.selectedArtWork.galleryId = Data.Instance.artData.favorites[id].galleryId;
-			Data.Instance.artData.selectedArtWork.artId = Data.Instance.artData.favorites[id].artId;
-		}
-		else
-		{
-			Data.Instance.artData.selectedArtWork = Data.Instance.artData.galleries[selGal].artWorksData[id];
-			Data.Instance.artData.selectedArtWork.gallery = Data.Instance.artData.galleries[Data.Instance.artData.selectedGallery].title;
-			Data.Instance.artData.selectedArtWork.galleryId = Data.Instance.artData.selectedGallery;
-			Data.Instance.artData.selectedArtWork.artId = id;
-		}
+		Data.Instance.artData.SetSelectedArtwork (id);
+		Events.OnSelectFooterArtwork();
     }
     public void Close()
     {
