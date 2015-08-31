@@ -55,7 +55,7 @@ public class Rooms : MonoBehaviour
             string filePath;
 
             if (roomData.type == RoomsData.types.LOCAL)
-                filePath = Path.Combine(folder, room.url + "_thumb.png");
+                 filePath = GetUrlPath(room.url + "_thumb.png");
             else
                 filePath = room.url;
 
@@ -138,7 +138,7 @@ public class Rooms : MonoBehaviour
     void LoadRoomTexture()
     {
         print("LoadRoomTexture");
-        var filePath = GetUrlPath();
+        var filePath = GetUrlPath(Data.Instance.areaData.url + ".png");
         if (System.IO.File.Exists(filePath))
         {
             var bytes = System.IO.File.ReadAllBytes(filePath);
@@ -148,8 +148,10 @@ public class Rooms : MonoBehaviour
             Data.Instance.LoadLevel("ArtPlaced");
         }
     }
-    public string GetUrlPath()
+    public string GetUrlPath(string fileName)
     {
-        return string.Format("{0}/Resources/images/rooms/" + Data.Instance.areaData.url + ".png", Application.dataPath);
+        string url = Data.Instance.GetFullPathByFolder("Rooms", fileName);
+        print("CARGA ROOM DE: " + url);
+        return url;
     }
 }

@@ -126,7 +126,7 @@ public class Data : MonoBehaviour
     {
         byte[] bytes = lastPhotoTexture.EncodeToPNG();
 
-        string path = System.DateTime.Now.ToString("yyyyMMddHHmmss");
+        string path = GetUniqueName();
 
         areaData.url = path;
         areaData.Save();
@@ -138,19 +138,24 @@ public class Data : MonoBehaviour
 
        // var filePath = Path.Combine(folder, path);
        //// File.WriteAllBytes(filePath + ".png", bytes);
-        File.WriteAllBytes( ScreenShotName() , bytes);
+        File.WriteAllBytes(GetFullPathByFolder("Rooms", path + ".png"), bytes);
 
         Events.OnGenerateRoomThumb(path);
     }
-    public string ScreenShotName()
+    public string GetFullPathByFolder(string FolderName, string fileName)
     {
-        return string.Format("{0}/Resources/images/rooms/{1}.png", Application.dataPath, System.DateTime.Now.ToString("yyyyMMddHHmmss"));
+         string folder = Path.Combine(Application.persistentDataPath, FolderName) ;
+         return Path.Combine(folder, fileName);
+    }
+    public string GetUniqueName()
+    {
+        return System.DateTime.Now.ToString("yyyyMMddHHmmss");
     }
 	public void SavePhotoArt(string name, string author, float width, float height)
 	{
 		byte[] bytes = lastArtTexture.EncodeToPNG();
-		
-		string path = System.DateTime.Now.ToString("yyyyMMddHHmmss");
+
+        string path = GetUniqueName();
 
 		artData.SaveArtWork(path, name, author, width, height);
 		
