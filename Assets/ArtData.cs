@@ -193,6 +193,13 @@ public class ArtData : MonoBehaviour {
 	}
 
 	public void DeleteArtworkData (int id){
+		string artworkData = PlayerPrefs.GetString("artwork_" + id);
+		string path = ""; 
+		if (artworkData != "" && artworkData != null) {			
+			string[] result = artworkData.Split (":" [0]);
+			path = result [0];
+		}
+		Data.Instance.DeletePhotoArt (path);
 		PlayerPrefs.DeleteKey ("artwork_" + id);
 		ReadArtworkData ();
 	}

@@ -168,6 +168,18 @@ public class Data : MonoBehaviour
 		var filePath = Path.Combine(folder, path);
 		File.WriteAllBytes(filePath + ".png", bytes);
 	}
+	public void DeletePhotoArt(string path)
+	{
+		//string folder = Path.Combine(Application.persistentDataPath, "Artworks");
+		string folder = Path.Combine(Application.persistentDataPath, "Artworks");
+		
+		if (!Directory.Exists(folder))
+			Directory.CreateDirectory(folder);
+		
+		var filePath = Path.Combine(folder, path);
+		File.Delete (filePath + ".png");
+	}
+
 	public void AddArea(int id, Vector3[] pointers, Vector3 position, float width, float height){
         areaData.AddAreas(id, pointers, position, width, height);
 	}
