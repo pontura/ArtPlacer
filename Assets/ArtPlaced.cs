@@ -12,6 +12,8 @@ public class ArtPlaced : MonoBehaviour {
     public Animation tooltipAddArt;
     public GameObject buttonAddArt;
 	public GameObject buttonInfo;
+	private Animation infoAnim;
+	private Image infoImage;
 
 	public GameObject bg;
 
@@ -59,7 +61,10 @@ public class ArtPlaced : MonoBehaviour {
 				break;
 			}
 		}
-        CheckOpenHelp();  
+        CheckOpenHelp(); 
+
+		infoAnim = buttonInfo.GetComponent<Animation> ();
+		infoImage = buttonInfo.GetComponentInChildren<Image> ();
 
     }
     void CheckOpenHelp()
@@ -153,6 +158,7 @@ public class ArtPlaced : MonoBehaviour {
 				thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
 				thumbRenderer.enabled = false;
 				buttonInfo.SetActive(true);
+				StartCoroutine(InfoButtonFeedback());
 				break;
 			}					
 		}
@@ -391,6 +397,14 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.artData.SetSelectedArtwork (sel_galleryArtID);
 		Data.Instance.isArtworkInfo2Place = false;
 		Data.Instance.LoadLevel("ConfirmArtWork");
+	}
+
+	IEnumerator InfoButtonFeedback(){
+		infoAnim.Play ();
+		buttonInfo.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
+		yield return new WaitForSeconds(1.5f);
+		infoAnim.Stop ();
+		buttonInfo.GetComponentInChildren<Image>().color = Color.white;
 	}
 
 	void OnDestroy()
