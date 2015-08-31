@@ -26,7 +26,18 @@ public class Room : MonoBehaviour
     }
     public void Delete()
     {
+		int id = Data.Instance.roomsData.actualRoomId;
+		string path = Data.Instance.roomsData.rooms [id].url;
 
+		print ("Path: " + path);
+
+		Data.Instance.DeletePhotoRoom (path);
+		Data.Instance.roomsData.rooms.RemoveAt (id);	
+		string DataName = Data.Instance.roomsData.GetRoomName(path);		
+		print ("DataName: " + DataName);
+		PlayerPrefs.DeleteKey(DataName);
+		Data.Instance.roomsData.ReadRoomsData ();
+		Back ();
     }
     public void Open()
     {
