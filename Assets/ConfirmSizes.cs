@@ -32,7 +32,7 @@ public class ConfirmSizes : MonoBehaviour {
      //   float _x = Data.Instance.areaData.areas[areaActiveID].position.x;
      //   float _y = Data.Instance.areaData.areas[areaActiveID].position.y;
 
-        newSizeSignal = Instantiate(sizeSignal);
+        newSizeSignal = Instantiate(sizeSignal) as SizeSignal;
         newSizeSignal.id = areaActiveID;
         newSizeSignal.transform.SetParent(container.transform);
         newSizeSignal.transform.localPosition = new Vector3(0,0,0);

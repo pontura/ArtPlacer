@@ -20,7 +20,7 @@ public class ConfirmArtworkSize : MonoBehaviour {
         //if (Data.Instance.areaData.areas.Count > 0)
         //AddConfirmSizes(Data.Instance.areaData.areas[0]);
 
-		signal = Instantiate (artworkSignal);
+        signal = Instantiate(artworkSignal) as ArtworkSignal;
 		signal.transform.SetParent(container.transform);
 		signal.transform.localPosition = new Vector3(0,0,0);
 		signal.transform.localScale = Vector3.one;
