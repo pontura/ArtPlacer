@@ -23,10 +23,6 @@ public class RoomImageCreator : MonoBehaviour {
         this.path = path;
         takeShot = true;
     }
-    public string ScreenShotName()
-    {
-        return string.Format("{0}/Resources/images/rooms/" + path  + "_thumb.png",  Application.dataPath);
-    }
     public void TakeHiResShot()
     {
         takeShot = true;
@@ -45,7 +41,10 @@ public class RoomImageCreator : MonoBehaviour {
             RenderTexture.active = null; // JC: added to avoid errors
             Destroy(rt);
             byte[] bytes = screenShot.EncodeToPNG();
-            string filename = ScreenShotName();
+
+            string filename = Data.Instance.GetFullPathByFolder("Rooms", path + "_thumb.png");
+
+          //  string filename = ScreenShotName();
            // string filename = path;
             System.IO.File.WriteAllBytes(filename, bytes);
             Debug.Log(string.Format("Took screenshot to: {0}", filename));
