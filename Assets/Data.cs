@@ -10,6 +10,7 @@ public class Data : MonoBehaviour
     public Texture2D lastArtTexture;
 	public Texture2D lastArtThumbTexture;
     public Texture2D lastPhotoTexture;
+    public Texture2D lastPhotoThumbTexture;
     public ArtData artData;
 	public AreaData areaData;
     public MainMenu mainMenu;
@@ -59,6 +60,7 @@ public class Data : MonoBehaviour
     string lastScene = "";
     public void LoadLevel(string aLevelName)
     {
+        Events.OnLoading(true);
         lastScene = Application.loadedLevelName;
         LoadLevel(aLevelName, 0.005f, 0.005f, Color.black);
     }

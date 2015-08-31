@@ -33,6 +33,8 @@ public class ThumbImage : MonoBehaviour{
         RealLoadRoomImage(url);
         GetComponent<Button>().onClick.AddListener(() =>
         {
+            if (texture2d == null) return;
+            Data.Instance.lastPhotoThumbTexture = texture2d;
             OnSelectedRoom(rooms, id);
         });
     }
@@ -52,10 +54,10 @@ public class ThumbImage : MonoBehaviour{
         if (System.IO.File.Exists(filePath))
         {
             var bytes = System.IO.File.ReadAllBytes(filePath);
-            var tex = new Texture2D(1, 1);
-            tex.LoadImage(bytes);
+            texture2d = new Texture2D(1, 1);
+            texture2d.LoadImage(bytes);
             sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(tex, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+            sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
 
             GetComponent<UnityEngine.UI.Image>().sprite = sprite;
         }
@@ -130,8 +132,8 @@ public class ThumbImage : MonoBehaviour{
 
     public void OnSelectedRoom(Rooms rooms, int id)
     {
-        if (sprite)
-            Data.Instance.lastPhotoTexture = texture2d;
+      //  if (sprite)
+       //     Data.Instance.lastPhotoTexture = texture2d;
         rooms.OnSelect(id);
         texture2d = null;
     }

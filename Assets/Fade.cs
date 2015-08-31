@@ -37,12 +37,14 @@ public class Fade : MonoBehaviour
             Application.LoadLevel(m_LevelIndex);     
 		while (t > 0f)
 		{
+            Events.OnLoading(false);
 			yield return new WaitForEndOfFrame();
             t -= Time.deltaTime + aFadeInTime;
 			masker.color = new Color(0,0,0,t);
 		}
         graphicRaycaster.enabled = false;
         m_Fading = false;
+        
     }
     private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor)
     {

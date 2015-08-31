@@ -22,9 +22,7 @@ public class Rooms : MonoBehaviour
     private int id;
 
     private RoomsData roomData;
-	private int defaultArtHeight = 50;
-	private int totalArtworks2Load=0;
-	private int LoadedArtwork=0;
+
 
     void Start()
     {
@@ -92,66 +90,22 @@ public class Rooms : MonoBehaviour
     {
         RoomsData.Room room;
 
+        Data.Instance.roomsData.actualRoomId = id;
+
         if (roomData.type == RoomsData.types.LOCAL)
             room = Data.Instance.roomsData.rooms[id];
         else
             room = Data.Instance.roomsData.onlineRooms[id];
 
-		Data.Instance.areaData.areas.Clear ();
+        Data.Instance.areaData.areas.Clear();
         Data.Instance.areaData.url = room.url;
         Data.Instance.areaData.id = 1;
-
-		foreach (RoomsData.RoomArea rArea in room.area)
-			totalArtworks2Load += rArea.artworks.Count;
-
-        foreach (RoomsData.RoomArea roomArea in room.area)
-        {
-            Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
-			foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks){
-				StartCoroutine(GetArtData(areaArtwork,Data.Instance.areaData.areas.Count-1,room));
-			}
-        }
-
-		Debug.Log ("Loading...");
-    }
-
-	public IEnumerator GetArtData(RoomsData.RoomAreaArtWork areaArtwork, int areaId, RoomsData.Room room)
-	{
-		ArtData.GalleryData.ArtData artData = Data.Instance.artData.galleries[areaArtwork.galleryID].artWorksData[areaArtwork.galleryArtID];
-		WWW imageURLWWW = new WWW(artData.url);		
-		yield return imageURLWWW;
-		
-		Texture2D tex = imageURLWWW.texture;
-
-		int h = (int)artData.size.y;		
-		float aspect = 1f*tex.width/tex.height;
-		h = h == 0 ? defaultArtHeight : h;
-		int w = (int)(h * aspect);
-		Data.Instance.areaData.areas[areaId].AddArtWork(w,h,tex,artData);
-		Data.Instance.areaData.areas [areaId].artworks [Data.Instance.areaData.areas [areaId].artworks.Count - 1].position = areaArtwork.position;
-		Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
-		LoadedArtwork++;
-        if (totalArtworks2Load == LoadedArtwork)
-            LoadRoomTexture();
-		yield return null;
-	}
-    void LoadRoomTexture()
-    {
-        print("LoadRoomTexture");
-        var filePath = GetUrlPath(Data.Instance.areaData.url + ".png");
-        if (System.IO.File.Exists(filePath))
-        {
-            var bytes = System.IO.File.ReadAllBytes(filePath);
-            var tex = new Texture2D(800, 600);
-            tex.LoadImage(bytes);
-            Data.Instance.lastPhotoTexture = tex;
-            Data.Instance.LoadLevel("ArtPlaced");
-        }
+        
+        Data.Instance.LoadLevel("Room");
     }
     public string GetUrlPath(string fileName)
     {
         string url = Data.Instance.GetFullPathByFolder("Rooms", fileName);
-        print("CARGA ROOM DE: " + url);
         return url;
     }
 }

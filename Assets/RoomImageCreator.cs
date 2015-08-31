@@ -20,6 +20,7 @@ public class RoomImageCreator : MonoBehaviour {
     }
     void OnGenerateRoomThumb(string path)
     {
+        Events.ArtworkPreview(false);
         this.path = path;
         takeShot = true;
     }

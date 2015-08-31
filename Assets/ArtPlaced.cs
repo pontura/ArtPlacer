@@ -13,8 +13,6 @@ public class ArtPlaced : MonoBehaviour {
     public GameObject buttonAddArt;
 	public GameObject buttonInfo;
 
-	public GameObject bg;
-
 	Camera cam;
 	
 	string selected = null;
@@ -214,7 +212,6 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	public void Preview(bool enable){
-		bg.gameObject.SetActive(enable);
 		if (Data.Instance.areaData.areas.Count > 0){
 			for (int i = 0; i < Data.Instance.areaData.areas.Count; i++){				
 				areas[i].GetComponent<WallPlane>().area.gameObject.SetActive(enable);				
