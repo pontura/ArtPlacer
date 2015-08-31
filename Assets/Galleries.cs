@@ -8,6 +8,7 @@ public class Galleries : MonoBehaviour {
     public GalleryButton galleryButton;
 	public GalleryButton myArtWorks;
     public GameObject buttonsContainer;
+	public Animation tooltipAddArt;
 
     private Vector2 thumbSize = new Vector2(290, 87);
 
@@ -22,9 +23,11 @@ public class Galleries : MonoBehaviour {
 			favouritesButton.gameObject.SetActive (false);
 		else
 			favouritesButton.Init (this, -1, "MY FAVOURITES (" + Data.Instance.artData.favorites.Count + ")", "");
-		if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0)
-			myArtWorks.gameObject.SetActive(false);
-		else
+		if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0) {
+			myArtWorks.gameObject.SetActive (false);
+			tooltipAddArt.gameObject.SetActive(true);
+			tooltipAddArt.Play("tooltipOn");
+		}else
 			myArtWorks.Init (this, -2, "MY ARTWORKS (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
     }
     private int id = 0;
@@ -54,6 +57,7 @@ public class Galleries : MonoBehaviour {
 	public void AddArtWorks(){
 		Data.Instance.isPhoto4Room = false;
 		Data.Instance.LoadLevel("TakePhoto");
+		tooltipAddArt.gameObject.SetActive(false);
 	}
 
 	public void GotoMyArtWorks(){
