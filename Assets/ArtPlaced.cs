@@ -160,7 +160,7 @@ public class ArtPlaced : MonoBehaviour {
 
 	void DragArtWork(RaycastHit hit){
 				 
-		Renderer rend = hit.transform.GetComponent<Renderer> ();
+		Renderer rend = hit.transform.GetComponent<Renderer> ();	
 		Vector2 scale = new Vector2(1/rend.material.mainTextureScale.x,1/rend.material.mainTextureScale.y);
 		Vector2 pixelUV = 0.5f*(scale)-hit.textureCoord;
 		Vector2 offset = new Vector2(pixelUV.x*rend.material.mainTextureScale.x,pixelUV.y*rend.material.mainTextureScale.y);

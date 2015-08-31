@@ -6,11 +6,12 @@ public class ButtonFeedback : MonoBehaviour {
 
 	public float time;
 
-	private Animation infoAnim;
+	public Animation infoAnim;
 	private Image infoImage;
 
-	public void Start(){
+	void Awake () {
 		infoAnim = gameObject.GetComponent<Animation> ();
+		print (infoAnim);
 		infoImage = gameObject.GetComponentInChildren<Image>();
 	}
 
