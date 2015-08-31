@@ -10,7 +10,6 @@ public class Rooms : MonoBehaviour
     public Text title;
     public ThumbImage button;
     public GameObject container;
-    public ScrollLimit scrollLimit;
 
     public Vector2 thumbSize = new Vector2(180, 180);
     public Vector2 separation = new Vector2(2, 2);
@@ -56,7 +55,7 @@ public class Rooms : MonoBehaviour
             string filePath;
 
             if (roomData.type == RoomsData.types.LOCAL)
-                filePath = Path.Combine(folder, room.url + ".png");
+                filePath = Path.Combine(folder, room.url + "_thumb.png");
             else
                 filePath = room.url;
 
@@ -72,15 +71,10 @@ public class Rooms : MonoBehaviour
         newButton.transform.localScale = Vector3.one;
         newButton.transform.localPosition = Vector3.zero;
         newButton.InitRoom(this, url, id);
-        float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
-        float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
-        newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
-        if (separationx == cols - 1) { separationY++; separationx = 0; } else separationx++;
         id++;
     }
     void SetOff()
     {
-        scrollLimit.ResetScroll();
         separationY = 0;
         separationx = 0;
         foreach (ThumbImage child in container.GetComponentsInChildren<ThumbImage>())
@@ -137,7 +131,25 @@ public class Rooms : MonoBehaviour
 		Data.Instance.areaData.areas [areaId].artworks [Data.Instance.areaData.areas [areaId].artworks.Count - 1].position = areaArtwork.position;
 		Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
 		LoadedArtwork++;
-		if(totalArtworks2Load==LoadedArtwork)Data.Instance.LoadLevel("ArtPlaced");
+        if (totalArtworks2Load == LoadedArtwork)
+            LoadRoomTexture();
 		yield return null;
 	}
+    void LoadRoomTexture()
+    {
+        print("LoadRoomTexture");
+        var filePath = GetUrlPath();
+        if (System.IO.File.Exists(filePath))
+        {
+            var bytes = System.IO.File.ReadAllBytes(filePath);
+            var tex = new Texture2D(800, 600);
+            tex.LoadImage(bytes);
+            Data.Instance.lastPhotoTexture = tex;
+            Data.Instance.LoadLevel("ArtPlaced");
+        }
+    }
+    public string GetUrlPath()
+    {
+        return string.Format("{0}/Resources/images/rooms/" + Data.Instance.areaData.url + ".png", Application.dataPath);
+    }
 }

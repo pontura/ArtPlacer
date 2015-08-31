@@ -10,7 +10,6 @@ public class ArtWorks : MonoBehaviour
     public Text title;
     public ThumbImage button;
     public GameObject container;
-    public ScrollLimit scrollLimit;
 
     public Vector2 thumbSize = new Vector2(180, 180);
     public Vector2 separation = new Vector2(2, 2);
@@ -38,14 +37,16 @@ public class ArtWorks : MonoBehaviour
 			}
 			AddThumb(path);
        }
+
+      // Events.OnScrollSizeRefresh(new Vector2(611, _y));
+
        float totalThumbs = currentGallery.artWorksData.Count;
        float totalRows = totalThumbs / cols;
        int maxScroll = (int)((totalRows - 1) * (thumbSize.y +separationY));
-       if (totalRows > 2) scrollLimit.SetMaxScroll(maxScroll);
 
        print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
     }
-
+    private float _y;
     private void AddThumb(string url)
     {
         ThumbImage newButton = Instantiate(button);        
@@ -53,15 +54,14 @@ public class ArtWorks : MonoBehaviour
         newButton.transform.localScale = Vector3.one;
         newButton.transform.localPosition = Vector3.zero;
         newButton.Init(this, url, id);
-        float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
-        float _y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
-        newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
-        if (separationx == cols - 1)  {  separationY++;   separationx = 0; }  else separationx++;
+        //float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
+        //_y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
+        //newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
+        //if (separationx == cols - 1)  {  separationY++;   separationx = 0; }  else separationx++;
         id++;
     }
     void SetOff()
     {
-        scrollLimit.ResetScroll();
         separationY = 0;
         separationx = 0;
         foreach (ThumbImage child in container.GetComponentsInChildren<ThumbImage>())

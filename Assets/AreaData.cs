@@ -109,6 +109,7 @@ public class AreaData : MonoBehaviour {
 
         GetComponent<RoomsData>().ReadRoomsData();
     }
+    
     public int CountWalls()
     {
         int num = 0;

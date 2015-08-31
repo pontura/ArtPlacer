@@ -95,10 +95,12 @@ public class Data : MonoBehaviour
     }
     public string GetRoomsPath()
     {
-        string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Rooms");
+       // string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Rooms");
+
+        string imagesFolderPath = string.Format("{0}/Resources/images/rooms/", Application.dataPath);
 
 #if UNITY_ANDROID
-        imagesFolderPath = "file:///" + imagesFolderPath;
+        //imagesFolderPath = "file:///" + imagesFolderPath;
 #endif
         return imagesFolderPath;
     }
@@ -129,13 +131,20 @@ public class Data : MonoBehaviour
         areaData.url = path;
         areaData.Save();
 
-        string folder = Path.Combine(Application.persistentDataPath, "Rooms");
+       // string folder = Path.Combine(Application.persistentDataPath, "Rooms");
 
-        if (!Directory.Exists(folder))
-            Directory.CreateDirectory(folder);
+       // if (!Directory.Exists(folder))
+       //     Directory.CreateDirectory(folder);
 
-        var filePath = Path.Combine(folder, path);
-        File.WriteAllBytes(filePath + ".png", bytes);
+       // var filePath = Path.Combine(folder, path);
+       //// File.WriteAllBytes(filePath + ".png", bytes);
+        File.WriteAllBytes( ScreenShotName() , bytes);
+
+        Events.OnGenerateRoomThumb(path);
+    }
+    public string ScreenShotName()
+    {
+        return string.Format("{0}/Resources/images/rooms/{1}.png", Application.dataPath, System.DateTime.Now.ToString("yyyyMMddHHmmss"));
     }
 	public void SavePhotoArt(string name, string author, float width, float height)
 	{
@@ -145,7 +154,8 @@ public class Data : MonoBehaviour
 
 		artData.SaveArtWork(path, name, author, width, height);
 		
-		string folder = Path.Combine(Application.persistentDataPath, "Artworks");
+		//string folder = Path.Combine(Application.persistentDataPath, "Artworks");
+        string folder = Path.Combine(Application.persistentDataPath, "Artworks");
 		
 		if (!Directory.Exists(folder))
 			Directory.CreateDirectory(folder);

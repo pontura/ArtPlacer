@@ -12,7 +12,7 @@ public class ThumbImage : MonoBehaviour{
 
     public void Init(Footer _footer, string url, int _id)
     {
-        StartCoroutine(RealLoadRoomImage(url));
+        StartCoroutine(RealLoadImage(url));
 		footer = _footer;
 		id=_id;
         /*GetComponent<Button>().OnClick.AddListener(() =>
@@ -29,7 +29,8 @@ public class ThumbImage : MonoBehaviour{
 
     public void InitRoom(Rooms rooms, string url, int id)
     {
-        StartCoroutine(RealLoadRoomImage(url));
+        //StartCoroutine(RealLoadRoomImage(url));
+        RealLoadRoomImage(url);
         GetComponent<Button>().onClick.AddListener(() =>
         {
             OnSelectedRoom(rooms, id);
@@ -45,22 +46,19 @@ public class ThumbImage : MonoBehaviour{
             StartCoroutine(OnSelected(artWorks, id));
         });
     }
-    private IEnumerator RealLoadRoomImage(string url)
+    private void RealLoadRoomImage(string url)
     {
-        WWW imageURLWWW = new WWW(url);
-
-        print("url: " + url);
-        yield return imageURLWWW;
-
-        texture2d = imageURLWWW.texture;
-
-        if (imageURLWWW.texture != null)
+        var filePath = url;
+        if (System.IO.File.Exists(filePath))
         {
+            var bytes = System.IO.File.ReadAllBytes(filePath);
+            var tex = new Texture2D(1, 1);
+            tex.LoadImage(bytes);
             sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(imageURLWWW.texture, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+            sprite = Sprite.Create(ScaleTexture(tex, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+
             GetComponent<UnityEngine.UI.Image>().sprite = sprite;
         }
-        yield return null;
     }
     private IEnumerator RealLoadImage(string url)
     {

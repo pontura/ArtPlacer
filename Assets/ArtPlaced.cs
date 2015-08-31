@@ -242,8 +242,7 @@ public class ArtPlaced : MonoBehaviour {
 	public void Ready()
 	{
 		Debug.Log ("Ready");
-		//Data.Instance.areaData.Save();
-		Data.Instance.SaveRoom ();
+		Data.Instance.SaveRoom();
 	}
 
 	public void AddFromFooter(){
