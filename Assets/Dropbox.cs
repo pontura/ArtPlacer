@@ -61,7 +61,7 @@ public class Dropbox : MonoBehaviour {
         foreach (DropData dropData in data)
         {
             print("title" + dropData.title);
-            DropboxButton newButton = Instantiate(button);
+            DropboxButton newButton = Instantiate(button) as DropboxButton;
             newButton.transform.SetParent( container.transform );
             newButton.transform.localScale = Vector3.one;
             newButton.transform.localPosition = new Vector3(0, (-separation /2) + (- 1 * (separation * id)), 0);

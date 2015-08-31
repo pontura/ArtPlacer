@@ -49,7 +49,7 @@ public class ArtWorks : MonoBehaviour
     private float _y;
     private void AddThumb(string url)
     {
-        ThumbImage newButton = Instantiate(button);        
+        ThumbImage newButton = Instantiate(button) as ThumbImage;        
         newButton.transform.SetParent(container.transform);
         newButton.transform.localScale = Vector3.one;
         newButton.transform.localPosition = Vector3.zero;
