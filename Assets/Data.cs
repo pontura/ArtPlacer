@@ -140,6 +140,13 @@ public class Data : MonoBehaviour
 
         Events.OnGenerateRoomThumb(path);
     }
+
+	public void DeletePhotoRoom(string path)
+	{
+		File.Delete (GetFullPathByFolder("Rooms", path + ".png"));
+		File.Delete (GetFullPathByFolder("Rooms", path + "_thumb.png"));
+	}
+
     public string GetFullPathByFolder(string FolderName, string fileName)
     {
          string folder = Path.Combine(Application.persistentDataPath, FolderName) ;
