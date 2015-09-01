@@ -38,13 +38,14 @@ public class Fade : MonoBehaviour
 		while (t > 0f)
 		{
             Events.OnLoading(false);
+            
 			yield return new WaitForEndOfFrame();
             t -= Time.deltaTime + aFadeInTime;
 			masker.color = new Color(0,0,0,t);
 		}
         graphicRaycaster.enabled = false;
         m_Fading = false;
-        
+        Events.OnTooltipOff();
     }
     private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor)
     {

@@ -35,12 +35,24 @@ public class RoomImageCreator : MonoBehaviour {
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
             cameraToScreen.targetTexture = rt;
             Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+
+
             cameraToScreen.Render();
             RenderTexture.active = rt;
             screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+
+
+            Texture2D image = new Texture2D(resWidth, resHeight);
+            image.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+            image.Apply();
+            RenderTexture.active = rt;
+            Data.Instance.lastPhotoThumbTexture = image;
+
+
             cameraToScreen.targetTexture = null;
             RenderTexture.active = null; // JC: added to avoid errors
             Destroy(rt);
+           
             byte[] bytes = screenShot.EncodeToPNG();
 
             string filename = Data.Instance.GetFullPathByFolder("Rooms", path + "_thumb.png");
@@ -52,6 +64,5 @@ public class RoomImageCreator : MonoBehaviour {
             takeShot = false;
         }
     }
-
 
 }

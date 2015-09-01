@@ -9,8 +9,10 @@ public class Room : MonoBehaviour
     private int totalArtworks2Load = 0;
     private int LoadedArtwork = 0;
 
+
     void Start()
     {
+
         float maxWidth = rawImage.rectTransform.sizeDelta.x;
         float maxHeight = rawImage.rectTransform.sizeDelta.y;
         float aspect = maxWidth / maxHeight;
@@ -25,6 +27,10 @@ public class Room : MonoBehaviour
         rawImage.texture = Data.Instance.lastPhotoThumbTexture;
     }
     public void Delete()
+    {
+
+    }
+    public void Email()
     {
 
     }

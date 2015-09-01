@@ -15,6 +15,7 @@ public class Data : MonoBehaviour
 	public AreaData areaData;
     public MainMenu mainMenu;
     public RoomsData roomsData;
+    public string lastScene = "";
 
     const string PREFAB_PATH = "Data";
     private Fade fade;
@@ -57,7 +58,7 @@ public class Data : MonoBehaviour
         if (lastScene != "")
         LoadLevel(lastScene);
     }
-    string lastScene = "";
+    
     public void LoadLevel(string aLevelName)
     {
         Events.OnLoading(true);
@@ -126,6 +127,8 @@ public class Data : MonoBehaviour
     }
     public void SaveRoom()
     {
+        Events.OnTooltipOn("SAVING ROOM");
+
         byte[] bytes = lastPhotoTexture.EncodeToPNG();
 
         string path = GetUniqueName();
@@ -133,13 +136,6 @@ public class Data : MonoBehaviour
         areaData.url = path;
         areaData.Save();
 
-       // string folder = Path.Combine(Application.persistentDataPath, "Rooms");
-
-       // if (!Directory.Exists(folder))
-       //     Directory.CreateDirectory(folder);
-
-       // var filePath = Path.Combine(folder, path);
-       //// File.WriteAllBytes(filePath + ".png", bytes);
         File.WriteAllBytes(GetFullPathByFolder("Rooms", path + ".png"), bytes);
 
         Events.OnGenerateRoomThumb(path);

@@ -10,15 +10,10 @@ public class Rooms : MonoBehaviour
     public Text title;
     public ThumbImage button;
     public GameObject container;
-
-    public Vector2 thumbSize = new Vector2(180, 180);
-    public Vector2 separation = new Vector2(2, 2);
     public int cols;
 
     private int selectionId;
     private bool isOn;
-    private int separationY = 0;
-    private int separationx = 0;
     private int id;
 
     private RoomsData roomData;
@@ -26,8 +21,6 @@ public class Rooms : MonoBehaviour
 
     void Start()
     {
-        thumbSize += separation;
-      //  ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
 
         List<RoomsData.Room> rooms;
         roomData = Data.Instance.roomsData;
@@ -73,8 +66,6 @@ public class Rooms : MonoBehaviour
     }
     void SetOff()
     {
-        separationY = 0;
-        separationx = 0;
         foreach (ThumbImage child in container.GetComponentsInChildren<ThumbImage>())
             Destroy(child.gameObject);
     }

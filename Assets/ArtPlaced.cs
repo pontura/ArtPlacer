@@ -238,9 +238,14 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void Ready()
 	{
-		Debug.Log ("Ready");
+        Events.OnLoading(true);
 		Data.Instance.SaveRoom();
+        Invoke("ReadyJump", 1);
 	}
+    void ReadyJump()
+    {
+        Data.Instance.LoadLevel("Room");
+    }
 
 	public void AddFromFooter(){
 		if (Data.Instance.areaData.areas.Count > 0) {
