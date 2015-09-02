@@ -34,7 +34,6 @@ public class RoomsData : MonoBehaviour {
 
 	[Serializable]
 	public class RoomAreaArtWork{
-		public string url;
 		public Vector3 position;
 		public int height;
 		public int id;

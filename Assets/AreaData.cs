@@ -6,7 +6,7 @@ using System;
 public class AreaData : MonoBehaviour {
 
 	public List<Area> areas;
-    public string url;
+    public string url="";
     public int id;
 
 	[Serializable]
@@ -95,7 +95,7 @@ public class AreaData : MonoBehaviour {
                 result += Math.Round(pointers.x, 2) + "_" + Math.Round(pointers.y, 2) + "_";
             }            
 			foreach (ArtWork artwork in area.artworks) {
-				result += Math.Round(artwork.position.x, 2) + "/" + Math.Round(artwork.position.x, 2) + "/" + artwork.galleryID + "/" + artwork.galleryArtID;
+				result += Math.Round(artwork.position.x, 2) + "/" + Math.Round(artwork.position.y, 2) + "/" + artwork.galleryID + "/" + artwork.galleryArtID;
 				result += "*";
 			}
 			result += "+";

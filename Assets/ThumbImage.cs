@@ -45,6 +45,7 @@ public class ThumbImage : MonoBehaviour{
         StartCoroutine(RealLoadImage(url));
         GetComponent<Button>().onClick.AddListener(() =>
         {
+			Events.OnLoading(true);
             StartCoroutine(OnSelected(artWorks, id));
         });
     }

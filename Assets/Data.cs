@@ -133,12 +133,18 @@ public class Data : MonoBehaviour
 
         string path = GetUniqueName();
 
-        areaData.url = path;
+		if (areaData.url.Equals (""))
+			path = areaData.url = GetUniqueName ();
+		else
+			path = areaData.url;
+
+		print ("Path: " + path + " " + areaData.url);
         areaData.Save();
 
         File.WriteAllBytes(GetFullPathByFolder("Rooms", path + ".png"), bytes);
 
         Events.OnGenerateRoomThumb(path);
+		lastPhotoTexture = null;
     }
 
 	public void DeletePhotoRoom(string path)

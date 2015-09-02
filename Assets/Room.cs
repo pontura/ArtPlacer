@@ -43,11 +43,22 @@ public class Room : MonoBehaviour
     }
     public void Email()
     {
+		int id = Data.Instance.roomsData.actualRoomId;
+		string url = Data.Instance.roomsData.rooms [id].url;
+		string path = Data.Instance.GetFullPathByFolder ("Rooms", url + ".png");
 
+		string email = "me@example.com";
+		string subject = MyEscapeURL("My Subject");
+		string body = MyEscapeURL("<img src="+path+">");
+		Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
     }
-    public void Open()
-    {
-        int id = Data.Instance.roomsData.actualRoomId;
+	string MyEscapeURL (string url)
+	{
+		return WWW.EscapeURL(url).Replace("+","%20");
+	}
+	public void Open()
+	{
+		int id = Data.Instance.roomsData.actualRoomId;
         RoomsData.Room room = Data.Instance.roomsData.rooms[id];
 
         foreach (RoomsData.RoomArea roomArea in room.area)
@@ -75,12 +86,13 @@ public class Room : MonoBehaviour
     }
     public IEnumerator GetArtData(RoomsData.RoomAreaArtWork areaArtwork, int areaId, RoomsData.Room room)
     {
-        
+		//print ("GallID: " + areaArtwork.galleryID + " ArtId: " + areaArtwork.galleryArtID);
         ArtData.GalleryData.ArtData artData = Data.Instance.artData.galleries[areaArtwork.galleryID].artWorksData[areaArtwork.galleryArtID];
+
         WWW imageURLWWW = new WWW(artData.url);
         yield return imageURLWWW;
-
-        print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);
+        
+		print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);
 
         Texture2D tex = imageURLWWW.texture;
 

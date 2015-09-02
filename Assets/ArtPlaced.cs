@@ -240,6 +240,10 @@ public class ArtPlaced : MonoBehaviour {
 	{
         Events.OnLoading(true);
 		Data.Instance.SaveRoom();
+		Data.Instance.lastArtTexture = null;
+		//print ("Areas Count: " + Data.Instance.areaData.areas.Count);
+		Data.Instance.areaData.areas.Clear ();
+		//print ("Areas Count: " + Data.Instance.areaData.areas.Count);
         Invoke("ReadyJump", 1);
 	}
     void ReadyJump()
