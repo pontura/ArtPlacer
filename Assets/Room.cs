@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
 
 public class Room : MonoBehaviour
 {
@@ -41,27 +42,21 @@ public class Room : MonoBehaviour
 		Data.Instance.roomsData.ReadRoomsData ();
 		Back ();
     }
-    public void Email()
+    public void Share()
     {
 		int id = Data.Instance.roomsData.actualRoomId;
 		string url = Data.Instance.roomsData.rooms [id].url;
-		string path = Data.Instance.GetFullPathByFolder ("Rooms", url + ".png");
+		string path = Data.Instance.GetFullPathByFolder("Rooms", url + "_thumb.png");
 
-		string email = "me@example.com";
-		string subject = MyEscapeURL("My Subject");
-		string body = MyEscapeURL("<img src="+path+">");
-		Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+		gameObject.GetComponent<Share>().ShareImage(path,"Artplaced","preview how flat art will look on a wall","like?");
     }
-	string MyEscapeURL (string url)
-	{
-		return WWW.EscapeURL(url).Replace("+","%20");
-	}
+
 	public void Open()
 	{
 		int id = Data.Instance.roomsData.actualRoomId;
-        RoomsData.Room room = Data.Instance.roomsData.rooms[id];
-
-        foreach (RoomsData.RoomArea roomArea in room.area)
+		RoomsData.Room room = Data.Instance.roomsData.rooms[id];
+		
+		foreach (RoomsData.RoomArea roomArea in room.area)
         {
             Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
             foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks)
