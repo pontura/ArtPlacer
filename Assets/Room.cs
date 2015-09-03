@@ -81,10 +81,14 @@ public class Room : MonoBehaviour
     }
     public IEnumerator GetArtData(RoomsData.RoomAreaArtWork areaArtwork, int areaId, RoomsData.Room room)
     {
+		ArtData.GalleryData.ArtData artData;
 		//print ("GallID: " + areaArtwork.galleryID + " ArtId: " + areaArtwork.galleryArtID);
-        ArtData.GalleryData.ArtData artData = Data.Instance.artData.galleries[areaArtwork.galleryID].artWorksData[areaArtwork.galleryArtID];
+		if (areaArtwork.galleryID == -2)
+			artData = Data.Instance.artData.myArtWorks.artWorksData[areaArtwork.galleryArtID];
+		else
+        	artData = Data.Instance.artData.galleries[areaArtwork.galleryID].artWorksData[areaArtwork.galleryArtID];
 
-        WWW imageURLWWW = new WWW(artData.url);
+        WWW imageURLWWW = new WWW(artData.GetUrl());
         yield return imageURLWWW;
         
 		print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);

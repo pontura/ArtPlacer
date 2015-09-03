@@ -27,12 +27,8 @@ public class GalleryButton : MonoBehaviour {
 
         if (artData != null)
         {
-            string url = artData.url;
+            string url = artData.GetUrl();
 
-			if(id == -2){
-				string folder = Data.Instance.GetArtPath();		
-				url = Path.Combine(folder, url + ".png");
-			}
             if (url.Length > 6)
             {
                 StartCoroutine(LoadThumb(url));

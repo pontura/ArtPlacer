@@ -43,12 +43,7 @@ public class Footer : MonoBehaviour {
             thumbButton.transform.SetParent(container.transform);
             thumbButton.transform.localScale = Vector3.one;
 
-            string url = artData.url;
-            if( Data.Instance.artData.selectedGallery == -2)
-            {
-                string folder = Data.Instance.GetArtPath();
-                url = Path.Combine(folder, url + ".png");
-            }
+            string url = artData.GetUrl();            
 
             thumbButton.Init(this, url , a);
 

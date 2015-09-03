@@ -26,7 +26,7 @@ public class ConfirmArtworkSize : MonoBehaviour {
 		signal.transform.localScale = Vector3.one;
 
 		if (Data.Instance.artData.selectedGallery == -2) {
-			signal.Init(Data.Instance.artData.selectedArtWork.size.x, Data.Instance.artData.selectedArtWork.size.y);
+			signal.Init(Data.Instance.artData.selectedArtWork.size.x*0.01f, Data.Instance.artData.selectedArtWork.size.y*0.01f);
 			signal.name.text = Data.Instance.artData.selectedArtWork.title;
 			signal.author.text = Data.Instance.artData.selectedArtWork.autor;
 		}

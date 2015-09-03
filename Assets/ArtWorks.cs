@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 
 public class ArtWorks : MonoBehaviour
 {
@@ -30,11 +29,7 @@ public class ArtWorks : MonoBehaviour
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {           	
-			string path = data.url;
-			if(title.text.Equals("My Artworks")){
-				string folder = Data.Instance.GetArtPath();		
-				path = Path.Combine(folder, data.url + ".png");
-			}
+			string path = data.GetUrl();
 			AddThumb(path);
        }
 

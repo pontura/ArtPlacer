@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 public class ArtData : MonoBehaviour {
 
@@ -37,6 +38,17 @@ public class ArtData : MonoBehaviour {
             public string autor;
             public string technique;
             public Vector2 size;
+
+			public string GetUrl(){
+				string result = "";
+				if (galleryId == -2) {
+					string folder = Data.Instance.GetArtPath ();		
+					result = Path.Combine (folder, url + ".png");
+				} else {
+					result = url;
+				}
+				return result;
+			}
         } 
     }
     void Awake()
