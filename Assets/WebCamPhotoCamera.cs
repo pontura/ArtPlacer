@@ -8,27 +8,59 @@ public class WebCamPhotoCamera : MonoBehaviour
     WebCamTexture webCamTexture;
     public RawImage rawImage;
     public Button takePhotoButton;
+    private bool photoTaken;
+    private bool ready;
 
     void Start()
     {
+        if (Data.Instance.isPhoto4Room) 
+            Data.Instance.lastPhotoTexture = null;
+        else 
+            Data.Instance.lastArtTexture = null;
+
         webCamTexture = new WebCamTexture();
         if (webCamTexture.isPlaying)
         {
             webCamTexture.Stop();
         } else
         webCamTexture.Play();
+
+        Vector3 scale = rawImage.transform.localScale;
+#if UNITY_IOS
+        scale.x *= -1;
+#endif
+#if UNITY_IPHONE 
+        scale.x *= -1;
+#endif
+        rawImage.transform.localScale = scale;
     }
     void Update()
     {
-        rawImage.texture = webCamTexture;
+        if (ready) return;
+        if (photoTaken)
+        {
+            if (Data.Instance.isPhoto4Room && Data.Instance.lastPhotoTexture != null)
+                Ready();
+            else if (!Data.Instance.isPhoto4Room && Data.Instance.lastArtTexture != null)
+                Ready();
+        }
+        else
+        {
+            rawImage.texture = webCamTexture;
+        }
+    }
+    void Ready()
+    {
+        ready = true;
+        Data.Instance.LoadLevel("ConfirmPhoto");
     }
     void OnDestroy()
     {
         webCamTexture.Stop();
     }
     public void TakePhoto()
-    {        
-        
+    {
+        photoTaken = true;
         takePhotoButton.gameObject.SetActive(false);
 
         if (Data.Instance.isPhoto4Room)
@@ -44,7 +76,7 @@ public class WebCamPhotoCamera : MonoBehaviour
             Data.Instance.lastArtTexture.Apply();
         }
 
-        Data.Instance.LoadLevel("ConfirmPhoto");
+      //  Data.Instance.LoadLevel("ConfirmPhoto");
         
     }
 
