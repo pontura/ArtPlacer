@@ -23,7 +23,7 @@ public class ConfirmPhoto : MonoBehaviour {
 			//Data.Instance.SaveRoom ();
 			Data.Instance.LoadLevel ("Walls");
 		} else {
-			Data.Instance.LoadLevel ("ConfirmArtworkSize");
+			Data.Instance.LoadLevel ("ConfirmArtworkCrop");
 		}
     }
     void OpenTooltip()

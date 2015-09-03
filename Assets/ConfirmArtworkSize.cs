@@ -6,12 +6,10 @@ using System.Collections.Generic;
 public class ConfirmArtworkSize : MonoBehaviour {
 
     public ArtworkSignal artworkSignal;
-	public ArtworkArea artworkArea;
     public Animation tooltipSizes;
     public GameObject container;  
 
 	private ArtworkSignal signal;
-	public ArtworkArea area;
 
     void Start()
     {
@@ -30,11 +28,6 @@ public class ConfirmArtworkSize : MonoBehaviour {
 			signal.name.text = Data.Instance.artData.selectedArtWork.title;
 			signal.author.text = Data.Instance.artData.selectedArtWork.autor;
 		}
-
-		/*area = Instantiate (artworkArea);
-		area.transform.SetParent(container.transform);
-		area.transform.localPosition = new Vector3(0,0,0);
-		area.transform.localScale = Vector3.one;*/
 
         Invoke("startTooltip", 0.5f);
     }   
