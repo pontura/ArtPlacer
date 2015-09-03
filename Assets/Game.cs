@@ -25,6 +25,7 @@ public class Game : MonoBehaviour {
         myCamera.enabled = true;
 
         Texture2D texture = Data.Instance.lastPhotoTexture;
+
         if (!Data.Instance.isPhoto4Room)
             texture = Data.Instance.lastArtTexture;
 
