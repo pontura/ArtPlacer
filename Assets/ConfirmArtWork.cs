@@ -7,6 +7,7 @@ public class ConfirmArtWork : MonoBehaviour {
     public Button FavoriteOn;
     public Button FavoriteOff;
 	public Button PlaceItButton;
+	public Button editButton;
 
     public RawImage rawImage;
     public Text title;
@@ -30,6 +31,7 @@ public class ConfirmArtWork : MonoBehaviour {
 		if (Data.Instance.artData.selectedArtWork.galleryId == -2 ) {
 			FavoriteOn.gameObject.SetActive(false);
 			FavoriteOff.gameObject.SetActive(false);
+			editButton.gameObject.SetActive(true);
 			//FavoriteOn.GetComponentInChildren<Text> ().text = "DELETE";
 		} else {
 			if (Data.Instance.artData.isFavorite (Data.Instance.artData.selectedArtWork.galleryId, Data.Instance.artData.selectedArtWork.artId))
@@ -79,6 +81,11 @@ public class ConfirmArtWork : MonoBehaviour {
 		print ("ArtID: " + Data.Instance.artData.selectedArtWork.artId);
 		Data.Instance.artData.DeleteArtworkData (Data.Instance.artData.selectedArtWork.artId);
 		Back ();
+	}
+
+	public void editArtwork(){
+		Data.Instance.isPhoto4Room = false;
+		Data.Instance.LoadLevel ("ConfirmArtworkSize");
 	}
 
     private void SetFavorite()

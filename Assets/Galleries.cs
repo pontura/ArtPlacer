@@ -56,6 +56,7 @@ public class Galleries : MonoBehaviour {
 
 	public void AddArtWorks(){
 		Data.Instance.isPhoto4Room = false;
+		Data.Instance.artData.selectedGallery = 0;
 		Data.Instance.LoadLevel("TakePhoto");
 		tooltipAddArt.gameObject.SetActive(false);
 	}

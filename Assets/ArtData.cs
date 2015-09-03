@@ -139,16 +139,13 @@ public class ArtData : MonoBehaviour {
     }
 	public void SaveArtWork(string url, string name, string author, float width, float height)
 	{
-		string result = url + ":";
-
 		int id = myArtWorks.artWorksData.Count;
+		SaveArtWork (url, name, author, width, height, id);
+	}
 
-		/*GalleryData.ArtData last = myArtWorks.artWorksData [myArtWorks.artWorksData.Count - 1];
-
-		result += last.url + "_" + last.title + "_" + last.autor + "_" + Math.Round(last.size.x, 2) + "_" + Math.Round(last.size.y, 2) + "_";
-
-		string DataName = "artwork_"+(myArtWorks.artWorksData.Count-1);*/
-		
+	public void SaveArtWork(string url, string name, string author, float width, float height, int id)
+	{
+		string result = url + ":";				
 
 		result += url + "_" + name + "_" +id+ "_" + author + "_" + width + "_" + height ;
 

@@ -168,9 +168,14 @@ public class Data : MonoBehaviour
 	{
 		byte[] bytes = lastArtTexture.EncodeToPNG();
 
-        string path = GetUniqueName();
-
-		artData.SaveArtWork(path, name, author, width, height);
+		string path = "";
+		if (artData.selectedGallery == -2) {
+			path = artData.selectedArtWork.url;
+			artData.SaveArtWork(path, name, author, width, height, artData.selectedArtWork.artId);
+		} else {
+			path = GetUniqueName ();
+			artData.SaveArtWork(path, name, author, width, height);
+		}
 		
 		//string folder = Path.Combine(Application.persistentDataPath, "Artworks");
         string folder = Path.Combine(Application.persistentDataPath, "Artworks");
