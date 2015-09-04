@@ -103,12 +103,4 @@ public class ArtworkArea : MonoBehaviour {
 		TR.color = normalColor;
 	}
 
-	public void expandTopRight(){
-		Vector3 scale = Input.mousePosition-gameObject.transform.position;
-		/*scale.Scale (new Vector3 (2,2,0));
-		gameObject.transform.localScale = new Vector3 (scale.x, scale.y, 0);
-		area.transform.localScale = new Vector3 (scale.x, scale.y, 0);*/
-
-		print ("TR: "+scale);
-	}
 }

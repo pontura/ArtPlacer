@@ -35,5 +35,6 @@ public class Game : MonoBehaviour {
         background.sprite = sprite;
 
         background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
+
 	}
 }

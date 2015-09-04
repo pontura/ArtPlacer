@@ -16,7 +16,7 @@ public class ArtworkSignal : MonoBehaviour {
     public InputField height_cm;
 
 	void Start(){
-		print (name.text);
+
 	}
 
     public void Init(float _width , float _height)
