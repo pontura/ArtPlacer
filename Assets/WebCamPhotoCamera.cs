@@ -19,6 +19,9 @@ public class WebCamPhotoCamera : MonoBehaviour
             Data.Instance.lastArtTexture = null;
 
         webCamTexture = new WebCamTexture();
+        webCamTexture.requestedHeight = 1024;
+        webCamTexture.requestedWidth = 768;
+
         if (webCamTexture.isPlaying)
         {
             webCamTexture.Stop();
