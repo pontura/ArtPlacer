@@ -6,6 +6,7 @@ public class WallCreator : MonoBehaviour {
 
     public Game gameContainer;
     public GameObject createdPlane;
+    public GameObject createdPlaneArtworks;
 
     public List<WallPlane> createdPlanes;
 
@@ -21,13 +22,13 @@ public class WallCreator : MonoBehaviour {
            // GetComponent<PhotoAddWall>().DeactiveAdd();
             for (int i = 0; i < Data.Instance.areaData.areas.Count; i++)
             {
-                GameObject obj = Instantiate(createdPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
-                obj.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
-                obj.GetComponent<WallPlane>().SetId(i);
+                createdPlaneArtworks = Instantiate(createdPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
+                createdPlaneArtworks.GetComponent<WallPlane>().area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
+                createdPlaneArtworks.GetComponent<WallPlane>().SetId(i);
 
-                obj.transform.SetParent(gameContainer.transform);
+                createdPlaneArtworks.transform.SetParent(gameContainer.transform);
 
-                createdPlanes.Add(obj.GetComponent<WallPlane>());
+                createdPlanes.Add(createdPlaneArtworks.GetComponent<WallPlane>());
             }
         }
         foreach (WallPlane wallPlanes in createdPlanes) {

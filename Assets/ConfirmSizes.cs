@@ -15,6 +15,7 @@ public class ConfirmSizes : MonoBehaviour {
     private SizeSignal newSizeSignal;
 
 
+
     void Start()
     {
         tooltipSizes.gameObject.SetActive(false);
@@ -59,8 +60,9 @@ public class ConfirmSizes : MonoBehaviour {
     {
         foreach (SizeSignal sizeSignal in sizeSignals)
         {
-            Data.Instance.areaData.areas[sizeSignal.id].height = sizeSignal.GetHeight();
-            Data.Instance.areaData.areas[sizeSignal.id].width = sizeSignal.GetWidth();
+            int _height =  sizeSignal.GetHeight();
+            Data.Instance.areaData.areas[sizeSignal.id].height = _height;
+            Data.Instance.areaData.areas[sizeSignal.id].width = GetComponent<WallCreator>().createdPlaneArtworks.GetComponent<SizeCalculator>().CalculateWidth(_height);
         }
 		
 		Events.SaveAreas();
