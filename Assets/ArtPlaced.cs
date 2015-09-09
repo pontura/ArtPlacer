@@ -233,6 +233,7 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void EditWalls()
 	{
+		Data.Instance.lastArtTexture = null;
 		Data.Instance.LoadLevel("Walls");
 	}
 
@@ -274,8 +275,8 @@ public class ArtPlaced : MonoBehaviour {
 
 			tooltipAddArt.gameObject.SetActive(false);
 
-			float aW = Data.Instance.areaData.areas[n].width*100;
-			float aH = Data.Instance.areaData.areas[n].height*100;
+			float aW = Data.Instance.areaData.areas[n].width;
+			float aH = Data.Instance.areaData.areas[n].height;
 
 			for (int i=0; i<Data.Instance.areaData.areas[n].artworks.Count; i++) {
 
@@ -330,8 +331,8 @@ public class ArtPlaced : MonoBehaviour {
 	GameObject AddArt(int n){
 
 		GameObject area = areas[n];
-		float aW = Data.Instance.areaData.areas[n].width*100;
-		float aH = Data.Instance.areaData.areas[n].height*100;
+		float aW = Data.Instance.areaData.areas[n].width;
+		float aH = Data.Instance.areaData.areas[n].height;
 		
 		GameObject artWork = Instantiate (area.GetComponent<WallPlane> ().artWork, new Vector3 (0f, 0f, 0f), Quaternion.identity) as GameObject;
 		artWork.name = "ArtWork_" + n + "_" + Data.Instance.areaData.areas[n].artworkIDCount;

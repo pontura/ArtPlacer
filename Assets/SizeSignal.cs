@@ -27,7 +27,11 @@ public class SizeSignal : MonoBehaviour {
     }
     public void Init(float _width , float _height)
     {
-       // this.height = _height.cha
+
+		height = (int)(_height*0.01);
+		height2 = (int)(_height * 0.1 - (height*10));
+		height3 = (int)(_height - (height*100) - (height2*10));
+		print (_height+" "+height+"."+height2+" "+height3);
         RefreshField();
 	}
     public int GetHeight()
