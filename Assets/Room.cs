@@ -53,6 +53,8 @@ public class Room : MonoBehaviour
 
 	public void Open()
 	{
+		Data.Instance.lastArtTexture = null;
+
 		int id = Data.Instance.roomsData.actualRoomId;
 		RoomsData.Room room = Data.Instance.roomsData.rooms[id];
 		

@@ -13,8 +13,9 @@ public class MainMenu : MonoBehaviour {
         Close();
     }
     public void Rooms()
-    {
+    {	
         Data.Instance.roomsData.type = RoomsData.types.LOCAL;
+		Data.Instance.lastArtTexture = null;
         Data.Instance.LoadLevel("Rooms");
         Close();
     }

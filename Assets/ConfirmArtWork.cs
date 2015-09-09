@@ -54,18 +54,18 @@ public class ConfirmArtWork : MonoBehaviour {
     }
 	public void Back2Walls()
 	{
-		if(Data.Instance.isArtworkInfo2Place == false)Data.Instance.lastArtTexture = null;
+		Data.Instance.lastArtTexture = null;
 		Data.Instance.LoadLevel ("ArtPlaced");
 	}
     public void Back()
     {
-		if(Data.Instance.isArtworkInfo2Place == false)Data.Instance.lastArtTexture = null;
+		Data.Instance.lastArtTexture = null;
         Data.Instance.LoadLevel("Artworks");
     }
     public void Galleries()
     {
-		if(Data.Instance.isArtworkInfo2Place == false)Data.Instance.lastArtTexture = null;
-        Data.Instance.LoadLevel("Galleries");
+		Data.Instance.lastArtTexture = null;
+		Data.Instance.LoadLevel("Galleries");
     }
     public void SwitchFavorites()
     {

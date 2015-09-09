@@ -222,12 +222,14 @@ public class ArtPlaced : MonoBehaviour {
 	public void ArtBrowser()
 	{
 		tooltipAddArt.gameObject.SetActive(false);
+		Data.Instance.lastArtTexture = null;
 		Data.Instance.LoadLevel("Galleries");
 	}
 
     public void GotoGallery()
     {
         tooltipAddArt.gameObject.SetActive(false);
+		Data.Instance.lastArtTexture = null;
         Data.Instance.LoadLevel("Artworks");
     }
 
