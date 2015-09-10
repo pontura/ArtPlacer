@@ -7,8 +7,8 @@ public class Game : MonoBehaviour {
     private bool photoLoadead;
     public Camera myCamera;
 
-    private float scaleFor_4x3 = 0.43f;
-    private float scaleFor_16x9 = 0.48f;  
+    private float scaleFor_4x3 = 0.28f;
+    private float scaleFor_16x9 = 0.28f;  
 
 	void Start () {
         LoadLastPhotoTexture();
@@ -29,19 +29,22 @@ public class Game : MonoBehaviour {
         if (!Data.Instance.isPhoto4Room)
             texture = Data.Instance.lastArtTexture;
 
-		//Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
+		Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
 
 		Sprite sprite = Sprite.Create( texture,  new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f));
         background.sprite = sprite;
 
-        background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
-
-#if UNITY_IOS
-        background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, scaleFor_4x3);
-#endif
-#if UNITY_IPHONE
-        background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
-#endif
+        Data.Instance.cameraData.Calculate(myCamera);
+        switch (Data.Instance.cameraData.aspect)
+        {
+            case CameraData.aspects._3_2:
+            case CameraData.aspects._4_3:
+                background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, scaleFor_4x3);
+                break;
+            default:
+                background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
+                break;
+        }
 
     }
 }

@@ -18,9 +18,10 @@ public class WebCamPhotoCamera : MonoBehaviour
         else 
             Data.Instance.lastArtTexture = null;
 
-        webCamTexture = new WebCamTexture();
-        webCamTexture.requestedHeight = 1024;
-        webCamTexture.requestedWidth = 768;
+        //webCamTexture = new WebCamTexture();
+        //webCamTexture.requestedHeight = 1280;
+        //webCamTexture.requestedWidth = 720;
+        webCamTexture = new WebCamTexture(WebCamTexture.devices[0].name, 1280, 720, 30);
 
         if (webCamTexture.isPlaying)
         {
@@ -29,11 +30,10 @@ public class WebCamPhotoCamera : MonoBehaviour
         webCamTexture.Play();
 
         Vector3 scale = rawImage.transform.localScale;
+        
 #if UNITY_IOS
         scale.x *= -1;
-#endif
-#if UNITY_IPHONE 
-        scale.x *= -1;
+       rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 #endif
         rawImage.transform.localScale = scale;
     }
