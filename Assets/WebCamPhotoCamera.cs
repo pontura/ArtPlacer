@@ -32,9 +32,6 @@ public class WebCamPhotoCamera : MonoBehaviour
 #if UNITY_IOS
         scale.x *= -1;
 #endif
-#if UNITY_IPHONE 
-        scale.x *= -1;
-#endif
         rawImage.transform.localScale = scale;
     }
     void Update()
