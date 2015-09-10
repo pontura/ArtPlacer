@@ -18,9 +18,10 @@ public class WebCamPhotoCamera : MonoBehaviour
         else 
             Data.Instance.lastArtTexture = null;
 
-        webCamTexture = new WebCamTexture();
-        webCamTexture.requestedHeight = 1024;
-        webCamTexture.requestedWidth = 768;
+        //webCamTexture = new WebCamTexture();
+        //webCamTexture.requestedHeight = 1280;
+        //webCamTexture.requestedWidth = 720;
+        webCamTexture = new WebCamTexture(WebCamTexture.devices[0].name, 1280, 720, 30);
 
         if (webCamTexture.isPlaying)
         {
