@@ -26,6 +26,8 @@ public class Data : MonoBehaviour
 	public bool isArtworkInfo2Place = true;
 	public int thumbHeight = 100;
 
+	string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
+
     public static Data Instance
     {
         get
@@ -80,6 +82,8 @@ public class Data : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+
+		StartCoroutine(GetServerData(jsonUrl));
 
         fade = GetComponentInChildren<Fade>();
         areaData = GetComponent<AreaData>();
@@ -255,5 +259,15 @@ public class Data : MonoBehaviour
 		
 		result.Apply();
 		return result;
+	}
+
+	public IEnumerator GetServerData(string url)
+	{
+		Debug.Log (url);
+		WWW textURLWWW = new WWW(url);		
+		yield return textURLWWW;	
+
+		artData.LoadArtFromServer(textURLWWW.text);
+		yield return null;
 	}
 }

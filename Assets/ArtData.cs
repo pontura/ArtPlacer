@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using SimpleJSON;
 
 public class ArtData : MonoBehaviour {
 
@@ -25,6 +26,7 @@ public class ArtData : MonoBehaviour {
     public class GalleryData
     {
         public string title;
+		public int id;
         public List<ArtData> artWorksData;
 
         [Serializable]
@@ -56,6 +58,38 @@ public class ArtData : MonoBehaviour {
         LoadFavorites();
 		ReadArtworkData ();
     }
+	public void LoadArtFromServer(string json_data){
+		var N = JSON.Parse(json_data);
+		galleries = new GalleryData[N ["galleries"].Count];
+
+		for (int i=0; i<galleries.Length; i++) {
+			galleries [i] = new GalleryData();
+			galleries [i].title = N ["galleries"] [i] ["title"];
+			galleries [i].id = int.Parse(N ["galleries"] [i] ["id"]);
+			galleries [i].artWorksData = new List<GalleryData.ArtData>();
+		}
+
+		for (int i=0; i<N["artworks"].Count; i++) {
+			GalleryData.ArtData adata = new GalleryData.ArtData();
+			adata.title = N ["artworks"][i]["title"];
+			adata.url = N ["artworks"][i]["url"];
+
+			GalleryData gdata = Array.Find(galleries, g => g.id==int.Parse(N["artworks"][i]["gallery_id"]));
+			adata.gallery = gdata.title;
+			adata.galleryId = gdata.id;
+
+			adata.artId = int.Parse(N ["artworks"][i]["id"]);
+			adata.autor = N ["artworks"][i]["author"];
+			adata.technique = N ["artworks"][i]["technique"];
+			float w = float.Parse(N ["artworks"][i]["width"]);
+			float h = float.Parse(N ["artworks"][i]["height"]);
+			Vector2 size = new Vector2(w,h);
+			adata.size = size;
+
+			gdata.artWorksData.Add(adata);
+		}		
+	}
+
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {
         GalleryData galleryData = galleries[galleryId];
