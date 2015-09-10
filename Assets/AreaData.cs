@@ -58,7 +58,10 @@ public class AreaData : MonoBehaviour {
 			galleryArtID = artdata.artId;
 		}
 	}
-
+	public void Clear(){
+		areas.Clear();
+		url = "";
+	}
     public void AddAreas(int id, Vector3[] pointers, Vector3 position, float width, float height)
     {
 		if (id < 0) {
