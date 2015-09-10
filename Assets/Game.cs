@@ -36,12 +36,21 @@ public class Game : MonoBehaviour {
 
         background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
 
-#if UNITY_IOS
-        background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, scaleFor_4x3);
-#endif
-#if UNITY_IPHONE
-        background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
-#endif
+        if (Camera.main.aspect >= 1.7)
+        {
+            Debug.Log("16:9");
+            background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
+        }
+        else if (Camera.main.aspect >= 1.5)
+        {
+            Debug.Log("3:2");
+            background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, scaleFor_4x3);
+        }
+        else
+        {
+            Debug.Log("4:3");
+            background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, scaleFor_4x3);
+        }
 
     }
 }

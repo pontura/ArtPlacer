@@ -15,6 +15,7 @@ public class Data : MonoBehaviour
 	public AreaData areaData;
     public MainMenu mainMenu;
     public RoomsData roomsData;
+    public CameraData cameraData;
     public string lastScene = "";
 
     const string PREFAB_PATH = "Data";
@@ -80,7 +81,7 @@ public class Data : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-
+        cameraData = GetComponent<CameraData>();
         fade = GetComponentInChildren<Fade>();
         areaData = GetComponent<AreaData>();
 

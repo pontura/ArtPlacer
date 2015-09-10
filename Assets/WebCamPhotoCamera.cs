@@ -29,8 +29,10 @@ public class WebCamPhotoCamera : MonoBehaviour
         webCamTexture.Play();
 
         Vector3 scale = rawImage.transform.localScale;
+        
 #if UNITY_IOS
         scale.x *= -1;
+       rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 #endif
         rawImage.transform.localScale = scale;
     }
