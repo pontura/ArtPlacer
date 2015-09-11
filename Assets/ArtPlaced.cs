@@ -251,6 +251,7 @@ public class ArtPlaced : MonoBehaviour {
 	}
     void ReadyJump()
     {
+		Data.Instance.roomsData.actualRoomId = Data.Instance.roomsData.rooms.Count - 1;
         Data.Instance.LoadLevel("Room");
     }
 
