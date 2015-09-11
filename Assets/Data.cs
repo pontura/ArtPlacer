@@ -267,7 +267,6 @@ public class Data : MonoBehaviour
 
 	public IEnumerator GetServerData(string url)
 	{
-		Debug.Log (url);
 		WWW textURLWWW = new WWW(url);		
 		yield return textURLWWW;	
 

@@ -104,7 +104,9 @@ public class AreaData : MonoBehaviour {
 			result += "+";
         }
 			
-		string DataName = GetComponent<RoomsData>().GetRoomName(url);
+		int _id;
+		string DataName = GetComponent<RoomsData>().GetRoomName(out _id,url);
+		Data.Instance.roomsData.actualRoomId = _id;
 
         PlayerPrefs.SetString(DataName, result);
 

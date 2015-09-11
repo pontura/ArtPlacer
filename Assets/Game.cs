@@ -29,7 +29,7 @@ public class Game : MonoBehaviour {
         if (!Data.Instance.isPhoto4Room)
             texture = Data.Instance.lastArtTexture;
 
-		Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
+		//Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
 
 		Sprite sprite = Sprite.Create( texture,  new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f));
         background.sprite = sprite;

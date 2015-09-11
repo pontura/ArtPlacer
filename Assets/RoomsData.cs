@@ -18,6 +18,7 @@ public class RoomsData : MonoBehaviour {
     public class Room
     {
         public string url;
+		public int id;
         public List<RoomArea> area;
     }
     [Serializable]
@@ -58,6 +59,7 @@ public class RoomsData : MonoBehaviour {
 
                 string[] result = roomData.Split(":"[0]);
                 room.url = result[0];
+				room.id = id;
 
                 string[] areas = result[1].Split("+"[0]);
 
@@ -104,18 +106,34 @@ public class RoomsData : MonoBehaviour {
             }
         }
     }
-    public string GetRoomName(string url)
+	public string GetRoomName(string url)
+	{
+		int id = 0;
+		return GetRoomName(out id, url);
+    
+	}
+    public string GetRoomName(out int _id, string url)
     {
         int id = 0;
+		bool firstFreeID = false;
         foreach (Room room in rooms)
         {
             if (room.url == url)
             {
-                return "room_" + id;
+				_id = id;
+                return "room_" + room.id;
              }
-            id++;
+			//id=room.id+1;
+			if(!firstFreeID){
+				if(room.id>id)
+					firstFreeID=true;
+				else
+					id++;
+			}
+			
         }
-        return "room_" + rooms.Count;
+		_id = id;
+        return "room_" + id;
     }
     private float GetFloat(string stringValue)
     {

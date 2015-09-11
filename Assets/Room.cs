@@ -34,11 +34,10 @@ public class Room : MonoBehaviour
 
 		print ("Path: " + path);
 
-		Data.Instance.DeletePhotoRoom (path);
-		Data.Instance.roomsData.rooms.RemoveAt (id);	
 		string DataName = Data.Instance.roomsData.GetRoomName(path);		
 		print ("DataName: " + DataName);
 		PlayerPrefs.DeleteKey(DataName);
+		Data.Instance.DeletePhotoRoom (path);
 		Data.Instance.roomsData.ReadRoomsData ();
 		Back ();
     }
