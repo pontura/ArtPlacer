@@ -20,13 +20,15 @@ public class ConfirmArtworkSize : MonoBehaviour {
 
         signal = Instantiate(artworkSignal) as ArtworkSignal;
 		signal.transform.SetParent(container.transform);
-		signal.transform.localPosition = new Vector3(0,0,0);
+		signal.transform.localPosition = new Vector3(0,70,0);
 		signal.transform.localScale = Vector3.one;
 
 		if (Data.Instance.artData.selectedGallery == -2) {
-			signal.Init(Data.Instance.artData.selectedArtWork.size.x*0.01f, Data.Instance.artData.selectedArtWork.size.y*0.01f);
+			signal.Init (Data.Instance.artData.selectedArtWork.size.x, Data.Instance.artData.selectedArtWork.size.y);
 			signal.name.text = Data.Instance.artData.selectedArtWork.title;
 			signal.author.text = Data.Instance.artData.selectedArtWork.autor;
+		} else {
+			signal.Init (50, 50);
 		}
 
         Invoke("startTooltip", 0.5f);
@@ -43,7 +45,11 @@ public class ConfirmArtworkSize : MonoBehaviour {
     }
     public void Ready()
     {
-		Data.Instance.SavePhotoArt (signal.GetName (), signal.GetAuthor(), signal.GetWidth ()*100, signal.GetHeight ()*100);
+		float aspect = 1f*Data.Instance.lastArtTexture.width / Data.Instance.lastArtTexture.height;
+
+		int w = (int)(signal.GetHeight () * aspect);
+
+		Data.Instance.SavePhotoArt (signal.GetName (), signal.GetAuthor(), w, signal.GetHeight ());
 		      
        	Data.Instance.LoadLevel("Galleries");
        

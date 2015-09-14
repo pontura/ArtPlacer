@@ -39,10 +39,10 @@ public class Game : MonoBehaviour {
         {
             case CameraData.aspects._3_2:
             case CameraData.aspects._4_3:
-                background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, scaleFor_4x3);
+                background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, 1);
                 break;
             default:
-                background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, scaleFor_16x9);
+                background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, 1);
                 break;
         }
 
