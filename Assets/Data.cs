@@ -185,23 +185,13 @@ public class Data : MonoBehaviour
 			artData.SaveArtWork(path, name, author, width, height);
 		}
 		
-		//string folder = Path.Combine(Application.persistentDataPath, "Artworks");
-        string folder = Path.Combine(Application.persistentDataPath, "Artworks");
-		
-		if (!Directory.Exists(folder))
-			Directory.CreateDirectory(folder);
-		
-		var filePath = Path.Combine(folder, path);
-		File.WriteAllBytes(filePath + ".png", bytes);
+		File.WriteAllBytes(GetFullPathByFolder("Artworks", path + ".png"), bytes);
 	}
 	public void DeletePhotoArt(string path)
 	{
 		//string folder = Path.Combine(Application.persistentDataPath, "Artworks");
 		string folder = Path.Combine(Application.persistentDataPath, "Artworks");
-		
-		if (!Directory.Exists(folder))
-			Directory.CreateDirectory(folder);
-		
+				
 		var filePath = Path.Combine(folder, path);
 		File.Delete (filePath + ".png");
 	}
