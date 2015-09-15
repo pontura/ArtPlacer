@@ -9,6 +9,7 @@ public class ArtWorks : MonoBehaviour
     public Text title;
     public ThumbImage button;
     public GameObject container;
+	public GameObject addButton;
 
     public Vector2 thumbSize = new Vector2(180, 180);
     public Vector2 separation = new Vector2(2, 2);
@@ -26,6 +27,8 @@ public class ArtWorks : MonoBehaviour
 
         thumbSize += separation;
         ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
+
+		if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {           	
