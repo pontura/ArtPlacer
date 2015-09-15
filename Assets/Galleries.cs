@@ -27,6 +27,7 @@ public class Galleries : MonoBehaviour {
 			myArtWorks.gameObject.SetActive (false);
 			tooltipAddArt.gameObject.SetActive(true);
 			tooltipAddArt.Play("tooltipOn");
+			Invoke("CloseAddToolTip",3);
 		}else
 			myArtWorks.Init (this, -2, "MY ARTWORKS (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
     }
@@ -55,10 +56,12 @@ public class Galleries : MonoBehaviour {
     }
 
 	public void AddArtWorks(){
-		Data.Instance.isPhoto4Room = false;
 		Data.Instance.artData.selectedGallery = 0;
-		Data.Instance.LoadLevel("TakePhoto");
+		Data.Instance.LoadLevel("LoadArtwork");
 		tooltipAddArt.gameObject.SetActive(false);
+	}
+	void CloseAddToolTip(){
+		tooltipAddArt.gameObject.SetActive (false);
 	}
 
 	public void GotoMyArtWorks(){
