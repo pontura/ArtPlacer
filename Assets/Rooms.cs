@@ -28,7 +28,7 @@ public class Rooms : MonoBehaviour
         switch (roomData.type)
         {
             case RoomsData.types.LOCAL:
-                title.text = "YOUR SAVED ROOMS";
+                title.text = "SAVED PROJECTS";
                 rooms = Data.Instance.roomsData.rooms;
                 break;
             default:

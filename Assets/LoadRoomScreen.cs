@@ -3,15 +3,10 @@ using System.Collections;
 using ImageVideoContactPicker;
 
 public class LoadRoomScreen : MonoBehaviour {
-
-    public GameObject openButton;
+	  
 
     void Start()
     {
-       // Data.Instance.SetMainMenuActive(false);
-        if (Data.Instance.roomsData.rooms.Count == 0)
-            openButton.SetActive(false);
-
 		PickerEventListener.onImageLoad += OnImageLoad;
     }
 
