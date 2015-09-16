@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ImageVideoContactPicker;
-using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class LoadRoomScreen : MonoBehaviour {
 
@@ -29,7 +27,6 @@ public class LoadRoomScreen : MonoBehaviour {
     }
     public void Open()
 	{	
-		Debug.Log ("Aca");
 		#if UNITY_ANDROID
 			AndroidPicker.BrowseImage();
 		#elif UNITY_IPHONE
