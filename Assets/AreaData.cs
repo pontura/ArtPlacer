@@ -132,4 +132,8 @@ public class AreaData : MonoBehaviour {
         return num;
     }
 
+	public void SetAsNew(){
+		url="";
+	}
+
 }

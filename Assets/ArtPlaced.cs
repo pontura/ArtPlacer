@@ -12,6 +12,7 @@ public class ArtPlaced : MonoBehaviour {
     public Animation tooltipAddArt;
     public GameObject buttonAddArt;
 	public GameObject buttonInfo;
+	public GameObject saveDialog;
 
 	Camera cam;
 	
@@ -239,9 +240,16 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.LoadLevel("Walls");
 	}
 
-	public void Ready()
+	public void SaveDialog(){
+		bool active = !saveDialog.gameObject.activeSelf;
+		saveDialog.gameObject.SetActive(active);
+	}
+
+	public void Ready(bool isNew)
 	{
         Events.OnLoading(true);
+		if (isNew)
+			Data.Instance.areaData.SetAsNew ();
 		Data.Instance.SaveRoom();
 		Data.Instance.lastArtTexture = null;
 		//print ("Areas Count: " + Data.Instance.areaData.areas.Count);
