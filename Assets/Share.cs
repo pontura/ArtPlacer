@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 public class Share : MonoBehaviour {
+
+	[DllImport("__Internal")]
+	private static extern void shareMethod (string iosPath, string message);
 
 	public void ShareImage(string imageFileName, string subject, string title, string message)
 	{
@@ -33,6 +37,10 @@ public class Share : MonoBehaviour {
 		AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
 		currentActivity.Call ("startActivity", intentObject);
 		
+		#elif UNITY_IPHONE
+
+		shareMethod (imageFileName, message);
+
 		#endif
 	}
 }
