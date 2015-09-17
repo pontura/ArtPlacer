@@ -29,6 +29,7 @@ public class Data : MonoBehaviour
 
 	string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
 
+	public Slider unitSlider;
 	public enum UnitSys {
 		CM,
 		INCHES,
@@ -269,5 +270,13 @@ public class Data : MonoBehaviour
 
 		artData.LoadArtFromServer(textURLWWW.text);
 		yield return null;
+	}
+
+	public void ChangeUnit(){
+		if (unitSlider.value == 0) {
+			unidad = UnitSys.CM;
+		} else if (unitSlider.value == 1) {
+			unidad = UnitSys.INCHES;
+		}
 	}
 }

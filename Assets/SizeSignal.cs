@@ -31,7 +31,6 @@ public class SizeSignal : MonoBehaviour {
 			height = (int)(_height * 0.01);
 			height2 = (int)(_height * 0.1 - (height * 10));
 			height3 = (int)(_height - (height * 100) - (height2 * 10));
-			print (_height + " " + height + "." + height2 + " " + height3);
 		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
 			float inches = CustomMath.cm2inches(_height);
 			float feet = CustomMath.inches2feet(inches);
@@ -43,8 +42,15 @@ public class SizeSignal : MonoBehaviour {
 	}
     public int GetHeight()
     {
-        string result = "" + (height + "" + height2 + "" + height3);
-        return int.Parse(result);
+		string result = "" + (height + "" + height2 + "" + height3);
+		int resu = 0;
+		if (Data.Instance.unidad == Data.UnitSys.CM) {
+			resu = int.Parse(result);
+		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
+			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
+			resu = (int)Mathf.Round(CustomMath.inches2cm(inches));
+		}        
+        return resu;
     }
     public void OnPress(string key)
     {

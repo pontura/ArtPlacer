@@ -51,6 +51,17 @@ public class ArtData : MonoBehaviour {
 				}
 				return result;
 			}
+
+			public string getSizeWUnits(){
+				string result = "";
+				if (Data.Instance.unidad == Data.UnitSys.CM) {
+					result = size.x+" cm x "+size.y+" cm";
+				} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
+					result = Mathf.Round(CustomMath.cm2inches(size.x))+" inches x "+Mathf.Round(CustomMath.cm2inches(size.y))+" inches";
+				}        
+				return result;
+
+			}
         } 
     }
     void Awake()
