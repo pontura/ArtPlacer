@@ -25,7 +25,7 @@ public class Rooms : MonoBehaviour
         List<RoomsData.Room> rooms;
         roomData = Data.Instance.roomsData;
 
-        switch (roomData.type)
+        /*switch (roomData.type)
         {
             case RoomsData.types.LOCAL:
                 title.text = "SAVED PROJECTS";
@@ -35,7 +35,9 @@ public class Rooms : MonoBehaviour
                 title.text = "PUBLIC ROOMS";
                 rooms = Data.Instance.roomsData.onlineRooms;
                 break;
-        }
+        }*/
+		title.text = "SAVED PROJECTS";
+		rooms = Data.Instance.roomsData.rooms;
 
         foreach (RoomsData.Room room in rooms)
         {
