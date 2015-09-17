@@ -241,12 +241,17 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	public void SaveDialog(){
-		bool active = !saveDialog.gameObject.activeSelf;
-		saveDialog.gameObject.SetActive(active);
+		if (!Data.Instance.areaData.url.Equals ("")) {
+			bool active = !saveDialog.gameObject.activeSelf;
+			saveDialog.gameObject.SetActive (active);
+		} else {
+			Ready (false);
+		}
 	}
 
 	public void Ready(bool isNew)
-	{
+	{	
+		if(saveDialog.gameObject.activeSelf)saveDialog.gameObject.SetActive (false);
         Events.OnLoading(true);
 		if (isNew)
 			Data.Instance.areaData.SetAsNew ();
