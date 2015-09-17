@@ -27,11 +27,18 @@ public class SizeSignal : MonoBehaviour {
     }
     public void Init(float _width , float _height)
     {
-
-		height = (int)(_height*0.01);
-		height2 = (int)(_height * 0.1 - (height*10));
-		height3 = (int)(_height - (height*100) - (height2*10));
-		print (_height+" "+height+"."+height2+" "+height3);
+		if (Data.Instance.unidad == Data.UnitSys.CM) {
+			height = (int)(_height * 0.01);
+			height2 = (int)(_height * 0.1 - (height * 10));
+			height3 = (int)(_height - (height * 100) - (height2 * 10));
+			print (_height + " " + height + "." + height2 + " " + height3);
+		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
+			float inches = CustomMath.cm2inches(_height);
+			float feet = CustomMath.inches2feet(inches);
+			height = (int)feet;
+			height2 = (int)((feet - height)*10);
+			height3 = (int)(((feet - height)*10-height2)*10);
+		}
         RefreshField();
 	}
     public int GetHeight()
@@ -86,7 +93,12 @@ public class SizeSignal : MonoBehaviour {
     void RefreshField()
     {
         inputField.text = height + "." + height2 + height3;
-        desc.text = height + " meters, " + height2 + "" + height3 + " centimeters";
+		if (Data.Instance.unidad == Data.UnitSys.CM) {
+			desc.text = height + " meters, " + height2 + "" + height3 + " centimeters";
+		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
+			desc.text = height + " feet, " + height2 + "" + height3 + " inches";
+		}
+        
         RefreshCursor();
     }
     void RefreshCursor()

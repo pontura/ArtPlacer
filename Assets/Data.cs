@@ -29,6 +29,13 @@ public class Data : MonoBehaviour
 
 	string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
 
+	public enum UnitSys {
+		CM,
+		INCHES,
+	};
+
+	public UnitSys unidad = UnitSys.CM;
+
     public static Data Instance
     {
         get
