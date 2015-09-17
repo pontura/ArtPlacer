@@ -278,5 +278,6 @@ public class Data : MonoBehaviour
 		} else if (unitSlider.value == 1) {
 			unidad = UnitSys.INCHES;
 		}
+		Events.ConvertUnits ();
 	}
 }

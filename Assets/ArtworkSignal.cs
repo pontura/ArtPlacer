@@ -24,7 +24,8 @@ public class ArtworkSignal : MonoBehaviour {
 	private ConfirmArtworkSize confirmSizes;
 	
 	void Start()
-	{
+	{	
+		Events.ConvertUnits += ConvertUnits;
 		confirmSizes = GameObject.Find("confirmArtworkSize").GetComponent<ConfirmArtworkSize>();
 		RefreshField();
 	}
@@ -123,6 +124,16 @@ public class ArtworkSignal : MonoBehaviour {
 		cursorActive.SetActive(true);
 	}
 
+	void ConvertUnits(){
+		string result = "" + (height + "" + height2 + "" + height3);
+		if (Data.Instance.unidad == Data.UnitSys.INCHES) {
+			Init(0,int.Parse(result));
+		} else if (Data.Instance.unidad == Data.UnitSys.CM) {
+			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
+			Init(0,(int)Mathf.Round(CustomMath.inches2cm(inches)));
+		}
+	}
+
 	public string GetName()
 	{
 		return name.text;
@@ -131,5 +142,10 @@ public class ArtworkSignal : MonoBehaviour {
 	public string GetAuthor()
 	{
 		return author.text;
+	}
+
+	void OnDestroy()
+	{
+		Events.ConvertUnits -= ConvertUnits;
 	}
 }

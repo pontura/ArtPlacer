@@ -22,6 +22,7 @@ public class SizeSignal : MonoBehaviour {
 
     void Start()
     {
+		Events.ConvertUnits += ConvertUnits;
         confirmSizes = GameObject.Find("confirmSizes").GetComponent<ConfirmSizes>();
         RefreshField();
     }
@@ -119,6 +120,16 @@ public class SizeSignal : MonoBehaviour {
         cursorActive.SetActive(true);
     }
     
+	void ConvertUnits(){
+		string result = "" + (height + "" + height2 + "" + height3);
+		if (Data.Instance.unidad == Data.UnitSys.INCHES) {
+			Init(0,int.Parse(result));
+		} else if (Data.Instance.unidad == Data.UnitSys.CM) {
+			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
+			Init(0,(int)Mathf.Round(CustomMath.inches2cm(inches)));
+		}
+	}
+
     //public float GetWidth()
     //{
     //    string str = width_m.text + "." + width_cm.text;
@@ -126,4 +137,9 @@ public class SizeSignal : MonoBehaviour {
     //    float.TryParse(str, out result);
     //    return result;
     //}
+
+	void OnDestroy()
+	{
+		Events.ConvertUnits -= ConvertUnits;
+	}
 }
