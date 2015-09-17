@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 public class ArtPlaced : MonoBehaviour {
@@ -22,6 +23,8 @@ public class ArtPlaced : MonoBehaviour {
 	GameObject thumbClone;
 	SpriteRenderer thumbRenderer;
 
+	public List<GameObject> artworkList;
+
 	bool dragOut = false;
 
 	public int sel_galleryID;
@@ -33,6 +36,8 @@ public class ArtPlaced : MonoBehaviour {
 		Events.ArtworkPreview += Preview;
 
         tooltipAddArt.gameObject.SetActive(false);
+
+		artworkList = new List<GameObject> ();
 
         if (Data.Instance.areaData.areas.Count > 0)
         {
@@ -244,8 +249,15 @@ public class ArtPlaced : MonoBehaviour {
 		if (!Data.Instance.areaData.url.Equals ("")) {
 			bool active = !saveDialog.gameObject.activeSelf;
 			saveDialog.gameObject.SetActive (active);
+			SetArtworkColliderActive(!active);
 		} else {
 			Ready (false);
+		}
+	}
+
+	void SetArtworkColliderActive(bool active){
+		foreach (GameObject artwork in artworkList) {
+			if(artwork!=null)artwork.GetComponent<MeshCollider>().enabled=active;
 		}
 	}
 
@@ -334,6 +346,7 @@ public class ArtPlaced : MonoBehaviour {
 				artWork.GetComponent<DragArtWork> ().SetArtWorkId(i);
 				area.GetComponent<WallPlane> ().artWorkNumber++;
 				Data.Instance.areaData.areas[n].artworkIDCount++;
+				artworkList.Add(artWork);
 			}
 
 		}
@@ -399,6 +412,7 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkIDCount;
 		area.GetComponent<WallPlane> ().artWorkNumber++;
 		Data.Instance.areaData.areas [n].artworkIDCount++;
+		artworkList.Add(artWork);
 		return artWork;	
 	}
 
