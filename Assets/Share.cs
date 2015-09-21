@@ -4,8 +4,14 @@ using System.Runtime.InteropServices;
 
 public class Share : MonoBehaviour {
 
+	#if UNITY_IPHONE
+	
 	[DllImport("__Internal")]
-	private static extern void sampleMethod (string iosPath);
+	private static extern void _TAG_ShareTextWithImage (string iosPath, string message);
+	
+	[DllImport("__Internal")]
+	private static extern void _TAG_ShareSimpleText (string message);	
+	#endif
 
 	public void ShareImage(string imageFileName, string subject, string title, string message)
 	{
@@ -37,8 +43,8 @@ public class Share : MonoBehaviour {
 		AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
 		currentActivity.Call ("startActivity", intentObject);
 		
-		#elif UNITY_IPHONE
-			sampleMethod (imageFileName);
+		#elif UNITY_IPHONE		
+		_TAG_ShareTextWithImage (imageFileName, message);
 		#endif
 	}
 }
