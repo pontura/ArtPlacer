@@ -185,7 +185,7 @@ public class Data : MonoBehaviour
 		byte[] bytes = lastArtTexture.EncodeToPNG();
 
 		string path = "";
-		if (artData.selectedGallery == -2) {
+		if (artData.selectedGallery == -2 && !artData.selectedArtWork.url.Equals("")) {
 			path = artData.selectedArtWork.url;
 			artData.SaveArtWork(path, name, author, width, height, artData.selectedArtWork.artId);
 		} else {
