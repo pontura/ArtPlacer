@@ -280,4 +280,15 @@ public class Data : MonoBehaviour
 		}
 		Events.ConvertUnits ();
 	}
+
+	public void ToggleUnit(){
+		if (unitSlider.value == 1) {
+			unidad = UnitSys.CM;
+			unitSlider.value = 0 ;
+		} else if (unitSlider.value == 0) {
+			unidad = UnitSys.INCHES;
+			unitSlider.value = 1 ;
+		}
+		Events.ConvertUnits ();
+	}
 }
