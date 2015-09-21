@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 public class Share : MonoBehaviour {
 
 	[DllImport("__Internal")]
-	private static extern void shareMethod (string iosPath, string message);
+	private static extern void sampleMethod (string iosPath);
 
 	public void ShareImage(string imageFileName, string subject, string title, string message)
 	{
@@ -38,9 +38,7 @@ public class Share : MonoBehaviour {
 		currentActivity.Call ("startActivity", intentObject);
 		
 		#elif UNITY_IPHONE
-
-		shareMethod (imageFileName, message);
-
+			sampleMethod (imageFileName);
 		#endif
 	}
 }
