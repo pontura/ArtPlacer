@@ -78,7 +78,7 @@ public class ArtWorks : MonoBehaviour
     }
     public void OnSelect(int id)
     {   
-		Data.Instance.artData.SetSelectedArtwork (id);
+		Data.Instance.artData.SetSelectedArtworkByThumbID(id);
 		Data.Instance.isArtworkInfo2Place = true;  
         Data.Instance.LoadLevel("ConfirmArtWork");
     }

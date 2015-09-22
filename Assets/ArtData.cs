@@ -140,7 +140,7 @@ public class ArtData : MonoBehaviour {
         return false;
     }
 
-	public void SetSelectedArtwork(int id)
+	public void SetSelectedArtworkByThumbID(int id)
 	{	
 		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
 		if (selectedGallery == -1) {
@@ -156,8 +156,26 @@ public class ArtData : MonoBehaviour {
 			selectedArtWork.galleryId = selectedGallery;
 			selectedArtWork.artId = id;
 		}
-
 	}
+
+	public void SetSelectedArtworkByArtID(int id)
+	{	
+		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
+		if (selectedGallery == -1) {
+			selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData.Find(x => x.artId==id);
+			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
+			selectedArtWork.galleryId = favorites [id].galleryId;
+			selectedArtWork.artId = favorites [id].artId;
+		} else if (selectedGallery == -2)
+			selectedArtWork = myArtWorks.artWorksData [id];
+		else {
+			selectedArtWork = galleries[selectedGallery].artWorksData.Find(x => x.artId==id);
+			selectedArtWork.gallery = galleries[Data.Instance.artData.selectedGallery].title;
+			selectedArtWork.galleryId = selectedGallery;
+			selectedArtWork.artId = id;
+		}
+	}
+
     public void AddToFavorites()
     {
         Favourite newFavorite = new Favourite();

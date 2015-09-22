@@ -422,9 +422,9 @@ public class ArtPlaced : MonoBehaviour {
 			int areaId = selectedArtwork.GetComponent<DragArtWork>().areaId;
 			AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
 			Data.Instance.SetLastArtTexture(aw.texture);
-		}
+		}	
 		Data.Instance.artData.selectedGallery = sel_galleryID;
-		Data.Instance.artData.SetSelectedArtwork (sel_galleryArtID);
+		Data.Instance.artData.SetSelectedArtworkByArtID(sel_galleryArtID);
 		Data.Instance.isArtworkInfo2Place = false;
 		Data.Instance.LoadLevel("ConfirmArtWork");
 	}

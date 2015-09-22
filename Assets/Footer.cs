@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections;
@@ -58,7 +58,7 @@ public class Footer : MonoBehaviour {
     public void OnSelect(int id)
     {
         print("Footer " + id);
-		Data.Instance.artData.SetSelectedArtwork (id);
+		Data.Instance.artData.SetSelectedArtworkByThumbID (id);
 		Events.OnSelectFooterArtwork();
     }
     public void Close()
