@@ -37,28 +37,42 @@ public class ArtworkArea : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (selectMove == SelectMove.Area) {
-			gameObject.transform.position = Input.mousePosition;
-		} else if (selectMove == SelectMove.TL) {
-			Vector2 scale = new Vector2(deltaMove.x/Input.mousePosition.x,Input.mousePosition.y/deltaMove.y);
-			transform.sizeDelta = new Vector2(transform.sizeDelta.x*scale.x,transform.sizeDelta.y*scale.y);
-			areaTransform.sizeDelta = new Vector2(areaTransform.sizeDelta.x*scale.x,areaTransform.sizeDelta.y*scale.y);
-			deltaMove = Input.mousePosition;
-		} else if (selectMove == SelectMove.TR) {
-			Vector2 scale = new Vector2(Input.mousePosition.x/deltaMove.x,Input.mousePosition.y/deltaMove.y);
-			transform.sizeDelta = new Vector2(transform.sizeDelta.x*scale.x,transform.sizeDelta.y*scale.y);
-			areaTransform.sizeDelta = new Vector2(areaTransform.sizeDelta.x*scale.x,areaTransform.sizeDelta.y*scale.y);
-			deltaMove = Input.mousePosition;
-		} else if (selectMove == SelectMove.BL) {
-			Vector2 scale = new Vector2(deltaMove.x/Input.mousePosition.x,deltaMove.y/Input.mousePosition.y);
-			transform.sizeDelta = new Vector2(transform.sizeDelta.x*scale.x,transform.sizeDelta.y*scale.y);
-			areaTransform.sizeDelta = new Vector2(areaTransform.sizeDelta.x*scale.x,areaTransform.sizeDelta.y*scale.y);
-			deltaMove = Input.mousePosition;
-		} else if (selectMove == SelectMove.BR) {
-			Vector2 scale = new Vector2(Input.mousePosition.x/deltaMove.x,deltaMove.y/Input.mousePosition.y);
-			transform.sizeDelta = new Vector2(transform.sizeDelta.x*scale.x,transform.sizeDelta.y*scale.y);
-			areaTransform.sizeDelta = new Vector2(areaTransform.sizeDelta.x*scale.x,areaTransform.sizeDelta.y*scale.y);
-			deltaMove = Input.mousePosition;
+		if (Input.mousePosition.x > 0 && Input.mousePosition.y > 0) {
+			if (selectMove == SelectMove.Area) {
+				gameObject.transform.position = Input.mousePosition;
+			} else if (selectMove == SelectMove.TL) {
+				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
+				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
+				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+					transform.sizeDelta = newSize;			
+					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
+					deltaMove = Input.mousePosition;
+				}
+			} else if (selectMove == SelectMove.TR) {
+				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, Input.mousePosition.y / deltaMove.y);
+				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
+				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+					transform.sizeDelta = newSize;
+					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
+					deltaMove = Input.mousePosition;
+				}
+			} else if (selectMove == SelectMove.BL) {
+				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, deltaMove.y / Input.mousePosition.y);
+				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
+				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+					transform.sizeDelta = newSize;
+					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
+					deltaMove = Input.mousePosition;
+				}
+			} else if (selectMove == SelectMove.BR) {
+				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, deltaMove.y / Input.mousePosition.y);
+				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
+				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+					transform.sizeDelta = newSize;
+					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
+					deltaMove = Input.mousePosition;
+				}
+			}
 		}
 	}
 
