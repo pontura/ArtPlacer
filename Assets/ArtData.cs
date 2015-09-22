@@ -40,6 +40,7 @@ public class ArtData : MonoBehaviour {
             public string autor;
             public string technique;
             public Vector2 size;
+			public bool isLocal;
 
 			public string GetUrl(){
 				string result = "";
@@ -96,6 +97,7 @@ public class ArtData : MonoBehaviour {
 			float h = float.Parse(N ["artworks"][i]["height"]);
 			Vector2 size = new Vector2(w,h);
 			adata.size = size;
+			adata.isLocal=false;
 
 			gdata.artWorksData.Add(adata);
 		}		
@@ -239,6 +241,7 @@ public class ArtData : MonoBehaviour {
 				last.size = new Vector2(float.Parse(res[4]), float.Parse(res[5]));
 				last.galleryId=-2;
 				last.gallery="My Artworks";
+				last.isLocal = true;
 
 				myArtWorks.artWorksData.Add(last);			
 

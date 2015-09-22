@@ -129,7 +129,7 @@ public class Data : MonoBehaviour
 		string imagesFolderPath = Path.Combine(Application.persistentDataPath, "Artworks");
 		
 		#if UNITY_ANDROID
-		imagesFolderPath = "file:///" + imagesFolderPath;
+		//imagesFolderPath = "file:///" + imagesFolderPath;
 		#endif
 		return imagesFolderPath;
 	}

@@ -28,11 +28,13 @@ public class GalleryButton : MonoBehaviour {
         if (artData != null)
         {
             string url = artData.GetUrl();
-
-            if (url.Length > 6)
-            {
-                StartCoroutine(LoadThumb(url));
-            }
+			if(artData.isLocal)
+				RealLoadLocalImage(url);
+			else{
+				if (url.Length > 6){
+					StartCoroutine(LoadThumb(url));
+				}
+			}
         }
     }
     public void OnSelected(Galleries galleries, int id)
@@ -57,6 +59,21 @@ public class GalleryButton : MonoBehaviour {
         }
         yield return null;
     }
+
+	private void RealLoadLocalImage(string url)
+	{
+		var filePath = url;
+		if (System.IO.File.Exists(filePath))
+		{
+			var bytes = System.IO.File.ReadAllBytes(filePath);
+			Texture2D texture2d = new Texture2D(1, 1);
+			texture2d.LoadImage(bytes);
+			Sprite sprite = new Sprite();
+			sprite = Sprite.Create(ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);			
+			rawImage.sprite = sprite; 
+		}
+	}
+
     private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
     {
         Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);

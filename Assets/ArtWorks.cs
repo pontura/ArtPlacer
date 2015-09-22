@@ -33,7 +33,7 @@ public class ArtWorks : MonoBehaviour
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {           	
 			string path = data.GetUrl();
-			AddThumb(path);
+			AddThumb(path, data.isLocal);
        }
 
       // Events.OnScrollSizeRefresh(new Vector2(611, _y));
@@ -45,13 +45,13 @@ public class ArtWorks : MonoBehaviour
        print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
     }
     private float _y;
-    private void AddThumb(string url)
+    private void AddThumb(string url, bool local)
     {
         ThumbImage newButton = Instantiate(button) as ThumbImage;        
         newButton.transform.SetParent(container.transform);
         newButton.transform.localScale = Vector3.one;
         newButton.transform.localPosition = Vector3.zero;
-        newButton.Init(this, url, id);
+        newButton.Init(this, url, id, local);
         //float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
         //_y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
         //newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);

@@ -10,9 +10,13 @@ public class ThumbImage : MonoBehaviour{
 	int id;
 	string url;
 
-    public void Init(Footer _footer, string url, int _id)
+    public void Init(Footer _footer, string url, int _id, bool local)
     {
-        StartCoroutine(RealLoadImage(url));
+		if (local) 
+			RealLoadLocalImage (url);
+		else
+			StartCoroutine (RealLoadImage (url));
+
 		footer = _footer;
 		id=_id;
         /*GetComponent<Button>().OnClick.AddListener(() =>
@@ -30,7 +34,7 @@ public class ThumbImage : MonoBehaviour{
     public void InitRoom(Rooms rooms, string url, int id)
     {
         //StartCoroutine(RealLoadRoomImage(url));
-        RealLoadRoomImage(url);
+        RealLoadLocalImage(url);
         GetComponent<Button>().onClick.AddListener(() =>
         {
             if (texture2d == null) return;
@@ -39,17 +43,26 @@ public class ThumbImage : MonoBehaviour{
         });
     }
 
-    public void Init(ArtWorks artWorks, string url_, int id)
+    public void Init(ArtWorks artWorks, string url_, int id, bool local)
     {
 		url = url_;
-        StartCoroutine(RealLoadImage(url));
-        GetComponent<Button>().onClick.AddListener(() =>
-        {
-			Events.OnLoading(true);
-            StartCoroutine(OnSelected(artWorks, id));
-        });
+		if (local) {
+			RealLoadLocalImage (url);
+			GetComponent<Button>().onClick.AddListener(() =>			                                           {
+				Events.OnLoading(true);
+				OnSelectedLocal(artWorks, id);
+			});
+		} else {
+			StartCoroutine (RealLoadImage (url));
+			GetComponent<Button>().onClick.AddListener(() =>
+			                                           {
+				Events.OnLoading(true);
+				StartCoroutine(OnSelected(artWorks, id));
+			});
+		}
+        
     }
-    private void RealLoadRoomImage(string url)
+    private void RealLoadLocalImage(string url)
     {
         var filePath = url;
         if (System.IO.File.Exists(filePath))
@@ -63,6 +76,7 @@ public class ThumbImage : MonoBehaviour{
             GetComponent<UnityEngine.UI.Image>().sprite = sprite;
         }
     }
+
     private IEnumerator RealLoadImage(string url)
     {
         WWW imageURLWWW = new WWW(url);        
@@ -118,6 +132,15 @@ public class ThumbImage : MonoBehaviour{
 		}
         footer.OnSelect(id);
     }
+
+	public void OnSelectedLocal(ArtWorks artWorks, int id)
+	{
+		if (sprite) {
+			Data.Instance.SetLastArtTexture(texture2d);
+			//Data.Instance.lastArtTexture = sprite.texture;
+		}
+		artWorks.OnSelect(id);
+	}
 
 	public IEnumerator OnSelected(ArtWorks artWorks, int id)
     {

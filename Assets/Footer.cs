@@ -45,7 +45,7 @@ public class Footer : MonoBehaviour {
 
             string url = artData.GetUrl();            
 
-            thumbButton.Init(this, url , a);
+            thumbButton.Init(this, url , a, artData.isLocal);
 
             Vector3 pos = Vector3.zero;
             pos.x = separation * a;
