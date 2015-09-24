@@ -55,7 +55,7 @@ public class TextureUtils{
 				int xSourceIndex = (int)((vCenter.y * vSourceSize.x) + vCenter.x);
 				
 				//*** Copy Pixel
-				aColor[i] = aSourceColor[xSourceIndex];
+				if(xSourceIndex<aSourceColor.Length)aColor[i] = aSourceColor[xSourceIndex];
 			}
 			
 			//*** Bilinear
