@@ -124,7 +124,7 @@ public class ArtworkSignal : MonoBehaviour {
 		cursorActive.SetActive(true);
 	}
 
-	void ConvertUnits(){
+	public void ConvertUnits(){
 		string result = "" + (height + "" + height2 + "" + height3);
 		if (Data.Instance.unidad == Data.UnitSys.INCHES) {
 			Init(0,int.Parse(result));

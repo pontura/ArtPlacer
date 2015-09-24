@@ -42,6 +42,8 @@ public class ConfirmArtWork : MonoBehaviour {
 		if (Data.Instance.isArtworkInfo2Place == false)
 			PlaceItButton.GetComponentInChildren<Text> ().text = "BACK to ROOM";
 
+		Events.ConvertUnits -= ConvertUnits;
+
     }
     public void Confirm()
     {
@@ -101,4 +103,13 @@ public class ConfirmArtWork : MonoBehaviour {
             FavoriteOff.gameObject.SetActive(true);
         }
     }
+
+	private void ConvertUnits(){
+
+	}
+
+	void OnDestroy()
+	{
+		Events.ConvertUnits -= ConvertUnits;
+	}
 }
