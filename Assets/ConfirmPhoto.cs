@@ -6,11 +6,20 @@ public class ConfirmPhoto : MonoBehaviour {
 
     public Game game;
     public Animation toolTipConfirm;
+	public GameObject photoImage;
+	public GameObject loadImage;
 
     void Start()
     {
         toolTipConfirm.gameObject.SetActive(false);
         Invoke("OpenTooltip", 0.7f);
+		if (Data.Instance.lastScene.Equals ("TakePhoto")) {
+			photoImage.gameObject.SetActive (true);
+			loadImage.gameObject.SetActive (false);
+		} else {
+			photoImage.gameObject.SetActive (false);
+			loadImage.gameObject.SetActive (true);
+		}
     }
     void Update()
     {
@@ -34,6 +43,7 @@ public class ConfirmPhoto : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("TakePhoto");
+        //Data.Instance.LoadLevel("TakePhoto");Data.Instance.lastScene
+		Data.Instance.LoadLevel (Data.Instance.lastScene);
     }
 }

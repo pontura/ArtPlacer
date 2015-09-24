@@ -31,7 +31,25 @@ public class Game : MonoBehaviour {
 
 		//Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
 
-		Sprite sprite = Sprite.Create( texture,  new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f));
+		Rect rect = new Rect();
+
+		float maxWidth = Data.Instance.defaultCamSize.x;
+		float maxHeight = Data.Instance.defaultCamSize.y;
+		float aspect = maxWidth / maxHeight;
+		float textAspect = 1f*texture.width / texture.height;
+		if (aspect > textAspect) {
+			rect = new Rect (0, 0, (maxHeight * textAspect), maxHeight);
+			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxHeight/texture.height);
+		} else if (aspect < textAspect) {
+			rect = new Rect (0, 0, maxWidth, (maxWidth / textAspect));
+			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
+		} else {
+			rect = new Rect (0, 0, (int)(maxWidth), (int)(maxHeight));
+			//texture.Resize(texture.width,texture.height);
+			//texture.Apply();
+		}
+
+		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;
 
         Data.Instance.cameraData.Calculate(myCamera);

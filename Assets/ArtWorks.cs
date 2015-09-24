@@ -72,6 +72,11 @@ public class ArtWorks : MonoBehaviour
         else
             Data.Instance.LoadLevel("ArtPlaced");
     }
+	public void AddArtwork()
+	{
+		Data.Instance.LoadLevel("LoadArtwork");
+	}
+
     public void Back()
     {
         Data.Instance.LoadLevel("Galleries");

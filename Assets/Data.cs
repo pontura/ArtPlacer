@@ -16,6 +16,7 @@ public class Data : MonoBehaviour
     public MainMenu mainMenu;
     public RoomsData roomsData;
     public CameraData cameraData;
+	public Vector2 defaultCamSize = new Vector2(1280,720);
     public string lastScene = "";
 
     const string PREFAB_PATH = "Data";
