@@ -45,16 +45,13 @@ public class GalleryButton : MonoBehaviour {
 
     private IEnumerator LoadThumb(string url)
     {
-        WWW imageURLWWW = new WWW(url);
+		Texture2D texture2d = null;
+		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
 
-        yield return imageURLWWW;
-
-        Texture2D texture2d = imageURLWWW.texture;
-
-        if (imageURLWWW.texture != null)
+		if (texture2d != null)
         {
             Sprite sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(imageURLWWW.texture, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
+			sprite = Sprite.Create(ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
             rawImage.sprite = sprite;            
         }
         yield return null;
@@ -62,12 +59,8 @@ public class GalleryButton : MonoBehaviour {
 
 	private void RealLoadLocalImage(string url)
 	{
-		var filePath = url;
-		if (System.IO.File.Exists(filePath))
-		{
-			var bytes = System.IO.File.ReadAllBytes(filePath);
-			Texture2D texture2d = new Texture2D(1, 1);
-			texture2d.LoadImage(bytes);
+		Texture2D texture2d = TextureUtils.LoadLocal (url);
+		if(texture2d!=null){
 			Sprite sprite = new Sprite();
 			sprite = Sprite.Create(ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);			
 			rawImage.sprite = sprite; 

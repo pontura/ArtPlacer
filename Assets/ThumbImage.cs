@@ -3,48 +3,48 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ThumbImage : MonoBehaviour{
-
-    private Sprite sprite;
-    private Texture2D texture2d;
+	
+	private Sprite sprite;
+	private Texture2D texture2d;
 	Footer footer;
 	int id;
 	string url;
-
-    public void Init(Footer _footer, string url, int _id, bool local)
-    {
+	
+	public void Init(Footer _footer, string url, int _id, bool local)
+	{
 		if (local) 
 			RealLoadLocalImage (url);
 		else
 			StartCoroutine (RealLoadImage (url));
-
+		
 		footer = _footer;
 		id=_id;
-        /*GetComponent<Button>().OnClick.AddListener(() =>
+		/*GetComponent<Button>().OnClick.AddListener(() =>
         {
 			print("aca");
             OnSelected(footer, id);
         });*/
-    }
-
+	}
+	
 	public void OnPointerDown()
 	{
 		OnSelected(footer, id);
 	}
-
-    public void InitRoom(Rooms rooms, string url, int id)
-    {
-        //StartCoroutine(RealLoadRoomImage(url));
-        RealLoadLocalImage(url);
-        GetComponent<Button>().onClick.AddListener(() =>
-        {
-            if (texture2d == null) return;
-            Data.Instance.lastPhotoThumbTexture = texture2d;
-            OnSelectedRoom(rooms, id);
-        });
-    }
-
-    public void Init(ArtWorks artWorks, string url_, int id, bool local)
-    {
+	
+	public void InitRoom(Rooms rooms, string url, int id)
+	{
+		//StartCoroutine(RealLoadRoomImage(url));
+		RealLoadLocalImage(url);
+		GetComponent<Button>().onClick.AddListener(() =>
+		                                           {
+			if (texture2d == null) return;
+			Data.Instance.lastPhotoThumbTexture = texture2d;
+			OnSelectedRoom(rooms, id);
+		});
+	}
+	
+	public void Init(ArtWorks artWorks, string url_, int id, bool local)
+	{
 		url = url_;
 		if (local) {
 			RealLoadLocalImage (url);
@@ -60,79 +60,68 @@ public class ThumbImage : MonoBehaviour{
 				StartCoroutine(OnSelected(artWorks, id));
 			});
 		}
-        
-    }
-    private void RealLoadLocalImage(string url)
-    {
-        var filePath = url;
-        if (System.IO.File.Exists(filePath))
-        {
-            var bytes = System.IO.File.ReadAllBytes(filePath);
-            texture2d = new Texture2D(1, 1);
-            texture2d.LoadImage(bytes);
-            sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
-
-            GetComponent<UnityEngine.UI.Image>().sprite = sprite;
-        }
-    }
-
-    private IEnumerator RealLoadImage(string url)
-    {
-        WWW imageURLWWW = new WWW(url);        
-        yield return imageURLWWW;
-
-		texture2d = imageURLWWW.texture;
-
-		print("url: " + url);
-        if (imageURLWWW.texture != null)
-        {
-            sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(imageURLWWW.texture, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
-            GetComponent<UnityEngine.UI.Image>().sprite = sprite;
-        }
-        yield return null;
-    }
-
-	private IEnumerator RealGetTexture(string url)
-	{
-		WWW imageURLWWW = new WWW(url);		
-		yield return imageURLWWW;
 		
-		texture2d = imageURLWWW.texture;
-		Data.Instance.lastArtTexture = texture2d;
-
+	}
+	private void RealLoadLocalImage(string url)
+	{
+		texture2d = TextureUtils.LoadLocal (url);
+		if(texture2d!=null){
+			sprite = new Sprite();
+			sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+			
+			GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+		}
+	}
+	
+	private IEnumerator RealLoadImage(string url)
+	{
+		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+		//print("url: " + url);
+		if (texture2d != null)
+		{
+			sprite = new Sprite();
+			sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+			GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+		}
 		yield return null;
 	}
-
-    private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
-    {
-        Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
-
-        float incX = (1.0f / (float)targetWidth);
-        float incY = (1.0f / (float)targetHeight);
-
-        for (int i = 0; i < result.height; ++i)
-        {
-            for (int j = 0; j < result.width; ++j)
-            {
-                Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
-                result.SetPixel(j, i, newColor);
-            }
-        }
-
-        result.Apply();
-        return result;
-    }
-    public void OnSelected(Footer footer, int id)
-    {
-        if (sprite) {
+	
+	private IEnumerator RealGetTexture(string url)
+	{
+		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+		Data.Instance.lastArtTexture = texture2d;
+		
+		yield return null;
+	}
+	
+	private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
+	{
+		Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
+		
+		float incX = (1.0f / (float)targetWidth);
+		float incY = (1.0f / (float)targetHeight);
+		
+		for (int i = 0; i < result.height; ++i)
+		{
+			for (int j = 0; j < result.width; ++j)
+			{
+				Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
+				result.SetPixel(j, i, newColor);
+			}
+		}
+		
+		result.Apply();
+		return result;
+	}
+	public void OnSelected(Footer footer, int id)
+	{
+		if (sprite) {
 			Data.Instance.SetLastArtTexture(texture2d);
 			//Data.Instance.lastArtTexture = sprite.texture;
 		}
-        footer.OnSelect(id);
-    }
-
+		footer.OnSelect(id);
+	}
+	
 	public void OnSelectedLocal(ArtWorks artWorks, int id)
 	{
 		if (sprite) {
@@ -141,24 +130,21 @@ public class ThumbImage : MonoBehaviour{
 		}
 		artWorks.OnSelect(id);
 	}
-
+	
 	public IEnumerator OnSelected(ArtWorks artWorks, int id)
-    {
-		WWW imageURLWWW = new WWW(url);		
-		yield return imageURLWWW;
-		
-		texture2d = imageURLWWW.texture;
+	{
+		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
 		Data.Instance.SetLastArtTexture(texture2d);
-
+		
 		artWorks.OnSelect(id);
 		yield return null;
-    }
-
-    public void OnSelectedRoom(Rooms rooms, int id)
-    {
-      //  if (sprite)
-       //     Data.Instance.lastPhotoTexture = texture2d;
-        rooms.OnSelect(id);
-        texture2d = null;
-    }
+	}
+	
+	public void OnSelectedRoom(Rooms rooms, int id)
+	{
+		//  if (sprite)
+		//     Data.Instance.lastPhotoTexture = texture2d;
+		rooms.OnSelect(id);
+		texture2d = null;
+	}
 }

@@ -3,6 +3,44 @@ using System.Collections;
 
 public class TextureUtils{
 
+	public static Texture2D LoadLocal(string path){
+		if (System.IO.File.Exists(path)){
+			var bytes = System.IO.File.ReadAllBytes(path);
+			Texture2D texture2d = new Texture2D(1, 1);
+			texture2d.LoadImage(bytes);
+			return texture2d;
+		}else{
+			Debug.Log("FILE NOT FOUND");
+			return null; 
+		}
+	}
+
+	// Uso:
+	// Texture2D texture2d;
+	// yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+	// carga en texture2d la textura remota
+	public static IEnumerator LoadRemote(string url, System.Action<Texture2D> result)
+	{
+		WWW www = new WWW(url);
+		float elapsedTime = 0.0f;
+		
+		while (!www.isDone)
+		{
+			elapsedTime += Time.deltaTime;
+			if (elapsedTime >= 10.0f) break;
+			yield return null;
+		}
+		
+		if (!www.isDone || !string.IsNullOrEmpty(www.error))
+		{
+			Debug.LogError("Load Failed");
+			result(null);    // Pass null result.
+			yield break;
+		}
+		
+		result(www.texture); // Pass retrieved result.
+	}
+
 	public enum ImageFilterMode : int {
 		Nearest = 0,
 		Biliner = 1,

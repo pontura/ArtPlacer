@@ -8,8 +8,9 @@ public class DragArtWork : MonoBehaviour {
 	public Vector3 positionOrigin;
 	public bool showZone;
 	public Material material;
-	public int areaId = -1;
-	public int artWorkId = -1;
+	public int areaIndex = -1;
+	public int artWorkIndex = -1;
+	public int artWorkID = -1;
 	GameObject zone;
 
 
@@ -33,14 +34,6 @@ public class DragArtWork : MonoBehaviour {
 			zone.transform.parent = gameObject.transform.parent.transform;
 			zone.name = "Cursor_"+gameObject.name;
 		}
-	}
-
-	public void SetAreaId(int id){
-		areaId = id;
-	}
-
-	public void SetArtWorkId(int id){
-		artWorkId = id;
 	}
 	
 	// Update is called once per frame

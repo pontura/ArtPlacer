@@ -37,17 +37,11 @@ public class Game : MonoBehaviour {
 		float maxHeight = Data.Instance.defaultCamSize.y;
 		float aspect = maxWidth / maxHeight;
 		float textAspect = 1f*texture.width / texture.height;
-		print ("Screen Width: " + maxWidth + " Height: " + maxHeight);
-		print ("Text Width: " + texture.width + " Height: " + texture.height);
 		if (aspect > textAspect) {
 			rect = new Rect (0, 0, (maxHeight * textAspect), maxHeight);
-			print ("Photo Width: " + rect.width + " Height: " + rect.height);
-			print ("Scale: "+maxHeight/texture.height);
 			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxHeight/texture.height);
 		} else if (aspect < textAspect) {
 			rect = new Rect (0, 0, maxWidth, (maxWidth / textAspect));
-			print ("Photo Width: " + rect.width + " Height: " + rect.height);
-			print ("Scale: "+maxWidth/texture.width);
 			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
 		} else {
 			rect = new Rect (0, 0, (int)(maxWidth), (int)(maxHeight));

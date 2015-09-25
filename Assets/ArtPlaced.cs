@@ -50,7 +50,7 @@ public class ArtPlaced : MonoBehaviour {
 				wp.EnableAreaCollider(true);
 				//wp.area.GetComponent<MeshCollider>().sharedMesh = mesh;
                 wp.SetId(i);
-				Data.Instance.areaData.areas[i].artworkIDCount = 0;
+				Data.Instance.areaData.areas[i].artworkCount = 0;
 				areas[i] = obj;
                 PlaceArt(i);
             }
@@ -141,8 +141,8 @@ public class ArtPlaced : MonoBehaviour {
 				selected = hit.collider.name;
 				selectedArtwork = hit.collider.gameObject;
 				selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
-				int areaId = hit.collider.GetComponent<DragArtWork>().areaId;
-				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkId;			
+				int areaId = hit.collider.GetComponent<DragArtWork>().areaIndex;
+				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkID;			
 				AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
 				Data.Instance.SetLastArtTexture(aw.texture);
 				Texture2D t = Data.Instance.lastArtThumbTexture;
@@ -181,8 +181,8 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	void Artwork2Trash(GameObject sel){
-		int areaId = sel.GetComponent<DragArtWork>().areaId;
-		int artWorkId = sel.GetComponent<DragArtWork>().artWorkId;
+		int areaId = sel.GetComponent<DragArtWork>().areaIndex;
+		int artWorkId = sel.GetComponent<DragArtWork>().artWorkIndex;
 		Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).texture;
 		//Data.Instance.lastArtTexture = Data.Instance.areaData.areas[areaId].artworks[artWorkId].texture;
 		//Data.Instance.areaData.areas[areaId].artworks.RemoveAt(artWorkId);
@@ -207,8 +207,8 @@ public class ArtPlaced : MonoBehaviour {
 
 	void SetArtworkPosition(GameObject sel){
 		sel.transform.position = sel.transform.position+new Vector3(0,0,0.1f);
-		int areaId = sel.GetComponent<DragArtWork> ().areaId;
-		int artWorkId = sel.GetComponent<DragArtWork> ().artWorkId;
+		int areaId = sel.GetComponent<DragArtWork> ().areaIndex;
+		int artWorkId = sel.GetComponent<DragArtWork> ().artWorkIndex;
 		Renderer rend = sel.transform.GetComponent<Renderer> ();
 		//Data.Instance.areaData.areas[areaId].artworks[artWorkId].position = rend.material.mainTextureOffset;
 		Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId).position = rend.material.mainTextureOffset;
@@ -281,7 +281,7 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void AddFromFooter(){
 		if (Data.Instance.areaData.areas.Count > 0) {
-			selected = "ArtWork_" + 0 + "_" + Data.Instance.areaData.areas[0].artworkIDCount;
+			selected = "ArtWork_" + 0 + "_" + Data.Instance.areaData.areas[0].artworkCount;
 			thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(0), Quaternion.identity) as GameObject;
 			thumbClone.name = "thumb_"+selected;
 			thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
@@ -308,13 +308,13 @@ public class ArtPlaced : MonoBehaviour {
 			for (int i=0; i<Data.Instance.areaData.areas[n].artworks.Count; i++) {
 
 				GameObject artWork = Instantiate (area.GetComponent<WallPlane> ().artWork, new Vector3 (0f, 0f, 0f), Quaternion.identity) as GameObject;
-				artWork.name = "ArtWork_" + n +"_"+ Data.Instance.areaData.areas[n].artworkIDCount;
+				artWork.name = "ArtWork_" + n +"_"+ Data.Instance.areaData.areas[n].artworkCount;
 				artWork.transform.position = new Vector3(area.transform.position.x,area.transform.position.y,area.transform.position.z-0.01f);
 				//artWork.transform.position = area.transform.position;
 				artWork.transform.SetParent (area.transform);
 				artWork.GetComponent<CustomPlane>().SetPointers(Data.Instance.areaData.getPointers(n));
 				artWork.GetComponent<CustomPlane>().CustomMesh();
-				artWork.GetComponent<DragArtWork> ().SetAreaId(n);
+				artWork.GetComponent<DragArtWork> ().areaIndex = n;
 
 				Texture2D tex = new Texture2D(Data.Instance.areaData.areas[n].artworks[i].texture.width*2,Data.Instance.areaData.areas[n].artworks[i].texture.height*2);
 				tex.wrapMode = TextureWrapMode.Clamp;
@@ -341,11 +341,12 @@ public class ArtPlaced : MonoBehaviour {
 				//area.GetComponent<Homography> ().SetHomography (artWork.name);
 				artWork.GetComponent<Renderer> ().material.mainTextureOffset = Data.Instance.areaData.areas[n].artworks[i].position;
 
-				Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkIDCount;
+				Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkCount;
 
-				artWork.GetComponent<DragArtWork> ().SetArtWorkId(i);
+				artWork.GetComponent<DragArtWork> ().artWorkIndex= i;
+				artWork.GetComponent<DragArtWork> ().artWorkID = Data.Instance.areaData.areas [n].artworks [i].galleryArtID;
 				area.GetComponent<WallPlane> ().artWorkNumber++;
-				Data.Instance.areaData.areas[n].artworkIDCount++;
+				Data.Instance.areaData.areas[n].artworkCount++;
 				artworkList.Add(artWork);
 			}
 
@@ -363,13 +364,13 @@ public class ArtPlaced : MonoBehaviour {
 		float aH = Data.Instance.areaData.areas[n].height;
 		
 		GameObject artWork = Instantiate (area.GetComponent<WallPlane> ().artWork, new Vector3 (0f, 0f, 0f), Quaternion.identity) as GameObject;
-		artWork.name = "ArtWork_" + n + "_" + Data.Instance.areaData.areas[n].artworkIDCount;
+		artWork.name = "ArtWork_" + n + "_" + Data.Instance.areaData.areas[n].artworkCount;
 		artWork.transform.position = new Vector3(area.transform.position.x,area.transform.position.y,area.transform.position.z-0.01f);
 		//artWork.transform.position = area.transform.position;
 		artWork.transform.SetParent (area.transform);
 		artWork.GetComponent<CustomPlane>().SetPointers(Data.Instance.areaData.getPointers(n));
 		artWork.GetComponent<CustomPlane>().CustomMesh();
-		artWork.GetComponent<DragArtWork> ().SetAreaId(n);
+		artWork.GetComponent<DragArtWork> ().areaIndex = n;
 
 		int h = (int)Data.Instance.artData.selectedArtWork.size.y;
 		float aspect = 1f*Data.Instance.lastArtTexture.width/Data.Instance.lastArtTexture.height;
@@ -408,18 +409,19 @@ public class ArtPlaced : MonoBehaviour {
 		//area.GetComponent<Homography> ().SetHomography (artWork.name);
 		
 		Data.Instance.lastArtTexture = null;
-		artWork.GetComponent<DragArtWork> ().SetArtWorkId(Data.Instance.areaData.areas [n].artworkIDCount);
-		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkIDCount;
+		artWork.GetComponent<DragArtWork>().artWorkIndex = Data.Instance.areaData.areas [n].artworkCount;
+		artWork.GetComponent<DragArtWork> ().artWorkID = Data.Instance.areaData.areas [n].artworks [Data.Instance.areaData.areas[n].artworkCount].galleryArtID;
+		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkCount;
 		area.GetComponent<WallPlane> ().artWorkNumber++;
-		Data.Instance.areaData.areas [n].artworkIDCount++;
+		Data.Instance.areaData.areas [n].artworkCount++;
 		artworkList.Add(artWork);
 		return artWork;	
 	}
 
 	public void GetArtInfo(){
 		if(Data.Instance.lastArtTexture==null){
-			int artWorkId = selectedArtwork.GetComponent<DragArtWork>().artWorkId;
-			int areaId = selectedArtwork.GetComponent<DragArtWork>().areaId;
+			int artWorkId = selectedArtwork.GetComponent<DragArtWork>().artWorkID;
+			int areaId = selectedArtwork.GetComponent<DragArtWork>().areaIndex;
 			AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
 			Data.Instance.SetLastArtTexture(aw.texture);
 		}	

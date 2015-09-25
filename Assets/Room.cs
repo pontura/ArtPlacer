@@ -84,17 +84,16 @@ public class Room : MonoBehaviour
     {
 		ArtData.GalleryData.ArtData artData;
 		//print ("GallID: " + areaArtwork.galleryID + " ArtId: " + areaArtwork.galleryArtID);
-		if (areaArtwork.galleryID == -2)
-			artData = Data.Instance.artData.myArtWorks.artWorksData[areaArtwork.galleryArtID];
-		else
-        	artData = Data.Instance.artData.galleries[areaArtwork.galleryID].artWorksData[areaArtwork.galleryArtID];
-
-        WWW imageURLWWW = new WWW(artData.GetUrl());
-        yield return imageURLWWW;
+		Texture2D tex = null;
+		if (areaArtwork.galleryID == -2) {
+			artData = Data.Instance.artData.myArtWorks.artWorksData [areaArtwork.galleryArtID];
+			tex = TextureUtils.LoadLocal (artData.GetUrl ());
+		} else {
+			artData = Data.Instance.artData.galleries [areaArtwork.galleryID].artWorksData [areaArtwork.galleryArtID];
+			yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl (), value => tex = value));
+		}        
         
-		print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);
-
-        Texture2D tex = imageURLWWW.texture;
+		print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);        
 
         int h = (int)artData.size.y;
         float aspect = 1f * tex.width / tex.height;
@@ -111,17 +110,15 @@ public class Room : MonoBehaviour
     void LoadRoomTexture()
     {
         print("LoadRoomTexture");
+		string filePath = GetUrlPath(Data.Instance.areaData.url + ".png");
 
-        var filePath = GetUrlPath(Data.Instance.areaData.url + ".png");
-        if (System.IO.File.Exists(filePath))
-        {
-            var bytes = System.IO.File.ReadAllBytes(filePath);
-            var tex = new Texture2D(800, 600);
-            tex.LoadImage(bytes);
-            Data.Instance.lastPhotoTexture = tex;
-
-            Data.Instance.LoadLevel("ArtPlaced");
-        }
+		Texture2D texture2d = TextureUtils.LoadLocal (filePath);
+		if (texture2d != null) {
+			Data.Instance.lastPhotoTexture = texture2d;
+		} else {
+			print("ROOM IMAGE IS NULL");
+		}
+		Data.Instance.LoadLevel ("ArtPlaced");
     }
     public string GetUrlPath(string fileName)
     {

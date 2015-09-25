@@ -16,7 +16,7 @@ public class AreaData : MonoBehaviour {
 		public float width;
         public float height;
 		public List<ArtWork> artworks;
-		public int artworkIDCount;
+		public int artworkCount;
 
 		public Area(){
 			pointers = new Vector3[4];
