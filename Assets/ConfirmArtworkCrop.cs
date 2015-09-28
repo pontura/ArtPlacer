@@ -38,7 +38,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		area.gameObject.SetActive (false);
 		Invoke("cropImage", 0.5f);
 
-		/*int sh = Screen.height;
+		/*RectTransform rt = area.GetComponent<RectTransform> ();
+		int sh = Screen.height;
 		float invSh = 1f/Screen.height;
 
 		Vector2 relativeCenter = new Vector2 (invSh * rt.localPosition.x * Data.Instance.lastArtTexture.height, invSh * rt.localPosition.y * Data.Instance.lastArtTexture.height);
@@ -54,7 +55,7 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		tex.SetPixels(c);
 		tex.Apply ();
 		Data.Instance.lastArtTexture = tex;
-		Data.Instance.LoadLevel("confirmArtworkSize");*/
+		Data.Instance.LoadLevel("confirmArtworkSize");
 
 
 		/*RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 24);
@@ -80,7 +81,11 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		RenderTexture.active = rt;
 
 		Texture2D image = new Texture2D((int)zona.rect.width, (int)zona.rect.height);
-		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin, zona.position.y+zona.rect.yMin, zona.rect.width, zona.rect.height), 0, 0);
+		//Debug.Log ("Pos: " + zona.position + " pos2: " + zona.rect.position); 
+		//Debug.Log ("xMin: " + zona.rect.xMin + " xMax: " + zona.rect.xMax); 
+		//Debug.Log ("yMin: " + zona.rect.yMin + " yMax: " + zona.rect.yMax);
+		//Debug.Log ("Pos: "+ (zona.position.x + zona.rect.xMin)+", "+(zona.position.y - zona.rect.yMin)+" width: "+zona.rect.width+" height: "+zona.rect.height);
+		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin, Mathf.Abs(Screen.height-zona.position.y+zona.rect.yMin), zona.rect.width, zona.rect.height), 0, 0);
 		image.Apply();
 		Data.Instance.lastArtTexture = image;
 		Data.Instance.LoadLevel("confirmArtworkSize");

@@ -142,7 +142,7 @@ public class ArtPlaced : MonoBehaviour {
 				selectedArtwork = hit.collider.gameObject;
 				selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
 				int areaId = hit.collider.GetComponent<DragArtWork>().areaIndex;
-				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkID;			
+				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkIndex;			
 				AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
 				Data.Instance.SetLastArtTexture(aw.texture);
 				Texture2D t = Data.Instance.lastArtThumbTexture;
@@ -198,8 +198,12 @@ public class ArtPlaced : MonoBehaviour {
 		for (int i = 0; i < hits.Length; i++) {
 			//Debug.Log(hits[i].collider.gameObject.transform.parent);
 			if(hits[i].collider.gameObject.transform.parent.name.Contains("CreatedPlane_")){
+				Data.Instance.artData.selectedGallery = sel_galleryID;
+				Data.Instance.artData.SetSelectedArtworkByArtID(sel_galleryArtID);
 				int newAreaID = hits[i].collider.gameObject.transform.parent.GetComponent<WallPlane>().AreaId;
-				AddArt(newAreaID);
+				selectedArtwork = AddArt(newAreaID);
+				selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
+
 				break;
 			}
 		}
@@ -410,7 +414,7 @@ public class ArtPlaced : MonoBehaviour {
 		
 		Data.Instance.lastArtTexture = null;
 		artWork.GetComponent<DragArtWork>().artWorkIndex = Data.Instance.areaData.areas [n].artworkCount;
-		artWork.GetComponent<DragArtWork> ().artWorkID = Data.Instance.areaData.areas [n].artworks [Data.Instance.areaData.areas[n].artworkCount].galleryArtID;
+		artWork.GetComponent<DragArtWork> ().artWorkID = Data.Instance.areaData.areas [n].artworks [Data.Instance.areaData.areas[n].artworks.Count-1].galleryArtID;
 		Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkCount;
 		area.GetComponent<WallPlane> ().artWorkNumber++;
 		Data.Instance.areaData.areas [n].artworkCount++;

@@ -22,14 +22,14 @@ public class Galleries : MonoBehaviour {
 		if (Data.Instance.artData.favorites.Count == 0)
 			favouritesButton.gameObject.SetActive (false);
 		else
-			favouritesButton.Init (this, -1, "MY FAVOURITES (" + Data.Instance.artData.favorites.Count + ")", "");
+			favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
 		if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0) {
 			myArtWorks.gameObject.SetActive (false);
 			tooltipAddArt.gameObject.SetActive(true);
 			tooltipAddArt.Play("tooltipOn");
 			Invoke("CloseAddToolTip",3);
 		}else
-			myArtWorks.Init (this, -2, "MY ARTWORKS (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
+			myArtWorks.Init (this, -2, "my artworks (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
     }
     private int id = 0;
     private void AddThumb(string _title, string url)
