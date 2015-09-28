@@ -12,10 +12,10 @@
 {
     NSString *imagePath = [NSString stringWithUTF8String:path];
     
-    //    UIImage *image      = [UIImage imageNamed:imagePath];
-    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+    UIImage *image      = [UIImage imageNamed:imagePath];
+    //UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
     NSString *message   = [NSString stringWithUTF8String:shareMessage];
-    NSArray *postItems  = @[message,image];
+    NSArray *postItems  = @[image];
     
     UIActivityViewController *activityVc = [[UIActivityViewController alloc]initWithActivityItems:postItems applicationActivities:nil];
     
