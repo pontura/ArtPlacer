@@ -9,6 +9,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
     public Animation tooltipSizes;
     public GameObject container;
 	public Camera cam;
+	public Text debugText;
+	public Canvas canvas;
 
 	private ArtworkArea area;
 
@@ -80,14 +82,22 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		cam.Render();
 		RenderTexture.active = rt;
 
-		Texture2D image = new Texture2D((int)zona.rect.width, (int)zona.rect.height);
+		Texture2D image = new Texture2D((int)(zona.rect.width*canvas.scaleFactor), (int)(zona.rect.height*canvas.scaleFactor));
+		string debug = "ScreenW: " + Screen.width + " ScreenH: " + Screen.height+"\n"; 
+		debug += "Pos: " + zona.position + " pos2: " + zona.rect.position+"\n"; 
+		debug += "xMin: " + zona.rect.xMin + " xMax: " + zona.rect.xMax+"\n"; 
+		debug += "yMin: " + zona.rect.yMin + " yMax: " + zona.rect.yMax+"\n";
+		debug += "Pos: "+ (zona.position.x + zona.rect.xMin)+", "+(zona.position.y - zona.rect.yMin)+" width: "+zona.rect.width+" height: "+zona.rect.height;
 		//Debug.Log ("Pos: " + zona.position + " pos2: " + zona.rect.position); 
 		//Debug.Log ("xMin: " + zona.rect.xMin + " xMax: " + zona.rect.xMax); 
 		//Debug.Log ("yMin: " + zona.rect.yMin + " yMax: " + zona.rect.yMax);
 		//Debug.Log ("Pos: "+ (zona.position.x + zona.rect.xMin)+", "+(zona.position.y - zona.rect.yMin)+" width: "+zona.rect.width+" height: "+zona.rect.height);
-		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin, Mathf.Abs(Screen.height-zona.position.y+zona.rect.yMin), zona.rect.width, zona.rect.height), 0, 0);
+		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin, Screen.height-(zona.position.y + zona.rect.yMax), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
+		//Texture2D image = new Texture2D(200, 200);
+		//image.ReadPixels(new Rect(Screen.width/2,  0, 200, 200), 0, 0);
 		image.Apply();
 		Data.Instance.lastArtTexture = image;
+		debugText.text = debug;
 		Data.Instance.LoadLevel("confirmArtworkSize");
 	}
 

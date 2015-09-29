@@ -117,6 +117,11 @@ public class ArtworkArea : MonoBehaviour {
 		BR.color = normalColor;
 		TL.color = normalColor;
 		TR.color = normalColor;
+		/*Debug.Log ("ScreenW: " + Screen.width + " ScreenH: " + Screen.height); 
+		Debug.Log ("Pos: " + transform.position + " pos2: " + transform.rect.position); 
+		Debug.Log ("xMin: " + transform.rect.xMin + " xMax: " + transform.rect.xMax); 
+		Debug.Log ("yMin: " + transform.rect.yMin + " yMax: " + transform.rect.yMax);
+		Debug.Log ("Pos: "+ (transform.position.x + transform.rect.xMin)+", "+(transform.position.y + transform.rect.yMax)+" width: "+transform.rect.width+" height: "+transform.rect.height);*/
 	}
 
 }

@@ -25,6 +25,11 @@ public class Game : MonoBehaviour {
         myCamera.enabled = true;
 
         Texture2D texture = Data.Instance.lastPhotoTexture;
+		/*Texture2D texture = new Texture2D (432, 720);
+		Color32[] c = new Color32[texture.GetPixels32(0).Length];
+		for (int i=0; i<c.Length; i++)
+			c[i] = Color.red;
+		texture.SetPixels32(c);*/
 
         if (!Data.Instance.isPhoto4Room)
             texture = Data.Instance.lastArtTexture;
@@ -38,10 +43,10 @@ public class Game : MonoBehaviour {
 		float aspect = maxWidth / maxHeight;
 		float textAspect = 1f*texture.width / texture.height;
 		if (aspect > textAspect) {
-			rect = new Rect (0, 0, (maxHeight * textAspect), maxHeight);
+			rect = new Rect (0, 0, (int)(maxHeight * textAspect), (int)maxHeight);
 			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxHeight/texture.height);
 		} else if (aspect < textAspect) {
-			rect = new Rect (0, 0, maxWidth, (maxWidth / textAspect));
+			rect = new Rect (0, 0, (int)maxWidth, (int)(maxWidth / textAspect));
 			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
 		} else {
 			rect = new Rect (0, 0, (int)(maxWidth), (int)(maxHeight));
@@ -63,6 +68,5 @@ public class Game : MonoBehaviour {
                 background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, 1);
                 break;
         }
-
     }
 }
