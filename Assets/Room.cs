@@ -56,17 +56,20 @@ public class Room : MonoBehaviour
 
 		int id = Data.Instance.roomsData.actualRoomId;
 		RoomsData.Room room = Data.Instance.roomsData.rooms[id];
-		
+		print ("Aca");
 		foreach (RoomsData.RoomArea roomArea in room.area)
         {
+			print ("Aca1");
             Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
             foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks)
             {
+				print ("Aca2");
                 totalArtworks2Load++;
                 StartCoroutine(GetArtData(areaArtwork, Data.Instance.areaData.areas.Count - 1, room));          
             }
         }
         Events.OnLoading(true);
+		if(totalArtworks2Load==0)LoadRoomTexture();
     }
     public void Walls()
     {
