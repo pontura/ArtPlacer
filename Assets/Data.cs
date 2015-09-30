@@ -108,6 +108,10 @@ public class Data : MonoBehaviour
 
 		DontDestroyOnLoad(this.gameObject);
         
+		Screen.autorotateToLandscapeLeft = true;
+		Screen.autorotateToLandscapeRight = false;
+		Screen.autorotateToPortrait = false;
+		Screen.autorotateToPortraitUpsideDown = false;
     }
     public void Reset()
     {
