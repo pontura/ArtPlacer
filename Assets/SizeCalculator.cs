@@ -19,15 +19,35 @@ public class SizeCalculator : MonoBehaviour {
         height2 = Vector3.Distance(wallPlane.pointer[1].transform.localPosition, wallPlane.pointer[2].transform.localPosition);
         width2d = Vector3.Distance(wallPlane.pointer[0].transform.localPosition, wallPlane.pointer[2].transform.localPosition);
 
-        float diff = 1;
+		Debug.Log ("H1: "+height1 + " H2: " + height2 + " W: " + width2d);
+
+		float aspect = width2d / ((height1 + height2) * 0.5f);
+
+        float diff = 0;
 
         if (height1 > height2)
             diff = height1 / height2;
         else if (height2 > height1)
             diff = height2 / height1;
 
-        diff *= realSize;
+		Debug.Log ("Diff: " + diff);
 
-        return width2d * diff;
+		if (diff == 0f) {
+			return realSize * aspect;
+		} else {
+
+			diff *= realSize;
+
+			Debug.Log ("Diff: " + diff);
+			float res=0;
+			if(aspect>1f)
+				res = width2d * diff * (width2d / ((height1 + height2) * 0.5f));
+			else
+				res = width2d * diff;
+
+			Debug.Log ("Res: " + res);
+
+			return res;
+		}
     }
 }
