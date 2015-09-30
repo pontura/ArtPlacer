@@ -66,11 +66,7 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 
 		cam.Render();
 		RenderTexture.active = rt;
-		screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);*/
-
-
-
-       
+		screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);*/       
     }
 
 	void cropImage(){
@@ -91,14 +87,13 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		debug += "ScaleFactor: "+canvas.scaleFactor+"\n";
 		debug += "Pos: "+ (zona.position.x + zona.rect.xMin)+", "+(zona.position.y - zona.rect.yMin)+" width: "+zona.rect.width+" height: "+zona.rect.height+"\n";
 		debug += "Pos: "+ (zona.position.x*canvas.scaleFactor+zona.rect.xMin*canvas.scaleFactor)+", "+(Screen.height*canvas.scaleFactor-(zona.position.y *canvas.scaleFactor + zona.rect.yMax *canvas.scaleFactor))+" width: "+(zona.rect.width*canvas.scaleFactor)+" height: "+(zona.rect.height*canvas.scaleFactor)+"\n";*/
-		//Debug.Log ("Pos: " + zona.position + " pos2: " + zona.rect.position); 
-		//Debug.Log ("xMin: " + zona.rect.xMin + " xMax: " + zona.rect.xMax); 
-		//Debug.Log ("yMin: " + zona.rect.yMin + " yMax: " + zona.rect.yMax);
-		//Debug.Log ("Pos: "+ (zona.position.x + zona.rect.xMin)+", "+(zona.position.y - zona.rect.yMin)+" width: "+zona.rect.width+" height: "+zona.rect.height);
-		//image.ReadPixels(new Rect(zona.position.x*canvas.scaleFactor+zona.rect.xMin*canvas.scaleFactor, Screen.height*canvas.scaleFactor-(zona.position.y *canvas.scaleFactor + zona.rect.yMax *canvas.scaleFactor), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
-		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin*canvas.scaleFactor, Screen.height-(zona.position.y + zona.rect.yMax), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
-		//Texture2D image = new Texture2D(200, 200);
-		//image.ReadPixels(new Rect(Screen.width/2,  0, 200, 200), 0, 0);
+
+		#if UNITY_EDITOR
+		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin*canvas.scaleFactor, Screen.height-(zona.position.y + zona.rect.yMax *canvas.scaleFactor), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
+		#else 
+		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin*canvas.scaleFactor, (zona.position.y + zona.rect.yMin*canvas.scaleFactor), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
+		#endif
+
 		image.Apply();
 		Data.Instance.lastArtTexture = image;
 		//debugText.text = debug;
