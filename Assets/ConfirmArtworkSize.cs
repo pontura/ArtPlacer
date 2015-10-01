@@ -20,7 +20,8 @@ public class ConfirmArtworkSize : MonoBehaviour {
 
         signal = Instantiate(artworkSignal) as ArtworkSignal;
 		signal.transform.SetParent(container.transform);
-		signal.transform.localPosition = new Vector3(0,70,0);
+		signal.transform.localPosition = new Vector3(80,70,0);
+		//signal.transform.localScale = new Vector3(1f,0.8f,1f);
 		signal.transform.localScale = Vector3.one;
 
 		if (Data.Instance.artData.selectedGallery == -2) {
@@ -31,7 +32,7 @@ public class ConfirmArtworkSize : MonoBehaviour {
 			signal.Init (50, 50);
 		}
 
-        Invoke("startTooltip", 0.5f);
+        //Invoke("startTooltip", 0.5f);
     }   
     
     void startTooltip()

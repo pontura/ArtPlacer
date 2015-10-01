@@ -57,16 +57,17 @@ public class Game : MonoBehaviour {
 		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;
 
-        Data.Instance.cameraData.Calculate(myCamera);
-        switch (Data.Instance.cameraData.aspect)
-        {
-            case CameraData.aspects._3_2:
-            case CameraData.aspects._4_3:
-                background.transform.localScale = new Vector3(scaleFor_4x3, scaleFor_4x3, 1);
-                break;
-            default:
-                background.transform.localScale = new Vector3(scaleFor_16x9, scaleFor_16x9, 1);
-                break;
-        }
+		if (!Data.Instance.lastScene.Equals ("ConfirmArtworkCrop")) {
+			Data.Instance.cameraData.Calculate (myCamera);
+			switch (Data.Instance.cameraData.aspect) {
+			case CameraData.aspects._3_2:
+			case CameraData.aspects._4_3:
+				background.transform.localScale = new Vector3 (scaleFor_4x3, scaleFor_4x3, 1);
+				break;
+			default:
+				background.transform.localScale = new Vector3 (scaleFor_16x9, scaleFor_16x9, 1);
+				break;
+			}
+		}
     }
 }

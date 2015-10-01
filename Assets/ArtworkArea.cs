@@ -43,7 +43,7 @@ public class ArtworkArea : MonoBehaviour {
 				gameObject.transform.position = Input.mousePosition;
 
 			} else if (selectMove == SelectMove.TL) {
-				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
+				Vector2 scale = new Vector2 (2*deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
 				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
 				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
 					transform.sizeDelta = newSize;			
