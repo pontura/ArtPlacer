@@ -19,6 +19,8 @@ public class WallPlane : MonoBehaviour {
 	Mesh areaMesh;
 
 	bool moveArea = false;
+
+	Vector3 offset;
 	
 	// Use this for initialization
 	void Start () {
@@ -83,7 +85,8 @@ public class WallPlane : MonoBehaviour {
 						select = 5;
 						Vector3 mPos = Input.mousePosition;
 						mPos.z = 1.0f;
-						transform.position = cam.ScreenToWorldPoint(mPos);
+						offset = cam.ScreenToWorldPoint(mPos) - transform.position;
+						//transform.position = cam.ScreenToWorldPoint(mPos);
 						//SetPointersFromArea();
 					}else{                    
 						Events.OnWallEdgeSelected();
@@ -101,7 +104,11 @@ public class WallPlane : MonoBehaviour {
 								
 								vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
 								areaMesh.vertices = vertex;
-								if(area.GetComponent<MeshCollider>()!=null)area.GetComponent<MeshCollider>().sharedMesh = areaMesh;
+								if(area.GetComponent<MeshCollider>()!=null){
+									area.GetComponent<MeshCollider>().sharedMesh = areaMesh;
+									area.GetComponent<MeshCollider>().enabled=false;
+									area.GetComponent<MeshCollider>().enabled=true;
+								}
 								
 								//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
 								//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
@@ -122,14 +129,18 @@ public class WallPlane : MonoBehaviour {
 						//vertex[select] = areaPos;						
 						vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
 						areaMesh.vertices = vertex;
-						if(area.GetComponent<MeshCollider>()!=null)area.GetComponent<MeshCollider>().sharedMesh = areaMesh;
+						if(area.GetComponent<MeshCollider>()!=null){
+							area.GetComponent<MeshCollider>().sharedMesh = areaMesh;
+							area.GetComponent<MeshCollider>().enabled=false;
+							area.GetComponent<MeshCollider>().enabled=true;
+						}
 						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);
 						//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
 						//RedrawLine();					
 					}else if(moveArea){
 						Vector3 mPos = Input.mousePosition;
 						mPos.z = 1.0f;
-						transform.position = cam.ScreenToWorldPoint(mPos);
+						transform.position = cam.ScreenToWorldPoint(mPos)-offset;
 						//SetPointersFromArea();
 					}
 				}
