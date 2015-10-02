@@ -10,13 +10,20 @@ public class ArtworkArea : MonoBehaviour {
 	public Image BR;
 	public Image BL;
 
-	Color selectedColor = Color.gray;
-	Color normalColor = Color.white;
+	public Color selectedColor;
+	public Color normalColor;
 
 	Vector2 deltaMove;
 
 	RectTransform transform;
 	RectTransform areaTransform;
+
+	int limitTop = Screen.height;
+	int limitLeft = 0;
+	int limitRight = Screen.width;
+	int limitBottom = 0;
+
+	Vector3 offset;
 
 	enum SelectMove {
 		None,
@@ -39,13 +46,18 @@ public class ArtworkArea : MonoBehaviour {
 	void Update () {
 		if (Input.mousePosition.x > 0 && Input.mousePosition.y > 0) {
 			if (selectMove == SelectMove.Area) {
-				if ((Input.mousePosition.x - transform.sizeDelta.x * 0.5 > 0) && (Input.mousePosition.x + transform.sizeDelta.x * 0.5 < Screen.width) && (Input.mousePosition.y - transform.sizeDelta.y * 0.5 > 0) && (Input.mousePosition.y + transform.sizeDelta.y * 0.5 < Screen.height))
-				gameObject.transform.position = Input.mousePosition;
-
+				Vector3 pos = Input.mousePosition-offset;
+				if ((pos.x - transform.sizeDelta.x * 0.5f > limitLeft) && (pos.x + transform.sizeDelta.x * 0.5 < limitRight) && (pos.y - transform.sizeDelta.y * 0.5 > limitBottom) && (pos.y + transform.sizeDelta.y * 0.5 < limitTop))
+					gameObject.transform.position = pos;
+				pos.x = pos.x - transform.sizeDelta.x * 0.5f<limitLeft?limitLeft + transform.sizeDelta.x * 0.5f:pos.x;
+				pos.x=pos.x + transform.sizeDelta.x * 0.5f>limitRight?limitRight - transform.sizeDelta.x * 0.5f:pos.x;
+				pos.y = pos.y - transform.sizeDelta.y * 0.5f<limitBottom?limitBottom + transform.sizeDelta.y * 0.5f:pos.y;
+				pos.y = pos.y + transform.sizeDelta.y * 0.5f >limitTop?limitTop - transform.sizeDelta.y * 0.5f:pos.y;				
+				gameObject.transform.position = new Vector3(pos.x,pos.y,pos.z);
 			} else if (selectMove == SelectMove.TL) {
-				Vector2 scale = new Vector2 (2*deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
+				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
 				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+				if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
 					transform.sizeDelta = newSize;			
 					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
 					deltaMove = Input.mousePosition;
@@ -53,7 +65,7 @@ public class ArtworkArea : MonoBehaviour {
 			} else if (selectMove == SelectMove.TR) {
 				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, Input.mousePosition.y / deltaMove.y);
 				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+				if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
 					transform.sizeDelta = newSize;
 					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
 					deltaMove = Input.mousePosition;
@@ -61,7 +73,7 @@ public class ArtworkArea : MonoBehaviour {
 			} else if (selectMove == SelectMove.BL) {
 				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, deltaMove.y / Input.mousePosition.y);
 				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+				if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
 					transform.sizeDelta = newSize;
 					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
 					deltaMove = Input.mousePosition;
@@ -69,7 +81,7 @@ public class ArtworkArea : MonoBehaviour {
 			} else if (selectMove == SelectMove.BR) {
 				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, deltaMove.y / Input.mousePosition.y);
 				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				if ((transform.position.x - newSize.x * 0.5 > 0) && (transform.position.x + newSize.x * 0.5 < Screen.width) && (transform.position.y - newSize.y * 0.5 > 0) && (transform.position.y + newSize.y * 0.5 < Screen.height)) {
+				if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
 					transform.sizeDelta = newSize;
 					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
 					deltaMove = Input.mousePosition;
@@ -81,6 +93,7 @@ public class ArtworkArea : MonoBehaviour {
 	public void OnPointerDownArea()
 	{
 		selectMove = SelectMove.Area;
+		offset = Input.mousePosition - transform.position;
 	}
 
 	public void OnPointerDownTL()
