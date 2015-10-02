@@ -20,9 +20,10 @@ public class ConfirmArtworkSize : MonoBehaviour {
 
         signal = Instantiate(artworkSignal) as ArtworkSignal;
 		signal.transform.SetParent(container.transform);
-		signal.transform.localPosition = new Vector3(80,70,0);
+		signal.transform.localPosition = new Vector3(140,70,0);
 		//signal.transform.localScale = new Vector3(1f,0.8f,1f);
 		signal.transform.localScale = Vector3.one;
+		signal.GetComponent<Canvas> ().sortingOrder = 1;
 
 		if (Data.Instance.artData.selectedGallery == -2) {
 			signal.Init (Data.Instance.artData.selectedArtWork.size.x, Data.Instance.artData.selectedArtWork.size.y);
