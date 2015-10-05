@@ -62,7 +62,7 @@ public class ConfirmSizes : MonoBehaviour {
         {
             int _height =  sizeSignal.GetHeight();
             Data.Instance.areaData.areas[sizeSignal.id].height = _height;
-            Data.Instance.areaData.areas[sizeSignal.id].width = GetComponent<WallCreator>().createdPlaneArtworks.GetComponent<SizeCalculator>().CalculateWidth(_height);
+			Data.Instance.areaData.areas[sizeSignal.id].width = GetComponent<WallCreator>().createdPlanes[sizeSignal.id].GetComponent<SizeCalculator>().CalculateWidth(_height);
         }
 		
 		Events.SaveAreas();
