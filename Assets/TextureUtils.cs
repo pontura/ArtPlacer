@@ -47,6 +47,91 @@ public class TextureUtils{
 		Average = 2
 	}
 
+	public static Texture2D Rotate90CCW(Texture2D source){
+		Texture2D result = new Texture2D (source.height, source.width);
+		Color32[] cSource = source.GetPixels32 ();
+		Color32[] cRes = new Color32[cSource.Length];
+
+		for(int x=0;x<source.width;x++){
+			for(int y=0;y<source.height;y++){
+				cRes[x*source.height+source.height-1-y] = cSource[(y*source.width)+x];
+			}
+		}
+
+		result.SetPixels32 (cRes);
+		result.Apply ();
+		return result;
+
+	}
+
+	public static Texture2D Rotate90CW(Texture2D source){
+		Texture2D result = new Texture2D (source.height, source.width);
+		Color32[] cSource = source.GetPixels32 ();
+		Color32[] cRes = new Color32[cSource.Length];
+		
+		for(int x=0;x<source.width;x++){
+			for(int y=0;y<source.height;y++){
+				cRes[((source.width-x-1)*source.height)+y] = cSource[(y*source.width)+x];
+			}
+		}
+		
+		result.SetPixels32 (cRes);
+		result.Apply ();
+		return result;
+		
+	}
+
+	public static Texture2D Rotate180(Texture2D source){
+		Texture2D result = new Texture2D (source.height, source.width);
+		Color32[] cSource = source.GetPixels32 ();
+		Color32[] cRes = new Color32[cSource.Length];
+		
+		for(int x=0;x<source.width;x++){
+			for(int y=0;y<source.height;y++){
+				cRes[((source.width-x-1)*source.height)+source.height-y-1] = cSource[(x*source.height)+y];
+			}
+		}
+		
+		result.SetPixels32 (cRes);
+		result.Apply ();
+		return result;
+		
+	}
+
+	public static Texture2D FlipH(Texture2D source){
+		Texture2D result = new Texture2D (source.height, source.width);
+		Color32[] cSource = source.GetPixels32 ();
+		Color32[] cRes = new Color32[cSource.Length];
+		
+		for(int x=0;x<source.width;x++){
+			for(int y=0;y<source.height;y++){
+				cRes[((source.width-x-1)*source.height)+y] = cSource[(x*source.height)+y];
+			}
+		}
+		
+		result.SetPixels32 (cRes);
+		result.Apply ();
+		return result;
+		
+	}
+
+	public static Texture2D FlipV(Texture2D source){
+		Texture2D result = new Texture2D (source.height, source.width);
+		Color32[] cSource = source.GetPixels32 ();
+		Color32[] cRes = new Color32[cSource.Length];
+		
+		for(int x=0;x<source.width;x++){
+			for(int y=0;y<source.height;y++){
+				cRes[x*source.height+source.height-y-1] = cSource[(x*source.height)+y];
+			}
+		}
+		
+		result.SetPixels32 (cRes);
+		result.Apply ();
+		return result;
+		
+	}
+
 	public static Texture2D ResizeTexture(Texture2D pSource, ImageFilterMode pFilterMode, float pScale){
 		
 		//*** Variables

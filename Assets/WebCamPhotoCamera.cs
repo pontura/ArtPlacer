@@ -68,14 +68,46 @@ public class WebCamPhotoCamera : MonoBehaviour
 
         if (Data.Instance.isPhoto4Room)
         {
-            Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
-            Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
+			if (Input.deviceOrientation == DeviceOrientation.Portrait){
+				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
+				temp.SetPixels(webCamTexture.GetPixels());
+				temp.Apply();				
+				Texture2D rotated = TextureUtils.Rotate90CW(temp);
+				Data.Instance.lastPhotoTexture = new Texture2D(rotated.width, rotated.height);
+				Data.Instance.lastPhotoTexture.SetPixels(rotated.GetPixels());
+			}else if (Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown){
+				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
+				temp.SetPixels(webCamTexture.GetPixels());
+				temp.Apply();				
+				Texture2D rotated = TextureUtils.Rotate90CCW(temp);
+				Data.Instance.lastPhotoTexture = new Texture2D(rotated.width, rotated.height);
+				Data.Instance.lastPhotoTexture.SetPixels(rotated.GetPixels());
+			}else{
+            	Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
+            	Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
+			}
             Data.Instance.lastPhotoTexture.Apply();
         }
         else
         {
-            Data.Instance.lastArtTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
-            Data.Instance.lastArtTexture.SetPixels(webCamTexture.GetPixels());
+			if (Input.deviceOrientation == DeviceOrientation.Portrait){
+				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
+				temp.SetPixels(webCamTexture.GetPixels());
+				temp.Apply();				
+				Texture2D rotated = TextureUtils.Rotate90CW(temp);
+				Data.Instance.lastArtTexture = new Texture2D(rotated.width, rotated.height);
+				Data.Instance.lastArtTexture.SetPixels(rotated.GetPixels());
+			}else if (Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown){
+				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
+				temp.SetPixels(webCamTexture.GetPixels());
+				temp.Apply();				
+				Texture2D rotated = TextureUtils.Rotate90CCW(temp);
+				Data.Instance.lastArtTexture = new Texture2D(rotated.width, rotated.height);
+				Data.Instance.lastArtTexture.SetPixels(rotated.GetPixels());
+			}else{
+            	Data.Instance.lastArtTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
+            	Data.Instance.lastArtTexture.SetPixels(webCamTexture.GetPixels());
+			}
             Data.Instance.lastArtTexture.Apply();
         }
 
