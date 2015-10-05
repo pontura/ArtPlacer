@@ -56,6 +56,7 @@ public class Galleries : MonoBehaviour {
     }
 
 	public void AddArtWorks(){
+		Data.Instance.artData.selectedArtWork = null;
 		Data.Instance.artData.selectedGallery = 0;
 		Data.Instance.LoadLevel("LoadArtwork");
 		tooltipAddArt.gameObject.SetActive(false);

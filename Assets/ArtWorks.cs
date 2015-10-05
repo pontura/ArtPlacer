@@ -74,6 +74,8 @@ public class ArtWorks : MonoBehaviour
     }
 	public void AddArtwork()
 	{
+		Data.Instance.artData.selectedGallery = 0;
+		Data.Instance.artData.selectedArtWork = null;
 		Data.Instance.LoadLevel("LoadArtwork");
 	}
 
