@@ -58,13 +58,12 @@ public class ConfirmSizes : MonoBehaviour {
     }
     public void Ready()
     {
-        foreach (SizeSignal sizeSignal in sizeSignals)
-        {
-            int _height =  sizeSignal.GetHeight();
-            Data.Instance.areaData.areas[sizeSignal.id].height = _height;
-			Data.Instance.areaData.areas[sizeSignal.id].width = GetComponent<WallCreator>().createdPlanes[sizeSignal.id].GetComponent<SizeCalculator>().CalculateWidth(_height);
-        }
-		
+		SizeSignal sizeSignal = sizeSignals [areaActiveID];
+       
+        int _height =  sizeSignal.GetHeight();
+        Data.Instance.areaData.areas[sizeSignal.id].height = _height;
+		Data.Instance.areaData.areas[sizeSignal.id].width = GetComponent<WallCreator>().createdPlanes[sizeSignal.id].GetComponent<SizeCalculator>().CalculateWidth(_height);
+        		
 		Events.SaveAreas();
         //Data.Instance.areaData.Save();
 
