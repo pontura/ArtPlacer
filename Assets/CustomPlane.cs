@@ -112,56 +112,23 @@ public class CustomPlane : MonoBehaviour {
 		
 	}
 	
-	bool LineIntersectionPoint(out Vector3 result, Vector3 ps1, Vector3 pe1, Vector3 ps2, Vector3 pe2){
-		
-		result = Vector3.zero;
-		
-		Vector3 lineVec1 = (pe1 - ps1).normalized;
-		Vector3 lineVec2 = (pe2 - ps2).normalized;
-		
-		float a = Vector3.Dot(lineVec1, lineVec1);
-		float b = Vector3.Dot(lineVec1, lineVec2);
-		float e = Vector3.Dot(lineVec2, lineVec2);
-		
-		float d = a*e - b*b;
-		
-		//lines are not parallel
-		if(d != 0.0f){
-			
-			Vector3 r = ps1 - ps2;
-			float c = Vector3.Dot(lineVec1, r);
-			float f = Vector3.Dot(lineVec2, r);
-			
-			float s = (b*f - c*e) / d;
-			float t = (a*f - c*b) / d;
-			
-			result = ps1 + lineVec1 * s;
-			
-			return true;
-		}
-		
-		else{
-			return false;
-		}
-	}
-	
 	void MakeGrid(Vector3 point0, Vector3 point1, Vector3 point2, Vector3 point3, int maxRecur, int recurStep, int indOffS){//point0 es top Left y sigue counter clockwise
 		//print ("pre VCount: " + vertex.Count);
 		Vector3 res, vp1, vp2, mLeft, mRight, mTop, mBottom;
 		res = new Vector3 ();
-		LineIntersectionPoint (out res, point0, point2, point1, point3);
+		CustomMath.LineIntersectionPoint (out res, point0, point2, point1, point3);
 		Vector3 center = new Vector3(res.x,res.y,res.z);
-		if (LineIntersectionPoint (out res, point0, point3, point1, point2)) {
+		if (CustomMath.LineIntersectionPoint (out res, point0, point3, point1, point2)) {
 			vp1 = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point0, point1, vp1, center);
+			CustomMath.LineIntersectionPoint (out res, point0, point1, vp1, center);
 			mLeft = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point3, point2, vp1, center);
+			CustomMath.LineIntersectionPoint (out res, point3, point2, vp1, center);
 			mRight = new Vector3(res.x,res.y,res.z);
-		} else if (LineIntersectionPoint (out res, point3, point0, point2, point1)) {
+		} else if (CustomMath.LineIntersectionPoint (out res, point3, point0, point2, point1)) {
 			vp1 = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point0, point1, vp1, center);
+			CustomMath.LineIntersectionPoint (out res, point0, point1, vp1, center);
 			mLeft = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point3, point2, vp1, center);
+			CustomMath.LineIntersectionPoint (out res, point3, point2, vp1, center);
 			mRight = new Vector3(res.x,res.y,res.z);
 		}else{
 			//Debug.Log ("Paralelas Verticales");
@@ -169,17 +136,17 @@ public class CustomPlane : MonoBehaviour {
 			mRight = point2+(point3-point2)*0.5f;
 		}
 		
-		if(LineIntersectionPoint (out res, point0, point1, point3, point2)){
+		if(CustomMath.LineIntersectionPoint (out res, point0, point1, point3, point2)){
 			vp2 = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point0, point3, vp2, center);
+			CustomMath.LineIntersectionPoint (out res, point0, point3, vp2, center);
 			mTop = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point1, point2, vp2, center);
+			CustomMath.LineIntersectionPoint (out res, point1, point2, vp2, center);
 			mBottom = new Vector3(res.x,res.y,res.z);
-		}if(LineIntersectionPoint (out res, point1, point0, point2, point3)){
+		}if(CustomMath.LineIntersectionPoint (out res, point1, point0, point2, point3)){
 			vp2 = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point0, point3, vp2, center);
+			CustomMath.LineIntersectionPoint (out res, point0, point3, vp2, center);
 			mTop = new Vector3(res.x,res.y,res.z);
-			LineIntersectionPoint (out res, point1, point2, vp2, center);
+			CustomMath.LineIntersectionPoint (out res, point1, point2, vp2, center);
 			mBottom = new Vector3(res.x,res.y,res.z);
 		}else{
 			//Debug.Log ("Paralelas Horizotales");
