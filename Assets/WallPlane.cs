@@ -89,7 +89,6 @@ public class WallPlane : MonoBehaviour {
 							//transform.position = cam.ScreenToWorldPoint(mPos);
 							//SetPointersFromArea();
 							Data.Instance.selectedArea = AreaId;
-							print (Data.Instance.selectedArea);
 						} else {                    
 							Events.OnWallEdgeSelected ();
 							//print ("Mesh Id Selected: "+mesh.GetInstanceID());
