@@ -69,89 +69,92 @@ public class WallPlane : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		if( Input.GetButton ("Fire1")) {
-			Vector3 mousePos = new Vector3(Input.mousePosition.x,Input.mousePosition.y,0);
+		if (Data.Instance.selectedArea == int.MaxValue || Data.Instance.selectedArea == AreaId) {
+			if (Input.GetButton ("Fire1")) {
+				Vector3 mousePos = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
 			
-			//Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-			Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
+				//Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+				Vector3 worldPos = cam.ScreenToWorldPoint (mousePos);
 			
-			//Ray screenRay = Camera.main.ScreenPointToRay(mousePos);
-			Ray screenRay = cam.ScreenPointToRay(mousePos);
-			RaycastHit rayhit;
-			if(Physics.Raycast(screenRay, out rayhit)){				
-				if(select<0){
-					if(rayhit.collider.gameObject == area && moveArea){
-						select = 5;
-						Vector3 mPos = Input.mousePosition;
-						mPos.z = 1.0f;
-						offset = cam.ScreenToWorldPoint(mPos) - transform.position;
-						//transform.position = cam.ScreenToWorldPoint(mPos);
-						//SetPointersFromArea();
-					}else{                    
-						Events.OnWallEdgeSelected();
-						//print ("Mesh Id Selected: "+mesh.GetInstanceID());
-						for(int i=0;i<areaMesh.vertexCount;i++){
-							if(rayhit.collider.name == "Pointer_"+gameObject.GetInstanceID()+"_"+i){ 
-								//Debug.Log ("Pointer Sel: "+i);								
-								select= i;
-								//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
-								Vector3 pos = screenRay.GetPoint(rayhit.distance);                            
-								Vector3 areaPos = area.transform.InverseTransformPoint(pos);
+				//Ray screenRay = Camera.main.ScreenPointToRay(mousePos);
+				Ray screenRay = cam.ScreenPointToRay (mousePos);
+				RaycastHit rayhit;
+				if (Physics.Raycast (screenRay, out rayhit)) {				
+					if (select < 0) {
+						if (rayhit.collider.gameObject == area && moveArea) {
+							select = 5;
+							Vector3 mPos = Input.mousePosition;
+							mPos.z = 1.0f;
+							offset = cam.ScreenToWorldPoint (mPos) - transform.position;
+							//transform.position = cam.ScreenToWorldPoint(mPos);
+							//SetPointersFromArea();
+							Data.Instance.selectedArea = AreaId;
+							print (Data.Instance.selectedArea);
+						} else {                    
+							Events.OnWallEdgeSelected ();
+							//print ("Mesh Id Selected: "+mesh.GetInstanceID());
+							for (int i=0; i<areaMesh.vertexCount; i++) {
+								if (rayhit.collider.name == "Pointer_" + gameObject.GetInstanceID () + "_" + i) { 
+									//Debug.Log ("Pointer Sel: "+i);								
+									select = i;
+									Data.Instance.selectedArea = GetId ();
+									//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
+									Vector3 pos = screenRay.GetPoint (rayhit.distance);                            
+									Vector3 areaPos = area.transform.InverseTransformPoint (pos);
 								
-								Vector3[] vertex = new Vector3[4];
-								vertex = areaMesh.vertices;														
+									Vector3[] vertex = new Vector3[4];
+									vertex = areaMesh.vertices;														
 								
-								vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
-								areaMesh.vertices = vertex;
-								if(area.GetComponent<MeshCollider>()!=null){
-									area.GetComponent<MeshCollider>().sharedMesh = areaMesh;
-									area.GetComponent<MeshCollider>().enabled=false;
-									area.GetComponent<MeshCollider>().enabled=true;
+									vertex [select] = new Vector3 (areaPos.x, areaPos.y, vertex [select].z);
+									areaMesh.vertices = vertex;
+									if (area.GetComponent<MeshCollider> () != null) {
+										area.GetComponent<MeshCollider> ().sharedMesh = areaMesh;
+										area.GetComponent<MeshCollider> ().enabled = false;
+										area.GetComponent<MeshCollider> ().enabled = true;
+									}
+								
+									//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
+									//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
+									rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);						
+								
 								}
-								
-								//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
-								//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
-								rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);						
-								
 							}
 						}
-					}
-				}else{
-					if(rayhit.collider.name == "Pointer_"+gameObject.GetInstanceID()+"_"+select){ 
+					} else {
+						if (rayhit.collider.name == "Pointer_" + gameObject.GetInstanceID () + "_" + select) { 						
+							//Debug.Log ("Pointer Move: "+select);
+							Vector3 pos = screenRay.GetPoint (rayhit.distance);						
+							Vector3 areaPos = area.transform.InverseTransformPoint (pos);					
 						
-						//Debug.Log ("Pointer Move: "+select);
-						Vector3 pos = screenRay.GetPoint(rayhit.distance);						
-						Vector3 areaPos = area.transform.InverseTransformPoint(pos);					
-						
-						Vector3[] vertex = new Vector3[4];
-						vertex = areaMesh.vertices;					
-						//vertex[select] = areaPos;						
-						vertex[select] = new Vector3(areaPos.x,areaPos.y,vertex[select].z);
-						areaMesh.vertices = vertex;
-						if(area.GetComponent<MeshCollider>()!=null){
-							area.GetComponent<MeshCollider>().sharedMesh = areaMesh;
-							area.GetComponent<MeshCollider>().enabled=false;
-							area.GetComponent<MeshCollider>().enabled=true;
+							Vector3[] vertex = new Vector3[4];
+							vertex = areaMesh.vertices;					
+							//vertex[select] = areaPos;						
+							vertex [select] = new Vector3 (areaPos.x, areaPos.y, vertex [select].z);
+							areaMesh.vertices = vertex;
+							if (area.GetComponent<MeshCollider> () != null) {
+								area.GetComponent<MeshCollider> ().sharedMesh = areaMesh;
+								area.GetComponent<MeshCollider> ().enabled = false;
+								area.GetComponent<MeshCollider> ().enabled = true;
+							}
+							rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);
+							//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
+							//RedrawLine();					
+						} else if (moveArea&&select==5) {
+							Vector3 mPos = Input.mousePosition;
+							mPos.z = 1.0f;
+							transform.position = cam.ScreenToWorldPoint (mPos) - offset;
+							//SetPointersFromArea();
 						}
-						rayhit.collider.transform.position = new Vector3(pos.x,pos.y,rayhit.collider.transform.parent.transform.position.z);
-						//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
-						//RedrawLine();					
-					}else if(moveArea){
-						Vector3 mPos = Input.mousePosition;
-						mPos.z = 1.0f;
-						transform.position = cam.ScreenToWorldPoint(mPos)-offset;
-						//SetPointersFromArea();
 					}
 				}
-			}
-		}else{
-			if(select>-1){
-				select=-1;
-				//Debug.Log ("Pointer Reset");
+			} else {
+				if (select > -1) {
+					select = -1;
+					//Debug.Log ("Pointer Reset");
+				}
+				Data.Instance.selectedArea = int.MaxValue;
 			}
 		}
-		
 		
 		if (transform.hasChanged){
 			//RedrawLine();
@@ -160,8 +163,11 @@ public class WallPlane : MonoBehaviour {
 	
 	public void SetId(int id){
 		AreaId = id;
-		gameObject.name = "CreatedPlane_" + AreaId;
-		
+		gameObject.name = "CreatedPlane_" + AreaId;		
+	}
+
+	public int GetId(){
+		return AreaId;
 	}
 	
 	void RedrawLine(){

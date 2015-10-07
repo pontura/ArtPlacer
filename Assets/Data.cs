@@ -18,6 +18,7 @@ public class Data : MonoBehaviour
     public CameraData cameraData;
 	public Vector2 defaultCamSize = new Vector2(1280,720);
     public string lastScene = "";
+	public int selectedArea = int.MaxValue;
 
     const string PREFAB_PATH = "Data";
     private Fade fade;

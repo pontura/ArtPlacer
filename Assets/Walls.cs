@@ -37,6 +37,7 @@ public class Walls : MonoBehaviour {
 
     void OnNumWallsChanged(int qty)
     {
+		qty += Data.Instance.areaData.areas.Count;
         if (totalWalls < qty)
         {
             tooltipFitEdges.gameObject.SetActive(true);
