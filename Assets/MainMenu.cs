@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void NewRoom()
     {
-        Data.Instance.LoadLevel("LoadRoom");
+        Data.Instance.LoadLevel("Rooms");
         Close();
     }
     public void Rooms()

@@ -11,6 +11,9 @@ public class ConfirmPhoto : MonoBehaviour {
 
     void Start()
     {
+        Events.Back += Back;
+        Data.Instance.SetTitle("");
+
         toolTipConfirm.gameObject.SetActive(false);
         Invoke("OpenTooltip", 0.7f);
 		if (Data.Instance.lastScene.Equals ("TakePhoto")) {
@@ -20,6 +23,14 @@ public class ConfirmPhoto : MonoBehaviour {
 			photoImage.gameObject.SetActive (false);
 			loadImage.gameObject.SetActive (true);
 		}
+    }
+    void OnDestroy()
+    {
+        Events.Back -= Back;
+    }
+    void Back()
+    {
+        Data.Instance.LoadLevel("TakePhoto");
     }
     void Update()
     {
@@ -40,10 +51,5 @@ public class ConfirmPhoto : MonoBehaviour {
     {
         toolTipConfirm.gameObject.SetActive(true);
         toolTipConfirm.Play("tooltipOn");
-    }
-    public void Back()
-    {
-        //Data.Instance.LoadLevel("TakePhoto");Data.Instance.lastScene
-		Data.Instance.LoadLevel (Data.Instance.lastScene);
     }
 }

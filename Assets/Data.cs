@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class Data : MonoBehaviour
 {
+    public Text title;
     public Color selectedColor;
     public Texture2D lastArtTexture;
 	public Texture2D lastArtThumbTexture;
@@ -65,22 +66,30 @@ public class Data : MonoBehaviour
 //#endif
 //        return rawImage;
 //    }
-
+    public void BackPressed()
+    {
+        Events.Back();
+    }
     public void Back()
     {
-        if (lastScene != "")
         LoadLevel(lastScene);
     }
-    
+    public void SetTitle(string _title)
+    {
+        title.text = _title;
+    }
     public void LoadLevel(string aLevelName)
     {
+        mainMenuOpened = false;
+        mainMenu.gameObject.SetActive(false);
         Events.OnLoading(true);
         lastScene = Application.loadedLevelName;
         LoadLevel(aLevelName, 0.01f, 0.01f, Color.black);
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
     {
-        fade.LoadLevel(aLevelName, aFadeOutTime, aFadeInTime, aColor);
+        Application.LoadLevel(aLevelName);
+       // fade.LoadLevel(aLevelName, aFadeOutTime, aFadeInTime, aColor);
     }
     void Awake()
     {
@@ -216,6 +225,7 @@ public class Data : MonoBehaviour
 
     private bool mainMenuOpened;
     public GameObject hamburguerButon;
+
     public void SetMainMenuActive(bool stateActivation)
     {
         hamburguerButon.SetActive(stateActivation);

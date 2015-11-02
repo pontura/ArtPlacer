@@ -18,6 +18,9 @@ public class ConfirmSizes : MonoBehaviour {
 
     void Start()
     {
+        Data.Instance.artData.ResetSelectedArtWork();
+        Data.Instance.SetTitle("");
+        Events.Back += Back;
         tooltipSizes.gameObject.SetActive(false);
 
         areaActiveID = 0;
@@ -42,6 +45,10 @@ public class ConfirmSizes : MonoBehaviour {
         sizeSignals.Add(newSizeSignal);
 
         Invoke("SelectArea", 0.1f);
+    }
+    void OnDestroy()
+    {
+        Events.Back -= Back;
     }
     void SelectArea()
     {

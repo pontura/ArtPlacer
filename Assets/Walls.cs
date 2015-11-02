@@ -9,11 +9,14 @@ public class Walls : MonoBehaviour {
     public Animation tooltipSelectWall;
     public Animation tooltipFitEdges;
 
-    public GameObject State2;
+    
     public Button AddButton;
+    public Button deleteButton;
+    public Button confirmButton;
 
 	void Start () {
-
+        Data.Instance.SetTitle("");
+        
         GetComponent<PhotoAddWall>().DeactiveAdd();
 
         tooltipAddWall.gameObject.SetActive(false);
@@ -25,11 +28,17 @@ public class Walls : MonoBehaviour {
 		else
         	Reseted();
 
+        Events.Back += Back;
         Events.OnNumWallsChanged += OnNumWallsChanged;
         Events.OnWallEdgeSelected += OnNumWallsChanged;
     }
+    public void Back()
+    {
+        Data.Instance.LoadLevel("Rooms");
+    }
     void OnDestroy()
     {
+        Events.Back -= Back;
         Events.OnNumWallsChanged -= OnNumWallsChanged;
         Events.OnWallEdgeSelected -= OnNumWallsChanged;
     }
@@ -37,6 +46,7 @@ public class Walls : MonoBehaviour {
 
     void OnNumWallsChanged(int qty)
     {
+        adding = false;
 		qty += Data.Instance.areaData.areas.Count;
         if (totalWalls < qty)
         {
@@ -66,15 +76,25 @@ public class Walls : MonoBehaviour {
 		Events.SaveAreas ();
         Data.Instance.LoadLevel("ConfirmSizes");
     }
+    private bool adding;
     public void Add()
     {
-        AddButton.GetComponent<Animation>().Stop();
-        AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
-        tooltipAddWall.gameObject.SetActive(false);
-        tooltipSelectWall.gameObject.SetActive(true);
+        if (!adding)
+        {
+            AddButton.GetComponent<Animation>().Stop();
+            AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
+            tooltipAddWall.gameObject.SetActive(false);
+            tooltipSelectWall.gameObject.SetActive(true);
 
-        tooltipSelectWall.Play("tooltipOnVertical");
-        Invoke("AddAvailable", 0.5f);
+            tooltipSelectWall.Play("tooltipOnVertical");
+            Invoke("AddAvailable", 0.5f);
+        }
+        else
+        {
+            AddButton.GetComponentInChildren<Image>().color = Color.white;
+            GetComponent<PhotoAddWall>().DeactiveAdd();
+        }
+        adding = !adding;
     }
     void AddAvailable()
     {
@@ -84,10 +104,12 @@ public class Walls : MonoBehaviour {
     {
         tooltipAddWall.gameObject.SetActive(true);
         tooltipAddWall.Play("tooltipOn");
-        State2.gameObject.SetActive(false);
+        deleteButton.interactable = false;
+        confirmButton.interactable = false;
     }
     public void Started()
     {
-        State2.gameObject.SetActive(true);
+        deleteButton.interactable = true;
+        confirmButton.interactable = true;
     }
 }

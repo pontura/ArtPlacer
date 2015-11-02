@@ -4,17 +4,21 @@ using System.Collections;
 
 public class ConfirmArtWork : MonoBehaviour {
 
+    public GameObject WallsButton;
     public Button FavoriteOn;
     public Button FavoriteOff;
 	public Button PlaceItButton;
 	public Button editButton;
 
     public RawImage rawImage;
-    public Text title;
+   // public Text title;
 
     private bool isFavorite;
 
 	void Start () {
+        Events.Back += Back;
+        Data.Instance.SetTitle(Data.Instance.artData.selectedArtWork.title);
+
 		float maxWidth = rawImage.rectTransform.sizeDelta.x;
 		float maxHeight = rawImage.rectTransform.sizeDelta.y;
 		float aspect = maxWidth / maxHeight;
@@ -26,7 +30,7 @@ public class ConfirmArtWork : MonoBehaviour {
 		}
 
         rawImage.texture = Data.Instance.lastArtTexture;
-        title.text = Data.Instance.artData.selectedArtWork.title;
+      //  title.text = ;
 
 		if (Data.Instance.artData.selectedArtWork.galleryId == -2 ) {
 			FavoriteOn.gameObject.SetActive(false);
@@ -43,6 +47,8 @@ public class ConfirmArtWork : MonoBehaviour {
 			PlaceItButton.GetComponentInChildren<Text> ().text = "BACK to ROOM";
 
 		Events.ConvertUnits -= ConvertUnits;
+
+        if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
 
     }
     public void Confirm()
@@ -62,7 +68,7 @@ public class ConfirmArtWork : MonoBehaviour {
     public void Back()
     {
 		Data.Instance.lastArtTexture = null;
-        Data.Instance.LoadLevel("Artworks");
+        Data.Instance.Back();
     }
     public void Galleries()
     {
@@ -111,5 +117,6 @@ public class ConfirmArtWork : MonoBehaviour {
 	void OnDestroy()
 	{
 		Events.ConvertUnits -= ConvertUnits;
+        Events.Back -= Back;
 	}
 }

@@ -32,6 +32,8 @@ public class ArtPlaced : MonoBehaviour {
 	
 	void Start () {
 
+        Data.Instance.SetTitle("");
+        Events.Back += Back;
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
 
@@ -64,6 +66,10 @@ public class ArtPlaced : MonoBehaviour {
 			}
 		}
         CheckOpenHelp(); 
+    }
+    void Back()
+    {
+        Data.Instance.Back();
     }
     void CheckOpenHelp()
     {
@@ -439,6 +445,8 @@ public class ArtPlaced : MonoBehaviour {
 	{
 		Events.OnSelectFooterArtwork -= AddFromFooter;
 		Events.ArtworkPreview -= Preview;
+        Events.Back -= Back;
+        
 	}
 
 }

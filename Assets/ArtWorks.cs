@@ -6,10 +6,11 @@ using System.Collections.Generic;
 
 public class ArtWorks : MonoBehaviour
 {
+    public GameObject WallsButton;
     public Text title;
     public ThumbImage button;
     public GameObject container;
-	public GameObject addButton;
+	//public GameObject addButton;
 
     public Vector2 thumbSize = new Vector2(180, 180);
     public Vector2 separation = new Vector2(2, 2);
@@ -23,12 +24,12 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
-        title.text = Data.Instance.artData.GetCurrentGallery().title;
-
+        Data.Instance.SetTitle("GALLERY: " + Data.Instance.artData.GetCurrentGallery().title);
+        Events.Back += Back;
         thumbSize += separation;
         ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
 
-		if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
+		//if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {           	
@@ -43,6 +44,12 @@ public class ArtWorks : MonoBehaviour
        int maxScroll = (int)((totalRows - 1) * (thumbSize.y +separationY));
 
        print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
+
+       if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
+    }
+    void OnDestroy()
+    {
+        Events.Back -= Back;
     }
     private float _y;
     private void AddThumb(string url, bool local)

@@ -15,6 +15,7 @@ public static class Events {
     public static System.Action<bool> OnLoading = delegate { };
     public static System.Action<string> OnTooltipOn = delegate { };
     public static System.Action OnTooltipOff = delegate { };  
-	public static System.Action ConvertUnits = delegate { };  
+	public static System.Action ConvertUnits = delegate { };
+    public static System.Action Back = delegate { };   
     
 }

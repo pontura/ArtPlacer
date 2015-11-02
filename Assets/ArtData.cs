@@ -140,6 +140,10 @@ public class ArtData : MonoBehaviour {
         return false;
     }
 
+    public void ResetSelectedArtWork()
+    {
+        selectedArtWork = null;
+    }
 	public void SetSelectedArtworkByThumbID(int id)
 	{	
 		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);

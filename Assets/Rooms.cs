@@ -4,9 +4,15 @@ using System.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ImageVideoContactPicker;
 
 public class Rooms : MonoBehaviour
 {
+    public Animation anim;
+    public GameObject Add;
+    public GameObject Add_On;
+    public GameObject SubMenu;
+
     public Text title;
     public ThumbImage button;
     public GameObject container;
@@ -21,6 +27,13 @@ public class Rooms : MonoBehaviour
 
     void Start()
     {
+        Close();
+
+        Data.Instance.SetTitle("ROOMS");
+        Events.Back += Back;
+        PickerEventListener.onImageLoad += OnImageLoad;
+
+        Data.Instance.SetMainMenuActive(true);
 
         List<RoomsData.Room> rooms;
         roomData = Data.Instance.roomsData;
@@ -57,6 +70,21 @@ public class Rooms : MonoBehaviour
         }
         //if (separationY > 3) scrollLimit.SetMaxScroll(100);
     }
+    void OnDestroy()
+    {
+        PickerEventListener.onImageLoad -= OnImageLoad;
+        Events.Back -= Back;
+    }
+    public void OnImageLoad(string imgPath, Texture2D tex)
+    {
+        Data.Instance.lastPhotoTexture = tex;
+        Data.Instance.LoadLevel("ConfirmPhoto");
+    }
+
+    void Back()
+    {
+        Data.Instance.LoadLevel("Intro");
+    }
     private void AddThumb(string url)
     {
         ThumbImage newButton = Instantiate(button);
@@ -75,9 +103,33 @@ public class Rooms : MonoBehaviour
     {
             Data.Instance.LoadLevel("Galleries");
     }
-    public void GotoRooms()
+    public void Open()
     {
-        Data.Instance.LoadLevel("LoadRoom");
+        Add.SetActive(false);
+        Add_On.SetActive(true);
+        SubMenu.SetActive(true);
+        anim.Play("subMenuOpen");
+    }
+    public void Close()
+    {
+        Add.SetActive(true);
+        Add_On.SetActive(false);
+        SubMenu.SetActive(false);
+        //Data.Instance.LoadLevel("LoadRoom");
+    }
+    public void TakePhoto()
+    {
+        Data.Instance.isPhoto4Room = true;
+        Data.Instance.LoadLevel("TakePhoto");
+    }
+    public void Browse()
+    {
+#if UNITY_ANDROID
+        AndroidPicker.BrowseImage();
+#elif UNITY_IPHONE
+			IOSPicker.BrowseImage();
+#endif
+
     }
     public void OnSelect(int id)
     {
