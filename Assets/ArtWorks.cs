@@ -94,6 +94,8 @@ public class ArtWorks : MonoBehaviour
     {   
 		Data.Instance.artData.SetSelectedArtworkByThumbID(id);
 		Data.Instance.isArtworkInfo2Place = true;  
-        Data.Instance.LoadLevel("ConfirmArtWork");
+        //Data.Instance.LoadLevel("ConfirmArtWork");
+		// evitamos mostrar la info al seleccionar la obra y la pone directo en la pared
+		Data.Instance.LoadLevel ("ArtPlaced");
     }
 }

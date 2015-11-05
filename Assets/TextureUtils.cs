@@ -10,7 +10,7 @@ public class TextureUtils{
 			texture2d.LoadImage(bytes);
 			return texture2d;
 		}else{
-			Debug.Log("FILE NOT FOUND");
+			Debug.Log("FILE NOT FOUND AT: "+path);
 			return null; 
 		}
 	}
