@@ -16,6 +16,11 @@ public static class Events {
     public static System.Action<string> OnTooltipOn = delegate { };
     public static System.Action OnTooltipOff = delegate { };  
 	public static System.Action ConvertUnits = delegate { };
-    public static System.Action Back = delegate { };   
+    public static System.Action Back = delegate { };
+
+    //help:
+    public static System.Action HelpHide = delegate { };
+    public static System.Action<bool> HelpChangeState = delegate { };  
+    
     
 }
