@@ -3,9 +3,21 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 
+    public GameObject helpButton;
+    private bool helpWasActive;
+
     public void Open()
     {
         GetComponent<Animation>().Play("MainMenuOpen");
+        if (helpButton.activeSelf)
+        {
+            helpWasActive = true;
+            helpButton.SetActive(false);
+        }
+        else
+        {
+            helpWasActive = false;
+        }
     }
     public void NewRoom()
     {
@@ -28,6 +40,10 @@ public class MainMenu : MonoBehaviour {
     {
         GetComponent<Animation>().Play("MainMenuClose");
         Invoke("ResetClose", 0.5f);
+        if (helpWasActive)
+        {
+            helpButton.SetActive(true);
+        }
     }
     void ResetClose()
     {

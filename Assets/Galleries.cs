@@ -21,6 +21,7 @@ public class Galleries : MonoBehaviour {
 
 	void Start () {
 
+        Events.HelpShow();
         Close();
         Data.Instance.SetMainMenuActive(true);
         Data.Instance.SetTitle("ARTWORKS");

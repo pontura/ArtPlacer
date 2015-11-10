@@ -16,6 +16,12 @@ public class HelpManager : MonoBehaviour {
         activated = true;
         Toogle();
 	}
+    void OnDestroy()
+    {
+        Events.HelpHide -= HelpHide;
+        Events.HelpShow -= HelpShow;
+        Events.HelpChangeState -= HelpChangeState;
+    }
     void HelpShow()
     {
         activated = true;

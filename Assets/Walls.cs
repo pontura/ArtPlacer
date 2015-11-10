@@ -38,7 +38,7 @@ public class Walls : MonoBehaviour {
     }
     void timeOut()
     {
-        if (Data.Instance.areaData.areas.Count > 0)
+        if (Data.Instance.areaData.areas.Count == 0)
             Events.HelpChangeState(true);
     }
     public void Back()

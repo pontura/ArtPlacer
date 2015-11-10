@@ -5,7 +5,6 @@ using System.Collections;
 public class ConfirmPhoto : MonoBehaviour {
 
     public Game game;
-    public Animation toolTipConfirm;
 	public GameObject photoImage;
 	public GameObject loadImage;
 
@@ -14,7 +13,6 @@ public class ConfirmPhoto : MonoBehaviour {
         Events.Back += Back;
         Data.Instance.SetTitle("");
 
-        toolTipConfirm.gameObject.SetActive(false);
         Invoke("OpenTooltip", 0.7f);
 		if (Data.Instance.lastScene.Equals ("TakePhoto")) {
 			photoImage.gameObject.SetActive (true);
@@ -46,10 +44,5 @@ public class ConfirmPhoto : MonoBehaviour {
 		} else {
 			Data.Instance.LoadLevel ("ConfirmArtworkCrop");
 		}
-    }
-    void OpenTooltip()
-    {
-        toolTipConfirm.gameObject.SetActive(true);
-        toolTipConfirm.Play("tooltipOn");
     }
 }

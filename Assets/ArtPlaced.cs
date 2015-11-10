@@ -10,8 +10,6 @@ public class ArtPlaced : MonoBehaviour {
 	public GameObject CreatedPlane;
 	public GameObject Thumb;
 
-    public Animation tooltipAddArt;
-    public GameObject buttonAddArt;
 	public GameObject buttonInfo;
 	public GameObject saveDialog;
 
@@ -32,12 +30,11 @@ public class ArtPlaced : MonoBehaviour {
 	
 	void Start () {
 
+        buttonInfo.SetActive(false);
         Data.Instance.SetTitle("");
         Events.Back += Back;
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
-
-        tooltipAddArt.gameObject.SetActive(false);
 
 		artworkList = new List<GameObject> ();
 
@@ -65,23 +62,17 @@ public class ArtPlaced : MonoBehaviour {
 				break;
 			}
 		}
-        CheckOpenHelp(); 
+        Invoke("timeOut", 0.2f);
+    }
+    void timeOut()
+    {
+        if (artworkList.Count == 0)
+            Events.HelpChangeState(true);
+        else Events.HelpChangeStep(2);
     }
     void Back()
     {
         Data.Instance.Back();
-    }
-    void CheckOpenHelp()
-    {
-        if (Data.Instance.areaData.CountArtPlaced() == 0 && Data.Instance.lastArtTexture == null)
-            Invoke("startTooltip", 0.5f);
-        else buttonAddArt.GetComponent<Animation>().Stop();
-    }
-    void startTooltip()
-    {
-        tooltipAddArt.gameObject.SetActive(true);
-		tooltipAddArt.Play ("tooltipOn");
-        
     }
 
 	void Update() {
@@ -237,14 +228,14 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void ArtBrowser()
 	{
-		tooltipAddArt.gameObject.SetActive(false);
+		//tooltipAddArt.gameObject.SetActive(false);
 		Data.Instance.lastArtTexture = null;
 		Data.Instance.LoadLevel("Galleries");
 	}
 
     public void GotoGallery()
     {
-        tooltipAddArt.gameObject.SetActive(false);
+       // tooltipAddArt.gameObject.SetActive(false);
 		Data.Instance.lastArtTexture = null;
         Data.Instance.LoadLevel("Artworks");
     }
@@ -264,7 +255,10 @@ public class ArtPlaced : MonoBehaviour {
 			Ready (false);
 		}
 	}
-
+    public void CloseSaveDialog()
+    {
+        saveDialog.gameObject.SetActive(false);
+    }
 	void SetArtworkColliderActive(bool active){
 		foreach (GameObject artwork in artworkList) {
 			if(artwork!=null)artwork.GetComponent<MeshCollider>().enabled=active;
@@ -272,8 +266,8 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	public void Ready(bool isNew)
-	{	
-		if(saveDialog.gameObject.activeSelf)saveDialog.gameObject.SetActive (false);
+	{
+        CloseSaveDialog();
         Events.OnLoading(true);
 		if (isNew)
 			Data.Instance.areaData.SetAsNew ();
@@ -304,13 +298,14 @@ public class ArtPlaced : MonoBehaviour {
 
 	void PlaceArt(int n){
 
-        tooltipAddArt.Stop();
-        buttonAddArt.GetComponent<Animation>().Stop();
+        Events.HelpChangeStep(2);
+       // tooltipAddArt.Stop();
+       // buttonAddArt.GetComponent<Animation>().Stop();
 
 		GameObject area = areas[n];
 		if (Data.Instance.areaData.areas[n].artworks.Count > 0) {
 
-			tooltipAddArt.gameObject.SetActive(false);
+			//tooltipAddArt.gameObject.SetActive(false);
 
 			float aW = Data.Instance.areaData.areas[n].width;
 			float aH = Data.Instance.areaData.areas[n].height;

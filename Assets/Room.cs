@@ -14,6 +14,9 @@ public class Room : MonoBehaviour
     void Start()
     {
 
+        Events.Back += Back;
+        Data.Instance.SetTitle("All Rooms");
+
         float maxWidth = rawImage.rectTransform.sizeDelta.x;
         float maxHeight = rawImage.rectTransform.sizeDelta.y;
         float aspect = maxWidth / maxHeight;
@@ -26,6 +29,12 @@ public class Room : MonoBehaviour
             rawImage.rectTransform.sizeDelta = new Vector2(maxWidth, maxWidth / textAspect);
 
         rawImage.texture = Data.Instance.lastPhotoThumbTexture;
+
+        Events.OnTooltipOff();
+    }
+    public void Back()
+    {
+        Data.Instance.LoadLevel("Rooms");
     }
     public void Delete()
     {
@@ -71,10 +80,6 @@ public class Room : MonoBehaviour
     public void Walls()
     {
         Data.Instance.LoadLevel("LoadRoom");
-    }
-    public void Back()
-    {
-        Data.Instance.LoadLevel("Rooms");
     }
     public void Galleries()
     {
