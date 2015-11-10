@@ -5,6 +5,7 @@ public class TakePhotoScreen : MonoBehaviour {
 
     void Start()
     {
+        Events.HelpHide();
         Events.Back += Back;
         Data.Instance.SetTitle("");
         Data.Instance.SetMainMenuActive(true);

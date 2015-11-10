@@ -51,24 +51,35 @@ public class Rooms : MonoBehaviour
         }*/
 		title.text = "SAVED PROJECTS";
 		rooms = Data.Instance.roomsData.rooms;
-
-        foreach (RoomsData.Room room in rooms)
+        Invoke("timeOut", 0.2f);
+    }
+    void timeOut()
+    {
+        List<RoomsData.Room> rooms = Data.Instance.roomsData.rooms;
+        if (rooms.Count == 0)
         {
-            ThumbImage newButton = Instantiate(button);
-
-            string folder = Data.Instance.GetRoomsPath();
-
-            string filePath;
-
-            if (roomData.type == RoomsData.types.LOCAL)
-                 filePath = GetUrlPath(room.url + "_thumb.png");
-            else
-                filePath = room.url;
-
-            AddThumb(filePath);
-
+            Events.HelpChangeState(true);
         }
-        //if (separationY > 3) scrollLimit.SetMaxScroll(100);
+        else
+        {
+
+            foreach (RoomsData.Room room in rooms)
+            {
+                ThumbImage newButton = Instantiate(button);
+
+                string folder = Data.Instance.GetRoomsPath();
+
+                string filePath;
+
+                if (roomData.type == RoomsData.types.LOCAL)
+                    filePath = GetUrlPath(room.url + "_thumb.png");
+                else
+                    filePath = room.url;
+
+                AddThumb(filePath);
+
+            }
+        }
     }
     void OnDestroy()
     {

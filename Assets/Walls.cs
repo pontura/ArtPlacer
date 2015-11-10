@@ -5,7 +5,7 @@ using System.IO;
 
 public class Walls : MonoBehaviour {
 
-    public Animation tooltipAddWall;
+   // public Animation tooltipAddWall;
     public Animation tooltipSelectWall;
     public Animation tooltipFitEdges;
 
@@ -15,11 +15,14 @@ public class Walls : MonoBehaviour {
     public Button confirmButton;
 
 	void Start () {
+
+        Events.HelpShow();
+
         Data.Instance.SetTitle("");
         
         GetComponent<PhotoAddWall>().DeactiveAdd();
 
-        tooltipAddWall.gameObject.SetActive(false);
+        //  tooltipAddWall.gameObject.SetActive(false);
         tooltipSelectWall.gameObject.SetActive(false);
         tooltipFitEdges.gameObject.SetActive(false);
         
@@ -31,6 +34,12 @@ public class Walls : MonoBehaviour {
         Events.Back += Back;
         Events.OnNumWallsChanged += OnNumWallsChanged;
         Events.OnWallEdgeSelected += OnNumWallsChanged;
+        Invoke("timeOut", 0.2f);
+    }
+    void timeOut()
+    {
+        if (Data.Instance.areaData.areas.Count > 0)
+            Events.HelpChangeState(true);
     }
     public void Back()
     {
@@ -83,7 +92,7 @@ public class Walls : MonoBehaviour {
         {
             AddButton.GetComponent<Animation>().Stop();
             AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
-            tooltipAddWall.gameObject.SetActive(false);
+            // tooltipAddWall.gameObject.SetActive(false);
             tooltipSelectWall.gameObject.SetActive(true);
 
             tooltipSelectWall.Play("tooltipOnVertical");
@@ -102,13 +111,15 @@ public class Walls : MonoBehaviour {
     }
     public void Reseted()
     {
-        tooltipAddWall.gameObject.SetActive(true);
-        tooltipAddWall.Play("tooltipOn");
+        // tooltipAddWall.gameObject.SetActive(true);
+        // tooltipAddWall.Play("tooltipOn");
+        Events.HelpChangeStep(1);
         deleteButton.interactable = false;
         confirmButton.interactable = false;
     }
     public void Started()
     {
+        Events.HelpChangeStep(2);
         deleteButton.interactable = true;
         confirmButton.interactable = true;
     }

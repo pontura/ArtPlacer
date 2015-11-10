@@ -11,18 +11,29 @@ public class HelpManager : MonoBehaviour {
 
 	void Start () {
         Events.HelpHide += HelpHide;
+        Events.HelpShow += HelpShow;
+        Events.HelpChangeState += HelpChangeState;
         activated = true;
         Toogle();
-	}	
+	}
+    void HelpShow()
+    {
+        activated = true;
+        button.SetActive(activated);        
+    }
     void HelpHide()
     {
-        button.SetActive(false);
         activated = false;
+        button.SetActive(activated);        
 	}
     public void Toogle()
     {
-        activated = !activated;
-        if (activated)
+        activated = !activated;        
+        Events.HelpChangeState(activated);
+    }
+    void HelpChangeState(bool isActive)
+    {
+        if (isActive)
         {
             button_on.SetActive(true);
             button_off.SetActive(false);
@@ -32,6 +43,22 @@ public class HelpManager : MonoBehaviour {
             button_on.SetActive(false);
             button_off.SetActive(true);
         }
-        Events.HelpChangeState(activated);
+        activated = isActive;
+    }
+    void Update()
+    {
+        if (activated)
+        {
+            if (Input.anyKeyDown)
+            {
+                Toogle();
+                activated = true;
+                Invoke("timeOut", 0.5f);
+            }
+        }
+    }
+    void timeOut()
+    {
+        activated = false;
     }
 }
