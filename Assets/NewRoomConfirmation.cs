@@ -21,13 +21,9 @@ public class NewRoomConfirmation : MonoBehaviour {
 	void OnDestroy(){
         Events.Back -= Back;
 	}
-    public void Save()
+    public void Edit()
     {
-        Events.OnLoading(true);
-        Data.Instance.SaveRoom();
-        Data.Instance.lastArtTexture = null;
-        Data.Instance.areaData.areas.Clear();
-        Invoke("ReadyJump", 1);
+		Data.Instance.LoadLevel("Artplaced");
     }
     void ReadyJump()
     {

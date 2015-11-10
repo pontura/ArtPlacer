@@ -30,7 +30,7 @@ public class ArtPlaced : MonoBehaviour {
 	
 	void Start () {
 
-        buttonInfo.SetActive(false);
+        //buttonInfo.SetActive(false);
         Data.Instance.SetTitle("");
         Events.Back += Back;
 		Events.OnSelectFooterArtwork += AddFromFooter;
@@ -426,10 +426,20 @@ public class ArtPlaced : MonoBehaviour {
 
 	public void GetArtInfo(){
 		if(Data.Instance.lastArtTexture==null){
-			int artWorkId = selectedArtwork.GetComponent<DragArtWork>().artWorkID;
-			int areaId = selectedArtwork.GetComponent<DragArtWork>().areaIndex;
-			AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
-			Data.Instance.SetLastArtTexture(aw.texture);
+			//int artWorkId = selectedArtwork.GetComponent<DragArtWork>().artWorkID;
+			//int areaId = selectedArtwork.GetComponent<DragArtWork>().areaIndex;
+			//AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
+			//Data.Instance.SetLastArtTexture(aw.texture);
+			for(int i=0;i<Data.Instance.areaData.areas.Count;i++){
+				for(int j=0;j<Data.Instance.areaData.areas[i].artworks.Count;j++){
+					Data.Instance.SetLastArtTexture(Data.Instance.areaData.areas[i].artworks[j].texture);
+					sel_galleryID = Data.Instance.areaData.areas[i].artworks[j].galleryID;
+					sel_galleryArtID = Data.Instance.areaData.areas[i].artworks[j].galleryArtID;
+					j=Data.Instance.areaData.areas[i].artworks.Count;
+					i=Data.Instance.areaData.areas.Count;
+					break;
+				}
+			}
 		}	
 		Data.Instance.artData.selectedGallery = sel_galleryID;
 		Data.Instance.artData.SetSelectedArtworkByArtID(sel_galleryArtID);
