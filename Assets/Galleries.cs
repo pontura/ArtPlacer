@@ -26,6 +26,7 @@ public class Galleries : MonoBehaviour {
         Data.Instance.SetMainMenuActive(true);
         Data.Instance.SetTitle("ARTWORKS");
         Events.Back += Back;
+		PickerEventListener.onImageLoad += OnImageLoad;
 
         Data.Instance.isPhoto4Room = true;
         foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
