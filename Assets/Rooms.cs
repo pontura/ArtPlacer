@@ -29,6 +29,8 @@ public class Rooms : MonoBehaviour
     {
         Close();
 
+        Events.HelpShow();
+
         Data.Instance.SetTitle("ROOMS");
         Events.Back += Back;
         PickerEventListener.onImageLoad += OnImageLoad;

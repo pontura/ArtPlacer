@@ -43,7 +43,7 @@ public class Walls : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("Rooms");
+        Data.Instance.LoadLevel("ConfirmPhoto");
     }
     void OnDestroy()
     {

@@ -55,7 +55,10 @@ public class Galleries : MonoBehaviour {
     }
     void Back()
     {
-        Data.Instance.LoadLevel("Intro");
+        if(Data.Instance.areaData.areas.Count==0)
+            Data.Instance.LoadLevel("Intro");
+        else
+            Data.Instance.LoadLevel("ArtPlaced");
     }
     public void Open()
     {

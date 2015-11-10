@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using ImageVideoContactPicker;
 
 public class LoadRoomScreen : MonoBehaviour {
 	  
@@ -9,6 +8,7 @@ public class LoadRoomScreen : MonoBehaviour {
         Data.Instance.SetTitle("PLACE ARTWORK");
         Data.Instance.SetMainMenuActive(true);
         Events.Back += Back;
+        Events.HelpHide();
     }
     public void SelectRoom()
     {

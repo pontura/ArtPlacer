@@ -35,6 +35,7 @@ public class ArtPlaced : MonoBehaviour {
         Events.Back += Back;
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
+        Events.HelpShow();
 
 		artworkList = new List<GameObject> ();
 

@@ -21,7 +21,14 @@ public class MainMenu : MonoBehaviour {
     }
     public void NewRoom()
     {
-        Data.Instance.LoadLevel("Rooms");
+        if (Data.Instance.areaData.areas.Count == 0)
+        {
+            Data.Instance.LoadLevel("Rooms");
+        }
+        else
+        {
+            Data.Instance.LoadLevel("NewRoomConfirmation");
+        }
         Close();
     }
     public void Rooms()
