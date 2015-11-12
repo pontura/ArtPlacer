@@ -4,13 +4,14 @@ using System.Collections;
 public class WallPlane : MonoBehaviour {
 	
 	public GameObject[] pointer;
+	public GameObject[] arrows;
 	public GameObject area;
 	public int AreaId=-1;
 	
 	public GameObject artWork;
 	Camera cam;
 	
-	int select = -1;
+	public int select = -1;
 	
 	LineRenderer lineRenderer;
 	
@@ -42,7 +43,9 @@ public class WallPlane : MonoBehaviour {
 			//pointer[i] = GameObject.CreatePrimitive(PrimitiveType.Quad);
 			pointer[i].transform.position = vertexWorldPos;
 			//Debug.Log ("Punto"+i+": "+pointer[i].transform.position);
-			pointer[i].name = "Pointer_"+gameObject.GetInstanceID()+"_"+i;			
+			pointer[i].name = "Pointer_"+gameObject.GetInstanceID()+"_"+i;
+			arrows[i].name = "Arrow_"+gameObject.GetInstanceID()+"_"+i;
+
 		}	
 		
 		//LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -82,7 +85,7 @@ public class WallPlane : MonoBehaviour {
 				if (Physics.Raycast (screenRay, out rayhit)) {				
 					if (select < 0) {
 						if (rayhit.collider.gameObject == area && moveArea) {
-							select = 5;
+							select = 9;
 							Vector3 mPos = Input.mousePosition;
 							mPos.z = 1.0f;
 							offset = cam.ScreenToWorldPoint (mPos) - transform.position;
@@ -116,6 +119,17 @@ public class WallPlane : MonoBehaviour {
 									//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
 									rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);						
 								
+								}else if (rayhit.collider.name == "Arrow_" + gameObject.GetInstanceID () + "_" + i) { 
+									//Debug.Log ("Pointer Sel: "+i);								
+									select = 4+i;
+									Data.Instance.selectedArea = GetId ();
+									offset = rayhit.collider.transform.position;
+									//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
+									/*Vector3 pos = screenRay.GetPoint (rayhit.distance);                            
+									Vector3 areaPos = area.transform.InverseTransformPoint (pos);
+
+									rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);						*/
+									
 								}
 							}
 						}
@@ -136,9 +150,65 @@ public class WallPlane : MonoBehaviour {
 								area.GetComponent<MeshCollider> ().enabled = true;
 							}
 							rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);
+							UpdateArrow(select);
 							//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
 							//RedrawLine();					
-						} else if (moveArea&&select==5) {
+						}else if (rayhit.collider.name == "Arrow_" + gameObject.GetInstanceID () + "_" + (select-4)) { 						
+							//Debug.Log ("Pointer Move: "+select);
+							Vector3 pos = screenRay.GetPoint (rayhit.distance);						
+							Vector3 areaPos = area.transform.InverseTransformPoint (pos);					
+							
+							Vector3[] vertex = new Vector3[4];
+							vertex = areaMesh.vertices;					
+							//vertex[select] = areaPos;						
+
+
+
+							if(select-4==0||select-4==2){
+								rayhit.collider.transform.position = new Vector3 (pos.x, rayhit.collider.transform.position.y, rayhit.collider.transform.parent.transform.position.z);
+								if(select-4==0){
+									vertex [3] = new Vector3 (vertex[3].x+(pos.x-offset.x), vertex[3].y, vertex [3].z);
+									vertex [0] = new Vector3 (vertex[0].x+(pos.x-offset.x), vertex[0].y, vertex [0].z);
+									pointer[3].transform.position = new Vector3 (pointer[3].transform.position.x+(pos.x-offset.x), pointer[3].transform.position.y, pointer[3].transform.position.z);
+									UpdateArrow(3);
+									pointer[0].transform.position = new Vector3 (pointer[0].transform.position.x+(pos.x-offset.x), pointer[0].transform.position.y, pointer[0].transform.position.z);
+									UpdateArrow(0);
+								}else if(select-4==2){
+									vertex [1] = new Vector3 (vertex[1].x+(pos.x-offset.x), vertex[1].y, vertex [1].z);
+									vertex [2] = new Vector3 (vertex[2].x+(pos.x-offset.x), vertex[2].y, vertex [2].z);
+									pointer[1].transform.position = new Vector3 (pointer[1].transform.position.x+(pos.x-offset.x), pointer[1].transform.position.y, pointer[3].transform.position.z);
+									UpdateArrow(1);
+									pointer[2].transform.position = new Vector3 (pointer[2].transform.position.x+(pos.x-offset.x), pointer[2].transform.position.y, pointer[0].transform.position.z);
+									UpdateArrow(2);
+								}
+							}else{
+								if(select-4==1){
+									vertex [2] = new Vector3 (vertex[2].x, vertex[2].y+(pos.y-offset.y), vertex [2].z);
+									vertex [0] = new Vector3 (vertex[0].x, vertex[0].y+(pos.y-offset.y), vertex [0].z);
+									pointer[2].transform.position = new Vector3 (pointer[2].transform.position.x, pointer[2].transform.position.y+(pos.y-offset.y), pointer[2].transform.position.z);
+									UpdateArrow(2);
+									pointer[0].transform.position = new Vector3 (pointer[0].transform.position.x, pointer[0].transform.position.y+(pos.y-offset.y), pointer[0].transform.position.z);
+									UpdateArrow(0);
+								}else if(select-4==3){
+									vertex [3] = new Vector3 (vertex[3].x, vertex[3].y+(pos.y-offset.y), vertex [3].z);
+									vertex [1] = new Vector3 (vertex[1].x, vertex[1].y+(pos.y-offset.y), vertex [1].z);
+									pointer[3].transform.position = new Vector3 (pointer[3].transform.position.x, pointer[3].transform.position.y+(pos.y-offset.y), pointer[3].transform.position.z);
+									UpdateArrow(3);
+									pointer[1].transform.position = new Vector3 (pointer[1].transform.position.x, pointer[1].transform.position.y+(pos.y-offset.y), pointer[1].transform.position.z);
+									UpdateArrow(1);
+								}
+								rayhit.collider.transform.position = new Vector3 (rayhit.collider.transform.position.x, pos.y, rayhit.collider.transform.parent.transform.position.z);
+							}
+							areaMesh.vertices = vertex;
+							if (area.GetComponent<MeshCollider> () != null) {
+								area.GetComponent<MeshCollider> ().sharedMesh = areaMesh;
+								area.GetComponent<MeshCollider> ().enabled = false;
+								area.GetComponent<MeshCollider> ().enabled = true;
+							}
+							//rayhit.collider.transform.position = new Vector3(pos.x,pos.y,0f);
+							//RedrawLine();
+							offset = pos;
+						} else if (moveArea&&select==9) {
 							Vector3 mPos = Input.mousePosition;
 							mPos.z = 1.0f;
 							transform.position = cam.ScreenToWorldPoint (mPos) - offset;
@@ -206,6 +276,29 @@ public class WallPlane : MonoBehaviour {
 	void OnDestroy()
 	{
 		Events.SaveAreas -= SaveArea;
+	}
+
+	void UpdateArrow(int select){
+		switch (select) {
+		case 0:
+			arrows [0].transform.position = 0.5f * (pointer [0].transform.position + pointer [3].transform.position);
+			arrows [1].transform.position = 0.5f * (pointer [0].transform.position + pointer [2].transform.position);
+			break;
+		case 1:
+			arrows [2].transform.position = 0.5f * (pointer [2].transform.position + pointer [1].transform.position);
+			arrows [3].transform.position = 0.5f * (pointer [3].transform.position + pointer [1].transform.position);
+			break;
+		case 2:
+			arrows [2].transform.position = 0.5f * (pointer [2].transform.position + pointer [1].transform.position);
+			arrows [1].transform.position = 0.5f * (pointer [2].transform.position + pointer [0].transform.position);
+			break;
+		case 3:
+			arrows [0].transform.position = 0.5f * (pointer [3].transform.position + pointer [0].transform.position);
+			arrows [3].transform.position = 0.5f * (pointer [3].transform.position + pointer [1].transform.position);
+			break;
+		default:
+			break;
+		}
 	}
 	
 }
