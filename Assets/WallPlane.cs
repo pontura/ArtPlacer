@@ -44,7 +44,7 @@ public class WallPlane : MonoBehaviour {
 			pointer[i].transform.position = vertexWorldPos;
 			//Debug.Log ("Punto"+i+": "+pointer[i].transform.position);
 			pointer[i].name = "Pointer_"+gameObject.GetInstanceID()+"_"+i;
-			arrows[i].name = "Arrow_"+gameObject.GetInstanceID()+"_"+i;
+			if(i<arrows.Length)arrows[i].name = "Arrow_"+gameObject.GetInstanceID()+"_"+i;
 
 		}	
 		

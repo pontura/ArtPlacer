@@ -82,7 +82,7 @@ public class Data : MonoBehaviour
     {
         mainMenuOpened = false;
         mainMenu.gameObject.SetActive(false);
-        Events.OnLoading(true);
+        Events.OnLoading(false);
         lastScene = Application.loadedLevelName;
         LoadLevel(aLevelName, 0.01f, 0.01f, Color.black);
     }
