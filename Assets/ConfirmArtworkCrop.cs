@@ -16,6 +16,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 
     void Start()
     {
+        Events.HelpHide();
+        Data.Instance.SetBackActive(false);
         tooltipSizes.gameObject.SetActive(false);               
 
 		area = Instantiate (artworkArea);

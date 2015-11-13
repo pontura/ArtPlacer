@@ -13,7 +13,9 @@ public class ConfirmArtworkSize : MonoBehaviour {
 
     void Start()
     {
-        tooltipSizes.gameObject.SetActive(false);       
+        Events.HelpHide();
+        tooltipSizes.gameObject.SetActive(false);
+        Events.Back += Back;
 
         //if (Data.Instance.areaData.areas.Count > 0)
         //AddConfirmSizes(Data.Instance.areaData.areas[0]);
@@ -34,8 +36,11 @@ public class ConfirmArtworkSize : MonoBehaviour {
 		}
 
         //Invoke("startTooltip", 0.5f);
-    }   
-    
+    }
+    void OnDestroy()
+    {
+        Events.Back -= Back;
+    }
     void startTooltip()
     {
         tooltipSizes.gameObject.SetActive(true);

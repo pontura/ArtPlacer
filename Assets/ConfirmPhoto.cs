@@ -5,8 +5,6 @@ using System.Collections;
 public class ConfirmPhoto : MonoBehaviour {
 
     public Game game;
-	public GameObject photoImage;
-	public GameObject loadImage;
 
     void Start()
     {
@@ -14,13 +12,6 @@ public class ConfirmPhoto : MonoBehaviour {
         Data.Instance.SetTitle("");
 
         Invoke("OpenTooltip", 0.7f);
-		if (Data.Instance.lastScene.Equals ("TakePhoto")) {
-			photoImage.gameObject.SetActive (true);
-			loadImage.gameObject.SetActive (false);
-		} else {
-			photoImage.gameObject.SetActive (false);
-			loadImage.gameObject.SetActive (true);
-		}
     }
     void OnDestroy()
     {
