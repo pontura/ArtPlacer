@@ -68,10 +68,12 @@ public class Data : MonoBehaviour
 //    }
     public void BackPressed()
     {
+		Debug.Log (lastScene);
         Events.Back();
     }
     public void Back()
     {
+		Debug.Log ("Back to: "+lastScene);
         LoadLevel(lastScene);
     }
     public void SetTitle(string _title)
@@ -82,12 +84,12 @@ public class Data : MonoBehaviour
     {
         mainMenuOpened = false;
         mainMenu.gameObject.SetActive(false);
-        Events.OnLoading(false);
-        lastScene = Application.loadedLevelName;
+        Events.OnLoading(false);        
         LoadLevel(aLevelName, 0.01f, 0.01f, Color.black);
     }
     public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
     {
+		lastScene = Application.loadedLevelName;
         Application.LoadLevel(aLevelName);
        // fade.LoadLevel(aLevelName, aFadeOutTime, aFadeInTime, aColor);
     }
@@ -225,11 +227,16 @@ public class Data : MonoBehaviour
 
     private bool mainMenuOpened;
     public GameObject hamburguerButon;
+	public GameObject backButon;
 
     public void SetMainMenuActive(bool stateActivation)
     {
         hamburguerButon.SetActive(stateActivation);
     }
+	public void SetBackActive(bool stateActivation)
+	{
+		backButon.SetActive(stateActivation);
+	}
     public void ToggleMainMenu()
     {
         if (mainMenuOpened)

@@ -32,7 +32,8 @@ public class ArtPlaced : MonoBehaviour {
 
         //buttonInfo.SetActive(false);
         Data.Instance.SetTitle("");
-        Events.Back += Back;
+        //Events.Back += Back;
+		Data.Instance.SetBackActive (false);
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
         Events.HelpShow();
@@ -449,10 +450,10 @@ public class ArtPlaced : MonoBehaviour {
 
 	void OnDestroy()
 	{
+		Data.Instance.SetBackActive (true);
 		Events.OnSelectFooterArtwork -= AddFromFooter;
 		Events.ArtworkPreview -= Preview;
-        Events.Back -= Back;
-        
+        //Events.Back -= Back;       
 	}
 
 }

@@ -32,6 +32,10 @@ public class Room : MonoBehaviour
 
         Events.OnTooltipOff();
     }
+	void OnDestroy()
+	{
+		Events.Back -= Back;
+	}
     public void Back()
     {
         Data.Instance.LoadLevel("Rooms");

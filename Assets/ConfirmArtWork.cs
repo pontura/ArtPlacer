@@ -67,6 +67,7 @@ public class ConfirmArtWork : MonoBehaviour {
 	}
     public void Back()
     {
+		Debug.Log (Data.Instance.lastScene);
 		Data.Instance.lastArtTexture = null;
         Data.Instance.Back();
     }
