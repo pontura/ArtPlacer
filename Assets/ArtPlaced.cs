@@ -40,6 +40,8 @@ public class ArtPlaced : MonoBehaviour {
 
 		artworkList = new List<GameObject> ();
 
+		buttonInfo.GetComponent<Button>().interactable = false;
+
         if (Data.Instance.areaData.areas.Count > 0)
         {
 			areas = new GameObject[Data.Instance.areaData.areas.Count];
@@ -65,6 +67,7 @@ public class ArtPlaced : MonoBehaviour {
 			}
 		}
         Invoke("timeOut", 0.2f);
+
     }
     void timeOut()
     {
@@ -79,14 +82,6 @@ public class ArtPlaced : MonoBehaviour {
 
 	void Update() {
 
-        if (artworkList.Count == 0)
-        {
-            buttonInfo.GetComponent<Button>().interactable = false;
-        }
-        else
-        {
-            buttonInfo.GetComponent<Button>().interactable = true;
-        }
 		if (Input.GetButton ("Fire1")) {
 
 			if (selected == null) {
@@ -162,7 +157,7 @@ public class ArtPlaced : MonoBehaviour {
 				thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
 				thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
 				thumbRenderer.enabled = false;
-				buttonInfo.SetActive(true);
+				buttonInfo.GetComponent<Button>().interactable = true;
 				StartCoroutine(buttonInfo.GetComponent<ButtonFeedback>().InfoButtonFeedback());
 				break;
 			}					
@@ -198,6 +193,7 @@ public class ArtPlaced : MonoBehaviour {
 		sel.transform.parent.gameObject.GetComponent<WallPlane>().artWorkNumber--;
 		Destroy(sel);
 		Destroy(thumbClone);
+		buttonInfo.GetComponent<Button>().interactable = false;
 		selected=null;
 		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
 		RaycastHit[] hits;
@@ -434,7 +430,7 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	public void GetArtInfo(){
-		if(Data.Instance.lastArtTexture==null){
+		/*if(Data.Instance.lastArtTexture==null){
 			//int artWorkId = selectedArtwork.GetComponent<DragArtWork>().artWorkID;
 			//int areaId = selectedArtwork.GetComponent<DragArtWork>().areaIndex;
 			//AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
@@ -449,11 +445,13 @@ public class ArtPlaced : MonoBehaviour {
 					break;
 				}
 			}
-		}	
+		}*/
+
 		Data.Instance.artData.selectedGallery = sel_galleryID;
-		Data.Instance.artData.SetSelectedArtworkByArtID(sel_galleryArtID);
+		Data.Instance.artData.SetSelectedArtworkByArtID (sel_galleryArtID);
 		Data.Instance.isArtworkInfo2Place = false;
-		Data.Instance.LoadLevel("ConfirmArtWork");
+		Data.Instance.LoadLevel ("ConfirmArtWork");
+
 	}
 
 	void OnDestroy()

@@ -22,4 +22,5 @@ public class ButtonFeedback : MonoBehaviour {
 		infoAnim.Stop ();
 		infoImage.color = Color.white;
 	}
+
 }
