@@ -79,6 +79,14 @@ public class ArtPlaced : MonoBehaviour {
 
 	void Update() {
 
+        if (artworkList.Count == 0)
+        {
+            buttonInfo.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            buttonInfo.GetComponent<Button>().interactable = true;
+        }
 		if (Input.GetButton ("Fire1")) {
 
 			if (selected == null) {

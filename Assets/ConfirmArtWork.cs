@@ -44,21 +44,23 @@ public class ConfirmArtWork : MonoBehaviour {
 		}
 
 		if (Data.Instance.isArtworkInfo2Place == false)
-			PlaceItButton.GetComponentInChildren<Text> ().text = "BACK to ROOM";
+			PlaceItButton.GetComponentInChildren<Text> ().text = "Galleries";
 
 		Events.ConvertUnits -= ConvertUnits;
 
         if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
 
+
     }
     public void Confirm()
     {
-		if(Data.Instance.isArtworkInfo2Place == false)Data.Instance.lastArtTexture = null;
-        if (Data.Instance.lastPhotoTexture == null)
+        if(Data.Instance.areaData.areas.Count == 0)
 			Data.Instance.LoadLevel ("LoadRoom");
-		else {
-			Data.Instance.LoadLevel ("ArtPlaced");
-		}
+		else
+            if (Data.Instance.isArtworkInfo2Place == false)
+                Data.Instance.LoadLevel("Artworks");
+        else
+            Data.Instance.LoadLevel("ArtPlaced");
     }
 	public void Back2Walls()
 	{

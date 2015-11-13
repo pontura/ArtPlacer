@@ -18,7 +18,6 @@ public class ConfirmSizes : MonoBehaviour {
 
     void Start()
     {
-        Data.Instance.artData.ResetSelectedArtWork();
         Data.Instance.SetTitle("");
         Events.Back += Back;
         tooltipSizes.gameObject.SetActive(false);

@@ -21,6 +21,7 @@ public class Galleries : MonoBehaviour {
 
 	void Start () {
 
+        Data.Instance.lastArtTexture = null;
         Events.HelpShow();
         Close();
         Data.Instance.SetMainMenuActive(true);
