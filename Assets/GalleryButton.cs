@@ -10,6 +10,7 @@ public class GalleryButton : MonoBehaviour {
 
     public void Init(Galleries galleries, int id, string _title, string _url)
     {
+		//Debug.Log ("B_ID: " + id);
         title.text = _title;
         GetComponent<Button>().onClick.AddListener(() =>
         {

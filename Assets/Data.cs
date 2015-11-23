@@ -30,7 +30,8 @@ public class Data : MonoBehaviour
 	public bool isArtworkInfo2Place = true;
 	public int thumbHeight = 100;
 
-	string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
+	//string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
+	string jsonUrl = "http://www.artplacer.com/getalldata.php";
 
 	public Slider unitSlider;
 	public enum UnitSys {

@@ -297,6 +297,7 @@ public class ArtPlaced : MonoBehaviour {
 			thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
 			Texture2D t = Data.Instance.lastArtThumbTexture;				
 			thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
+			Data.Instance.artData.selectedArtWork.setSizes();
 			selectedArtwork = AddArt (0);
 			selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
 		}
