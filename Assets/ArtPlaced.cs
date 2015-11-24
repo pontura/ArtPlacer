@@ -344,10 +344,10 @@ public class ArtPlaced : MonoBehaviour {
 				//artWork.GetComponent<Renderer> ().material.SetTexture ("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,tex);
 				artWork.GetComponent<Renderer>().material.mainTexture = tex;
 
-				int h = Data.Instance.areaData.areas[n].artworks[i].height;
-				float aspect = 1f*Data.Instance.areaData.areas[n].artworks[i].texture.width/Data.Instance.areaData.areas[n].artworks[i].texture.height;
-				h=h==0?defaultHeight:h;
-				int w=(int)(h*aspect);
+				int w = Data.Instance.areaData.areas[n].artworks[i].width;
+				float aspect = 1f*Data.Instance.areaData.areas[n].artworks[i].texture.height/Data.Instance.areaData.areas[n].artworks[i].texture.width;
+				w=w==0?defaultHeight:w;
+				int h=(int)(w*aspect);
 				//artWork.GetComponent<Renderer> ().material.SetTextureScale("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,new Vector2(0.5f*aW/w,0.5f*aH/h));
 				artWork.GetComponent<Renderer> ().material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
 				//area.GetComponent<Homography> ().SetHomography (artWork.name);

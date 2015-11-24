@@ -6,7 +6,7 @@ using System.IO;
 public class Room : MonoBehaviour
 {
     public RawImage rawImage;
-    private int defaultArtHeight = 50;
+    private int defaultArtWidth = 50;
     private int totalArtworks2Load = 0;
     private int LoadedArtwork = 0;
 
@@ -104,10 +104,10 @@ public class Room : MonoBehaviour
         
 		print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);        
 
-        int h = (int)artData.size.y;
-        float aspect = 1f * tex.width / tex.height;
-        h = h == 0 ? defaultArtHeight : h;
-        int w = (int)(h * aspect);
+        int w = (int)artData.size.x;
+        float aspect = 1f * tex.height / tex.width;
+        w = w == 0 ? defaultArtWidth : w;
+        int h = (int)(w * aspect);
         Data.Instance.areaData.areas[areaId].AddArtWork(w, h, tex, artData);
         Data.Instance.areaData.areas[areaId].artworks[Data.Instance.areaData.areas[areaId].artworks.Count - 1].position = areaArtwork.position;
         Data.Instance.artData.selectedGallery = areaArtwork.galleryID;

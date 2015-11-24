@@ -27,7 +27,7 @@ public class TextureUtils{
 		while (!www.isDone)
 		{
 			elapsedTime += Time.deltaTime;
-			if (elapsedTime >= 10.0f) break;
+			if (elapsedTime >= 100.0f) break;
 			yield return null;
 		}
 		
