@@ -16,6 +16,7 @@ public class Room : MonoBehaviour
 
         Events.Back += Back;
         Data.Instance.SetTitle("All Rooms");
+		Data.Instance.mainMenu.helpButton.SetActive (false);
 
         float maxWidth = rawImage.rectTransform.sizeDelta.x;
         float maxHeight = rawImage.rectTransform.sizeDelta.y;
@@ -35,6 +36,7 @@ public class Room : MonoBehaviour
 	void OnDestroy()
 	{
 		Events.Back -= Back;
+		Data.Instance.mainMenu.helpButton.SetActive (true);
 	}
     public void Back()
     {

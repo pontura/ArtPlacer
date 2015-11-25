@@ -69,12 +69,12 @@ public class Data : MonoBehaviour
 //    }
     public void BackPressed()
     {
-		Debug.Log (lastScene);
+		//Debug.Log (lastScene);
         Events.Back();
     }
     public void Back()
     {
-		Debug.Log ("Back to: "+lastScene);
+		//Debug.Log ("Back to: "+lastScene);
         LoadLevel(lastScene);
     }
     public void SetTitle(string _title)
