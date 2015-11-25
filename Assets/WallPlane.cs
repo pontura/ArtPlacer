@@ -53,7 +53,12 @@ public class WallPlane : MonoBehaviour {
 		//lineRenderer.SetWidth(50F, 50F);
 		
 		//RedrawLine ();
-		
+		if (arrows.Length > 3) {
+			UpdateArrow (0);
+			UpdateArrow (1);
+			UpdateArrow (2);
+			UpdateArrow (3);
+		}
 	}
 	
 	public void EnableAreaCollider(bool enable){
