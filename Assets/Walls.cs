@@ -43,7 +43,11 @@ public class Walls : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("ConfirmPhoto");
+		if (Data.Instance.areaData.url.Equals (""))
+			Data.Instance.LoadLevel("ConfirmPhoto");
+		else
+			Data.Instance.LoadLevel("Artplaced");
+        
     }
     void OnDestroy()
     {
