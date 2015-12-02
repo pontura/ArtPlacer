@@ -6,6 +6,7 @@ using System.IO;
 public class Room : MonoBehaviour
 {
     public RawImage rawImage;
+	public GameObject deleteDiag;
     private int defaultArtWidth = 50;
     private int totalArtworks2Load = 0;
     private int LoadedArtwork = 0;
@@ -31,6 +32,8 @@ public class Room : MonoBehaviour
 
         rawImage.texture = Data.Instance.lastPhotoThumbTexture;
 
+		deleteDiag.SetActive (false);
+
         Events.OnTooltipOff();
     }
 	void OnDestroy()
@@ -44,18 +47,27 @@ public class Room : MonoBehaviour
     }
     public void Delete()
     {
+		deleteDiag.SetActive (true);
+    }
+
+	public void CancelDelete()
+	{
+		deleteDiag.SetActive (false);
+	}
+
+	public void ConfirmDelete(){
 		int id = Data.Instance.roomsData.actualRoomId;
 		string path = Data.Instance.roomsData.rooms [id].url;
-
+		
 		print ("Path: " + path);
-
+		
 		string DataName = Data.Instance.roomsData.GetRoomName(path);		
 		print ("DataName: " + DataName);
 		PlayerPrefs.DeleteKey(DataName);
 		Data.Instance.DeletePhotoRoom (path);
 		Data.Instance.roomsData.ReadRoomsData ();
 		Back ();
-    }
+	}
     public void Share()
     {
 		int id = Data.Instance.roomsData.actualRoomId;

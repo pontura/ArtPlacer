@@ -30,6 +30,7 @@ public class ArtPlaced : MonoBehaviour {
 	
 	void Start () {
 
+		Events.OnLoading (false);
         //buttonInfo.SetActive(false);
         Data.Instance.SetTitle("");
         //Events.Back += Back;
