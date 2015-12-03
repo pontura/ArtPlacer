@@ -28,6 +28,11 @@ public class ThumbImage : MonoBehaviour{
 	
 	public void OnPointerDown()
 	{
+		Events.OnLoading (true);
+		Invoke ("CallOnSelect", 0.25f);
+	}
+
+	void CallOnSelect(){
 		OnSelected(footer, id);
 	}
 	

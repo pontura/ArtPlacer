@@ -108,6 +108,7 @@ public class ArtPlaced : MonoBehaviour {
 				if(dragOut){
 					thumbRenderer.enabled = true;
 					selectedArtwork.GetComponent<MeshRenderer>().enabled=false;
+					Events.OnLoading(false);
 				}
 			}
 		} else {

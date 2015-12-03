@@ -32,12 +32,12 @@ public class CustomPlane : MonoBehaviour {
 		vertices [(int)Mathf.Pow (2,recursionLevel+1)] = pointers [2];
 		vertices [(int)((1+Mathf.Pow (2,recursionLevel+1))*Mathf.Pow (2,recursionLevel+1))] = pointers [3];
 		vertices [vertices.Length-1] = pointers [1];
-
+		
 		MakeGrid (pointers [3], pointers [0], pointers [2], pointers [1], recursionLevel, 0, 0);
 		#endregion
-				
+		
 		//for (int i=0; i<vertices.Length; i++)Debug.Log ("Post"+i+": "+vertices [i]);
-				
+		
 		/*float length = 1f;
 		float width = 1f;
 		float invW = 1f/(resX-1);
@@ -153,7 +153,7 @@ public class CustomPlane : MonoBehaviour {
 			mTop = point0+(point3-point0)*0.5f;
 			mBottom = point1+(point2-point1)*0.5f;
 		}
-
+		
 		int step = (int)Mathf.Pow (2,maxRecur-recurStep);//
 		
 		int mB_ind = indOffS + step;
@@ -182,6 +182,6 @@ public class CustomPlane : MonoBehaviour {
 		if(recurStep<maxRecur)MakeGrid (center, mBottom, point2, mRight, maxRecur, recurStep+1, mB_ind);
 		if(recurStep<maxRecur)MakeGrid (point0, mLeft, center, mTop, maxRecur, recurStep+1, mL_ind);
 		if(recurStep<maxRecur)MakeGrid (mTop, center, mRight, point3, maxRecur, recurStep+1, center_ind);		
-
+		
 	}
 }
