@@ -38,6 +38,7 @@ public class ThumbImage : MonoBehaviour{
 	{
 		Image img = GetComponent<Image> ();
 		img.color = Color.white;
+		Events.OnLoading(false);
 	}
 
 	void CallOnSelect(){

@@ -189,10 +189,11 @@ public class ArtData : MonoBehaviour {
 		} else if (selectedGallery == -2)
 			selectedArtWork = myArtWorks.artWorksData [id];
 		else {
-			selectedArtWork = galleries[selectedGallery].artWorksData.Find(x => x.artId==id);
-			selectedArtWork.gallery = galleries[Data.Instance.artData.selectedGallery].title;
+			GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
+			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
+			/*selectedArtWork.gallery = gd.title;
 			selectedArtWork.galleryId = selectedGallery;
-			selectedArtWork.artId = id;
+			selectedArtWork.artId = id;*/
 		}
 	}
 

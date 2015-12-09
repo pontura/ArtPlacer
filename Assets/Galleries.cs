@@ -78,7 +78,7 @@ public class Galleries : MonoBehaviour {
         //Data.Instance.LoadLevel("LoadRoom");
     }
     private int id = 0;
-    private void AddThumb(string _title, string url)
+    private void AddThumb(string _title, string url, int id)
     {
         GalleryButton newButton = Instantiate(galleryButton);
         newButton.transform.SetParent(buttonsContainer.transform);
@@ -86,7 +86,7 @@ public class Galleries : MonoBehaviour {
         newButton.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
 
         newButton.Init(this, id, _title, url);
-        id++;
+        //id++;
     }
     public void OnSelect(int id)
     {

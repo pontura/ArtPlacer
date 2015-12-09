@@ -20,7 +20,7 @@ public class ArtWorks : MonoBehaviour
     private bool isOn;
     private int separationY = 0;
     private int separationx = 0;
-    private int id;
+    //private int id;
 
     void Start()
     {
@@ -34,7 +34,8 @@ public class ArtWorks : MonoBehaviour
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {           	
 			string path = data.GetUrl();
-			AddThumb(path, data.isLocal);
+
+			AddThumb(path, data.artId, data.isLocal);
        }
 
       // Events.OnScrollSizeRefresh(new Vector2(611, _y));
@@ -52,18 +53,18 @@ public class ArtWorks : MonoBehaviour
         Events.Back -= Back;
     }
     private float _y;
-    private void AddThumb(string url, bool local)
+    private void AddThumb(string url, int artId, bool local)
     {
         ThumbImage newButton = Instantiate(button) as ThumbImage;        
         newButton.transform.SetParent(container.transform);
         newButton.transform.localScale = Vector3.one;
         newButton.transform.localPosition = Vector3.zero;
-        newButton.Init(this, url, id, local);
+		newButton.Init(this, url, artId, local);
         //float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
         //_y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
         //newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
         //if (separationx == cols - 1)  {  separationY++;   separationx = 0; }  else separationx++;
-        id++;
+        //id++;
     }
     void SetOff()
     {
