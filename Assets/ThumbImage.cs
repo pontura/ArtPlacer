@@ -28,8 +28,16 @@ public class ThumbImage : MonoBehaviour{
 	
 	public void OnPointerDown()
 	{
+		Image img = GetComponent<Image> ();
+		img.color = Color.red;
 		Events.OnLoading (true);
 		Invoke ("CallOnSelect", 0.25f);
+	}
+
+	public void OnPointerUp()
+	{
+		Image img = GetComponent<Image> ();
+		img.color = Color.white;
 	}
 
 	void CallOnSelect(){
