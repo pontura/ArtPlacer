@@ -44,7 +44,7 @@ public class ConfirmArtWork : MonoBehaviour {
 		}
 
 		if (Data.Instance.isArtworkInfo2Place == false)
-			PlaceItButton.GetComponentInChildren<Text> ().text = "Galleries";
+			PlaceItButton.GetComponentInChildren<Text> ().text = "< Gallery";
 
 		Events.ConvertUnits -= ConvertUnits;
 
