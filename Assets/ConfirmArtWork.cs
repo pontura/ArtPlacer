@@ -43,8 +43,15 @@ public class ConfirmArtWork : MonoBehaviour {
 			SetFavorite ();
 		}
 
-		if (Data.Instance.isArtworkInfo2Place == false)
-			PlaceItButton.GetComponentInChildren<Text> ().text = "< Gallery";
+        if (Data.Instance.isArtworkInfo2Place == false)
+        {
+            PlaceItButton.GetComponentInChildren<Text>().text = "< Gallery";
+            Events.HelpChangeStep(1);
+        }
+        else
+        {
+            Events.HelpHide();
+        }
 
 		Events.ConvertUnits -= ConvertUnits;
 
