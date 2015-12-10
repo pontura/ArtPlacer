@@ -76,12 +76,16 @@ public class Footer : MonoBehaviour {
 
     private void SetNavigation()
     {
+        print ("SetNavigation: " + galleryData.artWorksData.Count + " ++++++ " +  totalThumbsToShow) ;
+
+        MoveContainer(0);
+
         if (galleryData.artWorksData.Count < totalThumbsToShow)
         {
             Nav_Left.SetActive(false);
             Nav_Right.SetActive(false);
         }
-        MoveContainer(0);
+        
     }
     public void NavLeftClicked()
     {
