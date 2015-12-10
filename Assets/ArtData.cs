@@ -117,11 +117,12 @@ public class ArtData : MonoBehaviour {
 
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {
-        GalleryData galleryData = galleries[galleryId];
-		if (artId < galleryData.artWorksData.Count)
+		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
+		return galleryData.artWorksData.Find(x => x.artId==artId);
+		/*if (artId < galleryData.artWorksData.Count)
 			return galleryData.artWorksData [artId];
 		else
-			return null;
+			return null;*/
 
     }
     public GalleryData GetCurrentGallery()
@@ -132,7 +133,7 @@ public class ArtData : MonoBehaviour {
 		else if (selectedGallery == -2)
 			return myArtWorks;
         else
-            return galleries[selectedGallery];
+			return Array.Find(galleries, p => p.id == selectedGallery);
     }
     public GalleryData GetFavourites()
     {
@@ -164,17 +165,22 @@ public class ArtData : MonoBehaviour {
 	{	
 		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
 		if (selectedGallery == -1) {
-			selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData [id];
+			Favourite fav = favorites.Find(x => x.artId==id);
+			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
+			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
+			/*selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData [id];
 			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
 			selectedArtWork.galleryId = favorites [id].galleryId;
-			selectedArtWork.artId = favorites [id].artId;
+			selectedArtWork.artId = favorites [id].artId;*/
 		} else if (selectedGallery == -2)
 			selectedArtWork = myArtWorks.artWorksData [id];
 		else {
-			selectedArtWork = galleries[selectedGallery].artWorksData[id];
+			GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
+			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
+			/*selectedArtWork = galleries[selectedGallery].artWorksData[id];
 			selectedArtWork.gallery = galleries[Data.Instance.artData.selectedGallery].title;
 			selectedArtWork.galleryId = selectedGallery;
-			selectedArtWork.artId = id;
+			selectedArtWork.artId = id;*/
 		}
 	}
 
@@ -182,10 +188,13 @@ public class ArtData : MonoBehaviour {
 	{	
 		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
 		if (selectedGallery == -1) {
-			selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData.Find(x => x.artId==id);
+			Favourite fav = favorites.Find(x => x.artId==id);
+			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
+			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
+			/*selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData.Find(x => x.artId==id);
 			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
 			selectedArtWork.galleryId = favorites [id].galleryId;
-			selectedArtWork.artId = favorites [id].artId;
+			selectedArtWork.artId = favorites [id].artId;*/
 		} else if (selectedGallery == -2)
 			selectedArtWork = myArtWorks.artWorksData [id];
 		else {

@@ -32,7 +32,7 @@ public class Galleries : MonoBehaviour {
         Data.Instance.isPhoto4Room = true;
         foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
         {
-            AddThumb(data.title, "");
+            AddThumb(data.title, "", data.id);
         }
 
 		if (Data.Instance.artData.favorites.Count == 0)
@@ -77,7 +77,7 @@ public class Galleries : MonoBehaviour {
         SubMenu.SetActive(false);
         //Data.Instance.LoadLevel("LoadRoom");
     }
-    private int id = 0;
+    //private int id = 0;
     private void AddThumb(string _title, string url, int id)
     {
         GalleryButton newButton = Instantiate(galleryButton);

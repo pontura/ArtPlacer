@@ -87,7 +87,7 @@ public class Room : MonoBehaviour
         {
             Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
             foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks)
-            {			
+            {	
                 totalArtworks2Load++;
                 StartCoroutine(GetArtData(areaArtwork, Data.Instance.areaData.areas.Count - 1, room));          
             }
@@ -111,8 +111,10 @@ public class Room : MonoBehaviour
 		if (areaArtwork.galleryID == -2) {
 			artData = Data.Instance.artData.myArtWorks.artWorksData [areaArtwork.galleryArtID];
 			tex = TextureUtils.LoadLocal (artData.GetUrl ());
+			yield return null;
 		} else {
-			artData = Data.Instance.artData.galleries [areaArtwork.galleryID].artWorksData [areaArtwork.galleryArtID];
+			//artData = Data.Instance.artData.galleries [areaArtwork.galleryID].artWorksData [areaArtwork.galleryArtID];
+			artData = Data.Instance.artData.GetArtData(areaArtwork.galleryID,areaArtwork.galleryArtID);
 			yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl (), value => tex = value));
 		}        
         
