@@ -26,7 +26,7 @@ public class LoadingAsset : MonoBehaviour {
             tr.localEulerAngles = new Vector3(0, 0, tr.localEulerAngles.z + 2);
 		if (mouseMove) {
 			asset.transform.position = Input.mousePosition;
-			background.transform.position = Input.mousePosition;
+			//background.transform.position = Input.mousePosition;
 		}
     }
     void OnLoading(bool enable)
@@ -49,11 +49,11 @@ public class LoadingAsset : MonoBehaviour {
     public void SetOn()
     {		
         asset.SetActive(true);
-		background.SetActive(true);
+		//background.SetActive(true);
     }
     public void SetOff()
     {
         asset.SetActive(false);
-		background.SetActive(false);
+		//background.SetActive(false);
     }
 }

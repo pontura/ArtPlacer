@@ -84,7 +84,6 @@ public class ArtPlaced : MonoBehaviour {
 	void Update() {
 
 		if (Input.GetButton ("Fire1")) {
-
 			if (selected == null) {
 				SelectArtwork2Drag();
 			} else {
@@ -304,6 +303,10 @@ public class ArtPlaced : MonoBehaviour {
 			Data.Instance.artData.selectedArtWork.setSizes();
 			selectedArtwork = AddArt (0);
 			selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
+			if(Input.mousePosition.y<Screen.height*0.2f){
+				selected=null;
+				Destroy(thumbClone);
+			}
 		}
 	}
 
@@ -381,7 +384,7 @@ public class ArtPlaced : MonoBehaviour {
 		
 		GameObject artWork = Instantiate (area.GetComponent<WallPlane> ().artWork, new Vector3 (0f, 0f, 0f), Quaternion.identity) as GameObject;
 		artWork.name = "ArtWork_" + n + "_" + Data.Instance.areaData.areas[n].artworkCount;
-		artWork.transform.position = new Vector3(area.transform.position.x,area.transform.position.y,area.transform.position.z-0.01f);
+		artWork.transform.position = new Vector3(area.transform.position.x,area.transform.position.y,area.transform.position.z-0.01f-artworkList.Count*0.01f);
 		//artWork.transform.position = area.transform.position;
 		artWork.transform.SetParent (area.transform);
 		artWork.GetComponent<CustomPlane>().SetPointers(Data.Instance.areaData.getPointers(n));
