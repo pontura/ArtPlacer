@@ -303,7 +303,7 @@ public class ArtPlaced : MonoBehaviour {
 			Data.Instance.artData.selectedArtWork.setSizes();
 			selectedArtwork = AddArt (0);
 			selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
-			if(Input.mousePosition.y<Screen.height*0.2f){
+			if(Input.mousePosition.y<Screen.height*0.2f&&!Input.GetButton("Fire1")){
 				selected=null;
 				Destroy(thumbClone);
 			}
