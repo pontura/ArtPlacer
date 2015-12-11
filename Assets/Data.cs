@@ -293,7 +293,7 @@ public class Data : MonoBehaviour
 		yield return textURLWWW;	
 
 		artData.LoadArtFromServer(textURLWWW.text);
-		yield return null;
+		Events.OnLoading (false);
 	}
 
 	public void ChangeUnit(){

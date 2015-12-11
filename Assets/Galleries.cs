@@ -17,10 +17,13 @@ public class Galleries : MonoBehaviour {
     public GameObject buttonsContainer;
 	public Animation tooltipAddArt;
 
+	public GameObject waitSign;
+
     private Vector2 thumbSize = new Vector2(290, 87);
 
-	void Start () {
+	bool jsonReady = false;
 
+	void Start () {
         Data.Instance.lastArtTexture = null;
         Events.HelpShow();
         Close();
@@ -30,26 +33,43 @@ public class Galleries : MonoBehaviour {
 		PickerEventListener.onImageLoad += OnImageLoad;
 
         Data.Instance.isPhoto4Room = true;
-        foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
-        {
-            AddThumb(data.title, "", data.id);
-        }
 
-		if (Data.Instance.artData.favorites.Count == 0)
-			favouritesButton.gameObject.SetActive (false);
-		else
-			favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
+		if (Data.Instance.artData.galleries.Length > 0 && !jsonReady)
+			InitThumbs ();
+        
 		if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0) {
 			myArtWorks.gameObject.SetActive (false);
-		//	tooltipAddArt.gameObject.SetActive(true);
-		//	tooltipAddArt.Play("tooltipOn");
-		//	Invoke("CloseAddToolTip",3);
+			//	tooltipAddArt.gameObject.SetActive(true);
+			//	tooltipAddArt.Play("tooltipOn");
+			//	Invoke("CloseAddToolTip",3);
 		}else
 			myArtWorks.Init (this, -2, "my artworks (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
 
         if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
 
     }
+
+	void InitThumbs(){
+		foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
+		{
+			AddThumb(data.title, "", data.id);
+		}
+
+		if (Data.Instance.artData.favorites.Count == 0)
+			favouritesButton.gameObject.SetActive (false);
+		else
+			favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
+
+		jsonReady = true;
+		waitSign.SetActive(false);
+
+	}
+
+	void Update(){
+		if (Data.Instance.artData.galleries.Length > 0 && !jsonReady)
+			InitThumbs ();
+	}
+
     void OnDestroy()
     {
         Events.Back -= Back;
