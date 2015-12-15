@@ -56,10 +56,30 @@ SubShader {
 			{
 				fixed4 col = tex2D(_MainTex, i.texcoord);
 				//clip(col.a - _Cutoff);				
-				if(col.a-_Cutoff<0){
-					//discard;
+				//if(col.a-_Cutoff<0){
+				
+				if(col.a>_Cutoff&&col.a<1.0){
+				
+					float coef = (col.a-_Cutoff)/(1.0-_Cutoff);
+															
+					float offSX = 0.01;
+  					float offSY = 0.01;
+					col*=4;
+					
+					col		+= 2.0 * tex2D(_MainTex, i.texcoord + float2(+offSX, 0.0));
+					col		+= 2.0 * tex2D(_MainTex, i.texcoord + float2(-offSX, 0.0));
+					col		+= 2.0 * tex2D(_MainTex, i.texcoord + float2(0.0, +offSY));
+					col		+= 2.0 * tex2D(_MainTex, i.texcoord + float2(0.0, -offSY));
+					col		+= tex2D(_MainTex, i.texcoord + float2(+offSX, +offSY));
+					col		+= tex2D(_MainTex, i.texcoord + float2(-offSX, +offSY));
+					col		+= tex2D(_MainTex, i.texcoord + float2(-offSX, -offSY));
+					col		+= tex2D(_MainTex, i.texcoord + float2(+offSX, -offSY));
+					col = col / 16.0;
+					col = fixed4(col.x,col.y,col.z,coef);
+						
+				}else if(col.a<_Cutoff){
 					col = fixed4(0.0f,0.0f,0.0f,0.0f);
-				}
+				}				
 				return col;
 			}
 		ENDCG
