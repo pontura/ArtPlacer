@@ -24,7 +24,7 @@ public class GalleryButton : MonoBehaviour {
 		else if(id == -2 && Data.Instance.artData.myArtWorks.artWorksData.Count>0)
 			artData = Data.Instance.artData.myArtWorks.artWorksData[0];
         else  if (id > -1)
-            artData = Data.Instance.artData.GetArtData(id, 0);
+			artData = Data.Instance.artData.GetArtDataList(id).Count>0?Data.Instance.artData.GetArtDataList(id)[0]:null;
 
         if (artData != null)
         {

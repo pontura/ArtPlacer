@@ -125,9 +125,20 @@ public class ArtData : MonoBehaviour {
 			return null;*/
 
     }
+
+	public List<GalleryData.ArtData> GetArtDataList(int galleryId)
+	{
+		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
+		return galleryData.artWorksData;
+		/*if (artId < galleryData.artWorksData.Count)
+			return galleryData.artWorksData [artId];
+		else
+			return null;*/
+		
+	}
+
     public GalleryData GetCurrentGallery()
 	{	
-		print ("Selected: " + selectedGallery);
         if (selectedGallery == -1)
 			return GetFavourites ();
 		else if (selectedGallery == -2)

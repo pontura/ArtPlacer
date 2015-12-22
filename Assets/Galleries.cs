@@ -50,6 +50,7 @@ public class Galleries : MonoBehaviour {
     }
 
 	void InitThumbs(){
+		jsonReady = true;
 		foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
 		{
 			AddThumb(data.title, "", data.id);
@@ -60,7 +61,7 @@ public class Galleries : MonoBehaviour {
 		else
 			favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
 
-		jsonReady = true;
+
 		waitSign.SetActive(false);
 
 	}
