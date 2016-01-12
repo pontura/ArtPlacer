@@ -13,6 +13,6 @@ public class Intro : MonoBehaviour {
     }
     public void Galleries()
     {
-        Data.Instance.LoadLevel("Galleries");
+        Data.Instance.LoadLevel("SelectArtworks");
     }
 }

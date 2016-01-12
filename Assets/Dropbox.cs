@@ -83,7 +83,7 @@ public class Dropbox : MonoBehaviour {
     }
     public void OnSelect(DropData data, int selectedId)
     {
-        title.text = data.title.ToUpper();
+        title.text = data.title;
         Events.OnDropBoxSelect(id, selectedId);
         SetOff();
     }

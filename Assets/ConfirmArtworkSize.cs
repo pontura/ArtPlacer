@@ -48,17 +48,14 @@ public class ConfirmArtworkSize : MonoBehaviour {
     }
 	public void Back()
 	{
-		Data.Instance.LoadLevel("Walls");
+		//Data.Instance.LoadLevel("Walls");
     }
     public void Ready()
     {
 		float aspect = 1f*Data.Instance.lastArtTexture.width / Data.Instance.lastArtTexture.height;
-
 		int w = (int)(signal.GetHeight () * aspect);
-
-		Data.Instance.SavePhotoArt (signal.GetName (), signal.GetAuthor(), w, signal.GetHeight ());
-		      
-       	Data.Instance.LoadLevel("Galleries");
+		Data.Instance.SavePhotoArt (signal.GetName (), signal.GetAuthor(), w, signal.GetHeight ());		      
+       	Data.Instance.LoadLevel("Artworks");
        
     }
 

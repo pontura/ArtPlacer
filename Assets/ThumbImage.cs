@@ -6,6 +6,7 @@ public class ThumbImage : MonoBehaviour{
 	
 	private Sprite sprite;
 	private Texture2D texture2d;
+    public Image RawImage;
 	Footer footer;
 	int id;
 	string url;
@@ -28,16 +29,14 @@ public class ThumbImage : MonoBehaviour{
 	
 	public void OnPointerDown()
 	{
-		Image img = GetComponent<Image> ();
-		img.color = Color.red;
+        RawImage.color = Color.red;
 		Events.OnLoading (true);
 		Invoke ("CallOnSelect", 0.25f);
 	}
 
 	public void OnPointerUp()
 	{
-		Image img = GetComponent<Image> ();
-		img.color = Color.white;
+        RawImage.color = Color.white;
 		Invoke ("stopLoading", 0.5f);
 	}
 
@@ -86,8 +85,8 @@ public class ThumbImage : MonoBehaviour{
 		if(texture2d!=null){
 			sprite = new Sprite();
 			sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
-			
-			GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+
+            RawImage.sprite = sprite;
 		}
 	}
 	
@@ -99,7 +98,7 @@ public class ThumbImage : MonoBehaviour{
 		{
 			sprite = new Sprite();
 			sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
-			GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+            RawImage.sprite = sprite;
 		}
 		yield return null;
 	}

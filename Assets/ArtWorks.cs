@@ -3,9 +3,16 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ImageVideoContactPicker;
 
 public class ArtWorks : MonoBehaviour
 {
+    public GameObject Add;
+    public GameObject Add_On;
+    public GameObject SubMenu;
+    public Animation anim;
+
+    public Text helpText;
     public GameObject WallsButton;
     public Text title;
     public ThumbImage button;
@@ -24,12 +31,26 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
-        Data.Instance.SetTitle("GALLERY: " + Data.Instance.artData.GetCurrentGallery().title);
+        Data.Instance.SetBackActive(true);
+        Data.Instance.SetTitle("Gallery: " + Data.Instance.artData.GetCurrentGallery().title);
         Events.Back += Back;
         thumbSize += separation;
         ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
 
 		//if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
+
+        if (currentGallery.artWorksData.Count == 0)
+        {
+            if (Data.Instance.artData.selectedGallery == -1)
+            {
+                helpText.text = "You have no favourites artworks yet.";
+            }
+            else if (Data.Instance.artData.selectedGallery == -2)
+            {
+                helpText.text = "You did´t create any artwork yet.";
+            }
+            Events.HelpChangeState(true);
+        }
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
        {           	
@@ -47,6 +68,15 @@ public class ArtWorks : MonoBehaviour
        print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
 
        if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
+
+       if (Data.Instance.artData.selectedGallery == -2)
+       {
+           Add.SetActive(true);
+           WallsButton.SetActive(false);
+       }
+       else
+           Add.SetActive(false);
+
     }
     void OnDestroy()
     {
@@ -89,7 +119,10 @@ public class ArtWorks : MonoBehaviour
 
     public void Back()
     {
-        Data.Instance.LoadLevel("Galleries");
+          if (Data.Instance.artData.selectedGallery == -1 || Data.Instance.artData.selectedGallery == -2)
+                Data.Instance.LoadLevel("SelectArtworks");
+          else
+              Data.Instance.LoadLevel("Galleries");
     }
     public void OnSelect(int id)
     {   
@@ -98,5 +131,41 @@ public class ArtWorks : MonoBehaviour
         Data.Instance.LoadLevel("ConfirmArtWork");
 		// evitamos mostrar la info al seleccionar la obra y la pone directo en la pared
 		//Data.Instance.LoadLevel ("ArtPlaced");
+    }
+
+    public void Open()
+    {
+        Add.SetActive(false);
+        Add_On.SetActive(true);
+        SubMenu.SetActive(true);
+        anim.Play("subMenuOpen");
+    }
+    public void Close()
+    {
+        Add.SetActive(true);
+        Add_On.SetActive(false);
+        SubMenu.SetActive(false);
+        //Data.Instance.LoadLevel("LoadRoom");
+    }
+    public void TakePhoto()
+    {
+        Data.Instance.isPhoto4Room = false;
+        Data.Instance.LoadLevel("TakePhoto");
+    }
+    public void Browse()
+    {
+        Debug.Log("Browse");
+#if UNITY_ANDROID
+        AndroidPicker.BrowseImage();
+#elif UNITY_IPHONE
+		IOSPicker.BrowseImage();
+#endif
+    }
+
+    public void OnImageLoad(string imgPath, Texture2D tex)
+    {
+        Data.Instance.isPhoto4Room = false;
+        Data.Instance.lastArtTexture = tex;
+        Data.Instance.LoadLevel("ConfirmPhoto");
     }
 }

@@ -5,7 +5,6 @@ public class LoadingAsset : MonoBehaviour {
 
     private RectTransform tr;
     public GameObject asset;
-	public GameObject background;
 
 	bool mouseMove = false;
 
@@ -14,6 +13,7 @@ public class LoadingAsset : MonoBehaviour {
         Events.OnLoading += OnLoading;
 		Events.OnLoadingMouse += OnLoadingMouse;
         tr = GetComponent<RectTransform>();
+        SetOff();
     }
     void OnDestroy()
     {
@@ -31,6 +31,7 @@ public class LoadingAsset : MonoBehaviour {
     }
     void OnLoading(bool enable)
     {
+        print("OnLoading" + enable);
         if (enable)
             SetOn();
         else
@@ -39,9 +40,11 @@ public class LoadingAsset : MonoBehaviour {
 
 	public void OnLoadingMouse(bool enable)
 	{
-		if (enable) {
+        print("OnLoadingMouse" + enable);
+
+		if (enable)
 			SetOn ();
-		}else 
+		else 
 			SetOff ();
 
 		mouseMove=enable;
@@ -49,11 +52,9 @@ public class LoadingAsset : MonoBehaviour {
     public void SetOn()
     {		
         asset.SetActive(true);
-		//background.SetActive(true);
     }
     public void SetOff()
     {
         asset.SetActive(false);
-		//background.SetActive(false);
     }
 }

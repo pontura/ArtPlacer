@@ -11,9 +11,9 @@ public class Galleries : MonoBehaviour {
     public GameObject Add_On;
 
     public GameObject SubMenu;
-    public GalleryButton favouritesButton;
+  //  public GalleryButton favouritesButton;
     public GalleryButton galleryButton;
-	public GalleryButton myArtWorks;
+//	public GalleryButton myArtWorks;
     public GameObject buttonsContainer;
 	public Animation tooltipAddArt;
 
@@ -24,11 +24,12 @@ public class Galleries : MonoBehaviour {
 	bool jsonReady = false;
 
 	void Start () {
+        Data.Instance.SetBackActive(true);
         Data.Instance.lastArtTexture = null;
-        Events.HelpShow();
+        Events.HelpHide();
         Close();
         Data.Instance.SetMainMenuActive(true);
-        Data.Instance.SetTitle("ARTWORKS");
+        Data.Instance.SetTitle("Artworks by Galleries");
         Events.Back += Back;
 		PickerEventListener.onImageLoad += OnImageLoad;
 
@@ -37,15 +38,17 @@ public class Galleries : MonoBehaviour {
 		if (Data.Instance.artData.galleries.Length > 0 && !jsonReady)
 			InitThumbs ();
         
-		if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0) {
-			myArtWorks.gameObject.SetActive (false);
-			//	tooltipAddArt.gameObject.SetActive(true);
-			//	tooltipAddArt.Play("tooltipOn");
-			//	Invoke("CloseAddToolTip",3);
-		}else
-			myArtWorks.Init (this, -2, "my artworks (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
+        //if (Data.Instance.artData.myArtWorks.artWorksData.Count == 0) {
+        //    myArtWorks.gameObject.SetActive (false);
+        //    //	tooltipAddArt.gameObject.SetActive(true);
+        //    //	tooltipAddArt.Play("tooltipOn");
+        //    //	Invoke("CloseAddToolTip",3);
+        //}else
+        //    myArtWorks.Init (this, -2, "my artworks (" + Data.Instance.artData.myArtWorks.artWorksData.Count + ")", "");
 
         if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
+
+        Add.SetActive(false);
 
     }
 
@@ -53,13 +56,19 @@ public class Galleries : MonoBehaviour {
 		jsonReady = true;
 		foreach (ArtData.GalleryData data in Data.Instance.artData.galleries)
 		{
-			AddThumb(data.title, "", data.id);
+            string url = "";
+            if (data.artWorksData != null && data.artWorksData.Count > 0 && data.artWorksData[0].url != "")
+            {
+                int randomId =Random.Range(0, data.artWorksData.Count);
+                url = data.artWorksData[randomId].url;
+            }
+            AddThumb(data.title, url, data.id);
 		}
 
-		if (Data.Instance.artData.favorites.Count == 0)
-			favouritesButton.gameObject.SetActive (false);
-		else
-			favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
+        //if (Data.Instance.artData.favorites.Count == 0)
+        //    favouritesButton.gameObject.SetActive (false);
+        //else
+        //    favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
 
 
 		waitSign.SetActive(false);
@@ -79,7 +88,7 @@ public class Galleries : MonoBehaviour {
     void Back()
     {
         if(Data.Instance.areaData.areas.Count==0)
-            Data.Instance.LoadLevel("Intro");
+            Data.Instance.LoadLevel("SelectArtworks");
         else
             Data.Instance.LoadLevel("ArtPlaced");
     }
@@ -107,6 +116,8 @@ public class Galleries : MonoBehaviour {
         newButton.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
 
         newButton.Init(this, id, _title, url);
+
+        print("____" + url + "      _title: " + _title);
         //id++;
     }
     public void OnSelect(int id)

@@ -7,6 +7,7 @@ public class GalleryButton : MonoBehaviour {
 
     public Text title;
     public Image rawImage;
+    public ArtData.GalleryData.ArtData artData;
 
     public void Init(Galleries galleries, int id, string _title, string _url)
     {
@@ -17,26 +18,35 @@ public class GalleryButton : MonoBehaviour {
             OnSelected(galleries, id);
         });
 
-        ArtData.GalleryData.ArtData artData = null;
+        //ArtData.GalleryData.ArtData artData = null;
 
         if (id == -1 && Data.Instance.artData.favorites.Count>0)
             artData = Data.Instance.artData.GetArtData(Data.Instance.artData.favorites[0].galleryId, Data.Instance.artData.favorites[0].artId);
 		else if(id == -2 && Data.Instance.artData.myArtWorks.artWorksData.Count>0)
 			artData = Data.Instance.artData.myArtWorks.artWorksData[0];
+<<<<<<< Updated upstream
         else  if (id > -1)
 			artData = Data.Instance.artData.GetArtDataList(id).Count>0?Data.Instance.artData.GetArtDataList(id)[0]:null;
+=======
+        else  //if (id > -1)
+            artData = Data.Instance.artData.GetArtData(id, 0);
+>>>>>>> Stashed changes
 
-        if (artData != null)
-        {
-            string url = artData.GetUrl();
-			if(artData.isLocal)
-				RealLoadLocalImage(url);
-			else{
-				if (url.Length > 6){
-					StartCoroutine(LoadThumb(url));
-				}
-			}
-        }
+
+        if (_url != "")
+            StartCoroutine(LoadThumb(_url));
+
+        //if (artData != null)
+        //{
+        //    string url = artData.GetUrl();
+        //    if(artData.isLocal)
+        //        RealLoadLocalImage(url);
+        //    else{
+        //        if (url.Length > 6){
+        //            StartCoroutine(LoadThumb(url));
+        //        }
+        //    }
+        //}
     }
     public void OnSelected(Galleries galleries, int id)
     {
@@ -46,6 +56,8 @@ public class GalleryButton : MonoBehaviour {
 
     private IEnumerator LoadThumb(string url)
     {
+       // print(" LoadThumb " + url);
+
 		Texture2D texture2d = null;
 		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
 

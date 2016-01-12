@@ -32,7 +32,7 @@ public class RoomImageCreator : MonoBehaviour {
     {
         if (takeShot)
         {
-            RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+            RenderTexture rt = new RenderTexture(resWidth, resHeight, 32);
             cameraToScreen.targetTexture = rt;
             Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
 
