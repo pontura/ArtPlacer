@@ -69,7 +69,10 @@ public class Galleries : MonoBehaviour {
         //    favouritesButton.gameObject.SetActive (false);
         //else
         //    favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 		waitSign.SetActive(false);
 
