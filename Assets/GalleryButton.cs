@@ -24,16 +24,8 @@ public class GalleryButton : MonoBehaviour {
             artData = Data.Instance.artData.GetArtData(Data.Instance.artData.favorites[0].galleryId, Data.Instance.artData.favorites[0].artId);
 		else if(id == -2 && Data.Instance.artData.myArtWorks.artWorksData.Count>0)
 			artData = Data.Instance.artData.myArtWorks.artWorksData[0];
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        else  if (id > -1)
-			artData = Data.Instance.artData.GetArtDataList(id).Count>0?Data.Instance.artData.GetArtDataList(id)[0]:null;
-=======
-=======
->>>>>>> Stashed changes
         else  //if (id > -1)
             artData = Data.Instance.artData.GetArtData(id, 0);
->>>>>>> Stashed changes
 
 
         if (_url != "")

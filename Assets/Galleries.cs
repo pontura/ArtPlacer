@@ -69,10 +69,6 @@ public class Galleries : MonoBehaviour {
         //    favouritesButton.gameObject.SetActive (false);
         //else
         //    favouritesButton.Init (this, -1, "my favourites (" + Data.Instance.artData.favorites.Count + ")", "");
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
 		waitSign.SetActive(false);
 
@@ -90,10 +86,10 @@ public class Galleries : MonoBehaviour {
     }
     void Back()
     {
-        if(Data.Instance.areaData.areas.Count==0)
+       // if(Data.Instance.areaData.areas.Count==0)
             Data.Instance.LoadLevel("SelectArtworks");
-        else
-            Data.Instance.LoadLevel("ArtPlaced");
+      //  else
+       //     Data.Instance.LoadLevel("ArtPlaced");
     }
     public void Open()
     {
@@ -120,7 +116,7 @@ public class Galleries : MonoBehaviour {
 
         newButton.Init(this, id, _title, url);
 
-        print("____" + url + "      _title: " + _title);
+      //  print("____" + url + "      _title: " + _title);
         //id++;
     }
     public void OnSelect(int id)
