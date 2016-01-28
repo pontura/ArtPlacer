@@ -26,6 +26,10 @@ public class ArtData : MonoBehaviour {
     public class GalleryData
     {
         public string title;
+        public string phone;
+        public string email;
+        public string web;
+
 		public int id;
         public List<ArtData> artWorksData;
 
@@ -82,7 +86,7 @@ public class ArtData : MonoBehaviour {
 		ReadArtworkData ();
     }
 	public void LoadArtFromServer(string json_data){
-		//Debug.Log (json_data);
+		Debug.Log (json_data.Length);
 		var N = JSON.Parse(json_data);
 		galleries = new GalleryData[N ["galleries"].Count];
 
@@ -99,26 +103,31 @@ public class ArtData : MonoBehaviour {
 			adata.url = N ["artworks"][i]["url"];
 
 			GalleryData gdata = Array.Find(galleries, g => g.id==int.Parse(N["artworks"][i]["gallery_id"]));
-			adata.gallery = gdata.title;
-			adata.galleryId = gdata.id;
+            if (gdata != null)
+            {
+                adata.gallery = gdata.title;
+                adata.galleryId = gdata.id;
 
-			adata.artId = int.Parse(N ["artworks"][i]["id"]);
-			adata.autor = N ["artworks"][i]["author"];
-			adata.technique = N ["artworks"][i]["technique"];
-			float w = float.Parse(N ["artworks"][i]["width"]);
-			//float h = float.Parse(N ["artworks"][i]["height"]);
-			Vector2 size = new Vector2(w,-1);
-			adata.size = size;
-			adata.isLocal=false;
+                adata.artId = int.Parse(N["artworks"][i]["id"]);
+                adata.autor = N["artworks"][i]["author"];
+                adata.technique = N["artworks"][i]["technique"];
+                float w = float.Parse(N["artworks"][i]["width"]);
+                w = CustomMath.inches2cm(w);
+                //float h = float.Parse(N ["artworks"][i]["height"]);
+                Vector2 size = new Vector2(w, -1);
+                adata.size = size;
+                adata.isLocal = false;
 
-			gdata.artWorksData.Add(adata);
+                gdata.artWorksData.Add(adata);
+            }
 		}		
 	}
 
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {
 		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
-		return galleryData.artWorksData.Find(x => x.artId==artId);
+		GalleryData.ArtData ArtData =  galleryData.artWorksData.Find(x => x.artId==artId);
+        return ArtData;
 		/*if (artId < galleryData.artWorksData.Count)
 			return galleryData.artWorksData [artId];
 		else
@@ -183,16 +192,20 @@ public class ArtData : MonoBehaviour {
 			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
 			selectedArtWork.galleryId = favorites [id].galleryId;
 			selectedArtWork.artId = favorites [id].artId;*/
-		} else if (selectedGallery == -2)
-			selectedArtWork = myArtWorks.artWorksData [id];
-		else {
-			GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
-			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
-			/*selectedArtWork = galleries[selectedGallery].artWorksData[id];
-			selectedArtWork.gallery = galleries[Data.Instance.artData.selectedGallery].title;
-			selectedArtWork.galleryId = selectedGallery;
-			selectedArtWork.artId = id;*/
-		}
+        }
+        else if (selectedGallery == -2)
+        {
+            selectedArtWork = myArtWorks.artWorksData.Find(x => x.artId == id);
+        }
+        else
+        {
+            GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
+            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
+            /*selectedArtWork = galleries[selectedGallery].artWorksData[id];
+            selectedArtWork.gallery = galleries[Data.Instance.artData.selectedGallery].title;
+            selectedArtWork.galleryId = selectedGallery;
+            selectedArtWork.artId = id;*/
+        }
 	}
 
 	public void SetSelectedArtworkByArtID(int id)
@@ -252,14 +265,26 @@ public class ArtData : MonoBehaviour {
 
         PlayerPrefs.SetString("favorites", str);
 
-
         print("SAVE: " + str);
     }
 	public void SaveArtWork(string url, string name, string author, float width, float height)
 	{
-		int id = myArtWorks.artWorksData.Count;
+		int id = GetUnexistingID();
 		SaveArtWork (url, name, author, width, height, id);
 	}
+    public int GetUnexistingID()
+    {
+        for (int a = 0; a < 100; a++)
+        {
+            bool thisIDExists = false;
+            foreach(GalleryData.ArtData artData in myArtWorks.artWorksData)
+            {
+                if (artData.artId == a) thisIDExists = true;                
+            }
+            if (!thisIDExists) return a;
+        }
+        return 0;
+    }
 
 	public void SaveArtWork(string url, string name, string author, float width, float height, int id)
 	{

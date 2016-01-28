@@ -31,6 +31,7 @@ public class Data : MonoBehaviour
 	public int thumbHeight = 100;
 
 	//string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
+    //string jsonUrl = "http://localhost/madrollers/artplacer.json";
 	string jsonUrl = "http://www.artplacer.com/getalldata.php";
 
 	public Slider unitSlider;
@@ -203,10 +204,13 @@ public class Data : MonoBehaviour
 		byte[] bytes = lastArtTexture.EncodeToPNG();
 
 		string path = "";
-		if (artData.selectedGallery == -2 && !artData.selectedArtWork.url.Equals("")) {
+        print(artData.selectedArtWork + "   artData.selectedArtWork.url: " + artData.selectedArtWork.url + "    artData.selectedArtWork.url.length " + artData.selectedArtWork.url.Length);
+		if (artData.selectedGallery == -2 && artData.selectedArtWork.url.Length>0) {
+            print("GRABA: PISA");
 			path = artData.selectedArtWork.url;
 			artData.SaveArtWork(path, name, author, width, height, artData.selectedArtWork.artId);
 		} else {
+            print("GRABA: NUEVA");
 			path = GetUniqueName ();
 			artData.SaveArtWork(path, name, author, width, height);
 		}
@@ -249,6 +253,11 @@ public class Data : MonoBehaviour
         }
         mainMenuOpened = !mainMenuOpened;              
     }
+    public void Home()
+    {
+        Data.Instance.SetMainMenuActive(false);
+        Application.LoadLevel("Intro");
+    }
     public void ResetApp()
     {
         PlayerPrefs.DeleteAll();
@@ -289,6 +298,7 @@ public class Data : MonoBehaviour
 
 	public IEnumerator GetServerData(string url)
 	{
+        print(url);
 		WWW textURLWWW = new WWW(url);		
 		yield return textURLWWW;	
 

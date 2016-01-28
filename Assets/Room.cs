@@ -115,22 +115,34 @@ public class Room : MonoBehaviour
 		} else {
 			//artData = Data.Instance.artData.galleries [areaArtwork.galleryID].artWorksData [areaArtwork.galleryArtID];
 			artData = Data.Instance.artData.GetArtData(areaArtwork.galleryID,areaArtwork.galleryArtID);
-			yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl (), value => tex = value));
-		}        
-        
-		print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);        
+            if (artData == null)
+            {
+                Debug.Log("No existe mas esta obra!");
+                LoadedArtwork++;
+                Data.Instance.roomsData.RemoveArtFromRoom(areaArtwork.galleryArtID);
+                LoadRoomTexture();
+            }
+            else
+            {
+                yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl(), value => tex = value));
+            }
+		}
+        if (artData != null)
+        {
+            print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);
 
-        int w = (int)artData.size.x;
-        float aspect = 1f * tex.height / tex.width;
-        w = w == 0 ? defaultArtWidth : w;
-        int h = (int)(w * aspect);
-        Data.Instance.areaData.areas[areaId].AddArtWork(w, h, tex, artData);
-        Data.Instance.areaData.areas[areaId].artworks[Data.Instance.areaData.areas[areaId].artworks.Count - 1].position = areaArtwork.position;
-        Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
-        LoadedArtwork++;
-        if (totalArtworks2Load == LoadedArtwork)
-            LoadRoomTexture();
-        yield return null;
+            int w = (int)artData.size.x;
+            float aspect = 1f * tex.height / tex.width;
+            w = w == 0 ? defaultArtWidth : w;
+            int h = (int)(w * aspect);
+            Data.Instance.areaData.areas[areaId].AddArtWork(w, h, tex, artData);
+            Data.Instance.areaData.areas[areaId].artworks[Data.Instance.areaData.areas[areaId].artworks.Count - 1].position = areaArtwork.position;
+            Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
+            LoadedArtwork++;
+            if (totalArtworks2Load == LoadedArtwork)
+                LoadRoomTexture();
+            yield return null;
+        }
     }
     void LoadRoomTexture()
     {

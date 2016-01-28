@@ -153,6 +153,7 @@ public class Galleries : MonoBehaviour {
     }
     public void Browse()
     {
+        Events.OnPicker(true);
         Debug.Log("Aca");
 #if UNITY_ANDROID
         AndroidPicker.BrowseImage();
@@ -163,6 +164,7 @@ public class Galleries : MonoBehaviour {
 
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
+        Events.OnPicker(false);
         Data.Instance.isPhoto4Room = false;
         Data.Instance.lastArtTexture = tex;
         Data.Instance.LoadLevel("ConfirmPhoto");

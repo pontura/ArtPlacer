@@ -61,13 +61,18 @@ public class ConfirmArtWork : MonoBehaviour {
     }
     public void Confirm()
     {
-        if(Data.Instance.areaData.areas.Count == 0)
-			Data.Instance.LoadLevel ("LoadRoom");
-		else
+        Events.OnLoading(true);
+        Invoke("Delay", 0.1f);
+    }
+    public void Delay()
+    {
+        if (Data.Instance.areaData.areas.Count == 0)
+            Data.Instance.LoadLevel("LoadRoom");
+        else
             if (Data.Instance.isArtworkInfo2Place == false)
                 Data.Instance.LoadLevel("Artworks");
-        else
-            Data.Instance.LoadLevel("ArtPlaced");
+            else
+                Data.Instance.LoadLevel("ArtPlaced");
     }
 	public void Back2Walls()
 	{

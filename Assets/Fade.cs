@@ -1,62 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using ImageVideoContactPicker;
 
 public class Fade : MonoBehaviour
 {
-    private Image masker;
-    private string m_LevelName = "";
-    private int m_LevelIndex = 0;
-    private bool m_Fading = false;
-    private GraphicRaycaster graphicRaycaster;
+    public GameObject panel;
 
-    private void Awake()
+    private void Start()
     {
-        graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
-        DontDestroyOnLoad(this);
-		masker = GetComponentInChildren<Image>();
-        masker.enabled = true;
-		masker.color = new Color(0,0,0,0);
-        graphicRaycaster.enabled = false;
+        Events.OnPicker += OnPicker;
+        SetOff();
 	}
-
-    private IEnumerator FadeStart(float aFadeOutTime, float aFadeInTime, Color aColor)
+    void OnPicker(bool state)
     {
-        graphicRaycaster.enabled = true;
-        float t = 0;
-        while (t < 1)
-		{
-			yield return new WaitForEndOfFrame();
-            t += Time.deltaTime + aFadeOutTime;
-			masker.color = new Color(0,0,0,t);
-		}
-
-        if (m_LevelName != "")
-            Application.LoadLevel(m_LevelName);
+        if (state)
+            SetOn();
         else
-            Application.LoadLevel(m_LevelIndex);     
-		while (t > 0f)
-		{
-            Events.OnLoading(false);
-            
-			yield return new WaitForEndOfFrame();
-            t -= Time.deltaTime + aFadeInTime;
-			masker.color = new Color(0,0,0,t);
-		}
-        graphicRaycaster.enabled = false;
-        m_Fading = false;
-        Events.OnTooltipOff();
+            SetOff();
     }
-    private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor)
+    public void SetOn()
     {
-        m_Fading = true;
-        StartCoroutine(FadeStart(aFadeOutTime, aFadeInTime, aColor));
+        panel.SetActive(true);
+        Invoke("SetOff", 3);
     }
-
-    public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
+    public void SetOff()
     {
-        //if (Fading) return;
-        m_LevelName = aLevelName;
-        StartFade(aFadeOutTime, aFadeInTime, aColor);
+        panel.SetActive(false);
     }
 }

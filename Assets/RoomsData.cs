@@ -141,5 +141,31 @@ public class RoomsData : MonoBehaviour {
         float.TryParse(stringValue, out result);
         return result;
     }
+    public void RemoveArtFromRoom(int GalleryArtID)
+    {
+        print("RemoveArtFromRoom " + GalleryArtID);
+        RoomAreaArtWork toDelete = null;
+        RoomArea roomAreaToDelete = null;
+
+        foreach(Room room in rooms)
+        {
+             foreach(RoomArea roomArea in room.area)
+             {
+                 foreach (RoomAreaArtWork artwork in roomArea.artworks)
+                 {
+                     if(artwork.id == GalleryArtID)
+                     {
+                         toDelete = artwork;
+                         roomAreaToDelete = roomArea;
+                     }
+                 }
+             }
+        }
+        if (roomAreaToDelete != null)
+        {
+            print("roomAreaToDelete " + toDelete.id);
+            roomAreaToDelete.artworks.Remove(toDelete);
+        }
+    }
 
 }

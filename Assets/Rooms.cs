@@ -137,6 +137,11 @@ public class Rooms : MonoBehaviour
     }
     public void Browse()
     {
+        Events.OnPicker(true);
+        Invoke("Delay", 0.1f);
+    }
+    void Delay()
+    {
 #if UNITY_ANDROID
         AndroidPicker.BrowseImage();
 #elif UNITY_IPHONE

@@ -38,7 +38,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		Data.Instance.LoadLevel("Walls");
     }
     public void Ready()
-    {	
+    {
+        Events.OnLoading(true);
 		area.gameObject.SetActive (false);
 		Invoke("cropImage", 0.5f);
 

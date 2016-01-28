@@ -9,6 +9,8 @@ public class NewRoomConfirmation : MonoBehaviour {
         Data.Instance.SetMainMenuActive(true);
         Events.Back += Back;
         Events.HelpHide();
+        Data.Instance.lastArtTexture = null;
+        Data.Instance.lastArtThumbTexture = null;
     }
     public void Discard()
     {

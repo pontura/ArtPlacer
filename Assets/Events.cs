@@ -3,6 +3,7 @@ using System.Collections;
 
 public static class Events {
 
+    public static System.Action<bool> OnPicker = delegate { };
     public static System.Action<string> OnSoundFX = delegate { };
     public static System.Action<int, int> OnDropBoxSelect = delegate { };
     public static System.Action<int> OnNumWallsChanged = delegate { };
@@ -11,6 +12,7 @@ public static class Events {
 	public static System.Action OnSelectFooterArtwork = delegate { };
 	public static System.Action<bool> ArtworkPreview = delegate { };
     public static System.Action<string> OnGenerateRoomThumb = delegate { };
+    public static System.Action ContactGalleryOpenPopup = delegate { };
     public static System.Action<Vector2> OnScrollSizeRefresh = delegate { };
     public static System.Action<bool> OnLoading = delegate { };
 	public static System.Action<bool> OnLoadingMouse = delegate { };

@@ -32,9 +32,9 @@ public class ArtPlaced : MonoBehaviour {
 
 		Events.OnLoading (false);
         //buttonInfo.SetActive(false);
-        Data.Instance.SetTitle("");
-        //Events.Back += Back;
-		Data.Instance.SetBackActive (false);
+        Data.Instance.SetTitle("Rooms");
+        Events.Back += Back;
+		Data.Instance.SetBackActive (true);
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
         Events.HelpShow();
@@ -78,7 +78,14 @@ public class ArtPlaced : MonoBehaviour {
     }
     void Back()
     {
-        Data.Instance.Back();
+        if (Data.Instance.areaData.areas.Count == 0)
+        {
+            Data.Instance.LoadLevel("Rooms");
+        }
+        else
+        {
+            Data.Instance.LoadLevel("NewRoomConfirmation");
+        }
     }
 
 	void Update() {
@@ -467,7 +474,7 @@ public class ArtPlaced : MonoBehaviour {
 		Data.Instance.SetBackActive (true);
 		Events.OnSelectFooterArtwork -= AddFromFooter;
 		Events.ArtworkPreview -= Preview;
-        //Events.Back -= Back;       
+        Events.Back -= Back;       
 	}
 
 }

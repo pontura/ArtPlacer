@@ -27,7 +27,8 @@ public class ConfirmArtworkSize : MonoBehaviour {
 		signal.transform.localScale = Vector3.one;
 		signal.GetComponent<Canvas> ().sortingOrder = 1;
 
-		if (Data.Instance.artData.selectedGallery == -2) {
+        if (Data.Instance.artData.selectedGallery == -2 && Data.Instance.artData.selectedArtWork.url != "")
+        {
 			signal.Init (Data.Instance.artData.selectedArtWork.size.x, Data.Instance.artData.selectedArtWork.size.y);
 			signal.name.text = Data.Instance.artData.selectedArtWork.title;
 			signal.author.text = Data.Instance.artData.selectedArtWork.autor;
@@ -48,7 +49,7 @@ public class ConfirmArtworkSize : MonoBehaviour {
     }
 	public void Back()
 	{
-		//Data.Instance.LoadLevel("Walls");
+        Data.Instance.LoadLevel("Artworks");
     }
     public void Ready()
     {

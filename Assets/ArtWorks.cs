@@ -43,20 +43,27 @@ public class ArtWorks : MonoBehaviour
         {
             if (Data.Instance.artData.selectedGallery == -1)
             {
-                helpText.text = "You have no favourites artworks yet.";
+                helpText.text = "You have no favourite artworks yet.";
             }
             else if (Data.Instance.artData.selectedGallery == -2)
             {
-                helpText.text = "You did´t create any artwork yet.";
+                helpText.text = "You did´t create any artworks yet.";
             }
             Events.HelpChangeState(true);
         }
 
        foreach (ArtData.GalleryData.ArtData data in currentGallery.artWorksData)
-       {           	
-			string path = data.GetUrl();
-
-			AddThumb(path, data.artId, data.isLocal);
+       {
+           string path;
+           try
+           {
+               path = data.GetUrl();
+               AddThumb(path, data.artId, data.isLocal);
+           }
+           catch
+           {
+               Debug.Log("LA obra ya no existe ");
+           }			
        }
 
       // Events.OnScrollSizeRefresh(new Vector2(611, _y));
@@ -149,10 +156,16 @@ public class ArtWorks : MonoBehaviour
     }
     public void TakePhoto()
     {
+        Data.Instance.artData.selectedArtWork.url = "";
         Data.Instance.isPhoto4Room = false;
         Data.Instance.LoadLevel("TakePhoto");
     }
     public void Browse()
+    {
+        Events.OnPicker(true);
+        Invoke("Delay", 0.1f);        
+    }
+    void Delay()
     {
         Debug.Log("Browse");
 #if UNITY_ANDROID
@@ -161,9 +174,9 @@ public class ArtWorks : MonoBehaviour
 		IOSPicker.BrowseImage();
 #endif
     }
-
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
+        Events.OnPicker(false);
         Data.Instance.isPhoto4Room = false;
         Data.Instance.lastArtTexture = tex;
         Data.Instance.LoadLevel("ConfirmPhoto");

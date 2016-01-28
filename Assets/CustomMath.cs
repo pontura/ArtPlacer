@@ -7,6 +7,8 @@ public class CustomMath{
 	public static float inches2cm(float inches){return inches * 2.54f;}	                                       
 	public static float inches2feet(float inches){	return inches * 0.0833333333f;}
 	public static float feet2inches(float feet){	return feet * 12f;}
+   // public static float feet2cm(float feet) { return (feet * 30.48f) /100; }
+   // public static float cm2inches(float cm) { return (cm * 0.393701f); }
 
 
 	public static bool LineIntersectionPoint(out Vector3 result, Vector3 ps1, Vector3 pe1, Vector3 ps2, Vector3 pe2){

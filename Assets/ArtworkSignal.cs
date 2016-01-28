@@ -5,22 +5,28 @@ using System.Collections;
 public class ArtworkSignal : MonoBehaviour {
 
     public int id;
+    public Text label;
 
 	public InputField name;
 	public InputField author;
 
+    public GameObject cursor0;
 	public GameObject cursor1;
 	public GameObject cursor2;
 	public GameObject cursor3;
 	
 	public Text inputField;
 	public Text desc;
-	
-	private int height = 2;
-	private int height2 = 0;
-	private int height3 = 0;
-	
-	private int activeNum = 0;
+    public string _heightStr;
+    public int height0 = 0;
+    public int height = 1;
+    public int height2 = 0;
+    public int height3 = 0;
+
+    public int activeNum = 0;
+
+    public int height_In_CM;
+
 	private ConfirmArtworkSize confirmSizes;
 	
 	void Start()
@@ -31,33 +37,31 @@ public class ArtworkSignal : MonoBehaviour {
 	}
 
 	public void Init(float _width , float _height)
-	{		
-		if (Data.Instance.unidad == Data.UnitSys.CM) {
-			height = (int)(_height * 0.01);
-			height2 = (int)(_height * 0.1 - (height * 10));
-			height3 = (int)(_height - (height * 100) - (height2 * 10));
-		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			float inches = CustomMath.cm2inches(_height);
-			float feet = CustomMath.inches2feet(inches);
-			height = (int)feet;
-			height2 = (int)((feet - height)*10);
-			height3 = (int)(((feet - height)*10-height2)*10);
-		}
-		RefreshField();
+	{
+        print("INIT (cm) " + _height);
+        height_In_CM = (int)_height;
+        ChangeUnits(height_In_CM);
+        ConvertUnits();
+        
 	}
 	public int GetHeight()
 	{
-		string result = "" + (height + "" + height2 + "" + height3);
-		int resu = 0;
-		if (Data.Instance.unidad == Data.UnitSys.CM) {
-			resu = int.Parse(result);
-		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
-			resu = (int)Mathf.Round(CustomMath.inches2cm(inches));
-		}        
-		return resu;
+        string all = height0 + "" + height + "" + height2 + "" + height3;
+        int num = int.Parse(all);
+        if (Data.Instance.unidad == Data.UnitSys.INCHES)
+        {
+            int feets = int.Parse(height0 + "" + height);
+            int inches = int.Parse(height2 + "" + height3);
+            inches += (int)CustomMath.feet2inches(feets);
+            height_In_CM = (int)CustomMath.inches2cm(inches);
+        }
+        else height_In_CM = num;
+
+        Debug.Log("GRABA: " + height_In_CM + "    _ " + Data.Instance.unidad);
+
+        return height_In_CM;
 	}
-	public void OnPress(string key)
+	public void OnPress(string key) 
 	{
 		switch(key)
 		{
@@ -76,21 +80,22 @@ public class ArtworkSignal : MonoBehaviour {
 	{
 		switch (activeNum)
 		{
-		case 0: height = int.Parse(key); break;
-		case 1: height2 = int.Parse(key); break;
-		case 2: height3 = int.Parse(key); break;
+            case 0: height0 = int.Parse(key); break;
+		    case 1: height = int.Parse(key); break;
+		    case 2: height2 = int.Parse(key); break;
+		    case 3: height3 = int.Parse(key); break;
 		}
-		if (activeNum < 2)
+		if (activeNum < 3)
 			activeNum++;
 		RefreshField();
 	}
-	void Ready()
+	public void Ready()
 	{
-		print("ready " + GetHeight().ToString());
 		confirmSizes.Ready();
 	}
 	void Delete()
 	{
+        height0 = 0;
 		height = 0;
 		height2 = 0;
 		height3 = 0;
@@ -101,38 +106,74 @@ public class ArtworkSignal : MonoBehaviour {
 	{
 		
 	}
-	void RefreshField()
+    void RefreshField()
 	{
-		inputField.text = height + "." + height2 + height3;
+        string result =  height0  + "" + height + "." + height2 + height3;
+       
+        int num = int.Parse(height0  + "" + height  + height2 + height3);
 		if (Data.Instance.unidad == Data.UnitSys.CM) {
-			desc.text = height + " meters, " + height2 + "" + height3 + " centimeters";
+            desc.text = height0 + "" + height + " meters, " + height2 + "" + height3 + " centimeters";
+            inputField.text = result;
+            label.text = "cm";
 		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			desc.text = height + " feet, " + height2 + "" + height3 + " inches";
+            inputField.text = height0 + "" + height + "´" +  height2 + height3;
+            int feets = (int)num/12;
+            int inches = num - (feets*12);
+            desc.text = height0 + "" + height + " feet, " + height2 + height3 + " inches";
+            label.text = "inches";
 		}
 		
 		RefreshCursor();
 	}
 	void RefreshCursor()
 	{
+        cursor0.SetActive(false);
 		cursor1.SetActive(false);
 		cursor2.SetActive(false);
 		cursor3.SetActive(false);
 		
-		GameObject cursorActive = cursor1;
-		if (activeNum == 1) cursorActive = cursor2;
-		else if (activeNum == 2) cursorActive = cursor3;
+		GameObject cursorActive = cursor0;
+		if (activeNum == 1) cursorActive = cursor1;
+		else if (activeNum == 2) cursorActive = cursor2;
+        else if (activeNum == 3) cursorActive = cursor3;
+
 		cursorActive.SetActive(true);
 	}
 
 	public void ConvertUnits(){
-		string result = "" + (height + "" + height2 + "" + height3);
+
+        string result = height0 + "" + height + "" + height2 + "" + height3;
+
 		if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			Init(0,int.Parse(result));
+            float cm2inches = CustomMath.cm2inches(height_In_CM);
+            ChangeUnits((int)cm2inches);
 		} else if (Data.Instance.unidad == Data.UnitSys.CM) {
-			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
-			Init(0,(int)Mathf.Round(CustomMath.inches2cm(inches)));
+            ChangeUnits(height_In_CM);
+           
 		}
+
 	}
+    void ChangeUnits(int _height)
+    {
+        Debug.Log("ChangeUnits a unidad: " + Data.Instance.unidad + "    _height: " + _height);
+        _heightStr = "";
+
+        if (_height < 10)
+            _heightStr = "000" + _height.ToString();
+        else if (_height < 100)
+            _heightStr = "00" + _height.ToString();
+        else if (_height < 1000)
+            _heightStr = "0" + _height.ToString();
+        else
+            _heightStr = _height.ToString();
+        
+        height0 = int.Parse(_heightStr.Substring(0, 1));
+        height = int.Parse(_heightStr.Substring(1, 1));
+        height2 = int.Parse(_heightStr.Substring(2, 1));
+        height3 = int.Parse(_heightStr.Substring(3, 1));
+
+        RefreshField();
+    }
 
 	public string GetName()
 	{
