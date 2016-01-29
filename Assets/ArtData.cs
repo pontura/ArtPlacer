@@ -149,8 +149,16 @@ public class ArtData : MonoBehaviour {
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {
 		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
-		GalleryData.ArtData ArtData =  galleryData.artWorksData.Find(x => x.artId==artId);
-        return ArtData;
+        GalleryData.ArtData artData = null;
+        try
+        {
+            artData = galleryData.artWorksData.Find(x => x.artId == artId);
+        }
+        catch
+        {
+            artData = null;
+        }
+        return artData;
 		/*if (artId < galleryData.artWorksData.Count)
 			return galleryData.artWorksData [artId];
 		else
@@ -242,15 +250,20 @@ public class ArtData : MonoBehaviour {
 			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
 			selectedArtWork.galleryId = favorites [id].galleryId;
 			selectedArtWork.artId = favorites [id].artId;*/
-		} else if (selectedGallery == -2)
-			selectedArtWork = myArtWorks.artWorksData [id];
-		else {
-			GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
-			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
-			/*selectedArtWork.gallery = gd.title;
-			selectedArtWork.galleryId = selectedGallery;
-			selectedArtWork.artId = id;*/
-		}
+        }
+        else if (selectedGallery == -2)
+        {
+            selectedArtWork = myArtWorks.artWorksData.Find(x => x.artId == id);
+           // selectedArtWork = myArtWorks.artWorksData[id];
+        }
+        else
+        {
+            GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
+            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
+            /*selectedArtWork.gallery = gd.title;
+            selectedArtWork.galleryId = selectedGallery;
+            selectedArtWork.artId = id;*/
+        }
 	}
 
     public void AddToFavorites()

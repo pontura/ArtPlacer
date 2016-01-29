@@ -31,8 +31,8 @@ public class Game : MonoBehaviour {
 			c[i] = Color.red;
 		texture.SetPixels32(c);*/
 
-        if (!Data.Instance.isPhoto4Room)
-            texture = Data.Instance.lastArtTexture;
+      //  if (!Data.Instance.isPhoto4Room)
+       //     texture = Data.Instance.lastArtTexture;
 
 		//Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
 

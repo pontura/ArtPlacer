@@ -105,15 +105,10 @@ public class Room : MonoBehaviour
     }
     public IEnumerator GetArtData(RoomsData.RoomAreaArtWork areaArtwork, int areaId, RoomsData.Room room)
     {
-		ArtData.GalleryData.ArtData artData;
-		//print ("GallID: " + areaArtwork.galleryID + " ArtId: " + areaArtwork.galleryArtID);
+		ArtData.GalleryData.ArtData artData = null;
+		print ("GallID: " + areaArtwork.galleryID + " ArtId: " + areaArtwork.galleryArtID);
 		Texture2D tex = null;
-		if (areaArtwork.galleryID == -2) {
-			artData = Data.Instance.artData.myArtWorks.artWorksData [areaArtwork.galleryArtID];
-			tex = TextureUtils.LoadLocal (artData.GetUrl ());
-			yield return null;
-		} else {
-			//artData = Data.Instance.artData.galleries [areaArtwork.galleryID].artWorksData [areaArtwork.galleryArtID];
+
 			artData = Data.Instance.artData.GetArtData(areaArtwork.galleryID,areaArtwork.galleryArtID);
             if (artData == null)
             {
@@ -126,7 +121,6 @@ public class Room : MonoBehaviour
             {
                 yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl(), value => tex = value));
             }
-		}
         if (artData != null)
         {
             print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);

@@ -50,10 +50,11 @@ public class ArtworkSignal : MonoBehaviour {
         int num = int.Parse(all);
         if (Data.Instance.unidad == Data.UnitSys.INCHES)
         {
-            int feets = int.Parse(height0 + "" + height);
-            int inches = int.Parse(height2 + "" + height3);
-            inches += (int)CustomMath.feet2inches(feets);
-            height_In_CM = (int)CustomMath.inches2cm(inches);
+            //int feets = int.Parse(height0 + "" + height);
+            //int inches = int.Parse(height2 + "" + height3);
+            //inches += (int)CustomMath.feet2inches(feets);
+           // height_In_CM = (int)CustomMath.inches2cm(inches);
+            height_In_CM = (int)CustomMath.inches2cm(num);
         }
         else height_In_CM = num;
 
@@ -116,10 +117,15 @@ public class ArtworkSignal : MonoBehaviour {
             inputField.text = result;
             label.text = "cm";
 		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-            inputField.text = height0 + "" + height + "´" +  height2 + height3;
-            int feets = (int)num/12;
-            int inches = num - (feets*12);
-            desc.text = height0 + "" + height + " feet, " + height2 + height3 + " inches";
+            //inputField.text = height0 + "" + height + "´" +  height2 + height3;
+            //int feets = (int)num/12;
+            //int inches = num - (feets*12);
+            //desc.text = height0 + "" + height + " feet, " + height2 + height3 + " inches";
+           // label.text = "inches";
+
+            result = height0 + "" + height + "" + height2 + height3;
+            desc.text = height0 + "" + height + "" + height2 + "" + height3 + " inches";
+            inputField.text = result;
             label.text = "inches";
 		}
 		
@@ -145,7 +151,7 @@ public class ArtworkSignal : MonoBehaviour {
         string result = height0 + "" + height + "" + height2 + "" + height3;
 
 		if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-            float cm2inches = CustomMath.cm2inches(height_In_CM);
+            float cm2inches = Mathf.Round(CustomMath.cm2inches(height_In_CM));
             ChangeUnits((int)cm2inches);
 		} else if (Data.Instance.unidad == Data.UnitSys.CM) {
             ChangeUnits(height_In_CM);
