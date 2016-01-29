@@ -20,6 +20,7 @@ public static class Events {
     public static System.Action OnTooltipOff = delegate { };  
 	public static System.Action ConvertUnits = delegate { };
     public static System.Action Back = delegate { };
+    public static System.Action GalleryArtworksLoaded = delegate { };
 
     //help:
     public static System.Action HelpHide = delegate { };

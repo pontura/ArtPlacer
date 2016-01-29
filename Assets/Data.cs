@@ -32,7 +32,8 @@ public class Data : MonoBehaviour
 
 	//string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
     //string jsonUrl = "http://localhost/madrollers/artplacer.json";
-	string jsonUrl = "http://www.artplacer.com/getalldata.php";
+    public string json_galleries_Url = "http://artplacer.com/getalldata.php?type=galleries";
+    public string json_artworks_jsonUrl = "http://artplacer.com/getalldata.php?type=artworks&gallery_id=";
 
 	public Slider unitSlider;
 	public enum UnitSys {
@@ -107,7 +108,7 @@ public class Data : MonoBehaviour
             return;
         }
 
-		StartCoroutine(GetServerData(jsonUrl));
+		StartCoroutine(GetServerData(json_galleries_Url));
 
 
         cameraData = GetComponent<CameraData>();
@@ -199,7 +200,7 @@ public class Data : MonoBehaviour
     {
         return System.DateTime.Now.ToString("yyyyMMddHHmmss");
     }
-	public void SavePhotoArt(string name, string author, float width, float height)
+    public void SavePhotoArt(string name, string author, float height, float width)
 	{
 		byte[] bytes = lastArtTexture.EncodeToPNG();
 
@@ -208,11 +209,11 @@ public class Data : MonoBehaviour
 		if (artData.selectedGallery == -2 && artData.selectedArtWork.url.Length>0) {
             print("GRABA: PISA");
 			path = artData.selectedArtWork.url;
-			artData.SaveArtWork(path, name, author, width, height, artData.selectedArtWork.artId);
+            artData.SaveArtWork(path, name, author, height, width, artData.selectedArtWork.artId);
 		} else {
             print("GRABA: NUEVA");
 			path = GetUniqueName ();
-			artData.SaveArtWork(path, name, author, width, height);
+            artData.SaveArtWork(path, name, author, height, width);
 		}
 		
 		File.WriteAllBytes(GetFullPathByFolder("Artworks", path + ".png"), bytes);
@@ -300,11 +301,35 @@ public class Data : MonoBehaviour
 	{
         print(url);
 		WWW textURLWWW = new WWW(url);		
-		yield return textURLWWW;	
+		yield return textURLWWW;
 
-		artData.LoadArtFromServer(textURLWWW.text);
+        artData.LoadGalleryData(textURLWWW.text);
 		Events.OnLoading (false);
 	}
+    public void GetArtworksDataByGallery(int galleryID)
+    {
+        if (Data.Instance.artData.GetCurrentGallery().artWorksData.Count > 0)
+        {
+            Events.GalleryArtworksLoaded();
+        }
+        else
+        {
+            StartCoroutine(GetArtworksDataByGalleryRoutine(galleryID));
+        }
+    }
+    public IEnumerator GetArtworksDataByGalleryRoutine(int galleryID)
+    {
+        string url = json_artworks_jsonUrl + galleryID;
+
+        WWW textURLWWW = new WWW(url);
+        yield return textURLWWW;
+
+
+        artData.LoadArtWorkFromGallery( artData.GetCurrentGallery(), textURLWWW.text);
+        Events.OnLoading(false);
+
+        Events.GalleryArtworksLoaded();
+    }
 
 	public void ChangeUnit(){
 		if (unitSlider.value == 0) {

@@ -29,6 +29,7 @@ public class ArtData : MonoBehaviour {
         public string phone;
         public string email;
         public string web;
+        public string thumbnail;
 
 		public int id;
         public List<ArtData> artWorksData;
@@ -58,22 +59,22 @@ public class ArtData : MonoBehaviour {
 			}
 
 			public void setSizes(){
-				if (size.y == -1) {
-					size.y = Mathf.Round(size.x*Data.Instance.lastArtTexture.height/Data.Instance.lastArtTexture.width);
+				if (size.x == -1) {
+					size.x = Mathf.Round(size.y*Data.Instance.lastArtTexture.width/Data.Instance.lastArtTexture.height);
 				}
 			}
 
 			public string getSizeWUnits(){
 
-				if (size.y == -1) {
-					size.y = Mathf.Round(size.x*Data.Instance.lastArtTexture.height/Data.Instance.lastArtTexture.width);
+				if (size.x == -1) {
+                    size.x = Mathf.Round(size.y * Data.Instance.lastArtTexture.width / Data.Instance.lastArtTexture.height);
 				}
 
 				string result = "";
 				if (Data.Instance.unidad == Data.UnitSys.CM) {
-					result = size.x+" cm x "+size.y+" cm";
+					result = size.x+" x "+size.y+" cm";
 				} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-					result = Mathf.Round(CustomMath.cm2inches(size.x))+" inches x "+Mathf.Round(CustomMath.cm2inches(size.y))+" inches";
+					result = Mathf.Round(CustomMath.cm2inches(size.x))+" x "+Mathf.Round(CustomMath.cm2inches(size.y))+" inches";
 				}        
 				return result;
 
@@ -85,24 +86,46 @@ public class ArtData : MonoBehaviour {
         LoadFavorites();
 		ReadArtworkData ();
     }
-	public void LoadArtFromServer(string json_data){
+	public void LoadGalleryData(string json_data){
 		Debug.Log (json_data.Length);
 		var N = JSON.Parse(json_data);
 		galleries = new GalleryData[N ["galleries"].Count];
+        string jsonArtworks = Data.Instance.json_artworks_jsonUrl;
 
 		for (int i=0; i<galleries.Length; i++) {
 			galleries [i] = new GalleryData();
 			galleries [i].title = N ["galleries"] [i] ["title"];
-			galleries [i].id = int.Parse(N ["galleries"] [i] ["id"]);
+            int id = int.Parse(N ["galleries"] [i] ["id"]);
+			galleries [i].id = id;
+            galleries[i].thumbnail = (N["galleries"][i]["thumbnail"]);
 			galleries [i].artWorksData = new List<GalleryData.ArtData>();
 		}
+        //carga las obras:
+        for (int i = 0; i < galleries.Length; i++)
+        {
+            StartCoroutine(GetArtworksData(galleries[i], jsonArtworks + galleries[i].id));
+        }	
+	}
 
-		for (int i=0; i<N["artworks"].Count; i++) {
-			GalleryData.ArtData adata = new GalleryData.ArtData();
-			adata.title = N ["artworks"][i]["title"];
-			adata.url = N ["artworks"][i]["url"];
 
-			GalleryData gdata = Array.Find(galleries, g => g.id==int.Parse(N["artworks"][i]["gallery_id"]));
+    public IEnumerator GetArtworksData(GalleryData gdata, string url)
+    {
+        WWW textURLWWW = new WWW(url);
+        yield return textURLWWW;
+        LoadArtWorkFromGallery(gdata, textURLWWW.text);
+    }
+
+
+    public void LoadArtWorkFromGallery(GalleryData gdata, string json_data)
+    {
+        var N = JSON.Parse(json_data);
+
+        for (int i = 0; i < N["artworks"].Count; i++)
+        {
+            GalleryData.ArtData adata = new GalleryData.ArtData();
+            adata.title = N["artworks"][i]["title"];
+            adata.url = N["artworks"][i]["url"];
+
             if (gdata != null)
             {
                 adata.gallery = gdata.title;
@@ -111,17 +134,17 @@ public class ArtData : MonoBehaviour {
                 adata.artId = int.Parse(N["artworks"][i]["id"]);
                 adata.autor = N["artworks"][i]["author"];
                 adata.technique = N["artworks"][i]["technique"];
-                float w = float.Parse(N["artworks"][i]["width"]);
-                w = CustomMath.inches2cm(w);
+                float h = float.Parse(N["artworks"][i]["height"]);
+                h = CustomMath.inches2cm(h);
                 //float h = float.Parse(N ["artworks"][i]["height"]);
-                Vector2 size = new Vector2(w, -1);
+                Vector2 size = new Vector2(-1, h);
                 adata.size = size;
                 adata.isLocal = false;
 
                 gdata.artWorksData.Add(adata);
             }
-		}		
-	}
+        }
+    }
 
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {

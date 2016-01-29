@@ -33,7 +33,7 @@ public class TextureUtils{
 		
 		if (!www.isDone || !string.IsNullOrEmpty(www.error))
 		{
-			Debug.LogError("Load Failed");
+			Debug.Log("Load Failed");
 			result(null);    // Pass null result.
 			yield break;
 		}

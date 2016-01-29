@@ -31,6 +31,7 @@ public class Galleries : MonoBehaviour {
         Data.Instance.SetMainMenuActive(true);
         Data.Instance.SetTitle("Artworks by Galleries");
         Events.Back += Back;
+        Events.GalleryArtworksLoaded += GalleryArtworksLoaded;
 		PickerEventListener.onImageLoad += OnImageLoad;
 
         Data.Instance.isPhoto4Room = true;
@@ -62,7 +63,7 @@ public class Galleries : MonoBehaviour {
                 int randomId =Random.Range(0, data.artWorksData.Count);
                 url = data.artWorksData[randomId].url;
             }
-            AddThumb(data.title, url, data.id);
+            AddThumb(data.title, data.thumbnail, data.id);
 		}
 
         //if (Data.Instance.artData.favorites.Count == 0)
@@ -82,6 +83,7 @@ public class Galleries : MonoBehaviour {
     void OnDestroy()
     {
         Events.Back -= Back;
+        Events.GalleryArtworksLoaded -= GalleryArtworksLoaded;
         PickerEventListener.onImageLoad -= OnImageLoad;
     }
     void Back()
@@ -113,7 +115,6 @@ public class Galleries : MonoBehaviour {
         newButton.transform.SetParent(buttonsContainer.transform);
         newButton.transform.localScale = Vector3.one;
         newButton.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-
         newButton.Init(this, id, _title, url);
 
       //  print("____" + url + "      _title: " + _title);
@@ -121,7 +122,13 @@ public class Galleries : MonoBehaviour {
     }
     public void OnSelect(int id)
     {
+        Events.OnLoading(true);
         Data.Instance.artData.selectedGallery = id;
+        Data.Instance.GetArtworksDataByGallery(id); 
+    }
+    void GalleryArtworksLoaded()
+    {
+
         Data.Instance.LoadLevel("Artworks");
     }
     public void GotoRoom()

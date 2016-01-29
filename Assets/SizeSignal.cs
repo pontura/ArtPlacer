@@ -36,12 +36,17 @@ public class SizeSignal : MonoBehaviour {
 			height2 = (int)(_height * 0.1 - (height0 * 100) - (height1 * 10));
 			height3 = (int)(_height - (height0 * 1000) - (height1 * 100)- (height2 * 10));
 		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			float inches = CustomMath.cm2inches(_height);
-			float feet = CustomMath.inches2feet(inches);
-			height0 = (int)(feet*0.1);
-			height1 = (int)(feet - (height0*10));
-			height2 = (int)((feet - (height0*10+height1))*10);
-			height3 = (int)((feet - (height0*10+height1+height2*0.1))*10);
+            _height = Mathf.Round(CustomMath.cm2inches(_height));
+            //float feet = CustomMath.inches2feet(inches);
+            //height0 = (int)(feet*0.1);
+            //height1 = (int)(feet - (height0*10));
+            //height2 = (int)((feet - (height0*10+height1))*10);
+            //height3 = (int)((feet - (height0*10+height1+height2*0.1))*10);
+
+            height0 = (int)(_height * 0.001);
+            height1 = (int)(_height * 0.01 - (height0 * 10));
+            height2 = (int)(_height * 0.1 - (height0 * 100) - (height1 * 10));
+            height3 = (int)(_height - (height0 * 1000) - (height1 * 100) - (height2 * 10));
 		}
         RefreshField();
 	}
@@ -52,8 +57,8 @@ public class SizeSignal : MonoBehaviour {
 		if (Data.Instance.unidad == Data.UnitSys.CM) {
 			resu = int.Parse(result);
 		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
-			resu = (int)Mathf.Round(CustomMath.inches2cm(inches));
+			//float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
+            resu = (int)Mathf.Round(CustomMath.inches2cm(int.Parse(result)));
 		}        
         return resu;
     }
@@ -105,11 +110,13 @@ public class SizeSignal : MonoBehaviour {
     }
     void RefreshField()
     {
-		inputField.text = ""+height0 + height1 + "." + height2 + height3;
+		
 		if (Data.Instance.unidad == Data.UnitSys.CM) {
+            inputField.text = "" + height0 + height1 + "." + height2 + height3;
 			desc.text = ""+height0 + height1 + " meters, " + height2 + "" + height3 + " centimeters";
 		} else if (Data.Instance.unidad == Data.UnitSys.INCHES) {
-			desc.text = ""+height0+height1 + " feet, " + height2 + "" + height3 + " inches";
+            inputField.text = "" + height0 + height1 + height2 + height3;
+			desc.text = ""+height0+height1 + "" + height2 + "" + height3 + " inches";
 		}
         
         RefreshCursor();
@@ -133,8 +140,8 @@ public class SizeSignal : MonoBehaviour {
 		if (Data.Instance.unidad == Data.UnitSys.INCHES) {
 			Init(0,int.Parse(result));
 		} else if (Data.Instance.unidad == Data.UnitSys.CM) {
-			float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
-			Init(0,(int)Mathf.Round(CustomMath.inches2cm(inches)));
+			//float inches = CustomMath.feet2inches(float.Parse(result)*0.01f);
+            Init(0, (int)Mathf.Round(CustomMath.inches2cm(int.Parse(result))));
 		}
 	}
 

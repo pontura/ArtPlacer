@@ -45,6 +45,7 @@ public class GalleryButton : MonoBehaviour {
     }
     public void OnSelected(Galleries galleries, int id)
     {
+        /////
         galleries.OnSelect(id);
     }
 
