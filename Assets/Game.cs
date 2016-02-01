@@ -29,12 +29,13 @@ public class Game : MonoBehaviour {
 		Color32[] c = new Color32[texture.GetPixels32(0).Length];
 		for (int i=0; i<c.Length; i++)
 			c[i] = Color.red;
-		texture.SetPixels32(c);*/
-
-      //  if (!Data.Instance.isPhoto4Room)
-       //     texture = Data.Instance.lastArtTexture;
+		texture.SetPixels32(c);*/        
 
 		//Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
+
+		// Si la foto es para no es para un room busca la textura en lastArtTexture
+		if (!Data.Instance.isPhoto4Room)
+			texture = Data.Instance.lastArtTexture;
 
 		Rect rect = new Rect();
 
