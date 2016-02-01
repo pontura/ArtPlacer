@@ -31,7 +31,7 @@ public class LoadingAsset : MonoBehaviour {
     }
     void OnLoading(bool enable)
     {
-        print("OnLoading" + enable);
+        //print("OnLoading" + enable);
         if (enable)
             SetOn();
         else
@@ -40,7 +40,7 @@ public class LoadingAsset : MonoBehaviour {
 
 	public void OnLoadingMouse(bool enable)
 	{
-        print("OnLoadingMouse" + enable);
+        //print("OnLoadingMouse" + enable);
 
 		if (enable)
 			SetOn ();

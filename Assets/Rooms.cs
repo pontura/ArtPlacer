@@ -27,6 +27,7 @@ public class Rooms : MonoBehaviour
 
     void Start()
     {
+		Events.OnLoading (true);
         Close();
 
         Events.HelpShow();
@@ -82,6 +83,7 @@ public class Rooms : MonoBehaviour
 
             }
         }
+		Events.OnLoading (false);
     }
     void OnDestroy()
     {
