@@ -14,10 +14,10 @@ public class SizeSignal : MonoBehaviour {
     public Text inputField;
     public Text desc;
 
-	private int height0 = 0;
-    private int height1 = 2;
-    private int height2 = 0;
-    private int height3 = 0;
+    public int height0 = 0;
+    public int height1 = 1;
+    public int height2 = 0;
+    public int height3 = 0;
 
     private int activeNum = 0;
     private ConfirmSizes confirmSizes;
@@ -31,6 +31,7 @@ public class SizeSignal : MonoBehaviour {
     public void Init(float _width , float _height)
     {
 		if (Data.Instance.unidad == Data.UnitSys.CM) {
+            print("CM: " + _height);
             Vector4 cms = CustomMath.GetFormatedCentimeters(_height);
             height0 = (int)cms.x;
             height1 = (int)cms.y;

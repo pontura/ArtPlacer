@@ -46,10 +46,17 @@ public class CustomMath{
     {
         Vector4 vect4 = new Vector4();
 
-        vect4.x = (int)(value * 0.001f);
-        vect4.y = (int)(value * 0.01f - (vect4.x * 10));
-        vect4.w = (int)(value * 0.1f - (vect4.x * 100) - (vect4.y * 10));
-        vect4.z = (int)(value - (vect4.x * 1000) - (vect4.y * 100) - (vect4.w * 10));
+        string str = value.ToString();
+
+        if (str.Length < 1) str = "0000";
+        else if (str.Length < 2) str = "000" + str;
+        else if (str.Length < 3) str = "00" + str;
+        else if (str.Length < 4) str = "0" + str;
+
+        vect4.x = int.Parse(str.Substring(0, 1));
+        vect4.y = int.Parse(str.Substring(1, 1));
+        vect4.w = int.Parse(str.Substring(2, 1));
+        vect4.z = int.Parse(str.Substring(3, 1));
 
         return vect4;
     }
@@ -60,12 +67,12 @@ public class CustomMath{
         float inches = CustomMath.cm2inches(value);
         int feet = (int)Mathf.Floor(inches / 12);
 
-        int restInches = (int)Mathf.Round(inches - (feet * 12));        
+        int restInches = (int)Mathf.Round(inches - (feet * 12));
 
-        vect4.x = (int)(feet * 0.1f);
-        vect4.y = (int)(feet - (vect4.x * 10));
-        vect4.w = (int)(restInches * 0.1f);
-        vect4.z = (int)(restInches - (vect4.w * 10));
+        vect4.x = (int)Mathf.Round(feet * 0.1f);
+        vect4.y = (int)Mathf.Round(feet - (vect4.x * 10));
+        vect4.w = (int)Mathf.Round(restInches * 0.1f);
+        vect4.z = (int)Mathf.Round(restInches - (vect4.w * 10));
         Debug.Log("inches: " + inches + "    value: " + value + "   feet: " + feet + "   restInches: " + restInches);
         return vect4;
     }
