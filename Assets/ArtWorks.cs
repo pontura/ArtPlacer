@@ -36,6 +36,7 @@ public class ArtWorks : MonoBehaviour
         Data.Instance.SetBackActive(true);
         Data.Instance.SetTitle("Gallery: " + Data.Instance.artData.GetCurrentGallery().title);
         Events.Back += Back;
+        PickerEventListener.onImageLoad += OnImageLoad;
         thumbSize += separation;
         ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
 
@@ -93,6 +94,7 @@ public class ArtWorks : MonoBehaviour
     void OnDestroy()
     {
         Events.Back -= Back;
+        PickerEventListener.onImageLoad -= OnImageLoad;
     }
     private float _y;
     private void AddThumb(string url, int artId, bool local)
