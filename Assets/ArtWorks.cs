@@ -7,6 +7,8 @@ using ImageVideoContactPicker;
 
 public class ArtWorks : MonoBehaviour
 {
+    public ContactGallery contactGallery;
+
     public GameObject Add;
     public GameObject Add_On;
     public GameObject SubMenu;
@@ -36,6 +38,9 @@ public class ArtWorks : MonoBehaviour
         Events.Back += Back;
         thumbSize += separation;
         ArtData.GalleryData currentGallery = Data.Instance.artData.GetCurrentGallery();
+
+        if (Data.Instance.artData.selectedGallery <0)
+            contactGallery.gameObject.SetActive(false);
 
 		//if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
 

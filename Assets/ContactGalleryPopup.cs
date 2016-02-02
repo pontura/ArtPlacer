@@ -32,8 +32,8 @@ public class ContactGalleryPopup : MonoBehaviour {
         ArtData.GalleryData data =  Data.Instance.artData.GetCurrentGallery();
         title.text = data.title;
         phone = data.phone;
-        email = data.phone;
-        web = data.phone;
+        email = data.email;
+        web = data.web;
     }
     void SetOff()
     {

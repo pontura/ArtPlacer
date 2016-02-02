@@ -11,7 +11,6 @@ public class ButtonFeedback : MonoBehaviour {
 
 	void Awake () {
 		infoAnim = gameObject.GetComponent<Animation> ();
-		print (infoAnim);
 		infoImage = gameObject.GetComponentInChildren<Image>();
 	}
 

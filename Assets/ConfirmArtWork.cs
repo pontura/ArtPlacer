@@ -16,6 +16,9 @@ public class ConfirmArtWork : MonoBehaviour {
     private bool isFavorite;
 
 	void Start () {
+
+        Data.Instance.isPhoto4Room = true;
+
         Events.Back += Back;
         Data.Instance.SetTitle(Data.Instance.artData.selectedArtWork.title);
 

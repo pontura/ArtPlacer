@@ -7,7 +7,7 @@ public class Room : MonoBehaviour
 {
     public RawImage rawImage;
 	public GameObject deleteDiag;
-    private int defaultArtWidth = 50;
+    private int defaultArtHeight = 50;
     private int totalArtworks2Load = 0;
     private int LoadedArtwork = 0;
 
@@ -109,26 +109,33 @@ public class Room : MonoBehaviour
 		print ("GallID: " + areaArtwork.galleryID + " ArtId: " + areaArtwork.galleryArtID);
 		Texture2D tex = null;
 
-			artData = Data.Instance.artData.GetArtData(areaArtwork.galleryID,areaArtwork.galleryArtID);
-            if (artData == null)
+		artData = Data.Instance.artData.GetArtData(areaArtwork.galleryID,areaArtwork.galleryArtID);
+        if (artData == null)
+        {
+            Debug.Log("No existe mas esta obra!");
+            LoadedArtwork++;
+            Data.Instance.roomsData.RemoveArtFromRoom(areaArtwork.galleryArtID);
+            LoadRoomTexture();
+        }
+        else
+        {
+            if (areaArtwork.galleryID == -2)
             {
-                Debug.Log("No existe mas esta obra!");
-                LoadedArtwork++;
-                Data.Instance.roomsData.RemoveArtFromRoom(areaArtwork.galleryArtID);
-                LoadRoomTexture();
+                tex = TextureUtils.LoadLocal(artData.GetUrl());
             }
             else
             {
                 yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl(), value => tex = value));
             }
-        if (artData != null)
-        {
-            print("GetArtData" + areaArtwork + "   " + areaId + "   " + room.url + " " + artData.url);
 
-            int w = (int)artData.size.x;
+            int h = (int)artData.size.y;
+
+            print("W: " + h);
+
             float aspect = 1f * tex.height / tex.width;
-            w = w == 0 ? defaultArtWidth : w;
-            int h = (int)(w * aspect);
+            h = h == 0 ? defaultArtHeight :h;
+            int w = (int)(h / aspect);
+
             Data.Instance.areaData.areas[areaId].AddArtWork(w, h, tex, artData);
             Data.Instance.areaData.areas[areaId].artworks[Data.Instance.areaData.areas[areaId].artworks.Count - 1].position = areaArtwork.position;
             Data.Instance.artData.selectedGallery = areaArtwork.galleryID;

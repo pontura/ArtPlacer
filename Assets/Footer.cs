@@ -76,7 +76,7 @@ public class Footer : MonoBehaviour {
 
     private void SetNavigation()
     {
-        print ("SetNavigation: " + galleryData.artWorksData.Count + " ++++++ " +  totalThumbsToShow) ;
+        //print ("SetNavigation: " + galleryData.artWorksData.Count + " ++++++ " +  totalThumbsToShow) ;
 
         MoveContainer(0);
 

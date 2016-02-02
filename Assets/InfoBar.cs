@@ -13,8 +13,8 @@ public class InfoBar : MonoBehaviour {
     {
         field.text = "Gallery: " + Data.Instance.artData.selectedArtWork.gallery + "\n";
        // field.text += "Title: " + Data.Instance.artData.selectedArtWork.title + "\n";
-        field.text += "Autor: " + Data.Instance.artData.selectedArtWork.autor + "\n";
-        field.text += "Sizes: " + Data.Instance.artData.selectedArtWork.getSizeWUnits() + "\n";
+        field.text += "Artist: " + Data.Instance.artData.selectedArtWork.autor + "\n";
+        field.text += "Size: " + Data.Instance.artData.selectedArtWork.getSizeWUnits() + "\n";
         if (Data.Instance.artData.selectedArtWork.technique != null)
         {
             if (!Data.Instance.artData.selectedArtWork.gallery.Equals("My Artworks")) 
@@ -26,8 +26,8 @@ public class InfoBar : MonoBehaviour {
 	private void ConvertUnits(){
 		field.text = "Gallery: " + Data.Instance.artData.selectedArtWork.gallery + "\n";
 		// field.text += "Title: " + Data.Instance.artData.selectedArtWork.title + "\n";
-		field.text += "Autor: " + Data.Instance.artData.selectedArtWork.autor + "\n";
-		field.text += "Sizes: " + Data.Instance.artData.selectedArtWork.getSizeWUnits() + "\n";
+		field.text += "Artist: " + Data.Instance.artData.selectedArtWork.autor + "\n";
+		field.text += "Size: " + Data.Instance.artData.selectedArtWork.getSizeWUnits() + "\n";
 
         if (Data.Instance.artData.selectedArtWork.technique != null)
         {

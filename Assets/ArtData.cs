@@ -95,6 +95,9 @@ public class ArtData : MonoBehaviour {
 		for (int i=0; i<galleries.Length; i++) {
 			galleries [i] = new GalleryData();
 			galleries [i].title = N ["galleries"] [i] ["title"];
+            galleries[i].phone = N["galleries"][i]["phone"];
+            galleries[i].email = N["galleries"][i]["email"];
+            galleries[i].web = N["galleries"][i]["website"];
             int id = int.Parse(N ["galleries"] [i] ["id"]);
 			galleries [i].id = id;
             galleries[i].thumbnail = (N["galleries"][i]["thumbnail"]);
@@ -150,6 +153,7 @@ public class ArtData : MonoBehaviour {
     {
 		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
         GalleryData.ArtData artData = null;
+        
         try
         {
             artData = galleryData.artWorksData.Find(x => x.artId == artId);
@@ -157,6 +161,10 @@ public class ArtData : MonoBehaviour {
         catch
         {
             artData = null;
+        }
+        if (galleryId == -2)
+        {
+            artData = myArtWorks.artWorksData.Find(x => x.artId == artId);
         }
         return artData;
 		/*if (artId < galleryData.artWorksData.Count)
@@ -306,6 +314,7 @@ public class ArtData : MonoBehaviour {
 	public void SaveArtWork(string url, string name, string author, float width, float height)
 	{
 		int id = GetUnexistingID();
+        print("SAVE: id:  " + id);
 		SaveArtWork (url, name, author, width, height, id);
 	}
     public int GetUnexistingID()
