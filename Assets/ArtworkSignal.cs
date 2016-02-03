@@ -155,7 +155,7 @@ public class ArtworkSignal : MonoBehaviour {
         else if (Data.Instance.unidad == Data.UnitSys.INCHES)
         {
             inputField.text = "" + height0 + height1 + "´" + height2 + height3 + "´´";
-            desc.text = "" + height0 + height1 + " feets, " + height2 + height3 + " inches";
+            desc.text = "" + height0 + height1 + " feet, " + height2 + height3 + " inches";
         }
 
         RefreshCursor();

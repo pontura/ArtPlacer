@@ -66,13 +66,16 @@ public class CustomMath{
 
         float inches = CustomMath.cm2inches(value);
         int feet = (int)Mathf.Floor(inches / 12);
-
         int restInches = (int)Mathf.Round(inches - (feet * 12));
 
-        vect4.x = (int)Mathf.Round(feet * 0.1f);
-        vect4.y = (int)Mathf.Round(feet - (vect4.x * 10));
-        vect4.w = (int)Mathf.Round(restInches * 0.1f);
-        vect4.z = (int)Mathf.Round(restInches - (vect4.w * 10));
+        string str = feet.ToString();
+        if (feet < 10) str = "0" + feet;
+        if (restInches < 10) str += "0" + restInches;       
+
+        vect4.x = int.Parse(str.Substring(0, 1));
+        vect4.y = int.Parse(str.Substring(1, 1));
+        vect4.w = int.Parse(str.Substring(2, 1));
+        vect4.z = int.Parse(str.Substring(3, 1));
         Debug.Log("inches: " + inches + "    value: " + value + "   feet: " + feet + "   restInches: " + restInches);
         return vect4;
     }
