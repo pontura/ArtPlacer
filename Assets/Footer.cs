@@ -39,18 +39,21 @@ public class Footer : MonoBehaviour {
         int a = 0;
         foreach(ArtData.GalleryData.ArtData artData in galleryData.artWorksData)
         {
-            ThumbImage thumbButton = Instantiate(ThumbButton);
-            thumbButton.transform.SetParent(container.transform);
-            thumbButton.transform.localScale = Vector3.one;
+            if(artData != null)
+            {
+                ThumbImage thumbButton = Instantiate(ThumbButton);
+                thumbButton.transform.SetParent(container.transform);
+                thumbButton.transform.localScale = Vector3.one;
 
-            string url = artData.GetUrl();            
+                string url = artData.GetUrl();            
 
-			thumbButton.Init(this, url , artData.artId, artData.isLocal);
+			    thumbButton.Init(this, url , artData.artId, artData.isLocal);
 
-            Vector3 pos = Vector3.zero;
-            pos.x = separation * a;
-            thumbButton.transform.localPosition = pos;
-            a++;
+                Vector3 pos = Vector3.zero;
+                pos.x = separation * a;
+                thumbButton.transform.localPosition = pos;
+                a++;
+            }            
         }
          SetNavigation();
 
