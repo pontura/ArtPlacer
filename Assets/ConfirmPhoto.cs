@@ -5,6 +5,7 @@ using System.Collections;
 public class ConfirmPhoto : MonoBehaviour {
 
     public Game game;
+    public SpriteRenderer sprite;
 
     void Start()
     {
@@ -35,5 +36,26 @@ public class ConfirmPhoto : MonoBehaviour {
 		} else {
 			Data.Instance.LoadLevel ("ConfirmArtworkCrop");
 		}
+    }
+    public void TurnPhoto()
+    {
+        int degrees = (int)sprite.transform.localEulerAngles.z;
+        degrees += 90;
+        sprite.transform.localEulerAngles = new Vector3(0, 0, degrees);
+
+        Texture2D image;
+        if (Data.Instance.isPhoto4Room)
+            image = Data.Instance.lastPhotoTexture;
+        else 
+            image = Data.Instance.lastArtTexture;
+
+        Texture2D rotated = TextureUtils.Rotate90CCW(image);
+
+        if (Data.Instance.isPhoto4Room)
+            Data.Instance.lastPhotoTexture = rotated;
+        else
+            Data.Instance.lastArtTexture = rotated;
+
+        
     }
 }
