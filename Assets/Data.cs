@@ -258,6 +258,7 @@ public class Data : MonoBehaviour
     {
         Data.Instance.SetMainMenuActive(false);
         Application.LoadLevel("Intro");
+        Data.Instance.mainMenu.Close();
     }
     public void ResetApp()
     {
