@@ -86,11 +86,9 @@ public class Room : MonoBehaviour
 		foreach (RoomsData.RoomArea roomArea in room.area)
         {
             Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
+            totalArtworks2Load = roomArea.artworks.Count;
             foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks)
-            {	
-                totalArtworks2Load++;
-                StartCoroutine(GetArtData(areaArtwork, Data.Instance.areaData.areas.Count - 1, room));          
-            }
+                StartCoroutine(GetArtData(areaArtwork, Data.Instance.areaData.areas.Count - 1, room));  
         }
         Events.OnLoading(true);
 		if(totalArtworks2Load==0)LoadRoomTexture();
@@ -115,7 +113,7 @@ public class Room : MonoBehaviour
             Debug.Log("No existe mas esta obra!");
             LoadedArtwork++;
             Data.Instance.roomsData.RemoveArtFromRoom(areaArtwork.galleryArtID);
-            LoadRoomTexture();
+            //LoadRoomTexture();
         }
         else
         {
@@ -139,16 +137,19 @@ public class Room : MonoBehaviour
             Data.Instance.areaData.areas[areaId].AddArtWork(w, h, tex, artData);
             Data.Instance.areaData.areas[areaId].artworks[Data.Instance.areaData.areas[areaId].artworks.Count - 1].position = areaArtwork.position;
             Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
-            LoadedArtwork++;
-            if (totalArtworks2Load == LoadedArtwork)
-                LoadRoomTexture();
-            yield return null;
+            LoadedArtwork++;           
         }
+        print("totalArtworks2Load______ " + totalArtworks2Load + " LoadedArtwork: " + LoadedArtwork);
+
+        if (totalArtworks2Load == LoadedArtwork)
+            LoadRoomTexture();
+        yield return null;
     }
     void LoadRoomTexture()
     {
-        print("LoadRoomTexture");
 		string filePath = GetUrlPath(Data.Instance.areaData.url + ".png");
+
+        print("LoadRoomTexture filePath: " + filePath);
 
 		Texture2D texture2d = TextureUtils.LoadLocal (filePath);
 		if (texture2d != null) {
