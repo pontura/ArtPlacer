@@ -24,12 +24,12 @@ public class ContactGalleryPopup : MonoBehaviour {
             SetOff();
         }
     }
-    void ContactGalleryOpenPopup()
+    void ContactGalleryOpenPopup(ArtData.GalleryData data)
     {
         isOn = true;
         Panel.SetActive(true);
         anim.Play("ContactPopupOn");
-        ArtData.GalleryData data =  Data.Instance.artData.GetCurrentGallery();
+       // ArtData.GalleryData data =  Data.Instance.artData.GetCurrentGallery();
         title.text = data.title;
         phone = data.phone;
         email = data.email;

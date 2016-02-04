@@ -184,7 +184,10 @@ public class ArtData : MonoBehaviour {
 			return null;*/
 		
 	}
-
+    public GalleryData GetGallery(int id)
+    {
+        return Array.Find(galleries, p => p.id == id);
+    }
     public GalleryData GetCurrentGallery()
 	{	
         if (selectedGallery == -1)
