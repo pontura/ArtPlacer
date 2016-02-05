@@ -34,6 +34,9 @@ public class CustomPlane : MonoBehaviour {
 		vertices [vertices.Length-1] = pointers [1];
 		
 		MakeGrid (pointers [3], pointers [0], pointers [2], pointers [1], recursionLevel, 0, 0);
+
+		CheckGrid();
+
 		#endregion
 		
 		//for (int i=0; i<vertices.Length; i++)Debug.Log ("Post"+i+": "+vertices [i]);
@@ -110,6 +113,48 @@ public class CustomPlane : MonoBehaviour {
 		
 		gameObject.GetComponent< MeshCollider >().sharedMesh = mesh;
 		
+	}
+
+	bool CheckGrid(){
+		
+		bool result;
+		
+		Vector3[] h0 = new Vector3[resY-2];
+		Vector3[] h1 = new Vector3[resY-2];
+		
+		Vector3[] v0 = new Vector3[resX-2];
+		Vector3[] v1 = new Vector3[resX-2];
+		
+		int hIndex = 0;
+		
+		for (int i=0; i<resY; i++) {
+			int i0 = i * resX;
+			int i1 = i0 + resX - 1;
+			if (i == 0)
+				for (int j=i0+1; j<i1; j++)
+					v0 [j-1] = vertices [j];
+			else if (i == (resY - 1))
+				for (int j=i0+1; j<i1; j++)
+					v1 [j - i0 - 1] = vertices [j];
+			else{
+				Debug.Log ("HIn: "+hIndex+" length: "+h0.Length);
+				Debug.Log ("i0: "+i0+"i1: "+i1+" length: "+vertices.Length);
+				h0[hIndex] = vertices[i0];
+				h1[hIndex] = vertices[i1];
+				hIndex++;
+			}
+		}
+		
+		for (int i=1; i<resY-1; i++) {
+			for (int j=1; j<resX-1; j++) {
+				Vector3 temp = Vector3.zero;
+				result = CustomMath.LineIntersectionPoint(out temp,v0[j-1],v1[j-1],h0[i-1],h1[i-1]);
+				Debug.Log (result);
+				vertices[i*resX+j] = temp;
+			}
+		}	
+
+		return true;
 	}
 	
 	void MakeGrid(Vector3 point0, Vector3 point1, Vector3 point2, Vector3 point3, int maxRecur, int recurStep, int indOffS){//point0 es top Left y sigue counter clockwise
