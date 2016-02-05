@@ -42,51 +42,37 @@ public class CustomMath{
 			return false;
 		}
 	}
-    public static Vector4 GetFormatedCentimeters(float value)
+    public static Vector2 GetFormatedCentimeters(float value)
     {
-        Vector4 vect4 = new Vector4();
+        Vector2 res = new Vector2();
 
         string str = value.ToString();
 
-        if (str.Length < 1) str = "0000";
-        else if (str.Length < 2) str = "000" + str;
-        else if (str.Length < 3) str = "00" + str;
-        else if (str.Length < 4) str = "0" + str;
+        res.x = (int)value / 100;
 
-        vect4.x = int.Parse(str.Substring(0, 1));
-        vect4.y = int.Parse(str.Substring(1, 1));
-        vect4.w = int.Parse(str.Substring(2, 1));
-        vect4.z = int.Parse(str.Substring(3, 1));
+        if (value < 100)
+            res.y = value;
+        else
+            res.y = value - (res.x * 100);
 
-        return vect4;
+        return res;
     }
-    public static Vector4 GetFormatedInches(float value)
+    public static Vector2 GetFormatedInches(float value)
     {
-        Vector4 vect4 = new Vector4();
-
+        
         float inches = CustomMath.cm2inches(value);
         int feet = (int)Mathf.Floor(inches / 12);
         int restInches = (int)Mathf.Round(inches - (feet * 12));
 
-        string str = feet.ToString();
-        if (feet < 10) str = "0" + feet;
-        if (restInches < 10) str += "0" + restInches;       
-
-        vect4.x = int.Parse(str.Substring(0, 1));
-        vect4.y = int.Parse(str.Substring(1, 1));
-        vect4.w = int.Parse(str.Substring(2, 1));
-        vect4.z = int.Parse(str.Substring(3, 1));
-        Debug.Log("inches: " + inches + "    value: " + value + "   feet: " + feet + "   restInches: " + restInches);
-        return vect4;
+        Vector2 res = new Vector2(feet, restInches);
+        return res;
     }
-    public static int GetTotalInches(int value0, int value1, int value2, int value3)
+    public static int GetTotalInches(int value0, int value1)
     {
-        string feets_txt = value0 + "" + value1;
-        string inches_txt = value2 + "" + value3;
-        int feets = int.Parse(feets_txt);
-        int inches = int.Parse(inches_txt);
-        int totalInches = (feets * 12) + inches;
+        Debug.Log("GetTotalInches  " + value0 + "      " + value1);
 
-        return totalInches;
+        float inches = CustomMath.feet2inches(value0);
+
+        return (int)inches + value1;
     }
 }

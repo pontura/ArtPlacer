@@ -24,7 +24,7 @@ public class TextureUtils{
 		WWW www = new WWW(url);
 		float elapsedTime = 0.0f;
 
-        Debug.Log("LoadRemote: " + url);
+     //   Debug.Log("LoadRemote: " + url);
 		
 		while (!www.isDone)
 		{
