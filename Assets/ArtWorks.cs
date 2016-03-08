@@ -49,11 +49,11 @@ public class ArtWorks : MonoBehaviour
         {
             if (Data.Instance.artData.selectedGallery == -1)
             {
-                helpText.text = "You have no favourite artworks yet.";
+                helpText.text = "There are no artworks marked as favourites.";
             }
             else if (Data.Instance.artData.selectedGallery == -2)
             {
-                helpText.text = "You did´t create any artworks yet.";
+                helpText.text = "You didn´t create any artworks yet.";
             }
             Events.HelpChangeState(true);
         }

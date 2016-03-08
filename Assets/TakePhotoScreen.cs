@@ -17,7 +17,10 @@ public class TakePhotoScreen : MonoBehaviour {
     }
     void Back()
     {
-        Data.Instance.LoadLevel("Rooms");
+        if(Data.Instance.isPhoto4Room)
+            Data.Instance.LoadLevel("Rooms");
+        else
+            Data.Instance.LoadLevel("Artworks");
     }
     public void TakePhoto()
     {

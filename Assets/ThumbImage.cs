@@ -84,7 +84,7 @@ public class ThumbImage : MonoBehaviour{
 		texture2d = TextureUtils.LoadLocal (url);
 		if(texture2d!=null){
 			sprite = new Sprite();
-			sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+            sprite = Sprite.Create(ScaleTexture(texture2d, 120, 120), new Rect(0, 0, 120, 120), Vector2.zero);
 
             RawImage.sprite = sprite;
 		}
@@ -97,32 +97,52 @@ public class ThumbImage : MonoBehaviour{
 		if (texture2d != null)
 		{
 			sprite = new Sprite();
-			sprite = Sprite.Create(ScaleTexture(texture2d, 200, 120), new Rect(0, 0, 200, 120), Vector2.zero);
+            sprite = Sprite.Create(ScaleTexture(texture2d, 120, 120), new Rect(0, 0, 120, 120), Vector2.zero);
             RawImage.sprite = sprite;
 		}
 		yield return null;
 	}
 	
-	private IEnumerator RealGetTexture(string url)
-	{
-		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
-		Data.Instance.lastArtTexture = texture2d;
+    //private IEnumerator RealGetTexture(string url)
+    //{
+    //    yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+    //    Data.Instance.lastArtTexture = texture2d;
 		
-		yield return null;
-	}
+    //    yield return null;
+    //}
 	
 	private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
 	{
-		Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
+        bool heightBigger = false;
+
+        if (source.width > source.height)
+        {
+            targetWidth = source.width * targetHeight / source.height;
+        } 
+        else
+        {
+            heightBigger = true;
+            targetHeight = source.height * targetWidth / source.width;
+        }
+
+		Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
 		
 		float incX = (1.0f / (float)targetWidth);
 		float incY = (1.0f / (float)targetHeight);
-		
-		for (int i = 0; i < result.height; ++i)
+
+        float _H = 0;
+        float _W = 0;
+      //  if (heightBigger)
+        _H = (targetHeight / 2) - (result.height / 2);
+        Debug.Log("_H: " + targetHeight + " result.height " + result.height);
+     //   else
+         //   _W = (targetWidth / 2) - (result.width / 2);
+
+        for (int i = 0; i < result.height; ++i)
 		{
 			for (int j = 0; j < result.width; ++j)
 			{
-				Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
+                Color newColor = source.GetPixelBilinear((float)(_W + j) / (float)result.width, (float)(-_H + i) / (float)result.height);
 				result.SetPixel(j, i, newColor);
 			}
 		}

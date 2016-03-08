@@ -92,6 +92,8 @@ public class Walls : MonoBehaviour {
     private bool adding;
     public void Add()
     {
+        Events.HelpChangeState(false);
+
         if (!adding)
         {
             AddButton.GetComponent<Animation>().Stop();

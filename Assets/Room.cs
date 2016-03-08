@@ -83,10 +83,11 @@ public class Room : MonoBehaviour
 
 		int id = Data.Instance.roomsData.actualRoomId;
 		RoomsData.Room room = Data.Instance.roomsData.rooms[id];
+        totalArtworks2Load = 0;
 		foreach (RoomsData.RoomArea roomArea in room.area)
         {
             Data.Instance.areaData.AddAreas(-1, roomArea.pointers, roomArea.position, roomArea.width, roomArea.height);
-            totalArtworks2Load = roomArea.artworks.Count;
+            totalArtworks2Load += roomArea.artworks.Count;
             foreach (RoomsData.RoomAreaArtWork areaArtwork in roomArea.artworks)
                 StartCoroutine(GetArtData(areaArtwork, Data.Instance.areaData.areas.Count - 1, room));  
         }
@@ -123,6 +124,7 @@ public class Room : MonoBehaviour
             }
             else
             {
+                Debug.Log("Existe esta obra:  artData.GetUrl(): " + artData.GetUrl());
                 yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl(), value => tex = value));
             }
 
@@ -137,6 +139,8 @@ public class Room : MonoBehaviour
             Data.Instance.areaData.areas[areaId].AddArtWork(w, h, tex, artData);
             Data.Instance.areaData.areas[areaId].artworks[Data.Instance.areaData.areas[areaId].artworks.Count - 1].position = areaArtwork.position;
             Data.Instance.artData.selectedGallery = areaArtwork.galleryID;
+
+            Debug.Log("__________totalArtworks2Load: " + totalArtworks2Load + " LoadedArtwork" + LoadedArtwork);
             LoadedArtwork++;           
         }
         print("totalArtworks2Load______ " + totalArtworks2Load + " LoadedArtwork: " + LoadedArtwork);

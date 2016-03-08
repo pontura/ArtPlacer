@@ -17,25 +17,22 @@ public class ContactGalleryPopup : MonoBehaviour {
         Events.ContactGalleryOpenPopup += ContactGalleryOpenPopup;
         SetOff2();
 	}
-    void Update()
-    {
-        if ((Input.anyKeyDown ||  Input.touchCount > 0) && isOn)
-        {
-            SetOff();
-        }
-    }
     void ContactGalleryOpenPopup(ArtData.GalleryData data)
     {
-        isOn = true;
-        Panel.SetActive(true);
-        anim.Play("ContactPopupOn");
-       // ArtData.GalleryData data =  Data.Instance.artData.GetCurrentGallery();
-        title.text = data.title;
-        phone = data.phone;
-        email = data.email;
-        web = data.web;
+        if (data != null)
+        {
+            isOn = true;
+            Panel.SetActive(true);
+            anim.Play("ContactPopupOn");
+            // ArtData.GalleryData data =  Data.Instance.artData.GetCurrentGallery();
+
+            title.text = data.title;
+            phone = data.phone;
+            email = data.email;
+            web = data.web;
+        }
     }
-    void SetOff()
+    public void SetOff()
     {
         Invoke("SetOff2", 0.12f);
         anim.Play("ContactPopupOff");

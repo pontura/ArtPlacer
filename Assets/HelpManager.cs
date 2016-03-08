@@ -51,18 +51,18 @@ public class HelpManager : MonoBehaviour {
         }
         activated = isActive;
     }
-    void Update()
-    {
-        if (activated)
-        {
-            if (Input.anyKeyDown)
-            {
-                Toogle();
-                activated = true;
-                Invoke("timeOut", 0.5f);
-            }
-        }
-    }
+    //void Update()
+    //{
+    //    if (activated)
+    //    {
+    //        if (Input.anyKeyDown)
+    //        {
+    //            Toogle();
+    //            activated = true;
+    //            Invoke("timeOut", 0.5f);
+    //        }
+    //    }
+    //}
     void timeOut()
     {
         activated = false;

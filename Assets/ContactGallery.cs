@@ -10,7 +10,7 @@ public class ContactGallery : MonoBehaviour {
     }
     public void Contact()
     {
-        ArtData.GalleryData data = Data.Instance.artData.GetGallery(Data.Instance.artData.selectedArtWork.galleryId);
+        ArtData.GalleryData data = Data.Instance.artData.GetGallery(Data.Instance.artData.selectedGallery);
         Events.ContactGalleryOpenPopup(data);
     }
 }

@@ -14,6 +14,7 @@ public class Rooms : MonoBehaviour
     public GameObject SubMenu;
 
     public Text title;
+    public Text helpField;
     public ThumbImage button;
     public GameObject container;
     public int cols;
@@ -62,6 +63,7 @@ public class Rooms : MonoBehaviour
         if (rooms.Count == 0)
         {
             Events.HelpChangeState(true);
+            helpField.text = "There are no rooms added";
         }
         else
         {

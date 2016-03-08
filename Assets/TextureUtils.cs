@@ -25,7 +25,9 @@ public class TextureUtils{
 		float elapsedTime = 0.0f;
 
      //   Debug.Log("LoadRemote: " + url);
-		
+
+        Debug.Log("Loading!!!!!!!!!!!!");
+
 		while (!www.isDone)
 		{
 			elapsedTime += Time.deltaTime;
@@ -39,7 +41,8 @@ public class TextureUtils{
 			result(null);    // Pass null result.
 			yield break;
 		}
-		
+
+        Debug.Log("Load Ready!!!!!!!!!!!!");
 		result(www.texture); // Pass retrieved result.
 	}
 
