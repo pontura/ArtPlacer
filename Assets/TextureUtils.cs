@@ -15,6 +15,48 @@ public class TextureUtils{
 		}
 	}
 
+    public static Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
+    {
+        bool heightBigger = false;
+
+        if (source.width > source.height)
+        {
+            targetWidth = source.width * targetHeight / source.height;
+        }
+        else
+        {
+            heightBigger = true;
+            targetHeight = source.height * targetWidth / source.width;
+        }
+
+        Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
+
+        Debug.Log("______height" + source.height + " width: " + result.height);
+
+        float _H = 0;
+        float _W = 0;
+
+        float factor = (source.height / result.height);
+        if (factor == 0) factor = 1;
+
+        if(heightBigger)
+            _H = ((source.height / 2) - (source.width / 2)) / factor;
+        else
+            _W = ((source.width / 2) - (source.height / 2)) / factor;
+
+        for (int i = 0; i < result.height; ++i)
+        {
+            for (int j = 0; j < result.width; ++j)
+            {
+                Color newColor = source.GetPixelBilinear((float)((_W + j) / result.width), (float)((_H + i) / result.height));
+                result.SetPixel(j, i, newColor);
+            }
+        }
+
+        result.Apply();
+        return result;
+    }
+
 	// Uso:
 	// Texture2D texture2d;
 	// yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
@@ -23,10 +65,6 @@ public class TextureUtils{
 	{
 		WWW www = new WWW(url);
 		float elapsedTime = 0.0f;
-
-     //   Debug.Log("LoadRemote: " + url);
-
-        Debug.Log("Loading!!!!!!!!!!!!");
 
 		while (!www.isDone)
 		{
@@ -42,7 +80,6 @@ public class TextureUtils{
 			yield break;
 		}
 
-        Debug.Log("Load Ready!!!!!!!!!!!!");
 		result(www.texture); // Pass retrieved result.
 	}
 

@@ -60,7 +60,7 @@ public class GalleryButton : MonoBehaviour {
 		if (texture2d != null)
         {
             Sprite sprite = new Sprite();
-			sprite = Sprite.Create(ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
+            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);		
             rawImage.sprite = sprite;            
         }
         yield return null;
@@ -71,28 +71,10 @@ public class GalleryButton : MonoBehaviour {
 		Texture2D texture2d = TextureUtils.LoadLocal (url);
 		if(texture2d!=null){
 			Sprite sprite = new Sprite();
-			sprite = Sprite.Create(ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);			
+            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);			
 			rawImage.sprite = sprite; 
 		}
 	}
 
-    private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
-    {
-        Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
-
-        float incX = (1.0f / (float)targetWidth);
-        float incY = (1.0f / (float)targetHeight);
-
-        for (int i = 0; i < result.height; ++i)
-        {
-            for (int j = 0; j < result.width; ++j)
-            {
-                Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
-                result.SetPixel(j, i, newColor);
-            }
-        }
-
-        result.Apply();
-        return result;
-    }
+  
 }

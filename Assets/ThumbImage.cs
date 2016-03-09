@@ -79,12 +79,15 @@ public class ThumbImage : MonoBehaviour{
 		}
 		
 	}
+    private int _w = 200;
+    private int _h = 200;
+
 	private void RealLoadLocalImage(string url)
 	{
 		texture2d = TextureUtils.LoadLocal (url);
 		if(texture2d!=null){
 			sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(texture2d, 120, 120), new Rect(0, 0, 120, 120), Vector2.zero);
+            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, _w, _h), new Rect(0, 0, _w, _h), Vector2.zero);
 
             RawImage.sprite = sprite;
 		}
@@ -97,7 +100,7 @@ public class ThumbImage : MonoBehaviour{
 		if (texture2d != null)
 		{
 			sprite = new Sprite();
-            sprite = Sprite.Create(ScaleTexture(texture2d, 120, 120), new Rect(0, 0, 120, 120), Vector2.zero);
+            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, _w, _h), new Rect(0, 0, _w, _h), Vector2.zero);
             RawImage.sprite = sprite;
 		}
 		yield return null;
@@ -111,45 +114,7 @@ public class ThumbImage : MonoBehaviour{
     //    yield return null;
     //}
 	
-	private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
-	{
-        bool heightBigger = false;
-
-        if (source.width > source.height)
-        {
-            targetWidth = source.width * targetHeight / source.height;
-        } 
-        else
-        {
-            heightBigger = true;
-            targetHeight = source.height * targetWidth / source.width;
-        }
-
-		Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
-		
-		float incX = (1.0f / (float)targetWidth);
-		float incY = (1.0f / (float)targetHeight);
-
-        float _H = 0;
-        float _W = 0;
-      //  if (heightBigger)
-        _H = (targetHeight / 2) - (result.height / 2);
-        Debug.Log("_H: " + targetHeight + " result.height " + result.height);
-     //   else
-         //   _W = (targetWidth / 2) - (result.width / 2);
-
-        for (int i = 0; i < result.height; ++i)
-		{
-			for (int j = 0; j < result.width; ++j)
-			{
-                Color newColor = source.GetPixelBilinear((float)(_W + j) / (float)result.width, (float)(-_H + i) / (float)result.height);
-				result.SetPixel(j, i, newColor);
-			}
-		}
-		
-		result.Apply();
-		return result;
-	}
+	
 	public void OnSelected(Footer footer, int id)
 	{
 		if (sprite) {
