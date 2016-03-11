@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using SimpleJSON;
+using System.Text.RegularExpressions;
 
 public class ArtData : MonoBehaviour {
 
@@ -95,7 +96,9 @@ public class ArtData : MonoBehaviour {
 		for (int i=0; i<galleries.Length; i++) {
 			galleries [i] = new GalleryData();
 			galleries [i].title = N ["galleries"] [i] ["title"];
-            galleries[i].phone = N["galleries"][i]["phone"];
+            string phoneNum = N["galleries"][i]["phone"];
+            if (phoneNum!= null)
+                galleries[i].phone = Regex.Replace(phoneNum, "[^0-9]", "");
             galleries[i].email = N["galleries"][i]["email"];
             galleries[i].web = N["galleries"][i]["website"];
             int id = int.Parse(N ["galleries"] [i] ["id"]);
