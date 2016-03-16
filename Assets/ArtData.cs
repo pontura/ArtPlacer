@@ -88,7 +88,7 @@ public class ArtData : MonoBehaviour {
 		ReadArtworkData ();
     }
 	public void LoadGalleryData(string json_data){
-		Debug.Log (json_data.Length);
+
 		var N = JSON.Parse(json_data);
 		galleries = new GalleryData[N ["galleries"].Count];
         string jsonArtworks = Data.Instance.json_artworks_jsonUrl;
@@ -100,7 +100,15 @@ public class ArtData : MonoBehaviour {
             if (phoneNum!= null)
                 galleries[i].phone = Regex.Replace(phoneNum, "[^0-9]", "");
             galleries[i].email = N["galleries"][i]["email"];
-            galleries[i].web = N["galleries"][i]["website"];
+
+            string url = N["galleries"][i]["website"];
+            if (url != null)
+            {
+                 if( url.Substring(0, 4) == "http")
+                    galleries[i].web = url;
+                else 
+                    galleries[i].web = "http://" + url;
+            }
             int id = int.Parse(N ["galleries"] [i] ["id"]);
 			galleries [i].id = id;
             galleries[i].thumbnail = (N["galleries"][i]["thumbnail"]);

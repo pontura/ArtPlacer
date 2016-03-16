@@ -53,10 +53,12 @@ public class ThumbImage : MonoBehaviour{
 		//StartCoroutine(RealLoadRoomImage(url));
 		RealLoadLocalImage(url);
 		GetComponent<Button>().onClick.AddListener(() =>
-		                                           {
+		{
+            Data.Instance.SetRoomFromLocalFiles(false);
 			if (texture2d == null) return;
 			Data.Instance.lastPhotoThumbTexture = texture2d;
 			OnSelectedRoom(rooms, id);
+
 		});
 	}
 	

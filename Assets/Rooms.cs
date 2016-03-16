@@ -94,6 +94,7 @@ public class Rooms : MonoBehaviour
     }
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
+        Data.Instance.SetRoomFromLocalFiles(true);
         Data.Instance.lastPhotoTexture = tex;
         Data.Instance.LoadLevel("ConfirmPhoto");
     }
@@ -136,6 +137,7 @@ public class Rooms : MonoBehaviour
     }
     public void TakePhoto()
     {
+        Data.Instance.SetRoomFromLocalFiles(false);
         Data.Instance.isPhoto4Room = true;
         Data.Instance.LoadLevel("TakePhoto");
     }

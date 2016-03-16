@@ -34,8 +34,18 @@ public class Game : MonoBehaviour {
 		//Debug.Log ("TW: " + texture.width + " TH: " + texture.height);
 
 		// Si la foto es para no es para un room busca la textura en lastArtTexture
-		if (!Data.Instance.isPhoto4Room)
-			texture = Data.Instance.lastArtTexture;
+
+        //achica las imagenes cargadas de la compu:
+        float factorForLocalImages = 1;
+
+        if (!Data.Instance.isPhoto4Room)
+        {
+            texture = Data.Instance.lastArtTexture;
+        }
+        else if(Data.Instance.RoomFromLocalFiles)
+        {
+            factorForLocalImages = 1.2f;
+        }
 
 		Rect rect = new Rect();
 
@@ -57,16 +67,19 @@ public class Game : MonoBehaviour {
 
 		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;
+        float scaleFor = 0;
 
 		if (!Data.Instance.lastScene.Equals ("ConfirmArtworkCrop")) {
 			Data.Instance.cameraData.Calculate (myCamera);
 			switch (Data.Instance.cameraData.aspect) {
 			case CameraData.aspects._3_2:
 			case CameraData.aspects._4_3:
-				background.transform.localScale = new Vector3 (scaleFor_4x3, scaleFor_4x3, 1);
+                scaleFor = scaleFor_4x3 / factorForLocalImages;
+                background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
 				break;
 			default:
-				background.transform.localScale = new Vector3 (scaleFor_16x9, scaleFor_16x9, 1);
+                scaleFor = scaleFor_16x9 / factorForLocalImages;
+                background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
 				break;
 			}
 		}

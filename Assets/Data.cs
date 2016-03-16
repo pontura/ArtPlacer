@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class Data : MonoBehaviour
 {
+    public bool RoomFromLocalFiles;
     public Text title;
     public Color selectedColor;
     public Texture2D lastArtTexture;
@@ -69,6 +70,11 @@ public class Data : MonoBehaviour
 //#endif
 //        return rawImage;
 //    }
+    public void SetRoomFromLocalFiles(bool isLocal)
+    {
+        Debug.Log("______Is Local: " + isLocal);
+        RoomFromLocalFiles = isLocal;
+    }
     public void BackPressed()
     {
 		//Debug.Log (lastScene);
@@ -300,7 +306,6 @@ public class Data : MonoBehaviour
 
 	public IEnumerator GetServerData(string url)
 	{
-        print(url);
 		WWW textURLWWW = new WWW(url);		
 		yield return textURLWWW;
 
