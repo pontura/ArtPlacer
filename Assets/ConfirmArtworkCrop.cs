@@ -91,11 +91,11 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		debug += "Pos: "+ (zona.position.x + zona.rect.xMin)+", "+(zona.position.y - zona.rect.yMin)+" width: "+zona.rect.width+" height: "+zona.rect.height+"\n";
 		debug += "Pos: "+ (zona.position.x*canvas.scaleFactor+zona.rect.xMin*canvas.scaleFactor)+", "+(Screen.height*canvas.scaleFactor-(zona.position.y *canvas.scaleFactor + zona.rect.yMax *canvas.scaleFactor))+" width: "+(zona.rect.width*canvas.scaleFactor)+" height: "+(zona.rect.height*canvas.scaleFactor)+"\n";*/
 
-		#if UNITY_EDITOR
+		//#if UNITY_EDITOR
 		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin*canvas.scaleFactor, Screen.height-(zona.position.y + zona.rect.yMax *canvas.scaleFactor), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
-		#else 
-		image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin*canvas.scaleFactor, (zona.position.y + zona.rect.yMin*canvas.scaleFactor), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
-		#endif
+		//else 
+		//image.ReadPixels(new Rect(zona.position.x+zona.rect.xMin*canvas.scaleFactor, (zona.position.y + zona.rect.yMin*canvas.scaleFactor), zona.rect.width*canvas.scaleFactor, zona.rect.height*canvas.scaleFactor), 0, 0);
+		//#endif
 
 		image.Apply();
 		Data.Instance.lastArtTexture = image;
