@@ -31,8 +31,6 @@ public class TextureUtils{
 
         Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
 
-        Debug.Log("______height" + source.height + " width: " + result.height);
-
         float _H = 0;
         float _W = 0;
 

@@ -18,6 +18,7 @@ public class Data : MonoBehaviour
     public MainMenu mainMenu;
     public RoomsData roomsData;
     public CameraData cameraData;
+    public FiltersManager filtersManager;
 	public Vector2 defaultCamSize = new Vector2(1280,720);
     public string lastScene = "";
 	public int selectedArea = int.MaxValue;
@@ -32,9 +33,9 @@ public class Data : MonoBehaviour
 	public int thumbHeight = 100;
 
 	//string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
-    //string jsonUrl = "http://localhost/madrollers/artplacer.json";
+    public string json_artworks_jsonUrl = "http://localhost/madrollers/artplacer.json";
     public string json_galleries_Url = "http://artplacer.com/getalldata.php?type=galleries";
-    public string json_artworks_jsonUrl = "http://artplacer.com/getalldata.php?type=artworks&gallery_id=";
+    //public string json_artworks_jsonUrl = "http://artplacer.com/getalldata.php?type=artworks&gallery_id=";
 
 	public Slider unitSlider;
 	public enum UnitSys {
@@ -113,6 +114,9 @@ public class Data : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+        artData = GetComponent<ArtData>();
+
+        filtersManager = GetComponent<FiltersManager>();
 
 		StartCoroutine(GetServerData(json_galleries_Url));
 
@@ -125,7 +129,9 @@ public class Data : MonoBehaviour
         fade.gameObject.SetActive(true);
 
         roomsData = GetComponent<RoomsData>();
-        artData = GetComponent<ArtData>();
+        
+
+        filtersManager = GetComponent<FiltersManager>();
 
 		DontDestroyOnLoad(this.gameObject);
         

@@ -124,6 +124,7 @@ public class ArtData : MonoBehaviour {
 
     public IEnumerator GetArtworksData(GalleryData gdata, string url)
     {
+        url = "http://localhost/madrollers/artplacer.json";
         WWW textURLWWW = new WWW(url);
         yield return textURLWWW;
         LoadArtWorkFromGallery(gdata, textURLWWW.text);
@@ -147,8 +148,31 @@ public class ArtData : MonoBehaviour {
 
                 adata.artId = int.Parse(N["artworks"][i]["id"]);
                 adata.autor = N["artworks"][i]["author"];
+                Data.Instance.filtersManager.CheckToAddFilter("autor", adata.autor);
                 adata.technique = N["artworks"][i]["technique"];
                 float h = float.Parse(N["artworks"][i]["height"]);
+                int total = N["artworks"][i]["filters"].Count;
+
+                if (total > 0)
+                {
+                    for (int a = 0; a < total; a++)
+                    {
+                        for (int b = 0; b < N["artworks"][i]["filters"][a]["color"].Count; b++)
+                            Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filters"][a]["color"][b]);
+
+                        for (int b = 0; b < N["artworks"][i]["filters"][a]["size"].Count; b++)
+                            Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filters"][a]["size"][b]);
+
+                        for (int b = 0; b < N["artworks"][i]["filters"][a]["shape"].Count; b++)
+                            Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filters"][a]["shape"][b]);
+
+                        for (int b = 0; b < N["artworks"][i]["filters"][a]["orientation"].Count; b++)
+                            Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filters"][a]["orientation"][b]);
+
+                        for (int b = 0; b < N["artworks"][i]["filters"][a]["technique"].Count; b++)
+                            Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filters"][a]["technique"][b]);
+                    }                    
+                }
                 h = CustomMath.inches2cm(h);
                 //float h = float.Parse(N ["artworks"][i]["height"]);
                 Vector2 size = new Vector2(-1, h);
@@ -159,7 +183,6 @@ public class ArtData : MonoBehaviour {
             }
         }
     }
-
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
     {
 		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
