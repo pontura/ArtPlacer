@@ -77,7 +77,10 @@ public class Rooms : MonoBehaviour
                 string filePath;
 
                 if (roomData.type == RoomsData.types.LOCAL)
+                {
+                    Data.Instance.SetRoomFromLocalFiles(true);
                     filePath = GetUrlPath(room.url + "_thumb.png");
+                }
                 else
                     filePath = room.url;
 

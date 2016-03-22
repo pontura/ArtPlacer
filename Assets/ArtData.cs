@@ -16,6 +16,8 @@ public class ArtData : MonoBehaviour {
 	public GalleryData myArtWorks;
     public List<Favourite> favorites;
 
+    public List<Favourite> filter;
+
     [Serializable]
     public class Favourite
     {
@@ -36,6 +38,16 @@ public class ArtData : MonoBehaviour {
         public List<ArtData> artWorksData;
 
         [Serializable]
+        public class ArtDataFilters
+        {
+            public List<string> color;
+            public List<string> style;
+            public List<string> orientation;
+            public List<string> technique;
+            public List<string> size;
+            public List<string> shape;
+        }
+        [Serializable]
         public class ArtData
         {
             public string title;
@@ -45,6 +57,7 @@ public class ArtData : MonoBehaviour {
             public int artId;
             public string autor;
             public string technique;
+            public ArtDataFilters filters;
             public Vector2 size;
 			public bool isLocal;
 
@@ -152,25 +165,47 @@ public class ArtData : MonoBehaviour {
                 adata.technique = N["artworks"][i]["technique"];
                 float h = float.Parse(N["artworks"][i]["height"]);
                 int total = N["artworks"][i]["filters"].Count;
+                adata.filters = new GalleryData.ArtDataFilters();
+
+                adata.filters.color = new List<string>();
+                adata.filters.size = new List<string>();
+                adata.filters.shape = new List<string>();
+                adata.filters.orientation = new List<string>();
+                adata.filters.technique = new List<string>();
 
                 if (total > 0)
                 {
                     for (int a = 0; a < total; a++)
                     {
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["color"].Count; b++)
-                            Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filters"][a]["color"][b]);
+                        {
+                            Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filters"][a]["color"][b]);                            
+                            adata.filters.color.Add(N["artworks"][i]["filters"][a]["color"][b]);
+                        }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["size"].Count; b++)
-                            Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filters"][a]["size"][b]);
+                        {
+                            Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filters"][a]["size"][b]);                            
+                            adata.filters.size.Add(N["artworks"][i]["filters"][a]["size"][b]);
+                        }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["shape"].Count; b++)
-                            Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filters"][a]["shape"][b]);
+                        {
+                            Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filters"][a]["shape"][b]);                           
+                            adata.filters.shape.Add(N["artworks"][i]["filters"][a]["shape"][b]);
+                        }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["orientation"].Count; b++)
-                            Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filters"][a]["orientation"][b]);
+                        {
+                            Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filters"][a]["orientation"][b]);                           
+                            adata.filters.orientation.Add(N["artworks"][i]["filters"][a]["orientation"][b]);
+                        }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["technique"].Count; b++)
-                            Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filters"][a]["technique"][b]);
+                        {
+                            Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filters"][a]["technique"][b]);                           
+                            adata.filters.technique.Add(N["artworks"][i]["filters"][a]["technique"][b]);
+                        }
                     }                    
                 }
                 h = CustomMath.inches2cm(h);
@@ -223,13 +258,15 @@ public class ArtData : MonoBehaviour {
         return Array.Find(galleries, p => p.id == id);
     }
     public GalleryData GetCurrentGallery()
-	{	
+	{
         if (selectedGallery == -1)
-			return GetFavourites ();
-		else if (selectedGallery == -2)
-			return myArtWorks;
+            return GetFavourites();
+        else if (selectedGallery == -2)
+            return myArtWorks;
+        else if (selectedGallery == -3)
+            return GetFiltered();
         else
-			return Array.Find(galleries, p => p.id == selectedGallery);
+            return Array.Find(galleries, p => p.id == selectedGallery);
     }
     public GalleryData GetFavourites()
     {
@@ -238,6 +275,19 @@ public class ArtData : MonoBehaviour {
         galleryData.artWorksData = new List<GalleryData.ArtData>();
 
         foreach (Favourite favorite in favorites)
+        {
+            GalleryData.ArtData artData = GetArtData(favorite.galleryId, favorite.artId);
+            galleryData.artWorksData.Add(artData);
+        }
+        return galleryData;
+    }
+    public GalleryData GetFiltered()
+    {
+        GalleryData galleryData = new GalleryData();
+        galleryData.title = "All " + Data.Instance.filtersManager.activeValue + " artworks";
+        galleryData.artWorksData = new List<GalleryData.ArtData>();
+
+        foreach (Favourite favorite in filter)
         {
             GalleryData.ArtData artData = GetArtData(favorite.galleryId, favorite.artId);            
             galleryData.artWorksData.Add( artData );
@@ -264,50 +314,46 @@ public class ArtData : MonoBehaviour {
 			Favourite fav = favorites.Find(x => x.artId==id);
 			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
 			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
-			/*selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData [id];
-			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
-			selectedArtWork.galleryId = favorites [id].galleryId;
-			selectedArtWork.artId = favorites [id].artId;*/
+        }
+        else if (selectedGallery == -3)
+        {
+            Favourite fav = filter.Find(x => x.artId == id);
+            GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
+            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
         }
         else if (selectedGallery == -2)
         {
             selectedArtWork = myArtWorks.artWorksData.Find(x => x.artId == id);
-        }
+        }        
         else
         {
             GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
             selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
-            /*selectedArtWork = galleries[selectedGallery].artWorksData[id];
-            selectedArtWork.gallery = galleries[Data.Instance.artData.selectedGallery].title;
-            selectedArtWork.galleryId = selectedGallery;
-            selectedArtWork.artId = id;*/
         }
 	}
 
 	public void SetSelectedArtworkByArtID(int id)
 	{	
-		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
+		//print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
 		if (selectedGallery == -1) {
 			Favourite fav = favorites.Find(x => x.artId==id);
 			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
 			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
-			/*selectedArtWork = galleries [Data.Instance.artData.favorites [id].galleryId].artWorksData.Find(x => x.artId==id);
-			selectedArtWork.gallery = galleries [Data.Instance.artData.favorites [id].galleryId].title;
-			selectedArtWork.galleryId = favorites [id].galleryId;
-			selectedArtWork.artId = favorites [id].artId;*/
+        }
+        else if (selectedGallery == -3)
+        {
+            Favourite fav = filter.Find(x => x.artId == id);
+            GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
+            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
         }
         else if (selectedGallery == -2)
         {
             selectedArtWork = myArtWorks.artWorksData.Find(x => x.artId == id);
-           // selectedArtWork = myArtWorks.artWorksData[id];
         }
         else
         {
             GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
             selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
-            /*selectedArtWork.gallery = gd.title;
-            selectedArtWork.galleryId = selectedGallery;
-            selectedArtWork.artId = id;*/
         }
 	}
 

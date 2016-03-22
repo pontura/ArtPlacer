@@ -26,7 +26,9 @@ public class Filter : MonoBehaviour
     public void Clicked(string filterValue)
     {
         Data.Instance.filtersManager.SetFilteredValue(filterValue);
-        Data.Instance.LoadLevel("FilterApply");
+        Data.Instance.filtersManager.CreateGalleryBasedOnSelectedFilter();
+        Data.Instance.artData.selectedGallery = -3;
+        Data.Instance.LoadLevel("Artworks");
     }
     public void Back()
     {

@@ -34,7 +34,10 @@ public class ArtWorks : MonoBehaviour
     void Start()
     {
         Data.Instance.SetBackActive(true);
-        Data.Instance.SetTitle("Gallery: " + Data.Instance.artData.GetCurrentGallery().title);
+        string _title = "";
+        if (Data.Instance.artData.selectedGallery != -3)
+            _title = "Gallery: ";
+        Data.Instance.SetTitle(_title + Data.Instance.artData.GetCurrentGallery().title);
         Events.Back += Back;
         PickerEventListener.onImageLoad += OnImageLoad;
         thumbSize += separation;

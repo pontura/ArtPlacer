@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class ConfirmArtworkCrop : MonoBehaviour {
 
     public ArtworkArea artworkArea;
-    public Animation tooltipSizes;
+   // public Animation tooltipSizes;
     public GameObject container;
 	public Camera cam;
 	public Text debugText;
@@ -18,7 +18,7 @@ public class ConfirmArtworkCrop : MonoBehaviour {
     {
         Events.HelpHide();
         Data.Instance.SetBackActive(false);
-        tooltipSizes.gameObject.SetActive(false);               
+        // tooltipSizes.gameObject.SetActive(false);               
 
 		area = Instantiate (artworkArea);
 		area.transform.SetParent(container.transform);
@@ -30,8 +30,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
     
     void startTooltip()
     {
-        tooltipSizes.gameObject.SetActive(true);
-        tooltipSizes.Play("tooltipOnVertical");
+        // tooltipSizes.gameObject.SetActive(true);
+        // tooltipSizes.Play("tooltipOnVertical");
     }
 	public void Back()
 	{

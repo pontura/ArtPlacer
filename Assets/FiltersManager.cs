@@ -12,6 +12,7 @@ public class FiltersManager : MonoBehaviour {
     public List<string> technique;
     public List<string> autor;
     public List<string> size;
+    public List<string> shape;
 
     public string activeValue;
     public string activeFilter;
@@ -30,6 +31,7 @@ public class FiltersManager : MonoBehaviour {
             case "technique": CheckToCreate(technique, value); break;
             case "autor": CheckToCreate(autor, value); break;
             case "size": CheckToCreate(size, value); break;
+            case "shape": CheckToCreate(shape, value); break;
         }
     }
     public List<string> GetCurrentFilter()
@@ -42,6 +44,7 @@ public class FiltersManager : MonoBehaviour {
             case "technique": return  technique;
             case "autor": return  autor;
             case "size": return size;
+            case "shape": return shape;
         }
         return null;
     }
@@ -56,5 +59,41 @@ public class FiltersManager : MonoBehaviour {
             if (existingValue == value)
                 return;
         arr.Add(value);
+    }
+    public void CreateGalleryBasedOnSelectedFilter()
+    {
+        ArtData.Favourite filters = new ArtData.Favourite();
+
+        Data.Instance.artData.filter.Clear();
+        
+        foreach(ArtData.GalleryData galleryData in Data.Instance.artData.galleries)
+        {
+            foreach (ArtData.GalleryData.ArtData artData in galleryData.artWorksData)
+            {
+                List<string> arr = new List<string>();
+                switch (activeFilter)
+                {
+                    case "color": arr = artData.filters.color; break;
+                    case "style": arr = artData.filters.style; break;
+                    case "orientation": arr = artData.filters.orientation; break;
+                    case "technique": arr = artData.filters.technique; break;
+                    case "autor": arr.Add( artData.autor ); break;
+                    case "size": arr = artData.filters.size; break;
+                    case "shape": arr = artData.filters.shape; break;
+                }
+                if (arr != null)
+                {
+                    foreach (string value in arr)
+                    {
+                        if (value == activeValue)
+                        {                            
+                            filters.artId = artData.artId;
+                            filters.galleryId = artData.galleryId;
+                            Data.Instance.artData.filter.Add(filters);
+                        }
+                    }
+                }
+            }
+        }        
     }
 }
