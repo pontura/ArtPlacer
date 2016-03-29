@@ -338,7 +338,8 @@ public class ArtPlaced : MonoBehaviour {
 				artWork.transform.position = new Vector3(area.transform.position.x,area.transform.position.y,area.transform.position.z-0.01f);
 				//artWork.transform.position = area.transform.position;
 				artWork.transform.SetParent (area.transform);
-				artWork.GetComponent<CustomPlane>().SetPointers(Data.Instance.areaData.getPointers(n));
+				Vector3[] pointers = Data.Instance.areaData.getPointers(n);
+				artWork.GetComponent<CustomPlane>().SetPointers(pointers);
 				artWork.GetComponent<CustomPlane>().CustomMesh();
 				artWork.GetComponent<DragArtWork> ().areaIndex = n;
 
@@ -356,16 +357,19 @@ public class ArtPlaced : MonoBehaviour {
 				tex.Apply();
 
 				//artWork.GetComponent<Renderer> ().material.SetTexture ("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,tex);
-				artWork.GetComponent<Renderer>().material.mainTexture = tex;
+				Renderer rend = artWork.GetComponent<Renderer> ();
+				//rend.material.SetFloat("_Top", Vector3.Distance(pointers[1],pointers[3])>Vector3.Distance(pointers[2],pointers[0])?1f:0f);
+				rend.material.SetFloat("_Left", Vector3.Distance(pointers[0],pointers[3])>Vector3.Distance(pointers[1],pointers[2])?1f:0f);
+				rend.material.mainTexture = tex;
 
 				int w = Data.Instance.areaData.areas[n].artworks[i].width;
 				float aspect = 1f*Data.Instance.areaData.areas[n].artworks[i].texture.height/Data.Instance.areaData.areas[n].artworks[i].texture.width;
 				w=w==0?defaultHeight:w;
 				int h=(int)(w*aspect);
-				//artWork.GetComponent<Renderer> ().material.SetTextureScale("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,new Vector2(0.5f*aW/w,0.5f*aH/h));
-				artWork.GetComponent<Renderer> ().material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
+				//rend.material.SetTextureScale("_Tex"+area.GetComponent<WallPlane> ().artWorkNumber,new Vector2(0.5f*aW/w,0.5f*aH/h));
+				rend.material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
 				//area.GetComponent<Homography> ().SetHomography (artWork.name);
-				artWork.GetComponent<Renderer> ().material.mainTextureOffset = Data.Instance.areaData.areas[n].artworks[i].position;
+				rend.material.mainTextureOffset = Data.Instance.areaData.areas[n].artworks[i].position;
 
 				Data.Instance.areaData.areas [n].artworks [area.GetComponent<WallPlane> ().artWorkNumber].id = Data.Instance.areaData.areas [n].artworkCount;
 
@@ -394,7 +398,8 @@ public class ArtPlaced : MonoBehaviour {
 		artWork.transform.position = new Vector3(area.transform.position.x,area.transform.position.y,area.transform.position.z-0.01f-artworkList.Count*0.01f);
 		//artWork.transform.position = area.transform.position;
 		artWork.transform.SetParent (area.transform);
-		artWork.GetComponent<CustomPlane>().SetPointers(Data.Instance.areaData.getPointers(n));
+		Vector3[] pointers = Data.Instance.areaData.getPointers (n);
+		artWork.GetComponent<CustomPlane>().SetPointers(pointers);
 		artWork.GetComponent<CustomPlane>().CustomMesh();
 		artWork.GetComponent<DragArtWork> ().areaIndex = n;
 
@@ -420,6 +425,8 @@ public class ArtPlaced : MonoBehaviour {
 		tex.Apply();
 		
 		Renderer rend = artWork.GetComponent<Renderer> ();
+		//rend.material.SetFloat("_Top", Vector3.Distance(pointers[1],pointers[3])>Vector3.Distance(pointers[2],pointers[0])?1f:0f);
+		rend.material.SetFloat("_Left", Vector3.Distance(pointers[0],pointers[3])>Vector3.Distance(pointers[1],pointers[2])?1f:0f);
 		rend.material.mainTexture = tex;
 		rend.material.mainTextureScale = new Vector2(0.5f*aW/w,0.5f*aH/h);
 		

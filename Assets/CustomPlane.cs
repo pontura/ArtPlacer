@@ -149,7 +149,7 @@ public class CustomPlane : MonoBehaviour {
 			for (int j=1; j<resX-1; j++) {
 				Vector3 temp = Vector3.zero;
 				result = CustomMath.LineIntersectionPoint(out temp,v0[j-1],v1[j-1],h0[i-1],h1[i-1]);
-				Debug.Log (result);
+				//Debug.Log (result);
 				vertices[i*resX+j] = temp;
 			}
 		}	

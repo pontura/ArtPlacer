@@ -7,6 +7,9 @@ Shader "Custom/Transparent Cutout" {
 Properties {
 	_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
 	_Cutoff ("Alpha cutoff", Range(0,1)) = 0.5
+	_CutoffMarco ("Marco cutoff", Range(0,1)) = 0.5
+	[Toggle] _Top ("Top or Bottom Shadow", float) = 0
+	[Toggle] _Left ("Left or Right Shadow", float) = 0
 }
 SubShader {
 	Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
@@ -43,6 +46,9 @@ SubShader {
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			fixed _Cutoff;
+			fixed _CutoffMarco;
+			float _Top;
+			float _Left;
 
 			v2f vert (appdata_t v)
 			{
@@ -58,15 +64,57 @@ SubShader {
 				//clip(col.a - _Cutoff);				
 				//if(col.a-_Cutoff<0){
 				
-				if(col.a>_Cutoff&&col.a<1.0){
+				//if(col.a>_CutoffMarco&&col.a<_Cutoff){				
+					//float coef = (col.a-_CutoffMarco)/(_Cutoff-_CutoffMarco);
+					//col = fixed4(coef*col.x,coef*col.y,coef*col.z,coef);
+					//col = fixed4(1.0f,0.0f,0.0f,1.0f);				
+				//}else if(col.a>_Cutoff&&col.a<1.0){
+				if(col.a>_Cutoff&&col.a<1.0){		
 				
 					float coef = (col.a-_Cutoff)/(1.0-_Cutoff);															
 					
 					col = fixed4(col.x,col.y,col.z,coef);
+					//col = fixed4(0.0f,1.0f,0.0f,1.0f);
 						
-				}else if(col.a<_Cutoff){
-					col = fixed4(0.0f,0.0f,0.0f,0.0f);
-				}				
+				}else if(col.a<_Cutoff){				
+					col = fixed4(0.0f,0.0f,0.0f,0.0f);					
+				}
+				
+				float squareF = 0.34f;
+				float textDif = 0.45f;
+				float view1F = 0.22f;
+				float view2F = 0.32f;
+				float viewDifF = 0.03f;
+				
+				float l = length(i.texcoord-half2(0.5f,0.5f));
+				float left = fmod(i.texcoord.x-textDif,view1F);
+				float bottom = fmod(i.texcoord.y-textDif,view1F);
+				float right = fmod(i.texcoord.x-textDif,view2F);
+				float top = fmod(i.texcoord.y-textDif,view2F);
+				if(_Left>0){
+					if(l<squareF &&left<-1*(view1F-viewDifF)){
+						float coef = (abs(left)-(view1F-viewDifF))/viewDifF;
+						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					}
+				}else{
+					if(l<squareF &&right>(view2F-viewDifF)){
+						float coef = (abs(right)-(view2F-viewDifF))/viewDifF;
+						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					}
+				}
+				
+				if(_Top>0){
+					if(l<squareF &&top>(view2F-viewDifF)){
+						float coef = (abs(top)-(view2F-viewDifF))/viewDifF;
+						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					}
+				}else{
+					if(l<squareF &&bottom<-1*(view1F-viewDifF)){
+						float coef = (abs(bottom)-(view1F-viewDifF))/viewDifF;
+						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					}
+				}
+						
 				return col;
 			}
 		ENDCG
