@@ -47,12 +47,11 @@ public class ArtworkArea : MonoBehaviour {
 		if (Input.mousePosition.x > 0 && Input.mousePosition.y > 0) {
 			if (selectMove == SelectMove.Area) {
 				Vector3 pos = Input.mousePosition-offset;
-				if ((pos.x - transform.sizeDelta.x * 0.5f > limitLeft) && (pos.x + transform.sizeDelta.x * 0.5 < limitRight) && (pos.y - transform.sizeDelta.y * 0.5 > limitBottom) && (pos.y + transform.sizeDelta.y * 0.5 < limitTop))
-					gameObject.transform.position = pos;
+				/*if ((pos.x - transform.sizeDelta.x * 0.5f > limitLeft) && (pos.x + transform.sizeDelta.x * 0.5 < limitRight) && (pos.y - transform.sizeDelta.y * 0.5 > limitBottom) && (pos.y + transform.sizeDelta.y * 0.5 < limitTop))		gameObject.transform.position = pos;
 				pos.x = pos.x - transform.sizeDelta.x * 0.5f<limitLeft?limitLeft + transform.sizeDelta.x * 0.5f:pos.x;
 				pos.x=pos.x + transform.sizeDelta.x * 0.5f>limitRight?limitRight - transform.sizeDelta.x * 0.5f:pos.x;
 				pos.y = pos.y - transform.sizeDelta.y * 0.5f<limitBottom?limitBottom + transform.sizeDelta.y * 0.5f:pos.y;
-				pos.y = pos.y + transform.sizeDelta.y * 0.5f >limitTop?limitTop - transform.sizeDelta.y * 0.5f:pos.y;				
+				pos.y = pos.y + transform.sizeDelta.y * 0.5f >limitTop?limitTop - transform.sizeDelta.y * 0.5f:pos.y;*/
 				gameObject.transform.position = new Vector3(pos.x,pos.y,pos.z);
 			} else if (selectMove == SelectMove.TL) {
 				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
@@ -87,7 +86,7 @@ public class ArtworkArea : MonoBehaviour {
 			} else if (selectMove == SelectMove.BR) {
 				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, deltaMove.y / Input.mousePosition.y);
 				//Vector2 scale = new Vector2 (1.1f,1.1f);
-				Vector2 newSize = new Vector2 (truncar(transform.sizeDelta.x * scale.x), truncar(transform.sizeDelta.y * scale.y));
+				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
 				Vector2 deltaSize = new Vector2 (transform.sizeDelta.x-newSize.x,-1*(transform.sizeDelta.y-newSize.y));
 				//if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
 					transform.sizeDelta = newSize;
