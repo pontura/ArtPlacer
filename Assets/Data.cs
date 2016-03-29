@@ -33,9 +33,9 @@ public class Data : MonoBehaviour
 	public int thumbHeight = 100;
 
 	//string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
-    public string json_artworks_jsonUrl = "http://localhost/madrollers/artplacer.json";
+    //public string json_artworks_jsonUrl = "http://localhost/madrollers/artplacer.json";
     public string json_galleries_Url = "http://artplacer.com/getalldata.php?type=galleries";
-    //public string json_artworks_jsonUrl = "http://artplacer.com/getalldata.php?type=artworks&gallery_id=";
+    public string json_artworks_jsonUrl = "http://artplacer.com/getalldata.php?type=artworks&gallery_id=";
 
 	public Slider unitSlider;
 	public enum UnitSys {

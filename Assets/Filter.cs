@@ -11,11 +11,11 @@ public class Filter : MonoBehaviour
         Data.Instance.SetBackActive(true);
         Data.Instance.SetTitle("Selecting " + Data.Instance.filtersManager.activeFilter);
         Events.Back += Back;
-        foreach (string title in Data.Instance.filtersManager.GetCurrentFilter())
+        foreach (FiltersManager.FilterData data in Data.Instance.filtersManager.GetCurrentFilter())
         {
             FilterButton newButton = Instantiate(filterButton);
             newButton.transform.SetParent(container);
-            newButton.Init(this, title);
+            newButton.Init(this, data.name, data.id);
             newButton.transform.localScale = Vector2.one;
         }
     }
@@ -23,9 +23,9 @@ public class Filter : MonoBehaviour
     {
         Events.Back -= Back;
     }
-    public void Clicked(string filterValue)
+    public void Clicked(int id)
     {
-        Data.Instance.filtersManager.SetFilteredValue(filterValue);
+        Data.Instance.filtersManager.SetFilteredValue(id);
         Data.Instance.filtersManager.CreateGalleryBasedOnSelectedFilter();
         Data.Instance.artData.selectedGallery = -3;
         Data.Instance.LoadLevel("Artworks");

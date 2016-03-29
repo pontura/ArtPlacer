@@ -40,12 +40,12 @@ public class ArtData : MonoBehaviour {
         [Serializable]
         public class ArtDataFilters
         {
-            public List<string> color;
-            public List<string> style;
-            public List<string> orientation;
-            public List<string> technique;
-            public List<string> size;
-            public List<string> shape;
+            public List<int> color;
+            public List<int> style;
+            public List<int> orientation;
+            public List<int> technique;
+            public List<int> size;
+            public List<int> shape;
         }
         [Serializable]
         public class ArtData
@@ -137,7 +137,7 @@ public class ArtData : MonoBehaviour {
 
     public IEnumerator GetArtworksData(GalleryData gdata, string url)
     {
-        url = "http://localhost/madrollers/artplacer.json";
+       // url = "http://localhost/madrollers/artplacer.json";
         WWW textURLWWW = new WWW(url);
         yield return textURLWWW;
         LoadArtWorkFromGallery(gdata, textURLWWW.text);
@@ -167,11 +167,11 @@ public class ArtData : MonoBehaviour {
                 int total = N["artworks"][i]["filters"].Count;
                 adata.filters = new GalleryData.ArtDataFilters();
 
-                adata.filters.color = new List<string>();
-                adata.filters.size = new List<string>();
-                adata.filters.shape = new List<string>();
-                adata.filters.orientation = new List<string>();
-                adata.filters.technique = new List<string>();
+                adata.filters.color = new List<int>();
+                adata.filters.size = new List<int>();
+                adata.filters.shape = new List<int>();
+                adata.filters.orientation = new List<int>();
+                adata.filters.technique = new List<int>();
 
                 if (total > 0)
                 {
@@ -179,32 +179,32 @@ public class ArtData : MonoBehaviour {
                     {
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["color"].Count; b++)
                         {
-                            Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filters"][a]["color"][b]);                            
-                            adata.filters.color.Add(N["artworks"][i]["filters"][a]["color"][b]);
+                          //  Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filters"][a]["color"][b]);                            
+                            adata.filters.color.Add(int.Parse(N["artworks"][i]["filters"][a]["color"][b]));
                         }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["size"].Count; b++)
                         {
-                            Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filters"][a]["size"][b]);                            
-                            adata.filters.size.Add(N["artworks"][i]["filters"][a]["size"][b]);
+                           // Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filters"][a]["size"][b]);                            
+                            adata.filters.size.Add(int.Parse(N["artworks"][i]["filters"][a]["size"][b]));
                         }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["shape"].Count; b++)
                         {
-                            Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filters"][a]["shape"][b]);                           
-                            adata.filters.shape.Add(N["artworks"][i]["filters"][a]["shape"][b]);
+                          //  Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filters"][a]["shape"][b]);                           
+                            adata.filters.shape.Add(int.Parse(N["artworks"][i]["filters"][a]["shape"][b]));
                         }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["orientation"].Count; b++)
                         {
-                            Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filters"][a]["orientation"][b]);                           
-                            adata.filters.orientation.Add(N["artworks"][i]["filters"][a]["orientation"][b]);
+                           // Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filters"][a]["orientation"][b]);                           
+                            adata.filters.orientation.Add(int.Parse(N["artworks"][i]["filters"][a]["orientation"][b]));
                         }
 
                         for (int b = 0; b < N["artworks"][i]["filters"][a]["technique"].Count; b++)
                         {
-                            Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filters"][a]["technique"][b]);                           
-                            adata.filters.technique.Add(N["artworks"][i]["filters"][a]["technique"][b]);
+                          //  Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filters"][a]["technique"][b]);                           
+                            adata.filters.technique.Add(int.Parse(N["artworks"][i]["filters"][a]["technique"][b]));
                         }
                     }                    
                 }
