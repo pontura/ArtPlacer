@@ -110,7 +110,6 @@ public class RoomsData : MonoBehaviour {
 	{
 		int id = 0;
 		return GetRoomName(out id, url);
-    
 	}
     public string GetRoomName(out int _id, string url)
     {

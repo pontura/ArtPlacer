@@ -36,7 +36,7 @@ public class Game : MonoBehaviour {
 		// Si la foto es para no es para un room busca la textura en lastArtTexture
 
         //achica las imagenes cargadas de la compu:
-        float factorForLocalImages = 1;
+        float factor = 1;
 
         if (!Data.Instance.isPhoto4Room)
         {
@@ -44,7 +44,7 @@ public class Game : MonoBehaviour {
         }
         else if(Data.Instance.RoomFromLocalFiles)
         {
-            factorForLocalImages = 1.2f;
+            factor = 1/1.2f;
         }
 
 		Rect rect = new Rect();
@@ -63,7 +63,9 @@ public class Game : MonoBehaviour {
 			rect = new Rect (0, 0, (int)(maxWidth), (int)(maxHeight));
 			//texture.Resize(texture.width,texture.height);
 			//texture.Apply();
-		}	
+		}
+        rect.width *= factor;
+        rect.height *= factor;
 
 		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;
@@ -74,11 +76,11 @@ public class Game : MonoBehaviour {
 			switch (Data.Instance.cameraData.aspect) {
 			case CameraData.aspects._3_2:
 			case CameraData.aspects._4_3:
-                scaleFor = scaleFor_4x3 / factorForLocalImages;
+                scaleFor = scaleFor_4x3;
                 background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
 				break;
 			default:
-                scaleFor = scaleFor_16x9 / factorForLocalImages;
+                scaleFor = scaleFor_16x9;
                 background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
 				break;
 			}

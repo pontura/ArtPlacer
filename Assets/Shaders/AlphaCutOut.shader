@@ -80,38 +80,50 @@ SubShader {
 					col = fixed4(0.0f,0.0f,0.0f,0.0f);					
 				}
 				
-				float squareF = 0.34f;
+				float squareFL = 0.36f;
+				float squareFR = 0.36f;
+				float squareFT = 0.36f;
+				float squareFB = 0.36f;
 				float textDif = 0.45f;
-				float view1F = 0.22f;
-				float view2F = 0.32f;
-				float viewDifF = 0.03f;
+				float viewL = 0.225f;
+				float viewR = 0.33f;
+				float viewT = 0.32f;
+				float viewB = 0.215f;				
+				float viewDifL = 0.03f;
+				float viewDifR = 0.03f;
+				float viewDifT = 0.03f;
+				float viewDifB = 0.015f;
 				
 				float l = length(i.texcoord-half2(0.5f,0.5f));
-				float left = fmod(i.texcoord.x-textDif,view1F);
-				float bottom = fmod(i.texcoord.y-textDif,view1F);
-				float right = fmod(i.texcoord.x-textDif,view2F);
-				float top = fmod(i.texcoord.y-textDif,view2F);
+				float left = fmod(i.texcoord.x-textDif+0.01,viewL);
+				float bottom = fmod(i.texcoord.y-textDif,viewB);
+				float right = fmod((i.texcoord.x-textDif)-0.005,viewR);
+				float top = fmod(i.texcoord.y-textDif,viewT);
 				if(_Left>0){
-					if(l<squareF &&left<-1*(view1F-viewDifF)){
-						float coef = (abs(left)-(view1F-viewDifF))/viewDifF;
-						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					if(l<squareFL &&left<-1*(viewL-viewDifL)){
+						float coef = (abs(left)-(viewL-viewDifL))/viewDifL;
+						//col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+						col = fixed4(0.0f,0.0f,0.0f,0.3f-(coef*0.3f));
+						
 					}
 				}else{
-					if(l<squareF &&right>(view2F-viewDifF)){
-						float coef = (abs(right)-(view2F-viewDifF))/viewDifF;
-						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					if(l<squareFR &&right>(viewR-viewDifR)){
+						float coef = (abs(right)-(viewR-viewDifR))/viewDifR;
+						col = fixed4(0.0f,0.0f,0.0f,0.3f-(coef*0.3f));
+						//col = fixed4(0.0f,0.0f,0.0f,1.0f-coef);						
 					}
 				}
 				
 				if(_Top>0){
-					if(l<squareF &&top>(view2F-viewDifF)){
-						float coef = (abs(top)-(view2F-viewDifF))/viewDifF;
-						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					if(l<squareFT &&top>(viewT-viewDifT)){
+						float coef = (abs(top)-(viewT-viewDifT))/viewDifT;
+						col = fixed4(0.0f,0.0f,0.0f,0.5f-coef);
 					}
 				}else{
-					if(l<squareF &&bottom<-1*(view1F-viewDifF)){
-						float coef = (abs(bottom)-(view1F-viewDifF))/viewDifF;
-						col = fixed4(0.0f,0.0f,0.0f,0.6f-coef);
+					if(l<squareFB &&bottom<-1*(viewB-viewDifB)){
+						float coef = (abs(bottom)-(viewB-viewDifB))/viewDifB;
+						//col = fixed4(0.0f,0.0f,0.0f,0.5f-coef);						
+						col = fixed4(0.0f,0.0f,0.0f,0.2f-(coef*0.2f));
 					}
 				}
 						
