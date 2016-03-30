@@ -63,9 +63,7 @@ public class Game : MonoBehaviour {
 			rect = new Rect (0, 0, (int)(maxWidth), (int)(maxHeight));
 			//texture.Resize(texture.width,texture.height);
 			//texture.Apply();
-		}
-        rect.width *= factor;
-        rect.height *= factor;
+		}        
 
 		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;

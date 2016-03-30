@@ -98,7 +98,26 @@ public class Rooms : MonoBehaviour
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
         Data.Instance.SetRoomFromLocalFiles(true);
-        Data.Instance.lastPhotoTexture = tex;
+
+		float currAspect = Screen.currentResolution.width * 0.8f / Screen.currentResolution.height;
+		float texAspect = tex.width / tex.height;
+		if (texAspect > currAspect) {
+			Texture2D result = new Texture2D ((int)(tex.width * 1.2f), (int)(tex.height * 1.2f), tex.format, true);
+			for (int y = 0; y < result.height; y++) {
+				for (int x = 0; x < result.width; x++) {
+					if (y > (result.height * 0.1f) && y < (result.height * 0.9f) && x > (result.width * 0.1f) && x < (result.width * 0.9f)) {
+						result.SetPixel (x, y, tex.GetPixel (x - (int)(tex.width * 0.1f), y - (int)(tex.height * 0.1f)));
+					} else {
+						result.SetPixel (x, y, Color.black);
+					}
+				}
+			}				
+			result.Apply ();
+			Data.Instance.lastPhotoTexture = result;
+		} else {
+			Data.Instance.lastPhotoTexture = tex;
+		}
+
         Data.Instance.LoadLevel("ConfirmPhoto");
     }
 
