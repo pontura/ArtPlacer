@@ -162,9 +162,7 @@ public class ArtData : MonoBehaviour {
                 adata.artId = int.Parse(N["artworks"][i]["id"]);
                 adata.autor = N["artworks"][i]["author"];
                 Data.Instance.filtersManager.CheckToAddFilter("autor", adata.autor);
-                adata.technique = N["artworks"][i]["technique"];
                 float h = float.Parse(N["artworks"][i]["height"]);
-                int total = N["artworks"][i]["filters"].Count;
                 adata.filters = new GalleryData.ArtDataFilters();
 
                 adata.filters.color = new List<int>();
@@ -173,41 +171,37 @@ public class ArtData : MonoBehaviour {
                 adata.filters.orientation = new List<int>();
                 adata.filters.technique = new List<int>();
 
-                if (total > 0)
+                for (int b = 0; b < N["artworks"][i]["filter"]["color"].Count; b++)
                 {
-                    for (int a = 0; a < total; a++)
-                    {
-                        for (int b = 0; b < N["artworks"][i]["filters"][a]["color"].Count; b++)
-                        {
-                          //  Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filters"][a]["color"][b]);                            
-                            adata.filters.color.Add(int.Parse(N["artworks"][i]["filters"][a]["color"][b]));
-                        }
-
-                        for (int b = 0; b < N["artworks"][i]["filters"][a]["size"].Count; b++)
-                        {
-                           // Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filters"][a]["size"][b]);                            
-                            adata.filters.size.Add(int.Parse(N["artworks"][i]["filters"][a]["size"][b]));
-                        }
-
-                        for (int b = 0; b < N["artworks"][i]["filters"][a]["shape"].Count; b++)
-                        {
-                          //  Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filters"][a]["shape"][b]);                           
-                            adata.filters.shape.Add(int.Parse(N["artworks"][i]["filters"][a]["shape"][b]));
-                        }
-
-                        for (int b = 0; b < N["artworks"][i]["filters"][a]["orientation"].Count; b++)
-                        {
-                           // Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filters"][a]["orientation"][b]);                           
-                            adata.filters.orientation.Add(int.Parse(N["artworks"][i]["filters"][a]["orientation"][b]));
-                        }
-
-                        for (int b = 0; b < N["artworks"][i]["filters"][a]["technique"].Count; b++)
-                        {
-                          //  Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filters"][a]["technique"][b]);                           
-                            adata.filters.technique.Add(int.Parse(N["artworks"][i]["filters"][a]["technique"][b]));
-                        }
-                    }                    
+                    print("CCCC " + N["artworks"][i]["filter"]["color"][b]);
+                    //  Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filter"]["color"][b]);                            
+                    adata.filters.color.Add(int.Parse(N["artworks"][i]["filter"]["color"][b]));
                 }
+
+                for (int b = 0; b < N["artworks"][i]["filter"]["size"].Count; b++)
+                {
+                    // Data.Instance.filtersManager.CheckToAddFilter("size", N["artworks"][i]["filter"]["size"][b]);                            
+                    adata.filters.size.Add(int.Parse(N["artworks"][i]["filter"]["size"][b]));
+                }
+
+                for (int b = 0; b < N["artworks"][i]["filter"]["shape"].Count; b++)
+                {
+                    //  Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filter"]["shape"][b]);                           
+                    adata.filters.shape.Add(int.Parse(N["artworks"][i]["filter"]["shape"][b]));
+                }
+
+                for (int b = 0; b < N["artworks"][i]["filter"]["orientation"].Count; b++)
+                {
+                    // Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filter"]["orientation"][b]);                           
+                    adata.filters.orientation.Add(int.Parse(N["artworks"][i]["filter"]["orientation"][b]));
+                }
+
+                for (int b = 0; b < N["artworks"][i]["filter"]["technique"].Count; b++)
+                {
+                    //  Data.Instance.filtersManager.CheckToAddFilter("technique", N["artworks"][i]["filter"]["technique"][b]);                           
+                    adata.filters.technique.Add(int.Parse(N["artworks"][i]["filter"]["technique"][b]));
+                } 
+
                 h = CustomMath.inches2cm(h);
                 //float h = float.Parse(N ["artworks"][i]["height"]);
                 Vector2 size = new Vector2(-1, h);
@@ -284,7 +278,7 @@ public class ArtData : MonoBehaviour {
     public GalleryData GetFiltered()
     {
         GalleryData galleryData = new GalleryData();
-        galleryData.title = "All " + Data.Instance.filtersManager.activeValue + " artworks";
+        galleryData.title = "Filter: " + Data.Instance.filtersManager.GetActiveFilter();
         galleryData.artWorksData = new List<GalleryData.ArtData>();
 
         foreach (Favourite favorite in filter)

@@ -37,7 +37,9 @@ public class ArtWorks : MonoBehaviour
         string _title = "";
         if (Data.Instance.artData.selectedGallery != -3)
             _title = "Gallery: ";
+
         Data.Instance.SetTitle(_title + Data.Instance.artData.GetCurrentGallery().title);
+
         Events.Back += Back;
         PickerEventListener.onImageLoad += OnImageLoad;
         thumbSize += separation;
@@ -57,6 +59,10 @@ public class ArtWorks : MonoBehaviour
             else if (Data.Instance.artData.selectedGallery == -2)
             {
                 helpText.text = "You didn´t create any artworks yet.";
+            }
+            else if (Data.Instance.artData.selectedGallery == -3)
+            {
+                helpText.text = "No artworks with this filter.";
             }
             Events.HelpChangeState(true);
         }
@@ -136,7 +142,9 @@ public class ArtWorks : MonoBehaviour
 
     public void Back()
     {
-          if (Data.Instance.artData.selectedGallery == -1 || Data.Instance.artData.selectedGallery == -2)
+         if (Data.Instance.artData.selectedGallery == -3)
+             Data.Instance.LoadLevel("Filter");
+          else if (Data.Instance.artData.selectedGallery == -1 || Data.Instance.artData.selectedGallery == -2)
                 Data.Instance.LoadLevel("SelectArtworks");
           else
               Data.Instance.LoadLevel("Galleries");
