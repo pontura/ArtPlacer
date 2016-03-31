@@ -105,12 +105,14 @@ public class WallPlane : MonoBehaviour {
 							//transform.position = cam.ScreenToWorldPoint(mPos);
 							//SetPointersFromArea();
 							Data.Instance.selectedArea = AreaId;
+							Events.ResetPointers();
 						} else {                    
 							Events.OnWallEdgeSelected ();
 							//print ("Mesh Id Selected: "+mesh.GetInstanceID());
 							for (int i=0; i<areaMesh.vertexCount; i++) {
 								if (rayhit.collider.name == "Pointer_" + gameObject.GetInstanceID () + "_" + i) { 
 									//Debug.Log ("Pointer Sel: "+i);
+									Events.ResetPointers();
 									rayhit.collider.gameObject.GetComponent<SpriteRenderer>().color = selColor;
 									select = i;
 									Data.Instance.selectedArea = GetId ();
@@ -137,6 +139,7 @@ public class WallPlane : MonoBehaviour {
 								}else if (rayhit.collider.name == "Arrow_" + gameObject.GetInstanceID () + "_" + i) { 
 									//Debug.Log ("Pointer Sel: "+i);								
 									select = 4+i;
+									Events.ResetPointers();
 									rayhit.collider.gameObject.GetComponent<SpriteRenderer>().color = selColor;
 									Data.Instance.selectedArea = GetId ();
 									offset = rayhit.collider.transform.position;
@@ -145,7 +148,7 @@ public class WallPlane : MonoBehaviour {
 									Vector3 areaPos = area.transform.InverseTransformPoint (pos);
 
 									rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);						*/
-									
+
 								}
 							}
 						}
@@ -155,8 +158,7 @@ public class WallPlane : MonoBehaviour {
 							}else if(lastSelect<9){
 								arrows[lastSelect-4].GetComponent<SpriteRenderer>().color = normalColor;
 							}
-						}						
-						Events.ResetPointers();
+						}
 					} else {
 						if (rayhit.collider.name == "Pointer_" + gameObject.GetInstanceID () + "_" + select) { 						
 							//Debug.Log ("Pointer Move: "+select);
@@ -244,7 +246,6 @@ public class WallPlane : MonoBehaviour {
 				if (select > -1) {
 					lastSelect = select;
 					select = -1;
-					//Debug.Log ("Pointer Reset");
 				}
 				Data.Instance.selectedArea = int.MaxValue;
 			}
