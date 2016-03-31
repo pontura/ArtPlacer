@@ -21,6 +21,8 @@ public static class Events {
 	public static System.Action ConvertUnits = delegate { };
     public static System.Action Back = delegate { };
     public static System.Action GalleryArtworksLoaded = delegate { };
+	public static System.Action<int> MoveButton = delegate { };
+	public static System.Action ResetPointers = delegate { };
 
     //help:
     public static System.Action HelpHide = delegate { };

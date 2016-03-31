@@ -8,6 +8,9 @@ public class MoveWalls : MonoBehaviour {
     public bool opened;
     public GameObject closeFooter;
 
+	private GameObject wall;
+	private int pointer;
+
 	void Start () {
         closeFooter.SetActive(false);
         anim.gameObject.SetActive(false);
@@ -27,7 +30,7 @@ public class MoveWalls : MonoBehaviour {
     }
     public void Move(int id)
     {
-
+		Events.MoveButton(id);
     }
     public void Open()
     {
@@ -39,7 +42,12 @@ public class MoveWalls : MonoBehaviour {
     public void Close()
     {
         opened = false;
-        anim.Play("FooterOff");
+        anim.Play("FooterOff") ;
         closeFooter.SetActive(true);
     }
+
+	public void setWall(GameObject w, int p){
+		wall = w;
+		pointer = p;
+	}
 }

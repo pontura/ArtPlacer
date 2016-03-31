@@ -12,6 +12,7 @@ public class WallPlane : MonoBehaviour {
 	Camera cam;
 	
 	public int select = -1;
+	public int lastSelect = -1;
 	
 	LineRenderer lineRenderer;
 	
@@ -22,11 +23,18 @@ public class WallPlane : MonoBehaviour {
 	bool moveArea = false;
 
 	Vector3 offset;
+
+	private Color normalColor = new Color(0.87f,0.13f,0.235f,1f);
+	private Color selColor = Color.yellow;
+
+	private float moveStep = 0.01f;
 	
 	// Use this for initialization
 	void Start () {
 		
 		Events.SaveAreas += SaveArea;
+		Events.MoveButton += MoveButton;
+		Events.ResetPointers += ResetPointers;
 		
 		foreach (Camera c in Camera.allCameras) {
 			if(c.name == "CameraWallArea"){
@@ -102,7 +110,8 @@ public class WallPlane : MonoBehaviour {
 							//print ("Mesh Id Selected: "+mesh.GetInstanceID());
 							for (int i=0; i<areaMesh.vertexCount; i++) {
 								if (rayhit.collider.name == "Pointer_" + gameObject.GetInstanceID () + "_" + i) { 
-									//Debug.Log ("Pointer Sel: "+i);								
+									//Debug.Log ("Pointer Sel: "+i);
+									rayhit.collider.gameObject.GetComponent<SpriteRenderer>().color = selColor;
 									select = i;
 									Data.Instance.selectedArea = GetId ();
 									//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
@@ -123,10 +132,12 @@ public class WallPlane : MonoBehaviour {
 									//pointer[select].transform.position = new Vector3(pos.x,pos.y,-0.001f);
 									//GameObject pointer = GameObject.Find("Area_" + gameObject.GetInstanceID ());
 									rayhit.collider.transform.position = new Vector3 (pos.x, pos.y, rayhit.collider.transform.parent.transform.position.z);						
+
 								
 								}else if (rayhit.collider.name == "Arrow_" + gameObject.GetInstanceID () + "_" + i) { 
 									//Debug.Log ("Pointer Sel: "+i);								
 									select = 4+i;
+									rayhit.collider.gameObject.GetComponent<SpriteRenderer>().color = selColor;
 									Data.Instance.selectedArea = GetId ();
 									offset = rayhit.collider.transform.position;
 									//GameObject localArea = GameObject.Find("Area_" + gameObject.GetInstanceID ());
@@ -138,6 +149,14 @@ public class WallPlane : MonoBehaviour {
 								}
 							}
 						}
+						if(lastSelect!=-1&&lastSelect!=select){
+							if(lastSelect<4){
+								pointer[lastSelect].GetComponent<SpriteRenderer>().color = normalColor;
+							}else if(lastSelect<9){
+								arrows[lastSelect-4].GetComponent<SpriteRenderer>().color = normalColor;
+							}
+						}						
+						Events.ResetPointers();
 					} else {
 						if (rayhit.collider.name == "Pointer_" + gameObject.GetInstanceID () + "_" + select) { 						
 							//Debug.Log ("Pointer Move: "+select);
@@ -223,6 +242,7 @@ public class WallPlane : MonoBehaviour {
 				}
 			} else {
 				if (select > -1) {
+					lastSelect = select;
 					select = -1;
 					//Debug.Log ("Pointer Reset");
 				}
@@ -281,6 +301,8 @@ public class WallPlane : MonoBehaviour {
 	void OnDestroy()
 	{
 		Events.SaveAreas -= SaveArea;
+		Events.MoveButton -= MoveButton;
+		Events.ResetPointers -= ResetPointers;
 	}
 
 	void UpdateArrow(int select){
@@ -303,6 +325,93 @@ public class WallPlane : MonoBehaviour {
 			break;
 		default:
 			break;
+		}
+	}
+
+	void MoveButton(int moveId){
+
+		if (lastSelect > -1) {
+			Vector3[] vertex = new Vector3[4];
+			vertex = areaMesh.vertices;
+			Vector3 temp1,temp2;
+			Vector3 posDif = Vector3.zero;
+
+			if (moveId == 1) {//LEFT
+				posDif = new Vector3(-moveStep,0f,0f);
+			} else if (moveId == 2) {//RIGHT
+				posDif = new Vector3(moveStep,0f,0f);
+			} else if (moveId == 3) {//UP
+				posDif = new Vector3(0f,moveStep,0f);
+			} else if (moveId == 4) {//DOWN
+				posDif = new Vector3(0f,-moveStep,0f);
+			}
+
+
+			if (lastSelect < 4) {				
+				vertex[lastSelect]+=posDif;				
+				areaMesh.vertices = vertex;
+				if (area.GetComponent<MeshCollider> () != null) {
+					area.GetComponent<MeshCollider> ().sharedMesh = areaMesh;
+					area.GetComponent<MeshCollider> ().enabled = false;
+					area.GetComponent<MeshCollider> ().enabled = true;
+				}
+				pointer [lastSelect].transform.position += posDif;
+				UpdateArrow (lastSelect);				
+			} else {
+				if(lastSelect-4==0||lastSelect-4==2){
+					if(lastSelect-4==0){
+						vertex [3] += posDif;
+						vertex [0] += posDif;
+						pointer[3].transform.position += posDif;
+						UpdateArrow(3);
+						pointer[0].transform.position += posDif;
+						UpdateArrow(0);
+					}else if(lastSelect-4==2){
+						vertex [1] += posDif;
+						vertex [2] += posDif;
+						pointer[1].transform.position += posDif;
+						UpdateArrow(1);
+						pointer[2].transform.position += posDif;
+						UpdateArrow(2);
+					}
+				}else{
+					if(lastSelect-4==1){
+						vertex [2] += posDif;
+						vertex [0] += posDif;
+						pointer[2].transform.position += posDif;
+						UpdateArrow(2);
+						pointer[0].transform.position += posDif;
+						UpdateArrow(0);
+					}else if(lastSelect-4==3){
+						vertex [3] += posDif;
+						vertex [1] += posDif;
+						pointer[3].transform.position += posDif;
+						UpdateArrow(3);
+						pointer[1].transform.position += posDif;
+						UpdateArrow(1);
+					}
+
+				}
+				areaMesh.vertices = vertex;
+				if (area.GetComponent<MeshCollider> () != null) {
+					area.GetComponent<MeshCollider> ().sharedMesh = areaMesh;
+					area.GetComponent<MeshCollider> ().enabled = false;
+					area.GetComponent<MeshCollider> ().enabled = true;
+				}
+
+			}
+
+		}
+	}
+
+	void ResetPointers(){
+		if (lastSelect > -1) {
+			if (lastSelect < 4) {
+				pointer [lastSelect].GetComponent<SpriteRenderer> ().color = normalColor;
+			} else if (lastSelect < 9) {
+				arrows [lastSelect - 4].GetComponent<SpriteRenderer> ().color = normalColor;
+			}
+			lastSelect = -1;
 		}
 	}
 	
