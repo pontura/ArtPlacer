@@ -72,6 +72,12 @@ public class Footer : MonoBehaviour {
     }
     public void Open()
     {
+        ArtworkDetail artDetail = GetComponent<ArtworkDetail>();
+        if (artDetail.state)
+        {
+            artDetail.Open();
+            return;
+        }
         closeFooter.SetActive(false);
         anim.Play("FooterOn");
 		Events.ArtworkPreview (true);

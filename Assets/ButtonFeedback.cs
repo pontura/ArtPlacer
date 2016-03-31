@@ -17,6 +17,7 @@ public class ButtonFeedback : MonoBehaviour {
 	public IEnumerator InfoButtonFeedback(){
 		infoAnim.Play ();
 		infoImage.color = Data.Instance.selectedColor;
+        Events.SetArtworkDetail(true);
 		yield return new WaitForSeconds(time);
 		infoAnim.Stop ();
 		infoImage.color = Color.white;

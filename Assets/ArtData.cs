@@ -173,7 +173,6 @@ public class ArtData : MonoBehaviour {
 
                 for (int b = 0; b < N["artworks"][i]["filter"]["color"].Count; b++)
                 {
-                    print("CCCC " + N["artworks"][i]["filter"]["color"][b]);
                     //  Data.Instance.filtersManager.CheckToAddFilter("color", N["artworks"][i]["filter"]["color"][b]);                            
                     adata.filters.color.Add(int.Parse(N["artworks"][i]["filter"]["color"][b]));
                 }

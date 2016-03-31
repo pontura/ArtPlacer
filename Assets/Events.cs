@@ -27,6 +27,7 @@ public static class Events {
     public static System.Action HelpShow = delegate { };
     public static System.Action<bool> HelpChangeState = delegate { };
     public static System.Action<int> HelpChangeStep = delegate { };
+    public static System.Action<bool> SetArtworkDetail = delegate { };
     
     
 }
