@@ -41,7 +41,7 @@ public class ArtData : MonoBehaviour {
         public class ArtDataFilters
         {
             public List<int> color;
-            public List<int> style;
+           // public List<int> style;
             public List<int> orientation;
             public List<int> technique;
             public List<int> size;

@@ -50,7 +50,7 @@ public class FiltersManager : MonoBehaviour {
         switch (activeFilter)
         {
             case "color": return color;
-            case "style": return style;
+         //   case "style": return style;
             case "orientation": return  orientation;
             case "technique": return  technique;
             case "autor": return  autor;
@@ -69,7 +69,7 @@ public class FiltersManager : MonoBehaviour {
         switch (activeFilter)
         {
             case "color": arr = color; break;
-            case "style": arr = style; break;
+         //   case "style": arr = style; break;
             case "orientation": arr = orientation; break;
             case "technique": arr = technique; break;
             case "autor": arr = autor; break;
@@ -117,7 +117,7 @@ public class FiltersManager : MonoBehaviour {
                 switch (activeFilter)
                 {
                     case "color": arr = artData.filters.color; break;
-                    case "style": arr = artData.filters.style; break;
+                    //case "style": arr = artData.filters.style; break;
                     case "orientation": arr = artData.filters.orientation; break;
                     case "technique": arr = artData.filters.technique; break;                  
                     case "size": arr = artData.filters.size; break;
@@ -155,7 +155,7 @@ public class FiltersManager : MonoBehaviour {
 
         var N = JSON.Parse(textURLWWW.text);
 
-        for (int a = 1; a < 50; a++)
+        for (int a = 0; a < 50; a++)
         {
             if (N["filters"]["shapes"][a] != null)
             {
