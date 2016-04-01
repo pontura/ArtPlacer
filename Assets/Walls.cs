@@ -92,6 +92,7 @@ public class Walls : MonoBehaviour {
     private bool adding;
     public void Add()
     {
+		Events.OnWallEdgeUnSelected ();
         Events.HelpChangeState(false);
 
         if (!adding)
@@ -110,6 +111,7 @@ public class Walls : MonoBehaviour {
             GetComponent<PhotoAddWall>().DeactiveAdd();
         }
         adding = !adding;
+
     }
     void AddAvailable()
     {

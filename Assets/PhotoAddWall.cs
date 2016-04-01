@@ -56,6 +56,7 @@ public class PhotoAddWall : MonoBehaviour {
 	}
 
 	public void RemoveArea(){
+		Events.OnWallEdgeUnSelected ();
 		if (numWalls > 0) {
 			GameObject obj = GameObject.Find ("CreatedPlane_" + (-1 * numWalls));
 			GameObject.Destroy (obj);

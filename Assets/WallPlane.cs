@@ -106,6 +106,8 @@ public class WallPlane : MonoBehaviour {
 							//SetPointersFromArea();
 							Data.Instance.selectedArea = AreaId;
 							Events.ResetPointers();
+							foreach(GameObject go in pointer)go.GetComponent<SpriteRenderer>().color = selColor;
+							foreach(GameObject go in arrows)go.GetComponent<SpriteRenderer>().color = selColor;
 						} else {                    
 							Events.OnWallEdgeSelected ();
 							//print ("Mesh Id Selected: "+mesh.GetInstanceID());
@@ -358,7 +360,7 @@ public class WallPlane : MonoBehaviour {
 				}
 				pointer [lastSelect].transform.position += posDif;
 				UpdateArrow (lastSelect);				
-			} else {
+			} else if (lastSelect < 9){
 				if(lastSelect-4==0||lastSelect-4==2){
 					if(lastSelect-4==0){
 						vertex [3] += posDif;
@@ -400,6 +402,8 @@ public class WallPlane : MonoBehaviour {
 					area.GetComponent<MeshCollider> ().enabled = true;
 				}
 
+			}else if(lastSelect == 9){
+				transform.position += posDif;
 			}
 
 		}
@@ -411,6 +415,9 @@ public class WallPlane : MonoBehaviour {
 				pointer [lastSelect].GetComponent<SpriteRenderer> ().color = normalColor;
 			} else if (lastSelect < 9) {
 				arrows [lastSelect - 4].GetComponent<SpriteRenderer> ().color = normalColor;
+			}else if(lastSelect==9){
+				foreach(GameObject go in pointer)go.GetComponent<SpriteRenderer>().color = normalColor;
+				foreach(GameObject go in arrows)go.GetComponent<SpriteRenderer>().color = normalColor;
 			}
 			lastSelect = -1;
 		}

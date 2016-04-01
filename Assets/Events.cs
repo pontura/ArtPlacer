@@ -9,6 +9,7 @@ public static class Events {
     public static System.Action<int> OnNumWallsChanged = delegate { };
 	public static System.Action SaveAreas = delegate { };
     public static System.Action OnWallEdgeSelected = delegate { };
+	public static System.Action OnWallEdgeUnSelected = delegate { };
 	public static System.Action OnSelectFooterArtwork = delegate { };
 	public static System.Action<bool> ArtworkPreview = delegate { };
     public static System.Action<string> OnGenerateRoomThumb = delegate { };

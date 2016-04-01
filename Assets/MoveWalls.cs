@@ -15,12 +15,14 @@ public class MoveWalls : MonoBehaviour {
         closeFooter.SetActive(false);
         anim.gameObject.SetActive(false);
         Events.OnWallEdgeSelected += OnWallEdgeSelected;
+		Events.OnWallEdgeUnSelected += OnWallEdgeUnSelected;
 	}
     void OnDestroy()
     {
         closeFooter.SetActive(false);
         anim.gameObject.SetActive(false);
         Events.OnWallEdgeSelected -= OnWallEdgeSelected;
+		Events.OnWallEdgeUnSelected -= OnWallEdgeUnSelected;
     }
     void OnWallEdgeSelected()
     {
@@ -28,6 +30,13 @@ public class MoveWalls : MonoBehaviour {
 
         Open();     
     }
+
+	void OnWallEdgeUnSelected()
+	{
+		if (!opened) return;
+		
+		Close();     
+	}
     public void Move(int id)
     {
 		Events.MoveButton(id);
