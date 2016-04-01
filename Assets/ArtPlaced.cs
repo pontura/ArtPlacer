@@ -27,6 +27,8 @@ public class ArtPlaced : MonoBehaviour {
 
 	public int sel_galleryID;
 	public int sel_galleryArtID;
+
+	private float moveStep = 0.01f;
 	
 	void Start () {
 
@@ -38,6 +40,8 @@ public class ArtPlaced : MonoBehaviour {
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
         Events.HelpShow();
+
+		Events.MoveButton += MoveButton;
 
 		artworkList = new List<GameObject> ();
 
@@ -476,12 +480,33 @@ public class ArtPlaced : MonoBehaviour {
 
 	}
 
+	void MoveButton(int moveId){
+		int areaId = selectedArtwork.GetComponent<DragArtWork> ().areaIndex;
+		int artWorkId = selectedArtwork.GetComponent<DragArtWork> ().artWorkIndex;
+
+		Vector3 posDif = Vector3.zero;		
+		if (moveId == 1) {//LEFT
+			posDif = new Vector3(-moveStep,0f,0f);
+		} else if (moveId == 2) {//RIGHT
+			posDif = new Vector3(moveStep,0f,0f);
+		} else if (moveId == 3) {//UP
+			posDif = new Vector3(0f,moveStep,0f);
+		} else if (moveId == 4) {//DOWN
+			posDif = new Vector3(0f,-moveStep,0f);
+		}
+
+		Renderer rend = selectedArtwork.GetComponent<Renderer> ();
+		rend.material.mainTextureOffset -= new Vector2(posDif.x,posDif.y);
+		Data.Instance.areaData.areas [areaId].artworks.Find (x => x.id == artWorkId).position = rend.material.mainTextureOffset;
+	}
+
 	void OnDestroy()
 	{
 		Data.Instance.SetBackActive (true);
 		Events.OnSelectFooterArtwork -= AddFromFooter;
 		Events.ArtworkPreview -= Preview;
-        Events.Back -= Back;       
+        Events.Back -= Back;
+		Events.MoveButton -= MoveButton;
 	}
 
 }

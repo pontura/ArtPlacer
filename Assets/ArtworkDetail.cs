@@ -32,7 +32,7 @@ public class ArtworkDetail : MonoBehaviour {
     }
     public void Move(int id)
     {
-
+		Events.MoveButton(id);
     }
     public void Hide()
     {
