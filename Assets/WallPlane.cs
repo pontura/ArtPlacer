@@ -98,6 +98,7 @@ public class WallPlane : MonoBehaviour {
 				if (Physics.Raycast (screenRay, out rayhit)) {				
 					if (select < 0) {
 						if (rayhit.collider.gameObject == area && moveArea) {
+							Events.OnWallEdgeSelected ();
 							select = 9;
 							Vector3 mPos = Input.mousePosition;
 							mPos.z = 1.0f;
