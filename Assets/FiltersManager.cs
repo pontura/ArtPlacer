@@ -24,8 +24,8 @@ public class FiltersManager : MonoBehaviour {
     public List<FilterData> size;
     public List<FilterData> shape;
 
-    public int activeValue;
-    public string activeFilter;
+    public List<int> activeValue;
+    public List<string> activeFilter;
 
     void Start()
     {
@@ -45,9 +45,9 @@ public class FiltersManager : MonoBehaviour {
             //case "shape": CheckToCreate(shape, value); break;
         }
     }
-    public List<FilterData> GetCurrentFilter()
+    public List<FilterData> GetCurrentFilter(int id)
     {
-        switch (activeFilter)
+        switch (activeFilter[id])
         {
             case "color": return color;
          //   case "style": return style;
@@ -60,13 +60,17 @@ public class FiltersManager : MonoBehaviour {
         return null;
     }
     public void SetFilteredValue(int value)
-    {
-        this.activeValue = value;
+    {        
+        this.activeValue.Add(value);
+        if (activeValue.Count > activeFilter.Count)
+        {
+            activeFilter.Add(activeFilter[activeFilter.Count-1]);
+        }
     }
-    public string GetActiveFilter()
+    public string GetActiveFilter(int id)
     {
         List<FilterData> arr = null;
-        switch (activeFilter)
+        switch (activeFilter[id])
         {
             case "color": arr = color; break;
          //   case "style": arr = style; break;
@@ -80,7 +84,7 @@ public class FiltersManager : MonoBehaviour {
         {
             foreach (FilterData data in arr)
             {
-                if (data.id == activeValue)
+                if (data.id == activeValue[id])
                 {
                     return data.name;
                 }
@@ -108,45 +112,48 @@ public class FiltersManager : MonoBehaviour {
     public void CreateGalleryBasedOnSelectedFilter()
     {
         Data.Instance.artData.filter.Clear();
-        
-        foreach(ArtData.GalleryData galleryData in Data.Instance.artData.galleries)
+
+        for (int a = 0; a < activeFilter.Count; a++)
         {
-            foreach (ArtData.GalleryData.ArtData artData in galleryData.artWorksData)
+            foreach (ArtData.GalleryData galleryData in Data.Instance.artData.galleries)
             {
-                List<int> arr = new List<int>();
-                switch (activeFilter)
+                foreach (ArtData.GalleryData.ArtData artData in galleryData.artWorksData)
                 {
-                    case "color": arr = artData.filters.color; break;
-                    //case "style": arr = artData.filters.style; break;
-                    case "orientation": arr = artData.filters.orientation; break;
-                    case "technique": arr = artData.filters.technique; break;                  
-                    case "size": arr = artData.filters.size; break;
-                    case "shape": arr = artData.filters.shape; break;
-                    case "autor":
-                        if (GetActiveFilter() == artData.autor)
-                        {
-                            ArtData.Favourite filters = new ArtData.Favourite();
-                            filters.artId = artData.artId;
-                            filters.galleryId = artData.galleryId;
-                            Data.Instance.artData.filter.Add(filters);
-                        }
-                        break;
-                }
-                if (arr != null)
-                {
-                    foreach (int value in arr)
+                    List<int> arr = new List<int>();
+                    switch (activeFilter[a])
                     {
-                        if (value == activeValue)
+                        case "color": arr = artData.filters.color; break;
+                        //case "style": arr = artData.filters.style; break;
+                        case "orientation": arr = artData.filters.orientation; break;
+                        case "technique": arr = artData.filters.technique; break;
+                        case "size": arr = artData.filters.size; break;
+                        case "shape": arr = artData.filters.shape; break;
+                        case "autor":
+                            if (GetActiveFilter(a) == artData.autor)
+                            {
+                                ArtData.Favourite filters = new ArtData.Favourite();
+                                filters.artId = artData.artId;
+                                filters.galleryId = artData.galleryId;
+                                Data.Instance.artData.filter.Add(filters);
+                            }
+                            break;
+                    }
+                    if (arr != null)
+                    {
+                        foreach (int value in arr)
                         {
-                            ArtData.Favourite filters = new ArtData.Favourite();
-                            filters.artId = artData.artId;
-                            filters.galleryId = artData.galleryId;
-                            Data.Instance.artData.filter.Add(filters);
+                            if (value == activeValue[a])
+                            {
+                                ArtData.Favourite filters = new ArtData.Favourite();
+                                filters.artId = artData.artId;
+                                filters.galleryId = artData.galleryId;
+                                Data.Instance.artData.filter.Add(filters);
+                            }
                         }
                     }
                 }
             }
-        }        
+        }
     }
     public IEnumerator LoadData()
     {
@@ -193,5 +200,15 @@ public class FiltersManager : MonoBehaviour {
                 color.Add(data);
             }
         }
+    }
+    public void Clear()
+    {
+        activeFilter.Clear();
+        activeValue.Clear();
+    }
+    public void ClearLast()
+    {
+        if(activeFilter.Count>activeValue.Count)
+             activeFilter.RemoveRange(activeFilter.Count-1, 1);
     }
 }

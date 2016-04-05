@@ -277,7 +277,14 @@ public class ArtData : MonoBehaviour {
     public GalleryData GetFiltered()
     {
         GalleryData galleryData = new GalleryData();
-        galleryData.title = "Filter: " + Data.Instance.filtersManager.GetActiveFilter();
+        string filters = "Filter:";
+        for (int a = 0; a < Data.Instance.filtersManager.activeFilter.Count; a++)
+        {
+            filters += " " + Data.Instance.filtersManager.GetActiveFilter(a);
+            if(a<Data.Instance.filtersManager.activeFilter.Count)
+                filters +=",";
+        }
+        galleryData.title = filters;
         galleryData.artWorksData = new List<GalleryData.ArtData>();
 
         foreach (Favourite favorite in filter)

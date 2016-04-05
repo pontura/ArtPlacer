@@ -9,31 +9,32 @@ public class ArtworkSignal : MonoBehaviour {
 	public InputField name;
 	public InputField author;
 
-    public InputField inputField1;
-    public InputField inputField2;
-
     public Text desc1;
     public Text desc2;
 
     public int height0 = 1;
     public int height1 = 0;
 
-	private ConfirmArtworkSize confirmSizes;
-	
-	void Start()
-	{	
-		Events.ConvertUnits += ConvertUnits;
-		confirmSizes = GameObject.Find("confirmArtworkSize").GetComponent<ConfirmArtworkSize>();
-		RefreshField();
-	}
+    private ConfirmArtworkSize confirmSizes;
+
+    public float totalCentimeters;
+    public int sumaAnterior;
+
+    void Start()
+    {
+        Events.ConvertUnits += ConvertUnits;
+        confirmSizes = GameObject.Find("confirmArtworkSize").GetComponent<ConfirmArtworkSize>();
+        Invoke("RefreshField", 0.1f);
+    }
     public void Init(float _width, float _height)
     {
-        inputField1.contentType = InputField.ContentType.IntegerNumber;
-        inputField2.contentType = InputField.ContentType.IntegerNumber;
+        print("if (Data.Instance.unidad: " + Data.Instance.unidad + "   totalCentimeters: " + totalCentimeters);
 
         if (Data.Instance.unidad == Data.UnitSys.CM)
         {
-            print("CM: " + _height);
+            // print("CM: " + _height);
+            if (totalCentimeters != 0)
+                _height = totalCentimeters;
             Vector4 cms = CustomMath.GetFormatedCentimeters(_height);
             height0 = (int)cms.x;
             height1 = (int)cms.y;
@@ -41,7 +42,7 @@ public class ArtworkSignal : MonoBehaviour {
         }
         else if (Data.Instance.unidad == Data.UnitSys.INCHES)
         {
-            print("inches: " + _height);
+            //print("inches: " + _height);
             Vector4 cms = CustomMath.GetFormatedInches(_height);
             height0 = (int)cms.x;
             height1 = (int)cms.y;
@@ -50,32 +51,43 @@ public class ArtworkSignal : MonoBehaviour {
     }
     public int GetHeight()
     {
-        int value1 = int.Parse(inputField1.text);
-        int value2 = int.Parse(inputField2.text);
+        int value1 = int.Parse(confirmSizes.conten1.active + "" + confirmSizes.conten2.active);
+        int value2 = int.Parse(confirmSizes.conten3.active + "" + confirmSizes.conten4.active);
+
+        int suma = int.Parse(confirmSizes.conten1.active + "" + confirmSizes.conten2.active + "" + confirmSizes.conten3.active + "" + confirmSizes.conten4.active);
 
         int resu = 0;
         if (Data.Instance.unidad == Data.UnitSys.CM)
         {
-            resu = (value1 * 100) + value2;
+            resu = suma;
         }
         else if (Data.Instance.unidad == Data.UnitSys.INCHES)
         {
-            int totalInches = CustomMath.GetTotalInches(value1, value2);
+            int totalInches = (int)CustomMath.GetTotalInches(value1, value2);
             resu = (int)Mathf.Round(CustomMath.inches2cm(totalInches));
         }
         return resu;
     }
-    void Ready()
-    {
-        print("ready " + GetHeight().ToString());
-        confirmSizes.Ready();
-    }
+
     void RefreshField()
     {
-        inputField1.text = height0.ToString();
-        inputField2.text = height1.ToString();
-
         print(height0 + " " + height1);
+
+        int value1 = 0;
+        int value2 = 0;
+        int value3 = 0;
+        int value4 = 0;
+
+        value1 = (int)Mathf.Floor(height0 / 10);
+        value2 = height0 - (value1 * 10);
+
+        value3 = (int)Mathf.Floor(height1 / 10);
+        value4 = height1 - (value3 * 10);
+
+        confirmSizes.conten1.SetValue(value1);
+        confirmSizes.conten2.SetValue(value2);
+        confirmSizes.conten3.SetValue(value3);
+        confirmSizes.conten4.SetValue(value4);
 
         if (Data.Instance.unidad == Data.UnitSys.CM)
         {
@@ -91,26 +103,38 @@ public class ArtworkSignal : MonoBehaviour {
 
     void ConvertUnits()
     {
+        int value1 = int.Parse(confirmSizes.conten1.active + "" + confirmSizes.conten2.active);
+        int value2 = int.Parse(confirmSizes.conten3.active + "" + confirmSizes.conten4.active);
 
-        if (inputField1.text == "")
-            inputField1.text = "0";
-        if (inputField2.text == "")
-            inputField2.text = "0";
-
-        int value1 = int.Parse(inputField1.text);
-        int value2 = int.Parse(inputField2.text);
+        int suma = int.Parse(confirmSizes.conten1.active + "" + confirmSizes.conten2.active + "" + confirmSizes.conten3.active + "" + confirmSizes.conten4.active);
 
         if (Data.Instance.unidad == Data.UnitSys.INCHES)
         {
-            Init(0, (value1 * 100) + value2);
+            totalCentimeters = suma;
+            Init(0, suma);
         }
         else if (Data.Instance.unidad == Data.UnitSys.CM)
         {
-            int totalInches = CustomMath.GetTotalInches(value1, value2);
-            int resu = (int)Mathf.Round(CustomMath.inches2cm(totalInches));
+            int resu = suma;
+
+            print("RECALCULA sumaAnterior " + sumaAnterior + " suma " + suma);
+            sumaAnterior = (int)CustomMath.inches2cm(suma);
+            int totalInches = (int)Mathf.Floor(CustomMath.GetTotalInches(value1, value2));
+            float inches2cm = CustomMath.inches2cm(totalInches);
+            resu = (int)Mathf.Round(inches2cm);
+
             Init(0, resu);
+
         }
+
     }
+
+    void OnDestroy()
+    {
+        Events.ConvertUnits -= ConvertUnits;
+    }
+
+
 	public string GetName()
 	{
 		return name.text;
@@ -119,10 +143,5 @@ public class ArtworkSignal : MonoBehaviour {
 	public string GetAuthor()
 	{
 		return author.text;
-	}
-
-	void OnDestroy()
-	{
-		Events.ConvertUnits -= ConvertUnits;
 	}
 }

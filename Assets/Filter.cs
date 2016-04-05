@@ -8,16 +8,21 @@ public class Filter : MonoBehaviour
 
     void Start()
     {
-        Data.Instance.SetBackActive(true);
-        Data.Instance.SetTitle("Selecting " + Data.Instance.filtersManager.activeFilter);
+        Data.Instance.SetBackActive(true);        
         Events.Back += Back;
-        foreach (FiltersManager.FilterData data in Data.Instance.filtersManager.GetCurrentFilter())
+        foreach (FiltersManager.FilterData data in Data.Instance.filtersManager.GetCurrentFilter(Data.Instance.filtersManager.activeFilter.Count-1))
         {
             FilterButton newButton = Instantiate(filterButton);
             newButton.transform.SetParent(container);
             newButton.Init(this, data.name, data.id);
             newButton.transform.localScale = Vector2.one;
         }
+        SetTitle();
+    }
+    void SetTitle()
+    {
+        string title = "Select a filter";
+        Data.Instance.SetTitle(title);
     }
     void OnDestroy()
     {
@@ -33,5 +38,6 @@ public class Filter : MonoBehaviour
     public void Back()
     {
         Data.Instance.LoadLevel("Filters");
+        Data.Instance.filtersManager.ClearLast();
     }
 }

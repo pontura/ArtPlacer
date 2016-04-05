@@ -8,6 +8,7 @@ using ImageVideoContactPicker;
 public class ArtWorks : MonoBehaviour
 {
     public ContactGallery contactGallery;
+    public GameObject addFiltersButton;
 
     public GameObject Add;
     public GameObject Add_On;
@@ -36,7 +37,14 @@ public class ArtWorks : MonoBehaviour
         Data.Instance.SetBackActive(true);
         string _title = "";
         if (Data.Instance.artData.selectedGallery != -3)
+        {
             _title = "Gallery: ";
+            addFiltersButton.SetActive(false);
+        }
+        else
+        {
+            addFiltersButton.SetActive(true);
+        }
 
         Data.Instance.SetTitle(_title + Data.Instance.artData.GetCurrentGallery().title);
 
@@ -99,6 +107,15 @@ public class ArtWorks : MonoBehaviour
        else
            Add.SetActive(false);
 
+    }
+    public void AddFilter()
+    {
+        Data.Instance.LoadLevel("Filters");
+    }
+    public void RemoveFilters()
+    {
+        Data.Instance.filtersManager.Clear();
+        Data.Instance.LoadLevel("Filters");
     }
     void OnDestroy()
     {

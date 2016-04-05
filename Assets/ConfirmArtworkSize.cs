@@ -5,27 +5,24 @@ using System.Collections.Generic;
 
 public class ConfirmArtworkSize : MonoBehaviour {
 
-    public ArtworkSignal artworkSignal;
-    public Animation tooltipSizes;
-    public GameObject container;  
+    public int num1;
+    public int num2;
 
-	private ArtworkSignal signal;
+    public GameObject container;
+
+    public gridsnap conten1;
+    public gridsnap conten2;
+    public gridsnap conten3;
+    public gridsnap conten4;
+
+    public ArtworkSignal signal;
+    public Slider slider;
 
     void Start()
     {
         Events.HelpHide();
-        tooltipSizes.gameObject.SetActive(false);
         Events.Back += Back;
-
-        //if (Data.Instance.areaData.areas.Count > 0)
-        //AddConfirmSizes(Data.Instance.areaData.areas[0]);
-
-        signal = Instantiate(artworkSignal) as ArtworkSignal;
-		signal.transform.SetParent(container.transform);
-		signal.transform.localPosition = new Vector3(140,70,0);
-		//signal.transform.localScale = new Vector3(1f,0.8f,1f);
-		signal.transform.localScale = Vector3.one;
-		//signal.GetComponent<Canvas> ().sortingOrder = 1;
+        Events.ToggleUnit += ToggleUnits;
 
         if (Data.Instance.artData.selectedGallery == -2 && Data.Instance.artData.selectedArtWork.url != "")
         {
@@ -35,26 +32,46 @@ public class ConfirmArtworkSize : MonoBehaviour {
 		} else {
 			signal.Init (50, 50);
 		}
-
+        slider.value = Data.Instance.unitSlider.value;
         //Invoke("startTooltip", 0.5f);
+    }
+    void ToggleUnits()
+    {
+        if (slider.value == 1)
+        {
+            slider.value = 0;
+        }
+        else if (slider.value == 0)
+        {
+            slider.value = 1;
+        }
+    }
+    public void ToggleUnit()
+    {
+        Events.ToggleUnit();
+    }
+    void Update()
+    {
+        num1 = int.Parse(conten1.active.ToString() + conten2.active.ToString());
+        num2 = int.Parse(conten3.active.ToString() + conten4.active.ToString());
     }
     void OnDestroy()
     {
         Events.Back -= Back;
+        Events.ToggleUnit -= ToggleUnits;
     }
-    void startTooltip()
-    {
-        tooltipSizes.gameObject.SetActive(true);
-        tooltipSizes.Play("tooltipOnVertical");
-    }
+
 	public void Back()
 	{
         Data.Instance.LoadLevel("Artworks");
     }
     public void Ready()
     {
+        string num = conten1.active.ToString() + conten2.active.ToString() + conten3.active.ToString() + conten4.active.ToString();
+        int _height = int.Parse(num);
+
 		float aspect = 1f*Data.Instance.lastArtTexture.width / Data.Instance.lastArtTexture.height;
-		int w = (int)(signal.GetHeight () * aspect);
+        int w = (int)(_height * aspect);
 		Data.Instance.SavePhotoArt (signal.GetName (), signal.GetAuthor(), w, signal.GetHeight ());		      
        	Data.Instance.LoadLevel("Artworks");
        

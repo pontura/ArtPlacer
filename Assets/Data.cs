@@ -139,6 +139,8 @@ public class Data : MonoBehaviour
 		Screen.autorotateToLandscapeRight = false;
 		Screen.autorotateToPortrait = false;
 		Screen.autorotateToPortraitUpsideDown = false;
+
+        Events.ToggleUnit += ToggleUnits;
     }
     public void Reset()
     {
@@ -351,8 +353,11 @@ public class Data : MonoBehaviour
 		}
 		Events.ConvertUnits ();
 	}
-
-	public void ToggleUnit(){
+    public void ToggleUnit()
+    {
+        Events.ToggleUnit();
+    }
+	public void ToggleUnits(){
 		if (unitSlider.value == 1) {
 			unidad = UnitSys.CM;
 			unitSlider.value = 0 ;

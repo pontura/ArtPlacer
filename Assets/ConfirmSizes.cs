@@ -5,16 +5,19 @@ using System.Collections.Generic;
 
 public class ConfirmSizes : MonoBehaviour {
 
-    public SizeSignal sizeSignal;
+    public int num1;
+    public int num2;
+
+    public gridsnap conten1;
+    public gridsnap conten2;
+    public gridsnap conten3;
+    public gridsnap conten4;
+
     public Animation tooltipSizes;
     public GameObject container;
+    public Slider slider;
 
-    public List<SizeSignal> sizeSignals;
-
-    private int areaActiveID;
-    private SizeSignal newSizeSignal;
-
-
+    public int areaActiveID;
 
     void Start()
     {
@@ -28,27 +31,41 @@ public class ConfirmSizes : MonoBehaviour {
         AddConfirmSizes(Data.Instance.areaData.areas[0]);
 
         Invoke("startTooltip", 0.5f);
-    }
-    void AddConfirmSizes(AreaData.Area area)
-    {
-        
-     //   float _x = Data.Instance.areaData.areas[areaActiveID].position.x;
-     //   float _y = Data.Instance.areaData.areas[areaActiveID].position.y;
 
-        newSizeSignal = Instantiate(sizeSignal) as SizeSignal;
-        newSizeSignal.id = areaActiveID;
-        newSizeSignal.transform.SetParent(container.transform);
-        newSizeSignal.transform.localPosition = new Vector3(0,0,0);
-        newSizeSignal.transform.localScale = Vector3.one;
-        newSizeSignal.Init(Data.Instance.areaData.areas[areaActiveID].width, Data.Instance.areaData.areas[areaActiveID].height);
-        sizeSignals.Add(newSizeSignal);
+        slider.value = Data.Instance.unitSlider.value;
 
-        Invoke("SelectArea", 0.1f);
+        Events.ToggleUnit += ToggleUnits;
     }
     void OnDestroy()
     {
         Events.Back -= Back;
+        Events.ToggleUnit -= ToggleUnits;
     }
+    void Update()
+    {
+        num1 = int.Parse(conten1.active.ToString() + conten2.active.ToString());
+        num2 = int.Parse(conten3.active.ToString() + conten4.active.ToString());
+    }
+    void AddConfirmSizes(AreaData.Area area)
+    {
+        Invoke("SelectArea", 0.1f);
+    }
+    public void ToggleUnits()
+    {
+        if (slider.value == 1)
+        {
+            slider.value = 0;
+        }
+        else if (slider.value == 0)
+        {
+            slider.value = 1;
+        }
+    }
+    public void ToggleUnit()
+    {
+        Events.ToggleUnit();
+    }
+
     void SelectArea()
     {
         GetComponent<WallCreator>().SelectArea(areaActiveID);
@@ -64,11 +81,11 @@ public class ConfirmSizes : MonoBehaviour {
     }
     public void Ready()
     {
-		SizeSignal sizeSignal = sizeSignals [areaActiveID];
-       
-        int _height =  sizeSignal.GetHeight();
-        Data.Instance.areaData.areas[sizeSignal.id].height = _height;
-		Data.Instance.areaData.areas[sizeSignal.id].width = GetComponent<WallCreator>().createdPlanes[sizeSignal.id].GetComponent<SizeCalculator>().CalculateWidth(_height);
+        string num = conten1.active.ToString() + conten2.active.ToString() + conten3.active.ToString() + conten4.active.ToString();
+        int _height = int.Parse(num);
+        print("______________height: " + _height);
+        Data.Instance.areaData.areas[areaActiveID].height = _height;
+        Data.Instance.areaData.areas[areaActiveID].width = GetComponent<WallCreator>().createdPlanes[areaActiveID].GetComponent<SizeCalculator>().CalculateWidth(_height);
         		
 		Events.SaveAreas();
         //Data.Instance.areaData.Save();
@@ -77,7 +94,6 @@ public class ConfirmSizes : MonoBehaviour {
 
         if (Data.Instance.areaData.areas.Count > areaActiveID)
         {
-            Destroy(newSizeSignal);
             AddConfirmSizes(Data.Instance.areaData.areas[areaActiveID]);
         }
         else

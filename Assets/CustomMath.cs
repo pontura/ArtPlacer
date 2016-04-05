@@ -57,22 +57,22 @@ public class CustomMath{
 
         return res;
     }
-    public static Vector2 GetFormatedInches(float value)
+    public static Vector3 GetFormatedInches(float value)
     {
         
         float inches = CustomMath.cm2inches(value);
         int feet = (int)Mathf.Floor(inches / 12);
         int restInches = (int)Mathf.Round(inches - (feet * 12));
 
-        Vector2 res = new Vector2(feet, restInches);
+        Vector3 res = new Vector3(feet, restInches, inches);
         return res;
     }
-    public static int GetTotalInches(int value0, int value1)
+    public static float GetTotalInches(int value0, int value1)
     {
         Debug.Log("GetTotalInches  " + value0 + "      " + value1);
 
         float inches = CustomMath.feet2inches(value0);
 
-        return (int)inches + value1;
+        return inches + value1;
     }
 }
