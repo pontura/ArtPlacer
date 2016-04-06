@@ -89,13 +89,11 @@ public class ArtWorks : MonoBehaviour
            }			
        }
 
-      // Events.OnScrollSizeRefresh(new Vector2(611, _y));
-
        float totalThumbs = currentGallery.artWorksData.Count;
        float totalRows = totalThumbs / cols;
        int maxScroll = (int)((totalRows - 1) * (thumbSize.y +separationY));
 
-       print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
+    //   print("cols: " + cols + " totalThumbs " + totalThumbs + " totalRows " + totalRows + " maxScroll " + maxScroll);
 
        if (Data.Instance.areaData.areas.Count == 0) WallsButton.SetActive(false);
 
@@ -130,11 +128,6 @@ public class ArtWorks : MonoBehaviour
         newButton.transform.localScale = Vector3.one;
         newButton.transform.localPosition = Vector3.zero;
 		newButton.Init(this, url, artId, local);
-        //float _x = (thumbSize.x / 2) + (thumbSize.x * separationx);
-        //_y = (-thumbSize.y / 2) + (-1 * (thumbSize.y * separationY));
-        //newButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(_x, _y, 0);
-        //if (separationx == cols - 1)  {  separationY++;   separationx = 0; }  else separationx++;
-        //id++;
     }
     void SetOff()
     {
