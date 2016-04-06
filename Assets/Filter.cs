@@ -10,7 +10,7 @@ public class Filter : MonoBehaviour
     {
         Data.Instance.SetBackActive(true);        
         Events.Back += Back;
-        foreach (FiltersManager.FilterData data in Data.Instance.filtersManager.GetCurrentFilter(Data.Instance.filtersManager.activeFilter.Count-1))
+        foreach (FiltersManager.FilterData data in Data.Instance.filtersManager.GetCurrentFilter())
         {
             FilterButton newButton = Instantiate(filterButton);
             newButton.transform.SetParent(container);

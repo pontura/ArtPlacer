@@ -28,7 +28,7 @@ public class Filters : MonoBehaviour {
     }
     public void Clicked(string filter)
     {
-        Data.Instance.filtersManager.activeFilter.Add(filter);
+        Data.Instance.filtersManager.AddFilter(filter);
         Data.Instance.LoadLevel("Filter");
     }
     public void Back()
