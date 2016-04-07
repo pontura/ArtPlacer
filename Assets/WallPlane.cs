@@ -27,7 +27,7 @@ public class WallPlane : MonoBehaviour {
 	private Color normalColor = new Color(0.87f,0.13f,0.235f,1f);
 	private Color selColor = Color.yellow;
 
-	private float moveStep = 0.01f;
+	private float moveStep = 0.005f;
 	
 	// Use this for initialization
 	void Start () {

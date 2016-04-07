@@ -28,7 +28,7 @@ public class ArtPlaced : MonoBehaviour {
 	public int sel_galleryID;
 	public int sel_galleryArtID;
 
-	private float moveStep = 0.01f;
+	private float moveStep = 0.005f;
 	
 	void Start () {
 
