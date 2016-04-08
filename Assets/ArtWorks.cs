@@ -55,6 +55,8 @@ public class ArtWorks : MonoBehaviour
 
         if (Data.Instance.artData.selectedGallery <0)
             contactGallery.gameObject.SetActive(false);
+        else
+            contactGallery.gameObject.SetActive(true);
 
 		//if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
 
