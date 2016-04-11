@@ -12,7 +12,6 @@ public class AnalyticsManager : MonoBehaviour {
     void SendScreen(string field)
     {
         Debug.Log("<SHARE> SendScreen: " + field);
-
         GoogleAnalyticsV3.instance.LogScreen(field);       
     }
     void ContactGallery(string GalleryName, string tpyeOfContact)
@@ -21,7 +20,7 @@ public class AnalyticsManager : MonoBehaviour {
 
         EventHitBuilder eventHitBuilder = new EventHitBuilder();
         eventHitBuilder.SetEventCategory("Contact_");
-        eventHitBuilder.SetCampaignContent(tpyeOfContact);
+        eventHitBuilder.SetEventLabel(tpyeOfContact);
         eventHitBuilder.SetEventAction(GalleryName);
         GoogleAnalyticsV3.instance.LogEvent(eventHitBuilder);
     }
@@ -31,7 +30,7 @@ public class AnalyticsManager : MonoBehaviour {
 
         EventHitBuilder eventHitBuilder = new EventHitBuilder();
         eventHitBuilder.SetEventCategory("New_Favourite");
-        eventHitBuilder.SetCampaignContent(GalleryID);
+        eventHitBuilder.SetEventLabel(GalleryID);
         eventHitBuilder.SetEventAction(ArtID);
         GoogleAnalyticsV3.instance.LogEvent(eventHitBuilder);
     }
@@ -41,7 +40,7 @@ public class AnalyticsManager : MonoBehaviour {
 
         EventHitBuilder eventHitBuilder = new EventHitBuilder();
         eventHitBuilder.SetEventCategory("Enter_Gallery");
-        eventHitBuilder.SetCampaignContent(GalleryName);
+        eventHitBuilder.SetEventAction(GalleryName);
         GoogleAnalyticsV3.instance.LogEvent(eventHitBuilder);
     }
 }
