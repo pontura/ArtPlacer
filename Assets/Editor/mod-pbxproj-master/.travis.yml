@@ -1,0 +1,20 @@
+sudo: false
+language: python
+python:
+- '2.7'
+install:
+- pip install .
+- pip install coveralls
+script:
+- python setup.py test
+- coverage run --source=mod_pbxproj setup.py test
+after_success: coveralls
+deploy:
+  provider: pypi
+  user: kronenthaler
+  password:
+    secure: wJTcHIa1sbXxE4FnLux/fUI+OqZl8tM3EuvPckC7FaYKFzVbFG63xHhpThZxOVF5295nxHBFIBPSm/wA+6wOjvDazaPd3Kvw+BlQqPOaUPuJEfeK9R0IfRB0ojkn7nXmhhiUJiO3UzNrCFsMdt9zMCzu7jih/r7DCv8pYb66CuQ=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: kronenthaler/mod-pbxproj

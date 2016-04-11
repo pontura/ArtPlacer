@@ -32,6 +32,8 @@ public class ArtPlaced : MonoBehaviour {
 	
 	void Start () {
 
+        EventsAnalytics.SendScreen("Enter_Local_Room");
+
 		Events.OnLoading (false);
         //buttonInfo.SetActive(false);
         Data.Instance.SetTitle("Rooms");
@@ -277,6 +279,7 @@ public class ArtPlaced : MonoBehaviour {
 	}
     public void CloseSaveDialog()
     {
+        EventsAnalytics.SendScreen("Save_Room");
         saveDialog.gameObject.SetActive(false);
     }
 	void SetArtworkColliderActive(bool active){

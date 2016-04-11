@@ -48,6 +48,8 @@ public class ArtWorks : MonoBehaviour
 
         Data.Instance.SetTitle(_title + Data.Instance.artData.GetCurrentGallery().title);
 
+        EventsAnalytics.EnterGallery(Data.Instance.artData.GetCurrentGallery().title);
+
         Events.Back += Back;
         PickerEventListener.onImageLoad += OnImageLoad;
         thumbSize += separation;
@@ -186,12 +188,14 @@ public class ArtWorks : MonoBehaviour
     }
     public void TakePhoto()
     {
+        EventsAnalytics.SendScreen("NEW_ARTWORK_PHOTO");
         Data.Instance.artData.selectedArtWork.url = "";
         Data.Instance.isPhoto4Room = false;
         Data.Instance.LoadLevel("TakePhoto");
     }
     public void Browse()
     {
+        EventsAnalytics.SendScreen("NEW_ARTWORK_BROWSE");
         Events.OnPicker(true);
         Invoke("Delay", 0.1f);        
     }

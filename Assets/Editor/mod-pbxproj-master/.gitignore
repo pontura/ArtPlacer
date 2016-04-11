@@ -1,0 +1,12 @@
+# Python cruft
+*.pyc
+*.pyo
+*.py~
+.idea
+build
+dist
+files.txt
+mod_pbxproj.egg-info
+
+# Mac OS X cruft
+.DS_Store

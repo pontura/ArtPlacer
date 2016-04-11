@@ -120,6 +120,7 @@ public class ConfirmArtWork : MonoBehaviour {
         {
             FavoriteOn.gameObject.SetActive(true);
             FavoriteOff.gameObject.SetActive(false);
+            EventsAnalytics.NewFavourite(Data.Instance.artData.selectedArtWork.galleryId.ToString(), Data.Instance.artData.selectedArtWork.artId.ToString());
         }
         else
         {
