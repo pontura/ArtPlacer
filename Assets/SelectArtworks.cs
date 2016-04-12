@@ -32,4 +32,16 @@ public class SelectArtworks : MonoBehaviour {
         Data.Instance.artData.selectedGallery = -1;
         Data.Instance.LoadLevel("Artworks");
     }
+    public void MySearch()
+    {
+        if (Data.Instance.filtersManager.activeFilter.Count > 0)
+        {
+            Data.Instance.artData.selectedGallery = -3;
+            Data.Instance.LoadLevel("Artworks");
+        }
+        else
+        {            
+            Data.Instance.LoadLevel("Filters");
+        }
+    }
 }

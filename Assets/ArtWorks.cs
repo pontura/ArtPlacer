@@ -156,7 +156,12 @@ public class ArtWorks : MonoBehaviour
 
     public void Back()
     {
-         if (Data.Instance.artData.selectedGallery == -3)
+
+        if (Data.Instance.lastScene == "SelectArtworks")
+            Data.Instance.LoadLevel("SelectArtworks");
+        else if (Data.Instance.lastScene == "Galleries")
+            Data.Instance.LoadLevel("Galleries");
+        else if (Data.Instance.artData.selectedGallery == -3)
              Data.Instance.LoadLevel("Filter");
           else if (Data.Instance.artData.selectedGallery == -1 || Data.Instance.artData.selectedGallery == -2)
                 Data.Instance.LoadLevel("SelectArtworks");

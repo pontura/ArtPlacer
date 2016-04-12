@@ -33,7 +33,14 @@ public class Filters : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("Galleries");
+        if (Data.Instance.lastScene == "SelectArtworks")
+        {
+            Data.Instance.LoadLevel("SelectArtworks");
+        }
+        else
+        {
+            Data.Instance.LoadLevel("Galleries");
+        }
     }
     public void ClearFilters()
     {
