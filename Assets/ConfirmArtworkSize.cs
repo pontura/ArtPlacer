@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class ConfirmArtworkSize : MonoBehaviour {
 
+    public RawImage rawImage;
     public int num1;
     public int num2;
 
@@ -24,6 +25,8 @@ public class ConfirmArtworkSize : MonoBehaviour {
         Events.Back += Back;
         Events.ToggleUnit += ToggleUnits;
 
+        Data.Instance.SetTitle("My Artwork");
+
         if (Data.Instance.artData.selectedGallery == -2 && Data.Instance.artData.selectedArtWork.url != "")
         {
 			signal.Init (Data.Instance.artData.selectedArtWork.size.x, Data.Instance.artData.selectedArtWork.size.y);
@@ -33,7 +36,21 @@ public class ConfirmArtworkSize : MonoBehaviour {
 			signal.Init (50, 50);
 		}
         slider.value = Data.Instance.unitSlider.value;
-        //Invoke("startTooltip", 0.5f);
+
+        float maxWidth = rawImage.rectTransform.sizeDelta.x;
+        float maxHeight = rawImage.rectTransform.sizeDelta.y;
+        float aspect = maxWidth / maxHeight;
+        float textAspect = 1f * Data.Instance.lastArtTexture.width / Data.Instance.lastArtTexture.height;
+        if (aspect > textAspect)
+        {
+            rawImage.rectTransform.sizeDelta = new Vector2(maxHeight * textAspect, maxHeight);
+        }
+        else if (aspect < textAspect)
+        {
+            rawImage.rectTransform.sizeDelta = new Vector2(maxWidth, maxWidth / textAspect);
+        }
+
+        rawImage.texture = Data.Instance.lastArtTexture;
     }
     void ToggleUnits()
     {

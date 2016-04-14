@@ -28,12 +28,19 @@ public class Filters : MonoBehaviour {
     }
     public void Clicked(string filter)
     {
-        Data.Instance.filtersManager.activeFilter.Add(filter);
+        Data.Instance.filtersManager.AddFilter(filter);
         Data.Instance.LoadLevel("Filter");
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("Galleries");
+        if (Data.Instance.lastScene == "SelectArtworks")
+        {
+            Data.Instance.LoadLevel("SelectArtworks");
+        }
+        else
+        {
+            Data.Instance.LoadLevel("Galleries");
+        }
     }
     public void ClearFilters()
     {

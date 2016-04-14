@@ -12,6 +12,7 @@ public class ContactGalleryPopup : MonoBehaviour {
     public string phone;
     public string email;
     public string web;
+    private ArtData.GalleryData data;
 
 	void Start () {
         Events.ContactGalleryOpenPopup += ContactGalleryOpenPopup;
@@ -19,6 +20,7 @@ public class ContactGalleryPopup : MonoBehaviour {
 	}
     void ContactGalleryOpenPopup(ArtData.GalleryData data)
     {
+        this.data = data;
         if (data != null)
         {
             isOn = true;
@@ -45,6 +47,7 @@ public class ContactGalleryPopup : MonoBehaviour {
     public void Phone()
     {
         Application.OpenURL("tel://" + phone);
+        EventsAnalytics.ContactGallery(data.title, "PHONE");
     }
     public void Email()
     {
@@ -52,6 +55,7 @@ public class ContactGalleryPopup : MonoBehaviour {
         string subject = MyEscapeURL("Request sent from ArtPlacer");
         string body = MyEscapeURL("");
         Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+        EventsAnalytics.ContactGallery(data.title, "EMAIL");
     }
     string MyEscapeURL(string url)
     {
@@ -60,6 +64,7 @@ public class ContactGalleryPopup : MonoBehaviour {
     public void Www()
     {
         Application.OpenURL(web);
+        EventsAnalytics.ContactGallery(data.title, "WWW");
     }
        
 }

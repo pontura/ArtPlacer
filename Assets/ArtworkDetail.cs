@@ -30,9 +30,30 @@ public class ArtworkDetail : MonoBehaviour {
         else
             Close();        
     }
-    public void Move(int id)
+    float sec = 0;
+    private bool Clicking;
+    private int id;
+    void Update()
     {
-		Events.MoveButton(id);
+        if (!Clicking) return;
+        sec += Time.deltaTime * 20;
+        if (sec > 1)
+        {
+            sec = 0;
+            Events.MoveButton(id);
+        }
+    }
+    public void Move(int _id)
+    {
+        print("Move");
+        this.id = _id;
+        Clicking = true;		
+    }
+    public void OnRelease()
+    {
+        Clicking = false;
+        print("RELEASE");
+
     }
     public void Hide()
     {

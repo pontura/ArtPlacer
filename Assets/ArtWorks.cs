@@ -48,6 +48,8 @@ public class ArtWorks : MonoBehaviour
 
         Data.Instance.SetTitle(_title + Data.Instance.artData.GetCurrentGallery().title);
 
+        EventsAnalytics.EnterGallery(Data.Instance.artData.GetCurrentGallery().title);
+
         Events.Back += Back;
         PickerEventListener.onImageLoad += OnImageLoad;
         thumbSize += separation;
@@ -55,6 +57,8 @@ public class ArtWorks : MonoBehaviour
 
         if (Data.Instance.artData.selectedGallery <0)
             contactGallery.gameObject.SetActive(false);
+        else
+            contactGallery.gameObject.SetActive(true);
 
 		//if(currentGallery.id!=-2)addButton.gameObject.SetActive(false);
 
@@ -152,7 +156,12 @@ public class ArtWorks : MonoBehaviour
 
     public void Back()
     {
-         if (Data.Instance.artData.selectedGallery == -3)
+
+        if (Data.Instance.lastScene == "SelectArtworks")
+            Data.Instance.LoadLevel("SelectArtworks");
+        else if (Data.Instance.lastScene == "Galleries")
+            Data.Instance.LoadLevel("Galleries");
+        else if (Data.Instance.artData.selectedGallery == -3)
              Data.Instance.LoadLevel("Filter");
           else if (Data.Instance.artData.selectedGallery == -1 || Data.Instance.artData.selectedGallery == -2)
                 Data.Instance.LoadLevel("SelectArtworks");
@@ -184,12 +193,14 @@ public class ArtWorks : MonoBehaviour
     }
     public void TakePhoto()
     {
+        EventsAnalytics.SendScreen("NEW_ARTWORK_PHOTO");
         Data.Instance.artData.selectedArtWork.url = "";
         Data.Instance.isPhoto4Room = false;
         Data.Instance.LoadLevel("TakePhoto");
     }
     public void Browse()
     {
+        EventsAnalytics.SendScreen("NEW_ARTWORK_BROWSE");
         Events.OnPicker(true);
         Invoke("Delay", 0.1f);        
     }

@@ -5,6 +5,14 @@ public class FilterSearchButton : MonoBehaviour {
 
     public void GotoSearch()
     {
-        Data.Instance.LoadLevel("Filters");
+        if (Data.Instance.filtersManager.activeFilter.Count > 0)
+        {
+            Data.Instance.artData.selectedGallery = -3;
+            Data.Instance.LoadLevel("Artworks");
+        }
+        else
+        {
+            Data.Instance.LoadLevel("Filters");
+        }
     }
 }

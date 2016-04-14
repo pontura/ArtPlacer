@@ -28,9 +28,11 @@ public class ArtPlaced : MonoBehaviour {
 	public int sel_galleryID;
 	public int sel_galleryArtID;
 
-	private float moveStep = 0.01f;
+	private float moveStep = 0.005f;
 	
 	void Start () {
+
+        EventsAnalytics.SendScreen("Enter_Local_Room");
 
 		Events.OnLoading (false);
         //buttonInfo.SetActive(false);
@@ -277,6 +279,7 @@ public class ArtPlaced : MonoBehaviour {
 	}
     public void CloseSaveDialog()
     {
+        EventsAnalytics.SendScreen("Save_Room");
         saveDialog.gameObject.SetActive(false);
     }
 	void SetArtworkColliderActive(bool active){

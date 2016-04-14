@@ -137,8 +137,8 @@ public class CustomPlane : MonoBehaviour {
 				for (int j=i0+1; j<i1; j++)
 					v1 [j - i0 - 1] = vertices [j];
 			else{
-				Debug.Log ("HIn: "+hIndex+" length: "+h0.Length);
-				Debug.Log ("i0: "+i0+"i1: "+i1+" length: "+vertices.Length);
+                //Debug.Log ("HIn: "+hIndex+" length: "+h0.Length);
+                //Debug.Log ("i0: "+i0+"i1: "+i1+" length: "+vertices.Length);
 				h0[hIndex] = vertices[i0];
 				h1[hIndex] = vertices[i1];
 				hIndex++;

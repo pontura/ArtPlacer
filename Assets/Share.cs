@@ -15,6 +15,8 @@ public class Share : MonoBehaviour {
 
 	public void ShareImage(string imageFileName, string subject, string title, string message)
 	{
+        EventsAnalytics.SendScreen("Share_Room");
+
 		/*byte[] bytes = Data.Instance.lastPhotoThumbTexture.EncodeToPNG();
 		imageFileName = Application.persistentDataPath + "/MyImage.png";
 		File.WriteAllBytes(imageFileName, bytes);*/

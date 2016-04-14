@@ -159,12 +159,14 @@ public class Rooms : MonoBehaviour
     }
     public void TakePhoto()
     {
+        EventsAnalytics.SendScreen("NEW_ROOM_PHOTO");
         Data.Instance.SetRoomFromLocalFiles(false);
         Data.Instance.isPhoto4Room = true;
         Data.Instance.LoadLevel("TakePhoto");
     }
     public void Browse()
     {
+        EventsAnalytics.SendScreen("NEW_ROOM_BROWSE");
         Events.OnPicker(true);
         Invoke("Delay", 0.1f);
     }
