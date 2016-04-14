@@ -54,54 +54,39 @@ public class ArtworkArea : MonoBehaviour {
 				pos.y = pos.y + transform.sizeDelta.y * 0.5f >limitTop?limitTop - transform.sizeDelta.y * 0.5f:pos.y;*/
 				gameObject.transform.position = new Vector3(pos.x,pos.y,pos.z);
 			} else if (selectMove == SelectMove.TL) {
-				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, Input.mousePosition.y / deltaMove.y);
-				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				Vector2 deltaSize = new Vector2 (-1*(transform.sizeDelta.x-newSize.x),transform.sizeDelta.y-newSize.y);
-				//if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
-					transform.sizeDelta = newSize;			
-					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
-					updatePos(transform.position, deltaSize);
-					deltaMove = Input.mousePosition;
-				//}
+				RectTransform rt = gameObject.GetComponent<RectTransform>();
+				RectTransform aRt = area.GetComponent<RectTransform>();
+				rt.offsetMin = new Vector2(rt.offsetMin.x+(Input.mousePosition.x-deltaMove.x),rt.offsetMin.y);
+				rt.offsetMax = new Vector2(rt.offsetMax.x,rt.offsetMax.y+(Input.mousePosition.y-deltaMove.y));
+				aRt.offsetMin = new Vector2(aRt.offsetMin.x+(Input.mousePosition.x-deltaMove.x),aRt.offsetMin.y);
+				aRt.offsetMax = new Vector2(aRt.offsetMax.x,aRt.offsetMax.y+(Input.mousePosition.y-deltaMove.y));
+				deltaMove = Input.mousePosition;
 			} else if (selectMove == SelectMove.TR) {
-				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, Input.mousePosition.y / deltaMove.y);
-				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				Vector2 deltaSize = new Vector2 (transform.sizeDelta.x-newSize.x,transform.sizeDelta.y-newSize.y);
-				//if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
-					transform.sizeDelta = newSize;
-					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
-					updatePos(transform.position, deltaSize);
-					deltaMove = Input.mousePosition;
-				//}
+				RectTransform rt = gameObject.GetComponent<RectTransform>();
+				RectTransform aRt = area.GetComponent<RectTransform>();
+				rt.offsetMax = new Vector2(rt.offsetMax.x+(Input.mousePosition.x-deltaMove.x),rt.offsetMax.y+(Input.mousePosition.y-deltaMove.y));
+				rt.offsetMin = new Vector2(rt.offsetMin.x,rt.offsetMin.y);
+				aRt.offsetMax = new Vector2(aRt.offsetMax.x+(Input.mousePosition.x-deltaMove.x),aRt.offsetMax.y+(Input.mousePosition.y-deltaMove.y));
+				aRt.offsetMin = new Vector2(aRt.offsetMin.x,aRt.offsetMin.y);
+				deltaMove = Input.mousePosition;
 			} else if (selectMove == SelectMove.BL) {
-				Vector2 scale = new Vector2 (deltaMove.x / Input.mousePosition.x, deltaMove.y / Input.mousePosition.y);
-				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				Vector2 deltaSize = new Vector2 (-1*(transform.sizeDelta.x-newSize.x),-1*(transform.sizeDelta.y-newSize.y));
-				//if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
-					transform.sizeDelta = newSize;
-					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
-					updatePos(transform.position, deltaSize);
-					deltaMove = Input.mousePosition;
-				//}
+				RectTransform rt = gameObject.GetComponent<RectTransform>();
+				RectTransform aRt = area.GetComponent<RectTransform>();
+				rt.offsetMin = new Vector2(rt.offsetMin.x+(Input.mousePosition.x-deltaMove.x),rt.offsetMin.y+(Input.mousePosition.y-deltaMove.y));
+				rt.offsetMax = new Vector2(rt.offsetMax.x,rt.offsetMax.y);
+				aRt.offsetMin = new Vector2(aRt.offsetMin.x+(Input.mousePosition.x-deltaMove.x),aRt.offsetMin.y+(Input.mousePosition.y-deltaMove.y));
+				aRt.offsetMax = new Vector2(aRt.offsetMax.x,aRt.offsetMax.y);
+				deltaMove = Input.mousePosition;
 			} else if (selectMove == SelectMove.BR) {
-				Vector2 scale = new Vector2 (Input.mousePosition.x / deltaMove.x, deltaMove.y / Input.mousePosition.y);
-				//Vector2 scale = new Vector2 (1.1f,1.1f);
-				Vector2 newSize = new Vector2 (transform.sizeDelta.x * scale.x, transform.sizeDelta.y * scale.y);
-				Vector2 deltaSize = new Vector2 (transform.sizeDelta.x-newSize.x,-1*(transform.sizeDelta.y-newSize.y));
-				//if ((transform.position.x - newSize.x * 0.5 > limitLeft) && (transform.position.x + newSize.x * 0.5 < limitRight) && (transform.position.y - newSize.y * 0.5 > limitBottom) && (transform.position.y + newSize.y * 0.5 < limitTop)) {
-					transform.sizeDelta = newSize;
-					areaTransform.sizeDelta = new Vector2 (areaTransform.sizeDelta.x * scale.x, areaTransform.sizeDelta.y * scale.y);
-					updatePos(transform.position, deltaSize);
-					deltaMove = Input.mousePosition;
-				//}
+				RectTransform rt = gameObject.GetComponent<RectTransform>();
+				RectTransform aRt = area.GetComponent<RectTransform>();
+				rt.offsetMax = new Vector2(rt.offsetMax.x+(Input.mousePosition.x-deltaMove.x),rt.offsetMax.y);
+				rt.offsetMin = new Vector2(rt.offsetMin.x,rt.offsetMin.y+(Input.mousePosition.y-deltaMove.y));
+				aRt.offsetMax = new Vector2(aRt.offsetMax.x+(Input.mousePosition.x-deltaMove.x),aRt.offsetMax.y);
+				aRt.offsetMin = new Vector2(aRt.offsetMin.x,aRt.offsetMin.y+(Input.mousePosition.y-deltaMove.y));
+				deltaMove = Input.mousePosition;
 			}
 		}
-	}
-
-	void updatePos(Vector3 pos, Vector2 delta){
-		pos.x -= delta.x * 0.375f;
-		pos.y -= delta.y * 0.375f;
-		gameObject.transform.position = new Vector3(pos.x,pos.y,pos.z);
 	}
 
 	public void OnPointerDownArea()
@@ -115,6 +100,13 @@ public class ArtworkArea : MonoBehaviour {
 		deltaMove = Input.mousePosition;
 		selectMove = SelectMove.TL;
 		TL.color = selectedColor;
+
+		RectTransform aRt = area.GetComponent<RectTransform>();
+		aRt.anchorMin = new Vector2(1, 0);
+		aRt.anchorMax = new Vector2(1, 0);
+		aRt.pivot = new Vector2(0.5f, 0.5f);
+		Vector3 pos = aRt.anchoredPosition;
+		aRt.anchoredPosition = new Vector3 (Mathf.Abs (pos.x) * -1, Mathf.Abs (pos.y), pos.z);
 	}
 
 	public void OnPointerDownTR()
@@ -122,6 +114,13 @@ public class ArtworkArea : MonoBehaviour {
 		deltaMove = Input.mousePosition;
 		selectMove = SelectMove.TR;
 		TR.color = selectedColor;
+
+		RectTransform aRt = area.GetComponent<RectTransform>();
+		aRt.anchorMin = new Vector2(0, 0);
+		aRt.anchorMax = new Vector2(0, 0);
+		aRt.pivot = new Vector2(0.5f, 0.5f);
+		Vector3 pos = aRt.anchoredPosition;
+		aRt.anchoredPosition = new Vector3(Mathf.Abs(pos.x),Mathf.Abs(pos.y),pos.z);
 	}
 
 	public void OnPointerDownBR()
@@ -129,6 +128,13 @@ public class ArtworkArea : MonoBehaviour {
 		deltaMove = Input.mousePosition;
 		selectMove = SelectMove.BR;
 		BR.color = selectedColor;
+
+		RectTransform aRt = area.GetComponent<RectTransform>();
+		aRt.anchorMin = new Vector2(0, 1);
+		aRt.anchorMax = new Vector2(0, 1);
+		aRt.pivot = new Vector2(0.5f, 0.5f);
+		Vector3 pos = aRt.anchoredPosition;
+		aRt.anchoredPosition = new Vector3(Mathf.Abs(pos.x),Mathf.Abs(pos.y)*-1,pos.z);
 	}
 
 	public void OnPointerDownBL()
@@ -136,6 +142,13 @@ public class ArtworkArea : MonoBehaviour {
 		deltaMove = Input.mousePosition;
 		selectMove = SelectMove.BL;
 		BL.color = selectedColor;
+
+		RectTransform aRt = area.GetComponent<RectTransform>();
+		aRt.anchorMin = new Vector2(1, 1);
+		aRt.anchorMax = new Vector2(1, 1);
+		aRt.pivot = new Vector2(0.5f, 0.5f);
+		Vector3 pos = aRt.anchoredPosition;
+		aRt.anchoredPosition = new Vector3 (Mathf.Abs (pos.x) * -1, Mathf.Abs (pos.y)*-1, pos.z);
 	}
 
 	public void OnPointerUp(){
