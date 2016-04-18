@@ -10,14 +10,13 @@ public class gridsnap : MonoBehaviour {
     RectTransform rect;
     ScrollRect scrollRect;
 
-    public int totalNums = 10;
+    public int totalNums = 100;
     Vector2 targetPos;
     bool done = false;
     float t = 0;
     private float buttonHeight;    
 
     void Awake() {
-        print("INIT");
         grid = GetComponent<GridLayoutGroup>();
         rect = GetComponent<RectTransform>();
         scrollRect = GetComponentInParent<ScrollRect>();
@@ -29,7 +28,6 @@ public class gridsnap : MonoBehaviour {
 
     public void SetValue(int active)
     {
-        print("SetValue");
         this.active = active;
         rect.localPosition = new Vector3(rect.localPosition.x, buttonHeight * 2 + (buttonHeight*active), 0);
         done = true;
@@ -59,8 +57,8 @@ public class gridsnap : MonoBehaviour {
             Transform child = transform.GetChild(i);
             if (child.localPosition.y == tempPos.y) {
                 // do what you want with the child
-                child.localScale = Vector3.Lerp( new Vector3(1.6f, 1.6f, 6f), child.localScale,  t);
-                child.GetComponent<ScrollContent>().field.color = Color.black;
+                child.localScale = Vector3.Lerp( new Vector3(1.0f, 1.0f, 0f), child.localScale,  t);
+                child.GetComponent<ScrollContent>().field.color = Color.white;
                 this.active = child.GetComponent<ScrollContent>().id;
             }
             else {

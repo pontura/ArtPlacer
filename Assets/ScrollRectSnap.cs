@@ -1,54 +1,123 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-public class ScrollRectSnap : MonoBehaviour {
-    GridLayoutGroup grid;
-    RectTransform rect;
-    ScrollRect scrollRect;
-    Vector2 targetPos;
-    bool done = false;
-    float t = 0;
-    void Start() {
-        grid = GetComponent<GridLayoutGroup>();
-        rect = GetComponent<RectTransform>();
-        scrollRect = GetComponentInParent<ScrollRect>();
-        // auto adjust the width of the grid to have space for all the childs
-        rect.sizeDelta = new Vector2((transform.childCount + 2f) * grid.cellSize.x + (transform.childCount - 1f) * grid.spacing.x, rect.sizeDelta.y);
-    }
-    public void Update() {
-        t = Time.deltaTime * 15f;
-        if (t > 1f) {
-            t = 1f;
-        }
-        if (Mathf.Abs(scrollRect.velocity.x) > 800f && !done) {
-            touchUp();
-        }
-        if (!done && Mathf.Abs(scrollRect.velocity.x) < 800f) {
-            rect.localPosition = Vector2.Lerp(rect.localPosition, targetPos, t);
-            if (Vector3.Distance(rect.localPosition, targetPos) < 0.001f) {
-                rect.localPosition = targetPos;
-                done = true;
+
+public class ScrollRectSnap : MonoBehaviour
+{
+
+    float[] points;
+    [Tooltip("how many screens or pages are there within the content (steps)")]
+    public int screens = 1;
+    [Tooltip("How quickly the GUI snaps to each panel")]
+    public float snapSpeed;
+    public float inertiaCutoffMagnitude;
+    float stepSize;
+
+    ScrollRect scroll;
+    bool LerpH;
+    float targetH;
+    [Tooltip("Snap horizontally")]
+    public bool snapInH = true;
+
+    bool LerpV;
+    float targetV;
+    [Tooltip("Snap vertically")]
+    public bool snapInV = true;
+
+    bool dragInit = true;
+    int dragStartNearest;
+
+
+    void Start()
+    {
+        scroll = GetComponent<ScrollRect>();
+        //scroll.inertia = true;
+
+        if (screens > 0)
+        {
+            points = new float[screens];
+            stepSize = 1 / (float)(screens - 1);
+
+            for (int i = 0; i < screens; i++)
+            {
+                points[i] = i * stepSize;
             }
         }
-        Vector2 tempPos = new Vector2(Mathf.Round(rect.localPosition.x / (grid.cellSize.x + grid.spacing.x)) * (grid.cellSize.x + grid.spacing.x) * -1f, 0);
-        for (int i = 0; i < transform.childCount; i++) {
-            Transform child = transform.GetChild(i);
-            if (child.localPosition.x == tempPos.x) {
-                // do what you want with the child
-                child.localScale = Vector3.Lerp(child.localScale, new Vector3(1.5f, 1.5f, 1f), t);
-            }
-            else {
-                child.localScale = Vector3.Lerp(child.localScale, new Vector3(1f, 1f, 1f), t);
-            }
+        else
+        {
+            points[0] = 0;
         }
     }
-    public void touchDown() {
-        done = true;
+
+    void Update()
+    {
+        if (LerpH)
+        {
+            scroll.horizontalNormalizedPosition = Mathf.Lerp(scroll.horizontalNormalizedPosition, targetH, snapSpeed * Time.deltaTime);
+            if (Mathf.Approximately(scroll.horizontalNormalizedPosition, targetH)) LerpH = false;
+        }
+        if (LerpV)
+        {
+            scroll.verticalNormalizedPosition = Mathf.Lerp(scroll.verticalNormalizedPosition, targetV, snapSpeed * Time.deltaTime);
+            if (Mathf.Approximately(scroll.verticalNormalizedPosition, targetV)) LerpV = false;
+        }
     }
-    public void touchUp() {
-        float newX = Mathf.Round(rect.localPosition.x / (grid.cellSize.x + grid.spacing.x)) * (grid.cellSize.x + grid.spacing.x);
-        newX = Mathf.Sign(newX) * Mathf.Min(Mathf.Abs(newX), (rect.rect.width - scrollRect.GetComponent<RectTransform>().rect.width) / 2f);
-        targetPos = new Vector2(newX, 0);
-        done = false;
+
+    public void DragEnd()
+    {
+        int target = FindNearest(scroll.horizontalNormalizedPosition, points);
+
+        if (target == dragStartNearest && scroll.velocity.sqrMagnitude > inertiaCutoffMagnitude * inertiaCutoffMagnitude)
+        {
+            if (scroll.velocity.x < 0)
+            {
+                target = dragStartNearest + 1;
+            }
+            else if (scroll.velocity.x > 1)
+            {
+                target = dragStartNearest - 1;
+            }
+            target = Mathf.Clamp(target, 0, points.Length - 1);
+        }
+
+        if (scroll.horizontal && snapInH && scroll.horizontalNormalizedPosition > 0f && scroll.horizontalNormalizedPosition < 1f)
+        {
+            targetH = points[target];
+            LerpH = true;
+        }
+        if (scroll.vertical && snapInV && scroll.verticalNormalizedPosition > 0f && scroll.verticalNormalizedPosition < 1f)
+        {
+            targetV = points[target];
+            LerpV = true;
+        }
+
+        dragInit = true;
+    }
+
+    public void OnDrag()
+    {
+        if (dragInit)
+        {
+            dragStartNearest = FindNearest(scroll.horizontalNormalizedPosition, points);
+            dragInit = false;
+        }
+
+        LerpH = false;
+        LerpV = false;
+    }
+
+    int FindNearest(float f, float[] array)
+    {
+        float distance = Mathf.Infinity;
+        int output = 0;
+        for (int index = 0; index < array.Length; index++)
+        {
+            if (Mathf.Abs(array[index] - f) < distance)
+            {
+                distance = Mathf.Abs(array[index] - f);
+                output = index;
+            }
+        }
+        return output;
     }
 }

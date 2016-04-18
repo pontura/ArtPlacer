@@ -11,8 +11,5 @@ public class ScrollContent : MonoBehaviour {
     {
         field.text = id.ToString();
         this.id = id;
-
-
-        print("id: " + id);
     }
 }
