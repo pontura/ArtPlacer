@@ -89,6 +89,10 @@ public class Data : MonoBehaviour
     public void SetTitle(string _title)
     {
         title.text = _title;
+		if (title.text == "")
+			rayita.SetActive(false);
+		else
+			rayita.SetActive(true);
     }
     public void LoadLevel(string aLevelName)
     {
@@ -248,6 +252,7 @@ public class Data : MonoBehaviour
     private bool mainMenuOpened;
     public GameObject hamburguerButon;
 	public GameObject backButon;
+	public GameObject rayita;
 
     public void SetMainMenuActive(bool stateActivation)
     {

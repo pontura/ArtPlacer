@@ -74,6 +74,8 @@ public class AreaData : MonoBehaviour {
 		} else {
 			areas[id].pointers = pointers;
 			areas[id].position = position;
+            areas[id].height = height;
+            areas[id].width = width;
 		}		
 
 	}

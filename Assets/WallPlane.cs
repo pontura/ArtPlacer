@@ -7,6 +7,7 @@ public class WallPlane : MonoBehaviour {
 	public GameObject[] arrows;
 	public GameObject area;
 	public int AreaId=-1;
+    public int areaHeight;
 	
 	public GameObject artWork;
 	Camera cam;
@@ -67,6 +68,7 @@ public class WallPlane : MonoBehaviour {
 			UpdateArrow (2);
 			UpdateArrow (3);
 		}
+        Events.OnWallActive(this);
 	}
 	
 	public void EnableAreaCollider(bool enable){
@@ -97,8 +99,10 @@ public class WallPlane : MonoBehaviour {
 				RaycastHit rayhit;
 				if (Physics.Raycast (screenRay, out rayhit)) {				
 					if (select < 0) {
+                        
 						if (rayhit.collider.gameObject == area && moveArea) {
 							Events.OnWallEdgeSelected ();
+                            Events.OnWallActive(this);
 							select = 9;
 							Vector3 mPos = Input.mousePosition;
 							mPos.z = 1.0f;
@@ -109,7 +113,8 @@ public class WallPlane : MonoBehaviour {
 							Events.ResetPointers();
 							foreach(GameObject go in pointer)go.GetComponent<SpriteRenderer>().color = selColor;
 							foreach(GameObject go in arrows)go.GetComponent<SpriteRenderer>().color = selColor;
-						} else {                    
+						} else {
+                            Events.OnWallActive(this);
 							Events.OnWallEdgeSelected ();
 							//print ("Mesh Id Selected: "+mesh.GetInstanceID());
 							for (int i=0; i<areaMesh.vertexCount; i++) {
@@ -293,14 +298,10 @@ public class WallPlane : MonoBehaviour {
 	
 	void SaveArea()
 	{
-		/*Debug.Log("AreaZ_0: "+ mesh.vertices[0].z);
-		Vector3[] vertices = new Vector3[4];
-		for (int i=0; i<vertices.Length; i++)
-			vertices [i] = area.transform.TransformPoint(mesh.vertices[i]);			
-		Debug.Log("AreaZ_1: "+ vertices[0].z);*/
-		Data.Instance.AddArea (AreaId, areaMesh.vertices, transform.position, 100f, 100f);
-		//Data.Instance.areaData.AddAreas (AreaId, mesh.vertices, transform.position, 0);
+        float areaWidth= GetComponent<SizeCalculator>().CalculateWidth(areaHeight);
+        Data.Instance.AddArea(AreaId, areaMesh.vertices, transform.position, areaWidth, areaHeight);
 	}
+
 	
 	void OnDestroy()
 	{

@@ -7,9 +7,20 @@ public class ScrollContent : MonoBehaviour {
     public Text field;
     public int id;
 
-    public void Init(int id)
+    public void Init(int id, string addSimbol)
     {
-        field.text = id.ToString();
+        if (id >= 0)
+        {
+            string texto = id.ToString() + addSimbol;
+
+            if (id < 10)
+                field.text = "0" + texto;
+            else
+                field.text = texto;
+           
+        }
+        else
+            field.text = "";
         this.id = id;
     }
 }

@@ -6,16 +6,28 @@ using System.IO;
 public class Walls : MonoBehaviour {
 
    // public Animation tooltipAddWall;
+    public states state;
+    public enum states
+    {
+        EMPTY,
+        ADDING,
+        EDITTING_WALL,
+        EDITING_HEIGHT,
+        READY
+    }
     public Animation tooltipSelectWall;
     public Animation tooltipFitEdges;
 
-    
+    public bool editingSizes;
+
     public Button AddButton;
     public Button deleteButton;
     public Button confirmButton;
+    public Button readyButton;
 
 	void Start () {
 
+        readyButton.interactable = false;
         Events.HelpShow();
 
         Data.Instance.SetTitle("");
@@ -34,7 +46,46 @@ public class Walls : MonoBehaviour {
         Events.Back += Back;
         Events.OnNumWallsChanged += OnNumWallsChanged;
         Events.OnWallEdgeSelected += OnNumWallsChanged;
+        Events.OnWallEdgeSelected += OnWallEdgeSelected;
+        Events.OnWallActive += OnWallActive;
         Invoke("timeOut", 0.2f);
+    }
+    void SetState()
+    {
+        switch (state)
+        {
+            case states.EMPTY:
+                Events.HelpChangeStep(1);
+                deleteButton.interactable = false;
+                confirmButton.interactable = false;
+                AddButton.interactable = true;
+                readyButton.interactable = false;
+                break;
+            case states.ADDING:
+                deleteButton.interactable = false;
+                confirmButton.interactable = false;
+                AddButton.interactable = true;
+                readyButton.interactable = false;
+                break;
+            case states.EDITTING_WALL:
+                deleteButton.interactable = true;
+                confirmButton.interactable = true;
+                AddButton.interactable = false;
+                readyButton.interactable = false;
+                break;
+            case states.EDITING_HEIGHT:
+                deleteButton.interactable = false;
+                confirmButton.interactable = true;
+                AddButton.interactable = false;
+                readyButton.interactable = false;
+                break;
+            case states.READY:
+                deleteButton.interactable = false;
+                confirmButton.interactable = false;
+                AddButton.interactable = true;
+                readyButton.interactable = true;
+                break;
+        }
     }
     void timeOut()
     {
@@ -54,9 +105,21 @@ public class Walls : MonoBehaviour {
         Events.Back -= Back;
         Events.OnNumWallsChanged -= OnNumWallsChanged;
         Events.OnWallEdgeSelected -= OnNumWallsChanged;
+        Events.OnWallEdgeSelected -= OnWallEdgeSelected;
+        Events.OnWallActive -= OnWallActive;
     }
     private int totalWalls;
 
+    void OnWallEdgeSelected()
+    {
+        state = states.EDITTING_WALL;
+        SetState();
+    }
+    private WallPlane wallPlane;
+    void OnWallActive(WallPlane _wallPlane)
+    {
+        this.wallPlane = _wallPlane;
+    }
     void OnNumWallsChanged(int qty)
     {
         adding = false;
@@ -84,22 +147,45 @@ public class Walls : MonoBehaviour {
     {
         Data.Instance.LoadLevel("LoadRoom");
     }
+    public void Confirm()
+    {
+        AddButton.interactable = false;
+        if (editingSizes)
+        {
+            editingSizes = false;
+            GetComponent<HeightConfirm>().Hide();
+            Events.ResetPointers();
+            Reseted();
+            state = states.READY;
+            SetState();
+            wallPlane.areaHeight = GetComponent<HeightConfirm>().result;
+        }
+        else
+        {
+            editingSizes = true;
+            GetComponent<HeightConfirm>().Init(wallPlane.areaHeight);
+            state = states.EDITING_HEIGHT;
+            SetState();
+        }
+    }
     public void Ready()
     {
 		Events.SaveAreas ();
-        Data.Instance.LoadLevel("ConfirmSizes");
+        Data.Instance.LoadLevel("ArtPlaced");
     }
-    private bool adding;
+    public bool adding;
     public void Add()
     {
+        state = states.ADDING;
+        SetState();
+
 		Events.OnWallEdgeUnSelected ();
         Events.HelpChangeState(false);
 
         if (!adding)
         {
             AddButton.GetComponent<Animation>().Stop();
-            AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
-            // tooltipAddWall.gameObject.SetActive(false);
+           AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
             tooltipSelectWall.gameObject.SetActive(true);
 
             tooltipSelectWall.Play("tooltipOnVertical");
@@ -119,16 +205,12 @@ public class Walls : MonoBehaviour {
     }
     public void Reseted()
     {
-        // tooltipAddWall.gameObject.SetActive(true);
-        // tooltipAddWall.Play("tooltipOn");
-        Events.HelpChangeStep(1);
-        deleteButton.interactable = false;
-        confirmButton.interactable = false;
+        state = states.EMPTY;
+        SetState();
     }
     public void Started()
     {
-        Events.HelpChangeStep(2);
-        deleteButton.interactable = true;
-        confirmButton.interactable = true;
+        state = states.EDITTING_WALL;
+        SetState();
     }
 }

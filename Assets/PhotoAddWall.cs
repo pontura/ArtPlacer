@@ -8,6 +8,7 @@ public class PhotoAddWall : MonoBehaviour {
 	public RectTransform menuArea;
 	public bool add = true;
     private int numWalls;
+
 	Camera cam;
 
 	// Use this for initialization

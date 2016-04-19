@@ -5,9 +5,20 @@ public class MainMenu : MonoBehaviour {
 
     public GameObject helpButton;
     private bool helpWasActive;
+    private bool open;
 
+    void Start()
+    {
+        Events.ToggleUnit += ToggleUnit;
+    }
+    void ToggleUnit()
+    {
+        if (open)
+            Close();
+    }
     public void Open()
     {
+        open = true;
         GetComponent<Animation>().Play("MainMenuOpen");
         if (helpButton.activeSelf)
         {
@@ -45,6 +56,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void Close()
     {
+        open = false;
         GetComponent<Animation>().Play("MainMenuClose");
         Invoke("ResetClose", 0.5f);
         if (helpWasActive)

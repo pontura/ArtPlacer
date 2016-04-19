@@ -28,6 +28,8 @@ public class WallCreator : MonoBehaviour {
 
                 createdPlaneArtworks.transform.SetParent(gameContainer.transform);
 
+                createdPlaneArtworks.GetComponent<WallPlane>().areaHeight = (int)Data.Instance.areaData.areas[i].height;
+
                 createdPlanes.Add(createdPlaneArtworks.GetComponent<WallPlane>());
             }
         }
@@ -44,6 +46,7 @@ public class WallCreator : MonoBehaviour {
     }
     public void SelectArea(int id)
     {
+        
         foreach (WallPlane wallPlanes in createdPlanes)
             wallPlanes.area.GetComponent<MeshRenderer>().material = UnselectedMaterial;
 

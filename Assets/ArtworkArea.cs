@@ -18,11 +18,6 @@ public class ArtworkArea : MonoBehaviour {
 	RectTransform transform;
 	RectTransform areaTransform;
 
-	int limitTop = Screen.height;
-	int limitLeft = 0;
-	int limitRight = Screen.width;
-	int limitBottom = 0;
-
 	Vector3 offset;
 
 	enum SelectMove {
@@ -44,7 +39,7 @@ public class ArtworkArea : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.mousePosition.x > 0 && Input.mousePosition.y > 0) {
+
 			if (selectMove == SelectMove.Area) {
 				Vector3 pos = Input.mousePosition-offset;
 				/*if ((pos.x - transform.sizeDelta.x * 0.5f > limitLeft) && (pos.x + transform.sizeDelta.x * 0.5 < limitRight) && (pos.y - transform.sizeDelta.y * 0.5 > limitBottom) && (pos.y + transform.sizeDelta.y * 0.5 < limitTop))		gameObject.transform.position = pos;
@@ -86,7 +81,7 @@ public class ArtworkArea : MonoBehaviour {
 				aRt.offsetMin = new Vector2(aRt.offsetMin.x,aRt.offsetMin.y+(Input.mousePosition.y-deltaMove.y));
 				deltaMove = Input.mousePosition;
 			}
-		}
+		//}
 	}
 
 	public void OnPointerDownArea()
