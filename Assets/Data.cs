@@ -179,9 +179,10 @@ public class Data : MonoBehaviour
         FileInfo[] fileInfo = folder.GetFiles();
         return fileInfo;
     }
-    public void SaveRoom()
+    public void SaveRoom(bool notAutomatic)
     {
-        Events.OnTooltipOn("SAVING ROOM");
+        if (notAutomatic)
+            Events.OnTooltipOn("SAVING ROOM");
 
         byte[] bytes = lastPhotoTexture.EncodeToPNG();
 
@@ -198,7 +199,9 @@ public class Data : MonoBehaviour
         File.WriteAllBytes(GetFullPathByFolder("Rooms", path + ".png"), bytes);
 
         Events.OnGenerateRoomThumb(path);
-		lastPhotoTexture = null;
+
+        if (notAutomatic)
+            lastPhotoTexture = null;
     }
 
 	public void DeletePhotoRoom(string path)

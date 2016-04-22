@@ -78,6 +78,9 @@ public class ArtPlaced : MonoBehaviour {
     }
     void timeOut()
     {
+        if(Data.Instance.lastScene == "Walls")
+            Data.Instance.SaveRoom(false);
+
         if (artworkList.Count == 0)
             Events.HelpChangeState(true);
         else Events.HelpChangeStep(2);
@@ -294,7 +297,7 @@ public class ArtPlaced : MonoBehaviour {
         Events.OnLoading(true);
 		if (isNew)
 			Data.Instance.areaData.SetAsNew ();
-		Data.Instance.SaveRoom();
+		Data.Instance.SaveRoom(true);
 		Data.Instance.lastArtTexture = null;
 		//print ("Areas Count: " + Data.Instance.areaData.areas.Count);
 		Data.Instance.areaData.areas.Clear ();
