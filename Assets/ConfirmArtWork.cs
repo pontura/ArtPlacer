@@ -79,11 +79,16 @@ public class ConfirmArtWork : MonoBehaviour {
     }
 	public void Back2Walls()
 	{
-		Data.Instance.lastArtTexture = null;
-		Data.Instance.LoadLevel ("ArtPlaced");
+        Data.Instance.lastArtTexture = null;
+        Data.Instance.LoadLevel("ArtPlaced");
 	}
     public void Back()
     {
+        if (Data.Instance.lastScene == "ConfirmArtworkSize")
+        {
+            Data.Instance.LoadLevel("Artworks");
+            return;
+        }
 		Debug.Log (Data.Instance.lastScene);
 		Data.Instance.lastArtTexture = null;
         Data.Instance.Back();

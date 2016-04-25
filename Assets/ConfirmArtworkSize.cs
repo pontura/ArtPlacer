@@ -32,6 +32,7 @@ public class ConfirmArtworkSize : MonoBehaviour
 
     void Start()
     {
+        Events.Back += Back;
         Data.Instance.SetTitle("My Artwork");
 
         if (Data.Instance.artData.selectedGallery == -2 && Data.Instance.artData.selectedArtWork.url != "")
@@ -121,6 +122,7 @@ public class ConfirmArtworkSize : MonoBehaviour
     void OnDestroy()
     {
         Events.ToggleUnit -= ToggleUnits;
+        Events.Back -= Back;
     }
     void Update()
     {
@@ -194,7 +196,7 @@ public class ConfirmArtworkSize : MonoBehaviour
 
     public void Back()
     {
-        Data.Instance.LoadLevel("Artworks");
+        Data.Instance.LoadLevel("ConfirmArtwork");
     }
     public void Ready()
     {
