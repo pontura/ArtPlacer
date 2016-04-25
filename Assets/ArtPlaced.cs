@@ -255,7 +255,7 @@ public class ArtPlaced : MonoBehaviour {
 	{
 		//tooltipAddArt.gameObject.SetActive(false);
 		Data.Instance.lastArtTexture = null;
-		Data.Instance.LoadLevel("Galleries");
+		Data.Instance.LoadLevel("SelectArtworks");
 	}
 
     public void GotoGallery()
