@@ -32,8 +32,9 @@ public class MainMenu : MonoBehaviour {
     }
     public void NewRoom()
     {
-        if (Data.Instance.areaData.areas.Count == 0)
-        {
+		Data.Instance.isPhoto4Room=true;
+        if (Data.Instance.areaData.areas.Count == 0)        {
+
             Data.Instance.LoadLevel("Rooms");
         }
         else
@@ -46,12 +47,13 @@ public class MainMenu : MonoBehaviour {
     {	
         Data.Instance.roomsData.type = RoomsData.types.LOCAL;
 		Data.Instance.lastArtTexture = null;
+		Data.Instance.isPhoto4Room=true;
         Data.Instance.LoadLevel("Rooms");
         Close();
     }
     public void Galleries()
     {
-        Data.Instance.LoadLevel("Galleries");
+		Data.Instance.LoadLevel("SelectArtworks");
         Close();
     }
     public void Close()

@@ -205,6 +205,8 @@ public class ConfirmArtworkSize : MonoBehaviour
         float aspect = 1f * Data.Instance.lastArtTexture.width / Data.Instance.lastArtTexture.height;
         int w = (int)(_height * aspect);
         Data.Instance.SavePhotoArt(signal.GetName(), signal.GetAuthor(), w, result);
+		Data.Instance.lastArtTexture = null;
+		Data.Instance.isPhoto4Room = true;
         Data.Instance.LoadLevel("artworks");
     }
 
