@@ -17,7 +17,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
     void Start()
     {
         Events.HelpHide();
-        Data.Instance.SetBackActive(false);
+        Data.Instance.SetBackActive(true);
+        Events.Back += Back;
         // tooltipSizes.gameObject.SetActive(false);               
 
 		area = Instantiate (artworkArea);
@@ -28,14 +29,13 @@ public class ConfirmArtworkCrop : MonoBehaviour {
         Invoke("startTooltip", 0.5f);
     }   
     
-    void startTooltip()
+    void OnDestroy()
     {
-        // tooltipSizes.gameObject.SetActive(true);
-        // tooltipSizes.Play("tooltipOnVertical");
+        Events.Back -= Back;
     }
 	public void Back()
 	{
-		Data.Instance.LoadLevel("Walls");
+		Data.Instance.LoadLevel("Artworks");
     }
     public void Ready()
     {
