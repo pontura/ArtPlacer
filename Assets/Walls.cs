@@ -38,9 +38,9 @@ public class Walls : MonoBehaviour {
         tooltipSelectWall.gameObject.SetActive(false);
         tooltipFitEdges.gameObject.SetActive(false);
         
-        if (Data.Instance.areaData.areas.Count > 0)
-			Started();
-		else
+        //if (Data.Instance.areaData.areas.Count > 0)
+        //    Started();
+        //else
         	Reseted();
 
         Events.Back += Back;
@@ -184,7 +184,6 @@ public class Walls : MonoBehaviour {
 
         if (!adding)
         {
-            AddButton.GetComponent<Animation>().Stop();
            AddButton.GetComponentInChildren<Image>().color = Data.Instance.selectedColor;
             tooltipSelectWall.gameObject.SetActive(true);
 
