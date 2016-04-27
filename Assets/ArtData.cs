@@ -315,7 +315,7 @@ public class ArtData : MonoBehaviour {
     }
 	public void SetSelectedArtworkByThumbID(int id)
 	{	
-		print("Gallery Id: "+selectedGallery+" Artworks Id: "+ id);
+
 		if (selectedGallery == -1) {
 			Favourite fav = favorites.Find(x => x.artId==id);
 			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);

@@ -109,7 +109,6 @@ public class Data : MonoBehaviour
     }
     void Awake()
     {
-        
         if (!mInstance)
             mInstance = this;
         //otherwise, if we do, kill this thing

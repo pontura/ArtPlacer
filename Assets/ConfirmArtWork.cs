@@ -166,11 +166,18 @@ public class ConfirmArtWork : MonoBehaviour {
     {
         MoveTo(false);
     }
+    private bool next;
     void MoveTo(bool next)
     {
+        this.next = next;
         Events.OnLoading(true);
-        Debug.Log("MoveTo" + next);
         int artDataArrayID = GetCurentDataIdInArray();
+        if (artDataArrayID == -1)
+        {
+            Debug.Log("ERROR");
+            Events.OnLoading(false);
+            return;
+        }
         if (next)
         {
             if (artDataArrayID + 1 == gallery.artWorksData.Count) artDataArrayID = 0;
@@ -190,30 +197,39 @@ public class ConfirmArtWork : MonoBehaviour {
         int id = 0;
         foreach (ArtData.GalleryData.ArtData artData in gallery.artWorksData)
         {
-            if (artData.url == Data.Instance.artData.selectedArtWork.url)
+            if (artData != null && artData.url == Data.Instance.artData.selectedArtWork.url)
                 return id;
 
             id++;
         }
-        return id;
+        return -1;
     }
     private Texture2D texture2d;
     public IEnumerator LoadArtWork(ArtData.GalleryData.ArtData artData)
     {
-        if (gallery.id == -2)
-            texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
+        if (artData == null)
+        {
+            Debug.Log("No existe el proximo artwork!");
+            Events.OnLoading(false);
+            MoveTo(next);
+        }
         else
-            yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
+        {
+            if (gallery.id == -2)
+                texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
+            else
+                yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
 
-        Data.Instance.SetLastArtTexture(texture2d);
 
-        Data.Instance.artData.SetSelectedArtworkByArtID(artData.artId);
-        Data.Instance.artData.SetSelectedArtworkByThumbID(artData.artId);
-        Data.Instance.isArtworkInfo2Place = true;
-        Data.Instance.LoadLevel("ConfirmArtWork");
+            Data.Instance.SetLastArtTexture(texture2d);
 
-        Debug.Log("newArtID: " + artData.artId);
-        Events.OnLoading(false);
+            Data.Instance.artData.SetSelectedArtworkByArtID(artData.artId);
+            Data.Instance.artData.SetSelectedArtworkByThumbID(artData.artId);
+            Data.Instance.isArtworkInfo2Place = true;
+            Data.Instance.LoadLevel("ConfirmArtWork");
+
+            Events.OnLoading(false);
+        }
         yield return null;
     }
 

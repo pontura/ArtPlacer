@@ -227,13 +227,13 @@ public class ArtWorks : MonoBehaviour
         //Data.Instance.isArtworkInfo2Place = true;  
         //Data.Instance.LoadLevel("ConfirmArtWork");
         Events.OnLoading(true);
-        if (Data.Instance.artData.selectedGallery == -3)
+        if (Data.Instance.artData.selectedGallery == -3 || Data.Instance.artData.selectedGallery == -1)
         {
-
+            print(id);
             int gallery_id = 0;
             foreach (ArtData.GalleryData.ArtData artData in gallery.artWorksData)
             {
-                if (artData.artId == id)
+                if (artData != null && artData.artId != null && artData.artId == id)
                     gallery_id = artData.galleryId;
             }
             print(id + " gallery_id: " + gallery_id);
@@ -260,9 +260,9 @@ public class ArtWorks : MonoBehaviour
     private Texture2D texture2d;
     public IEnumerator LoadArtWork(ArtData.GalleryData.ArtData artData)
     {
-        Debug.Log("______" + artData.url + " gallery.id " + gallery.id);
+        Debug.Log("______" + artData.url + " gallery.id " + Data.Instance.artData.selectedGallery);
 
-        if (gallery.id == -2)
+        if (Data.Instance.artData.selectedGallery == -2)
             texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
         else
             yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
