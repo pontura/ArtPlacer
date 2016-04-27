@@ -93,7 +93,10 @@ public class ArtPlaced : MonoBehaviour {
         }
         else
         {
-            Data.Instance.LoadLevel("NewRoomConfirmation");
+            if (Data.Instance.roomsData.changesMade)
+                Data.Instance.LoadLevel("NewRoomConfirmation");
+            else
+                Data.Instance.LoadLevel("Rooms");
         }
     }
 
@@ -191,6 +194,7 @@ public class ArtPlaced : MonoBehaviour {
 		Vector2 offset = new Vector2(pixelUV.x*rend.material.mainTextureScale.x,pixelUV.y*rend.material.mainTextureScale.y);
 		//if(hit.textureCoord.x-0.25f*scale.x>0f&&hit.textureCoord.x+0.25f*scale.x<1f&&hit.textureCoord.y-0.25f*scale.y>0f&&hit.textureCoord.y+0.25f*scale.y<1f){
 		if(hit.textureCoord.x>0f&&hit.textureCoord.x<1f&&hit.textureCoord.y>0f&&hit.textureCoord.y<1f){
+            Data.Instance.roomsData.ChangesMade(true);
 			thumbRenderer.enabled = false;
 			hit.collider.GetComponent<MeshRenderer>().enabled=true;
 		}else{

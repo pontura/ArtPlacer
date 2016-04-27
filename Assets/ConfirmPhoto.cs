@@ -12,7 +12,13 @@ public class ConfirmPhoto : MonoBehaviour {
         Events.Back += Back;
         Data.Instance.SetTitle("");
 
-        Invoke("OpenTooltip", 0.7f);
+        Invoke("OpenTooltip", 0.5f);
+        Events.HelpShow();
+       
+    }
+    void OpenTooltip()
+    {
+        Events.HelpChangeState(true);
     }
     void OnDestroy()
     {

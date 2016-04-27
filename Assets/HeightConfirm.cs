@@ -34,9 +34,9 @@ public class HeightConfirm : MonoBehaviour {
         panel.SetActive(false);
 
     }
-    public void Init(int result)
+    public void Init(int _result)
     {
-        if (result < 1) result = 150;
+        if (_result < 1 && result<1) result = 240;
         panel.SetActive(true);
         areaActiveID = 0;
 

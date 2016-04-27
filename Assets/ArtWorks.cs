@@ -30,10 +30,13 @@ public class ArtWorks : MonoBehaviour
     private bool isOn;
     private int separationY = 0;
     private int separationx = 0;
+
+    public ArtData.GalleryData gallery;
     //private int id;
 
     void Start()
     {
+        gallery = Data.Instance.artData.GetCurrentGallery();
         Data.Instance.SetBackActive(true);
         string _title = "";
         if (Data.Instance.artData.selectedGallery != -3)
@@ -84,7 +87,7 @@ public class ArtWorks : MonoBehaviour
            string path;
            try
            {
-               path = data.GetUrl();
+               path = data.GetUrl(true);               
                AddThumb(path, data.artId, data.isLocal);
            }
            catch
@@ -168,14 +171,7 @@ public class ArtWorks : MonoBehaviour
           else
               Data.Instance.LoadLevel("Galleries");
     }
-    public void OnSelect(int id)
-    {   
-		Data.Instance.artData.SetSelectedArtworkByThumbID(id);
-		Data.Instance.isArtworkInfo2Place = true;  
-        Data.Instance.LoadLevel("ConfirmArtWork");
-		// evitamos mostrar la info al seleccionar la obra y la pone directo en la pared
-		//Data.Instance.LoadLevel ("ArtPlaced");
-    }
+   
 
     public void Open()
     {
@@ -219,5 +215,74 @@ public class ArtWorks : MonoBehaviour
         Data.Instance.isPhoto4Room = false;
         Data.Instance.lastArtTexture = tex;
         Data.Instance.LoadLevel("ConfirmPhoto");
+    }
+
+
+
+
+
+    public void OnSelect(int id)
+    {
+        //Data.Instance.artData.SetSelectedArtworkByThumbID(id);
+        //Data.Instance.isArtworkInfo2Place = true;  
+        //Data.Instance.LoadLevel("ConfirmArtWork");
+        Events.OnLoading(true);
+        if (Data.Instance.artData.selectedGallery == -3)
+        {
+
+            int gallery_id = 0;
+            foreach (ArtData.GalleryData.ArtData artData in gallery.artWorksData)
+            {
+                if (artData.artId == id)
+                    gallery_id = artData.galleryId;
+            }
+            print(id + " gallery_id: " + gallery_id);
+            StartCoroutine(LoadArtWork(Data.Instance.artData.GetArtData(gallery_id, id)));
+        }
+        else
+        {
+            StartCoroutine(LoadArtWork(Data.Instance.artData.GetArtData(gallery.id, id)));
+        }
+
+    }
+    int GetCurentDataIdInArray()
+    {
+        int id = 0;
+        foreach (ArtData.GalleryData.ArtData artData in gallery.artWorksData)
+        {
+            if (artData.url == Data.Instance.artData.selectedArtWork.url)
+                return id;
+
+            id++;
+        }
+        return id;
+    }
+    private Texture2D texture2d;
+    public IEnumerator LoadArtWork(ArtData.GalleryData.ArtData artData)
+    {
+        Debug.Log("______" + artData.url + " gallery.id " + gallery.id);
+
+        if (gallery.id == -2)
+            texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
+        else
+            yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
+
+        Events.OnLoading(false);
+
+        Data.Instance.SetLastArtTexture(texture2d);
+
+        Data.Instance.artData.SetSelectedArtworkByArtID(artData.artId);
+        Data.Instance.artData.SetSelectedArtworkByThumbID(artData.artId);
+        Data.Instance.isArtworkInfo2Place = true;
+        Data.Instance.LoadLevel("ConfirmArtWork");
+
+        //Data.Instance.artData.SetSelectedArtworkByThumbID(id);
+        //Data.Instance.isArtworkInfo2Place = true;
+        //Data.Instance.LoadLevel("ConfirmArtWork");
+
+
+        Debug.Log("newArtID: " + artData.artId);
+       
+        yield return null;
     }
 }

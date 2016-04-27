@@ -5,6 +5,9 @@ using System;
 
 public class RoomsData : MonoBehaviour {
 
+    //se fija si algo cambió par grabar o salir
+    public bool changesMade;
+
     public types type;
     public enum types
     {
@@ -142,7 +145,7 @@ public class RoomsData : MonoBehaviour {
     }
     public void RemoveArtFromRoom(int GalleryArtID)
     {
-        print("RemoveArtFromRoom " + GalleryArtID);
+        ChangesMade(true);
         RoomAreaArtWork toDelete = null;
         RoomArea roomAreaToDelete = null;
 
@@ -165,6 +168,10 @@ public class RoomsData : MonoBehaviour {
             print("roomAreaToDelete " + toDelete.id);
             roomAreaToDelete.artworks.Remove(toDelete);
         }
+    }
+    public void ChangesMade(bool made)
+    {
+        changesMade = made;
     }
 
 }

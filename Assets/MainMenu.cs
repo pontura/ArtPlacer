@@ -39,7 +39,10 @@ public class MainMenu : MonoBehaviour {
         }
         else
         {
-            Data.Instance.LoadLevel("NewRoomConfirmation");
+            if (Data.Instance.roomsData.changesMade)
+                Data.Instance.LoadLevel("NewRoomConfirmation");
+            else
+                Data.Instance.LoadLevel("Rooms");
         }
         Close();
     }

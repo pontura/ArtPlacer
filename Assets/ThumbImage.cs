@@ -4,6 +4,7 @@ using System.Collections;
 
 public class ThumbImage : MonoBehaviour{
 	
+    public GameObject loadingAsset;
 	private Sprite sprite;
 	private Texture2D texture2d;
     public Image RawImage;
@@ -13,6 +14,9 @@ public class ThumbImage : MonoBehaviour{
 	
 	public void Init(Footer _footer, string url, int _id, bool local)
 	{
+        if (!local && loadingAsset) loadingAsset.SetActive(true);
+        else if (loadingAsset) loadingAsset.SetActive(false);
+
 		if (local) 
 			RealLoadLocalImage (url);
 		else
@@ -61,11 +65,12 @@ public class ThumbImage : MonoBehaviour{
 
 		});
 	}
-	
+    private bool local;
 	public void Init(ArtWorks artWorks, string url_, int id, bool local)
 	{
 		url = url_;
 		if (local) {
+            if (loadingAsset) loadingAsset.SetActive(false);
 			RealLoadLocalImage (url);
 			GetComponent<Button>().onClick.AddListener(() =>			                                           {
 				Events.OnLoading(true);
@@ -81,8 +86,8 @@ public class ThumbImage : MonoBehaviour{
 		}
 		
 	}
-    private int _w = 200;
-    private int _h = 200;
+    private int _w = 400;
+    private int _h = 400;
 
 	private void RealLoadLocalImage(string url)
 	{
@@ -99,15 +104,26 @@ public class ThumbImage : MonoBehaviour{
 	{
 		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
 		//print("url: " + url);
-		if (texture2d != null)
-		{
-			sprite = new Sprite();
+        if (texture2d != null)
+        {
+            sprite = new Sprite();
             sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, _w, _h), new Rect(0, 0, _w, _h), Vector2.zero);
             RawImage.sprite = sprite;
-		}
+            LoadReady();
+        }
+        else
+        {
+            if (!local)
+            {
+                StartCoroutine(RealLoadImage(url));
+            }
+        }
 		yield return null;
 	}
-	
+    void LoadReady()
+    {
+        if (loadingAsset) loadingAsset.SetActive(false);
+    }
     //private IEnumerator RealGetTexture(string url)
     //{
     //    yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));

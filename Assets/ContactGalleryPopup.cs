@@ -20,6 +20,7 @@ public class ContactGalleryPopup : MonoBehaviour {
 	}
     void ContactGalleryOpenPopup(ArtData.GalleryData data)
     {
+        print("ContactGalleryOpenPopup" + data);
         this.data = data;
         if (data != null)
         {

@@ -11,7 +11,7 @@ public class ContactGallery : MonoBehaviour {
     public void Contact()
     {
         ArtData.GalleryData data;
-        if (Data.Instance.artData.selectedGallery == -3)
+        if (Data.Instance.artData.selectedGallery == -3 || Data.Instance.artData.selectedGallery == -1)
             data = Data.Instance.artData.GetGallery(Data.Instance.artData.selectedArtWork.galleryId);
         else
             data = Data.Instance.artData.GetGallery(Data.Instance.artData.selectedGallery);

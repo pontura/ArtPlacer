@@ -117,7 +117,8 @@ public class Galleries : MonoBehaviour {
         newButton.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         newButton.Init(this, id, _title, url);
 
-      //  print("____" + url + "      _title: " + _title);
+
+        print("____" + url + "      _title: " + _title);
         //id++;
     }
     public void OnSelect(int id)

@@ -52,6 +52,7 @@ public class ArtData : MonoBehaviour {
         {
             public string title;
             public string url;
+            public string thumbnail;
             public string gallery;
             public int galleryId;
             public int artId;
@@ -61,13 +62,16 @@ public class ArtData : MonoBehaviour {
             public Vector2 size;
 			public bool isLocal;
 
-			public string GetUrl(){
+			public string GetUrl(bool thumb){
 				string result = "";
 				if (galleryId == -2) {
 					string folder = Data.Instance.GetArtPath ();		
 					result = Path.Combine (folder, url + ".png");
 				} else {
-					result = url;
+                    if (thumb)
+                        result = thumbnail;
+                    else
+					    result = url;
 				}
 				return result;
 			}
@@ -161,6 +165,8 @@ public class ArtData : MonoBehaviour {
 
                 adata.artId = int.Parse(N["artworks"][i]["id"]);
                 adata.autor = N["artworks"][i]["author"];
+                adata.thumbnail = N["artworks"][i]["thumbnail"];
+
                 Data.Instance.filtersManager.CheckToAddFilter("autor", adata.autor);
                 float h = float.Parse(N["artworks"][i]["height"]);
                 adata.filters = new GalleryData.ArtDataFilters();

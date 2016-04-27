@@ -25,6 +25,9 @@ public class Walls : MonoBehaviour {
     public Button confirmButton;
     public Button readyButton;
 
+
+    public int numWalls;
+
 	void Start () {
 
         readyButton.interactable = false;
@@ -62,24 +65,28 @@ public class Walls : MonoBehaviour {
                 readyButton.interactable = false;
                 break;
             case states.ADDING:
+                Events.HelpChangeStep(2);
                 deleteButton.interactable = false;
                 confirmButton.interactable = false;
                 AddButton.interactable = true;
                 readyButton.interactable = false;
                 break;
             case states.EDITTING_WALL:
+                Events.HelpChangeStep(2);
                 deleteButton.interactable = true;
                 confirmButton.interactable = true;
                 AddButton.interactable = false;
                 readyButton.interactable = false;
                 break;
             case states.EDITING_HEIGHT:
+                Events.HelpChangeStep(3);
                 deleteButton.interactable = false;
                 confirmButton.interactable = true;
                 AddButton.interactable = false;
                 readyButton.interactable = false;
                 break;
             case states.READY:
+                Events.HelpChangeStep(2);
                 deleteButton.interactable = false;
                 confirmButton.interactable = false;
                 AddButton.interactable = true;
@@ -108,7 +115,7 @@ public class Walls : MonoBehaviour {
         Events.OnWallEdgeSelected -= OnWallEdgeSelected;
         Events.OnWallActive -= OnWallActive;
     }
-    private int totalWalls;
+    public int totalWalls;
 
     void OnWallEdgeSelected()
     {

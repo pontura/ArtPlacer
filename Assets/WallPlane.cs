@@ -8,7 +8,8 @@ public class WallPlane : MonoBehaviour {
 	public GameObject area;
 	public int AreaId=-1;
     public int areaHeight;
-	
+
+    public GameObject helpField;
 	public GameObject artWork;
 	Camera cam;
 	
@@ -32,7 +33,14 @@ public class WallPlane : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
+
+        GameObject walls = GameObject.Find("walls");
+        if(walls && walls.GetComponent<Walls>() && walls.GetComponent<Walls>().totalWalls == 1)
+            helpField.SetActive(true);
+        else if (helpField != null) 
+            helpField.SetActive(false);
+
+
 		Events.SaveAreas += SaveArea;
 		Events.MoveButton += MoveButton;
 		Events.ResetPointers += ResetPointers;
@@ -99,7 +107,6 @@ public class WallPlane : MonoBehaviour {
 				RaycastHit rayhit;
 				if (Physics.Raycast (screenRay, out rayhit)) {				
 					if (select < 0) {
-                        
 						if (rayhit.collider.gameObject == area && moveArea) {
 							Events.OnWallEdgeSelected ();
                             Events.OnWallActive(this);
@@ -114,6 +121,7 @@ public class WallPlane : MonoBehaviour {
 							foreach(GameObject go in pointer)go.GetComponent<SpriteRenderer>().color = selColor;
 							foreach(GameObject go in arrows)go.GetComponent<SpriteRenderer>().color = selColor;
 						} else {
+                            if (helpField != null) helpField.SetActive(false);
                             Events.OnWallActive(this);
 							Events.OnWallEdgeSelected ();
 							//print ("Mesh Id Selected: "+mesh.GetInstanceID());

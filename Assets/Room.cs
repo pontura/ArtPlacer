@@ -79,6 +79,7 @@ public class Room : MonoBehaviour
 
 	public void Open()
 	{
+        Data.Instance.roomsData.ChangesMade(false);
 		int id = Data.Instance.roomsData.actualRoomId;
 		RoomsData.Room room = Data.Instance.roomsData.rooms[id];
         totalArtworks2Load = 0;
@@ -118,12 +119,12 @@ public class Room : MonoBehaviour
         {
             if (areaArtwork.galleryID == -2)
             {
-                tex = TextureUtils.LoadLocal(artData.GetUrl());
+                tex = TextureUtils.LoadLocal(artData.GetUrl(false));
             }
             else
             {
-                Debug.Log("Existe esta obra:  artData.GetUrl(): " + artData.GetUrl());
-                yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl(), value => tex = value));
+                Debug.Log("Existe esta obra:  artData.GetUrl(): " + artData.GetUrl(true));
+                yield return StartCoroutine(TextureUtils.LoadRemote(artData.GetUrl(false), value => tex = value));
             }
 
             int h = (int)artData.size.y;

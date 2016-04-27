@@ -62,6 +62,9 @@ public class TextureUtils{
 	public static IEnumerator LoadRemote(string url, System.Action<Texture2D> result)
 	{
 		WWW www = new WWW(url);
+
+       // Debug.Log("URL " + url);
+
 		float elapsedTime = 0.0f;
 
 		while (!www.isDone)
@@ -73,11 +76,10 @@ public class TextureUtils{
 		
 		if (!www.isDone || !string.IsNullOrEmpty(www.error))
 		{
-			Debug.Log("Load Failed");
+		//	Debug.Log("< " + www.error + " > Load Failed:  " + url);
 			result(null);    // Pass null result.
 			yield break;
 		}
-
 		result(www.texture); // Pass retrieved result.
 	}
 

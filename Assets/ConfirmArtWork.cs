@@ -11,12 +11,18 @@ public class ConfirmArtWork : MonoBehaviour {
 	public Button editButton;
 
     public RawImage rawImage;
+    public GameObject paginator;
    // public Text title;
 
     private bool isFavorite;
+    public ArtData.GalleryData gallery;
 
 	void Start () {
-
+        gallery = Data.Instance.artData.GetCurrentGallery();
+        if (gallery.artWorksData.Count < 2)
+        {
+            paginator.SetActive(false);
+        }
         Data.Instance.isPhoto4Room = true;
 
         Events.Back += Back;
@@ -66,16 +72,20 @@ public class ConfirmArtWork : MonoBehaviour {
     {
         Events.OnLoading(true);
         Invoke("Delay", 0.1f);
+        
     }
     public void Delay()
     {
         if (Data.Instance.areaData.areas.Count == 0)
             Data.Instance.LoadLevel("LoadRoom");
         else
+        {
+            Data.Instance.roomsData.ChangesMade(true);
             if (Data.Instance.isArtworkInfo2Place == false)
                 Data.Instance.LoadLevel("Artworks");
             else
                 Data.Instance.LoadLevel("ArtPlaced");
+        }
     }
 	public void Back2Walls()
 	{
@@ -85,6 +95,11 @@ public class ConfirmArtWork : MonoBehaviour {
     public void Back()
     {
         if (Data.Instance.lastScene == "ConfirmArtworkSize")
+        {
+            Data.Instance.LoadLevel("Artworks");
+            return;
+        }
+        if (Data.Instance.lastScene == "ConfirmArtwork")
         {
             Data.Instance.LoadLevel("Artworks");
             return;
@@ -143,4 +158,87 @@ public class ConfirmArtWork : MonoBehaviour {
 		Events.ConvertUnits -= ConvertUnits;
         Events.Back -= Back;
 	}
+    public void Next()
+    {
+        MoveTo(true);
+    }
+    public void Prev()
+    {
+        MoveTo(false);
+    }
+    void MoveTo(bool next)
+    {
+        Events.OnLoading(true);
+        Debug.Log("MoveTo" + next);
+        int artDataArrayID = GetCurentDataIdInArray();
+        if (next)
+        {
+            if (artDataArrayID + 1 == gallery.artWorksData.Count) artDataArrayID = 0;
+            else artDataArrayID++;
+        }
+        else
+        {
+            if (artDataArrayID == 0) artDataArrayID = gallery.artWorksData.Count - 1;
+            else artDataArrayID--;
+        }
+        //int newArtID = gallery.artWorksData[artDataArrayID].artId;
+        StartCoroutine(LoadArtWork(gallery.artWorksData[artDataArrayID]));
+
+    }
+    int GetCurentDataIdInArray()
+    {
+        int id = 0;
+        foreach (ArtData.GalleryData.ArtData artData in gallery.artWorksData)
+        {
+            if (artData.url == Data.Instance.artData.selectedArtWork.url)
+                return id;
+
+            id++;
+        }
+        return id;
+    }
+    private Texture2D texture2d;
+    public IEnumerator LoadArtWork(ArtData.GalleryData.ArtData artData)
+    {
+        if (gallery.id == -2)
+            texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
+        else
+            yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
+
+        Data.Instance.SetLastArtTexture(texture2d);
+
+        Data.Instance.artData.SetSelectedArtworkByArtID(artData.artId);
+        Data.Instance.artData.SetSelectedArtworkByThumbID(artData.artId);
+        Data.Instance.isArtworkInfo2Place = true;
+        Data.Instance.LoadLevel("ConfirmArtWork");
+
+        Debug.Log("newArtID: " + artData.artId);
+        Events.OnLoading(false);
+        yield return null;
+    }
+
+
+
+
+    //public void OnSelected(Footer footer, int id)
+    //{
+    //    if (sprite)
+    //    {
+    //        Data.Instance.SetLastArtTexture(texture2d);
+    //        //Data.Instance.lastArtTexture = sprite.texture;
+    //    }
+    //    footer.OnSelect(id);
+    //}
+
+    //public void OnSelectedLocal(ArtWorks artWorks, int id)
+    //{
+    //    if (sprite)
+    //    {
+    //        Data.Instance.SetLastArtTexture(texture2d);
+    //        //Data.Instance.lastArtTexture = sprite.texture;
+    //    }
+    //    artWorks.OnSelect(id);
+    //}
+
+   
 }

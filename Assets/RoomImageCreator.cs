@@ -6,8 +6,9 @@ public class RoomImageCreator : MonoBehaviour {
     public Camera cameraToScreen;
     private bool takeShot = false;
 
-    public int resWidth = 800;
-    public int resHeight = 600;
+    public int resWidth = 1600;
+    public int resHeight = 1200;
+
     private string path;
 
     void Start()
