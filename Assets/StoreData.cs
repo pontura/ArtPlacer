@@ -54,7 +54,6 @@ public class StoreData : MonoBehaviour
     //Check the Status of the In App Purchase (true/false if player has bought it)
     void CheckIAP_PurchaseStatus()
     {
-      //  Debug.Log(StoreInventory.GetItemBalance("season2unlock"));							// Print the current status of the IAP
         if (StoreInventory.GetItemBalance(StoreAssets.FULL_VERSION_PRODUCT_ID) >= 1)
         {
             fullVersion = true;		// check if the non-consumable in app purchase has been bought or not

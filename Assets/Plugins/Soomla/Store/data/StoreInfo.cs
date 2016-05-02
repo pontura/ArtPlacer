@@ -117,6 +117,8 @@ namespace Soomla.Store
 		public static VirtualItem GetItemByItemId(string itemId) {
 			SoomlaUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 
+            Debug.Log(itemId);
+
 			VirtualItem item;
 			if (VirtualItems != null && VirtualItems.TryGetValue(itemId, out item)) {
 				return item;

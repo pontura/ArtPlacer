@@ -145,6 +145,14 @@ public class Rooms : MonoBehaviour
     }
     public void Open()
     {
+        if (
+           // !StoreData.Instance.fullVersion && 
+            Data.Instance.roomsData.rooms.Count>0
+            )
+        {
+            Events.OnGetFullVersion(1);
+            return;
+        }
         Add.SetActive(false);
         Add_On.SetActive(true);
         SubMenu.SetActive(true);

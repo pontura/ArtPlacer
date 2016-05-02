@@ -6,10 +6,12 @@ public class MainMenu : MonoBehaviour {
     public GameObject helpButton;
     private bool helpWasActive;
     private bool open;
+    public GameObject fullVersionAsset;
 
     void Start()
     {
         Events.ToggleUnit += ToggleUnit;
+        //fullVersionAsset.SetActive(!StoreData.Instance.fullVersion);
     }
     void ToggleUnit()
     {
@@ -72,5 +74,10 @@ public class MainMenu : MonoBehaviour {
     void ResetClose()
     {
         gameObject.SetActive(false);
+    }
+    public void FullVersionClicked()
+    {
+        Data.Instance.LoadLevel("FullVersion");
+        Close();
     }
 }
