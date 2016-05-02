@@ -270,7 +270,7 @@ public class ArtData : MonoBehaviour {
     public GalleryData GetFavourites()
     {
         GalleryData galleryData = new GalleryData();
-        galleryData.title = "Favourites";
+        galleryData.title = "Favorites";
         galleryData.artWorksData = new List<GalleryData.ArtData>();
 
         foreach (Favourite favorite in favorites)

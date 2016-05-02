@@ -62,7 +62,7 @@ public class GalleryButton : MonoBehaviour {
         if (texture2d != null)
         {
             Sprite sprite = new Sprite();
-            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
+            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero, 100);
             rawImage.sprite = sprite;
             loadingAsset.SetActive(false);
         }

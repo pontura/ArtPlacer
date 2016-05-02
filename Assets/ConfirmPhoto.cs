@@ -26,7 +26,15 @@ public class ConfirmPhoto : MonoBehaviour {
     }
     void Back()
     {
-        Data.Instance.LoadLevel("TakePhoto");
+        if (Data.Instance.isPhoto4Room)
+        {
+            Data.Instance.LoadLevel("Rooms");
+        }
+        else
+        {
+            Data.Instance.LoadLevel("Artworks");
+        }
+       // Data.Instance.LoadLevel("TakePhoto");
     }
     void Update()
     {

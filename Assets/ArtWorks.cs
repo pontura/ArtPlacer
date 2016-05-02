@@ -69,7 +69,7 @@ public class ArtWorks : MonoBehaviour
         {
             if (Data.Instance.artData.selectedGallery == -1)
             {
-                helpText.text = "There are no artworks marked as favourites.";
+                helpText.text = "There are no artworks marked as favorites.";
             }
             else if (Data.Instance.artData.selectedGallery == -2)
             {

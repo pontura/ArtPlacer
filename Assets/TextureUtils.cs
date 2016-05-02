@@ -29,7 +29,7 @@ public class TextureUtils{
             targetHeight = source.height * targetWidth / source.width;
         }
 
-        Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
+        Texture2D result = new Texture2D(targetWidth, targetHeight, TextureFormat.ARGB32, false);
 
         float _H = 0;
         float _W = 0;

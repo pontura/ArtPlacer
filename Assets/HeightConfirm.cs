@@ -36,14 +36,23 @@ public class HeightConfirm : MonoBehaviour {
     }
     public void Init(int _result)
     {
-        if (_result < 1 && result<1) result = 240;
+        print("height confirm Init" + _result);
+
+        if (_result < 1)
+        {
+            if (result > 0)
+                _result = result;
+            else
+                _result = 240;
+        }
+
         panel.SetActive(true);
         areaActiveID = 0;
 
         slider.value = Data.Instance.unitSlider.value;
 
         Events.ToggleUnit += ToggleUnits;
-        this.result = result;
+        this.result = _result;
        // float _height = Data.Instance.areaData.areas[areaActiveID].height;
         if (result > 0)
         {

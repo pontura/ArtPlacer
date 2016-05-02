@@ -30,11 +30,11 @@ public class WallPlane : MonoBehaviour {
 	private Color selColor = Color.yellow;
 
 	private float moveStep = 0.005f;
-	
+    private GameObject walls;
 	// Use this for initialization
 	void Start () {
 
-        GameObject walls = GameObject.Find("walls");
+        walls = GameObject.Find("walls");
         if(walls && walls.GetComponent<Walls>() && walls.GetComponent<Walls>().totalWalls == 1)
             helpField.SetActive(true);
         else if (helpField != null) 
@@ -95,6 +95,11 @@ public class WallPlane : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (walls != null && walls.GetComponent<Walls>())
+        {
+            if (walls.GetComponent<Walls>().state == Walls.states.EDITING_HEIGHT)
+                return;
+        }
 		if (Data.Instance.selectedArea == int.MaxValue || Data.Instance.selectedArea == AreaId) {
 			if (Input.GetButton ("Fire1")) {
 				Vector3 mousePos = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
