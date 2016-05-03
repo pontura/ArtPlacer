@@ -17,19 +17,13 @@ public class FullVersionPopup : MonoBehaviour {
         SetOff2();
         buttonField.text = "Full Version";
     }
-    void OnGetFullVersion(int id)
+    void OnGetFullVersion(string field)
     {
-        switch(id)
-        {
-            case 1:
-                isOn = true;
-                Panel.SetActive(true);
-                anim.Play("ContactPopupOn");
-
-                title.text = "GET THE FULL VERSION";
-                desc.text = "xxx";
-                break;
-        }
+        title.text = "GET THE FULL VERSION";
+        isOn = true;
+        Panel.SetActive(true);
+        anim.Play("ContactPopupOn");
+        desc.text = field;
     }
     public void SetOff()
     {

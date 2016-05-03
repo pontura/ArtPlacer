@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour {
     void Start()
     {
         Events.ToggleUnit += ToggleUnit;
-        //fullVersionAsset.SetActive(!StoreData.Instance.fullVersion);
+        fullVersionAsset.SetActive(!StoreData.Instance.fullVersion);
     }
     void ToggleUnit()
     {

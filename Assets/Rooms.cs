@@ -145,12 +145,14 @@ public class Rooms : MonoBehaviour
     }
     public void Open()
     {
+       // print(StoreData.Instance.GetComponent<StoreSettings>().loaded  + "  " + Data.Instance.roomsData.rooms.Count + "  ---  " + StoreData.Instance.GetComponent<StoreSettings>().max_rooms);
         if (
-           // !StoreData.Instance.fullVersion && 
-            Data.Instance.roomsData.rooms.Count>0
+            !StoreData.Instance.fullVersion && 
+            StoreData.Instance.GetComponent<StoreSettings>().loaded &&
+            Data.Instance.roomsData.rooms.Count >= StoreData.Instance.GetComponent<StoreSettings>().max_rooms
             )
         {
-            Events.OnGetFullVersion(1);
+            Events.OnGetFullVersion(StoreData.Instance.GetComponent<StoreSettings>().msg_rooms);
             return;
         }
         Add.SetActive(false);

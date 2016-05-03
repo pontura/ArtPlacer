@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Soomla.Store;
@@ -6,8 +7,11 @@ using Soomla.Store.Example;
 
 public class FullVersion : MonoBehaviour {
 
+    public Text desc;
+ 
     void Start()
     {
+        desc.text = StoreData.Instance.GetComponent<StoreSettings>().msg_general;
         Data.Instance.SetTitle("");
         Data.Instance.SetMainMenuActive(true);
         Events.Back += Back;

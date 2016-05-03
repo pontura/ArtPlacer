@@ -25,7 +25,7 @@ public static class Events {
     public static System.Action GalleryArtworksLoaded = delegate { };
 	public static System.Action<int> MoveButton = delegate { };
 	public static System.Action ResetPointers = delegate { };
-    public static System.Action<int> OnGetFullVersion = delegate { };
+    public static System.Action<string> OnGetFullVersion = delegate { };
 
     //help:
     public static System.Action HelpHide = delegate { };

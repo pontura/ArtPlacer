@@ -175,6 +175,15 @@ public class ArtWorks : MonoBehaviour
 
     public void Open()
     {
+        if (
+           !StoreData.Instance.fullVersion &&
+           StoreData.Instance.GetComponent<StoreSettings>().loaded &&
+           Data.Instance.artData.myArtWorks.artWorksData.Count >= StoreData.Instance.GetComponent<StoreSettings>().max_artworks
+           )
+        {
+            Events.OnGetFullVersion(StoreData.Instance.GetComponent<StoreSettings>().msg_artworks);
+            return;
+        }
         Add.SetActive(false);
         Add_On.SetActive(true);
         SubMenu.SetActive(true);

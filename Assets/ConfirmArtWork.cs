@@ -117,7 +117,18 @@ public class ConfirmArtWork : MonoBehaviour {
     {
         isFavorite = !isFavorite;
         if (isFavorite)
+        {
+            if (
+                !StoreData.Instance.fullVersion && 
+                StoreData.Instance.GetComponent<StoreSettings>().loaded &&
+                Data.Instance.artData.favorites.Count >= StoreData.Instance.GetComponent<StoreSettings>().max_favourites
+           )
+            {
+                Events.OnGetFullVersion(StoreData.Instance.GetComponent<StoreSettings>().msg_favourites);
+                return;
+            }
             Data.Instance.artData.AddToFavorites();
+        }
         else
             Data.Instance.artData.RemoveFromFavorites();
         SetFavorite();
