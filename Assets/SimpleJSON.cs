@@ -69,6 +69,7 @@ namespace SimpleJSON
         public virtual JSONNode this[string aKey]  { get { return null; } set { } }
         public virtual string Value                { get { return "";   } set { } }
         public virtual int Count                   { get { return 0;    } }
+		public virtual IEnumerable<string> Keys { get { yield break; } }
  
         public virtual void Add(JSONNode aItem)
         {
@@ -677,6 +678,14 @@ namespace SimpleJSON
     public class JSONClass : JSONNode, IEnumerable
     {
         private Dictionary<string,JSONNode> m_Dict = new Dictionary<string,JSONNode>();
+		public override IEnumerable<string> Keys
+		{
+			get 
+			{
+				foreach(var key in m_Dict.Keys)
+					yield return key;
+			}
+		}
         public override JSONNode this[string aKey]
         {
             get

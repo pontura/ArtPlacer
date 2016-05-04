@@ -193,12 +193,14 @@ public class ArtData : MonoBehaviour {
                 {
                     //  Data.Instance.filtersManager.CheckToAddFilter("shape", N["artworks"][i]["filter"]["shape"][b]);                           
                     adata.filters.shape.Add(int.Parse(N["artworks"][i]["filter"]["shape"][b]));
+					//Debug.Log ("Shape"+i+": "+int.Parse(N["artworks"][i]["filter"]["shape"][b]));
                 }
 
                 for (int b = 0; b < N["artworks"][i]["filter"]["orientation"].Count; b++)
                 {
                     // Data.Instance.filtersManager.CheckToAddFilter("orientation", N["artworks"][i]["filter"]["orientation"][b]);                           
                     adata.filters.orientation.Add(int.Parse(N["artworks"][i]["filter"]["orientation"][b]));
+					//Debug.Log ("Orientation"+i+": "+int.Parse(N["artworks"][i]["filter"]["orientation"][b]));
                 }
 
                 for (int b = 0; b < N["artworks"][i]["filter"]["technique"].Count; b++)

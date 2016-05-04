@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using SimpleJSON;
+using System.Linq;
 
 public class FiltersManager : MonoBehaviour {
 
@@ -150,7 +151,9 @@ public class FiltersManager : MonoBehaviour {
                     {
                         case "color": arr = artData.filters.color; break;
                         //case "style": arr = artData.filters.style; break;
-                        case "orientation": arr = artData.filters.orientation; break;
+                        case "orientation":
+							arr = artData.filters.orientation;							
+							break;
                         case "technique": arr = artData.filters.technique; break;
                         case "size": arr = artData.filters.size; break;
                         case "shape": arr = artData.filters.shape; break;
@@ -194,35 +197,36 @@ public class FiltersManager : MonoBehaviour {
             if (N["filters"]["shapes"][a] != null)
             {
                 FilterData data = new FilterData();
-                data.id = a;
+				data.id = int.Parse(N["filters"]["shapes"].Keys.ToArray()[a]);
                 data.name = N["filters"]["shapes"][a];
+				Debug.Log("ID: "+data.id+" - Name: "+data.name);
                 shape.Add(data);
             }
             if (N["filters"]["techniques"][a] != null)
             {
                 FilterData data = new FilterData();
-                data.id = a;
+				data.id = int.Parse(N["filters"]["techniques"].Keys.ToArray()[a]);
                 data.name = N["filters"]["techniques"][a];
                 technique.Add(data);
             }
             if (N["filters"]["sizes"][a] != null)
             {
                 FilterData data = new FilterData();
-                data.id = a;
+				data.id = int.Parse(N["filters"]["sizes"].Keys.ToArray()[a]);
                 data.name = N["filters"]["sizes"][a];
                 size.Add(data);
             }
             if (N["filters"]["orientations"][a] != null)
             {
                 FilterData data = new FilterData();
-                data.id = a;
+				data.id = int.Parse(N["filters"]["orientations"].Keys.ToArray()[a]);
                 data.name = N["filters"]["orientations"][a];
                 orientation.Add(data);
             }
             if (N["filters"]["colors"][a] != null)
             {
                 FilterData data = new FilterData();
-                data.id = a;
+				data.id = int.Parse(N["filters"]["colors"].Keys.ToArray()[a]);
                 data.name = N["filters"]["colors"][a];
                 color.Add(data);
             }
