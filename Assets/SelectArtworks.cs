@@ -16,7 +16,10 @@ public class SelectArtworks : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("Intro");
+        if(Data.Instance.lastScene == "ArtPlaced")
+            Data.Instance.LoadLevel("ArtPlaced");
+        else
+            Data.Instance.LoadLevel("Intro");
     }
 	public void Galleries()
     {

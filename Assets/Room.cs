@@ -92,6 +92,7 @@ public class Room : MonoBehaviour
         }
         Events.OnLoading(true);
 		if(totalArtworks2Load==0)LoadRoomTexture();
+        Data.Instance.lastPhotoThumbTexture = null;
     }
     public void Walls()
     {

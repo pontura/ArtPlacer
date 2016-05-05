@@ -32,8 +32,14 @@ public class ConfirmArtworkSize : MonoBehaviour
 
     void Start()
     {
+
         Events.Back += Back;
-        Data.Instance.SetTitle("My Artwork");
+
+        if (Data.Instance.lastScene == "ConfirmArtworkCrop")
+        {
+            Data.Instance.SetBackActive(false);
+            Data.Instance.SetTitle("");
+        }
 
         if (Data.Instance.artData.selectedGallery == -2 && Data.Instance.artData.selectedArtWork.url != "")
         {

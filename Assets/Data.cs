@@ -88,6 +88,7 @@ public class Data : MonoBehaviour
     }
     public void SetTitle(string _title)
     {
+        print("SetTitle + " + _title);
         title.text = _title;
 		if (title.text == "")
 			rayita.SetActive(false);
