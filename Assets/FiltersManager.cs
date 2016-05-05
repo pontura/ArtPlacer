@@ -199,7 +199,7 @@ public class FiltersManager : MonoBehaviour {
                 FilterData data = new FilterData();
 				data.id = int.Parse(N["filters"]["shapes"].Keys.ToArray()[a]);
                 data.name = N["filters"]["shapes"][a];
-				Debug.Log("ID: "+data.id+" - Name: "+data.name);
+				//Debug.Log("ID: "+data.id+" - Name: "+data.name);
                 shape.Add(data);
             }
             if (N["filters"]["techniques"][a] != null)

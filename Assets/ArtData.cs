@@ -144,7 +144,11 @@ public class ArtData : MonoBehaviour {
        // url = "http://localhost/madrollers/artplacer.json";
         WWW textURLWWW = new WWW(url);
         yield return textURLWWW;
-        LoadArtWorkFromGallery(gdata, textURLWWW.text);
+		//Debug.Log (url+" "+textURLWWW.text.Length+" : "+textURLWWW.text);
+		if(textURLWWW.text.Contains("<html>"))
+			StartCoroutine(GetArtworksData(gdata, url));			
+		else
+        	LoadArtWorkFromGallery(gdata, textURLWWW.text);
     }
 
 
