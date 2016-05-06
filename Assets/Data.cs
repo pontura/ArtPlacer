@@ -332,10 +332,12 @@ public class Data : MonoBehaviour
     {
         if (Data.Instance.artData.GetCurrentGallery().artWorksData.Count > 0)
         {
+            print("____estaba lleno");
             Events.GalleryArtworksLoaded();
         }
         else
         {
+            print("__________ estaba vacio: GetCurrentGallery ID: " + Data.Instance.artData.GetCurrentGallery().id);
             StartCoroutine(GetArtworksDataByGalleryRoutine(galleryID));
         }
     }

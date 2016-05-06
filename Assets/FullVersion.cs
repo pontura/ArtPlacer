@@ -35,9 +35,13 @@ public class FullVersion : MonoBehaviour {
     {
         Debug.Log("Get the full Version");
         Events.OnLoading(true);
+        Invoke("OnDelay", 5);
         StoreInventory.BuyItem(StoreAssets.FULL_VERSION_PRODUCT_ID);
     }
-
+    void OnDelay()
+    {
+        Events.OnLoading(false);
+    }
     void onMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string, string> extra)
     {
         StoreInventory.BuyItem(StoreAssets.FULL_VERSION_PRODUCT_ID);

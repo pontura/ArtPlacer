@@ -190,45 +190,55 @@ public class FiltersManager : MonoBehaviour {
         WWW textURLWWW = new WWW(URL);
         yield return textURLWWW;
 
-        var N = JSON.Parse(textURLWWW.text);
-
-        for (int a = 0; a < 50; a++)
+        if (textURLWWW.text.Contains("<html>"))
         {
-            if (N["filters"]["shapes"][a] != null)
+            print("____________________________ vuelve a intentar bajar los FILTROS");
+            StartCoroutine(LoadData());
+        }
+        else
+        {
+            print("CARGO LOS FILTROS: " + (textURLWWW.text));
+
+            var N = JSON.Parse(textURLWWW.text);
+
+            for (int a = 0; a < 50; a++)
             {
-                FilterData data = new FilterData();
-				data.id = int.Parse(N["filters"]["shapes"].Keys.ToArray()[a]);
-                data.name = N["filters"]["shapes"][a];
-				//Debug.Log("ID: "+data.id+" - Name: "+data.name);
-                shape.Add(data);
-            }
-            if (N["filters"]["techniques"][a] != null)
-            {
-                FilterData data = new FilterData();
-				data.id = int.Parse(N["filters"]["techniques"].Keys.ToArray()[a]);
-                data.name = N["filters"]["techniques"][a];
-                technique.Add(data);
-            }
-            if (N["filters"]["sizes"][a] != null)
-            {
-                FilterData data = new FilterData();
-				data.id = int.Parse(N["filters"]["sizes"].Keys.ToArray()[a]);
-                data.name = N["filters"]["sizes"][a];
-                size.Add(data);
-            }
-            if (N["filters"]["orientations"][a] != null)
-            {
-                FilterData data = new FilterData();
-				data.id = int.Parse(N["filters"]["orientations"].Keys.ToArray()[a]);
-                data.name = N["filters"]["orientations"][a];
-                orientation.Add(data);
-            }
-            if (N["filters"]["colors"][a] != null)
-            {
-                FilterData data = new FilterData();
-				data.id = int.Parse(N["filters"]["colors"].Keys.ToArray()[a]);
-                data.name = N["filters"]["colors"][a];
-                color.Add(data);
+                if (N["filters"]["shapes"][a] != null)
+                {
+                    FilterData data = new FilterData();
+                    data.id = int.Parse(N["filters"]["shapes"].Keys.ToArray()[a]);
+                    data.name = N["filters"]["shapes"][a];
+                    //Debug.Log("ID: "+data.id+" - Name: "+data.name);
+                    shape.Add(data);
+                }
+                if (N["filters"]["techniques"][a] != null)
+                {
+                    FilterData data = new FilterData();
+                    data.id = int.Parse(N["filters"]["techniques"].Keys.ToArray()[a]);
+                    data.name = N["filters"]["techniques"][a];
+                    technique.Add(data);
+                }
+                if (N["filters"]["sizes"][a] != null)
+                {
+                    FilterData data = new FilterData();
+                    data.id = int.Parse(N["filters"]["sizes"].Keys.ToArray()[a]);
+                    data.name = N["filters"]["sizes"][a];
+                    size.Add(data);
+                }
+                if (N["filters"]["orientations"][a] != null)
+                {
+                    FilterData data = new FilterData();
+                    data.id = int.Parse(N["filters"]["orientations"].Keys.ToArray()[a]);
+                    data.name = N["filters"]["orientations"][a];
+                    orientation.Add(data);
+                }
+                if (N["filters"]["colors"][a] != null)
+                {
+                    FilterData data = new FilterData();
+                    data.id = int.Parse(N["filters"]["colors"].Keys.ToArray()[a]);
+                    data.name = N["filters"]["colors"][a];
+                    color.Add(data);
+                }
             }
         }
     }

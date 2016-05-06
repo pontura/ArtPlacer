@@ -145,10 +145,13 @@ public class ArtData : MonoBehaviour {
         WWW textURLWWW = new WWW(url);
         yield return textURLWWW;
 		//Debug.Log (url+" "+textURLWWW.text.Length+" : "+textURLWWW.text);
-		if(textURLWWW.text.Contains("<html>"))
-			StartCoroutine(GetArtworksData(gdata, url));			
-		else
-        	LoadArtWorkFromGallery(gdata, textURLWWW.text);
+        if (textURLWWW.text.Contains("<html>"))
+        {
+            print("____________________________ vuelve a intentar");
+            StartCoroutine(GetArtworksData(gdata, url));
+        }
+        else
+            LoadArtWorkFromGallery(gdata, textURLWWW.text);
     }
 
 
