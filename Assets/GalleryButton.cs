@@ -54,7 +54,7 @@ public class GalleryButton : MonoBehaviour {
 
     private IEnumerator LoadThumb(string url)
     {
-       // print(" LoadThumb " + url);
+        print(" LoadThumb " + url);
       //  print("__________texture2d busca");
 		Texture2D texture2d = null;
 		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));

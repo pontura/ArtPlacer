@@ -12,6 +12,7 @@ public class ArtPlaced : MonoBehaviour {
 
 	public GameObject buttonInfo;
 	public GameObject saveDialog;
+    public Button SaveNew;
 
 	Camera cam;
 	
@@ -280,6 +281,14 @@ public class ArtPlaced : MonoBehaviour {
 			bool active = !saveDialog.gameObject.activeSelf;
 			saveDialog.gameObject.SetActive (active);
 			SetArtworkColliderActive(!active);
+
+            if (
+                !StoreData.Instance.fullVersion &&
+                StoreData.Instance.GetComponent<StoreSettings>().loaded &&
+                Data.Instance.roomsData.rooms.Count >= StoreData.Instance.GetComponent<StoreSettings>().max_rooms
+            )
+                SaveNew.interactable = false;
+
 		} else {
 			Ready (false);
 		}
