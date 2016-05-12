@@ -36,7 +36,7 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
-        Data.Instance.artData.selectedArtWork = null;
+        Data.Instance.artData.selectedArtWork.url = "";
         gallery = Data.Instance.artData.GetCurrentGallery();
         Data.Instance.SetBackActive(true);
         string _title = "";
