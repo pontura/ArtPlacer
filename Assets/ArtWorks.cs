@@ -36,6 +36,7 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
+        Data.Instance.artData.selectedArtWork = null;
         gallery = Data.Instance.artData.GetCurrentGallery();
         Data.Instance.SetBackActive(true);
         string _title = "";
@@ -153,7 +154,7 @@ public class ArtWorks : MonoBehaviour
 	public void AddArtwork()
 	{
 		Data.Instance.artData.selectedGallery = 0;
-		Data.Instance.artData.selectedArtWork = null;
+		
 		Data.Instance.LoadLevel("LoadArtwork");
 	}
 
@@ -206,6 +207,7 @@ public class ArtWorks : MonoBehaviour
     public void Browse()
     {
         EventsAnalytics.SendScreen("NEW_ARTWORK_BROWSE");
+        Data.Instance.artData.selectedArtWork.url = "";
         Events.OnPicker(true);
         Invoke("Delay", 0.1f);        
     }
