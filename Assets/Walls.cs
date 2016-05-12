@@ -52,12 +52,15 @@ public class Walls : MonoBehaviour {
         Events.OnWallEdgeSelected += OnWallEdgeSelected;
         Events.OnWallActive += OnWallActive;
         Invoke("timeOut", 0.2f);
+
+       
     }
     void SetState()
     {
         switch (state)
         {
             case states.EMPTY:
+                Data.Instance.backButon.SetActive(true);
                 Events.HelpChangeStep(1);
                 deleteButton.interactable = false;
                 confirmButton.interactable = false;
@@ -86,6 +89,7 @@ public class Walls : MonoBehaviour {
                 readyButton.interactable = false;
                 break;
             case states.READY:
+                Data.Instance.backButon.SetActive(true);
                 Events.HelpChangeStep(2);
                 deleteButton.interactable = false;
                 confirmButton.interactable = false;
@@ -98,9 +102,19 @@ public class Walls : MonoBehaviour {
     {
         if (Data.Instance.areaData.areas.Count == 0)
             Events.HelpChangeState(true);
+        else
+        {
+            state = states.READY;
+            SetState();
+        }
     }
     public void Back()
     {
+        if (Data.Instance.areaData.areas.Count == 0)
+        {
+            Events.HelpChangeState(true);
+            return;
+        }
 		if (Data.Instance.areaData.url.Equals (""))
 			Data.Instance.LoadLevel("ConfirmPhoto");
 		else
@@ -149,6 +163,7 @@ public class Walls : MonoBehaviour {
     void OnNumWallsChanged()
     {
         tooltipFitEdges.gameObject.SetActive(false);
+        Data.Instance.backButon.SetActive(false);
     }
     public void GotoLoadRoom()
     {

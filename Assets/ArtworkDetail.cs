@@ -12,7 +12,13 @@ public class ArtworkDetail : MonoBehaviour {
 
 	void Start () {
         Events.SetArtworkDetail += SetArtworkDetail;
-        Close();
+        if (Data.Instance.lastArtTexture == null)
+        {
+            anim.gameObject.SetActive(false);
+        } else{
+           
+            Close();
+        }
 	}
     void OnDestroy()
     {
@@ -20,6 +26,8 @@ public class ArtworkDetail : MonoBehaviour {
     }
     void SetArtworkDetail(bool _state)
     {
+        anim.gameObject.SetActive(true);
+
         Texture2D texture2d = Data.Instance.lastArtThumbTexture;
         thumb.sprite = Sprite.Create(texture2d, new Rect(0, 0, texture2d.width, texture2d.height), new Vector2(0, 0));
 

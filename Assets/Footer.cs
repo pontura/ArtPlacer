@@ -26,7 +26,10 @@ public class Footer : MonoBehaviour {
         actualThumbScroll = 0;
         closeFooter.SetActive(false);
         if (Data.Instance.areaData.CountArtPlaced() == 0 && Data.Instance.lastArtTexture == null)
+        {
             FooterPanel.SetActive(false);
+            print("FOOTER FALSE");
+        }
         else
             LoadThumbs();
 	}
@@ -72,14 +75,20 @@ public class Footer : MonoBehaviour {
     }
     public void Open()
     {
+        if (!FooterPanel.activeSelf) return;
+
         ArtworkDetail artDetail = GetComponent<ArtworkDetail>();
         if (artDetail.state)
         {
             artDetail.Open();
             return;
         }
+        
         closeFooter.SetActive(false);
+
+        
         anim.Play("FooterOn");
+
 		Events.ArtworkPreview (true);
     }
 
