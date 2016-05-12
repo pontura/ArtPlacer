@@ -34,6 +34,7 @@ public class WallCreator : MonoBehaviour {
             }
         }
         foreach (WallPlane wallPlanes in createdPlanes) {
+            print("_____________FALSE");
 			wallPlanes.EnableAreaCollider (moveAreas);
 			wallPlanes.EnableMoveArea (moveAreas);
 			wallPlanes.area.GetComponent<MeshRenderer> ().material = UnselectedMaterial;

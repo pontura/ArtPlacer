@@ -58,6 +58,9 @@ public class ArtPlaced : MonoBehaviour {
                 GameObject obj = Instantiate(CreatedPlane, Data.Instance.areaData.getPosition(i), Quaternion.identity) as GameObject;
 				WallPlane wp = obj.GetComponent<WallPlane>();
 				wp.area.GetComponent<MeshFilter>().mesh.vertices = Data.Instance.areaData.getPointers(i);
+
+                print("_________EnableAreaCollider true");
+
 				wp.EnableAreaCollider(true);
 				//wp.area.GetComponent<MeshCollider>().sharedMesh = mesh;
                 wp.SetId(i);

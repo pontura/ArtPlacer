@@ -35,7 +35,8 @@ public class WallPlane : MonoBehaviour {
 	void Start () {
 
         walls = GameObject.Find("walls");
-        if(walls && walls.GetComponent<Walls>() && walls.GetComponent<Walls>().totalWalls == 1)
+
+        if (helpField != null && walls && walls.GetComponent<Walls>() && walls.GetComponent<Walls>().totalWalls == 1)
             helpField.SetActive(true);
         else if (helpField != null) 
             helpField.SetActive(false);
@@ -78,7 +79,14 @@ public class WallPlane : MonoBehaviour {
 		}
         Events.OnWallActive(this);
 	}
-	
+    void OnEnable()
+    {
+        Invoke("setOM", 0.5f);
+    }
+    void setOM()
+    {
+        area.SetActive(true);
+    }
 	public void EnableAreaCollider(bool enable){
 		if (enable) {
 
