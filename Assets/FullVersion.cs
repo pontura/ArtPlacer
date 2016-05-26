@@ -38,6 +38,16 @@ public class FullVersion : MonoBehaviour {
         Invoke("OnDelay", 5);
         StoreInventory.BuyItem(StoreAssets.FULL_VERSION_PRODUCT_ID);
     }
+
+	public void ResoreIt()
+	{
+		Debug.Log("Restore the full Version");
+		Events.OnLoading(true);
+		Invoke("OnDelay", 5);
+		SoomlaStore.RestoreTransactions ();
+		//StoreInventory.BuyItem(StoreAssets.FULL_VERSION_PRODUCT_ID);
+	}
+
     void OnDelay()
     {
         Events.OnLoading(false);
