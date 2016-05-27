@@ -59,11 +59,14 @@ public class CustomMath{
     }
     public static Vector3 GetFormatedInches(float value)
     {
-        
         float inches = CustomMath.cm2inches(value);
+
         int feet = (int)Mathf.Floor(inches / 12);
         int restInches = (int)Mathf.Round(inches - (feet * 12));
-
+		if (restInches > 11) {
+			restInches = restInches%12;
+			feet++;
+		}
         Vector3 res = new Vector3(feet, restInches, inches);
         return res;
     }
