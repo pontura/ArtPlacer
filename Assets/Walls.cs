@@ -90,6 +90,7 @@ public class Walls : MonoBehaviour {
                 break;
             case states.READY:
                 Data.Instance.backButon.SetActive(true);
+			    Events.HelpChangeState(false);
                 Events.HelpChangeStep(2);
                 deleteButton.interactable = false;
                 confirmButton.interactable = false;
