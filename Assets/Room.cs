@@ -74,7 +74,7 @@ public class Room : MonoBehaviour
 		string url = Data.Instance.roomsData.rooms [id].url;
 		string path = Data.Instance.GetFullPathByFolder("Rooms", url + "_thumb.png");
 
-		gameObject.GetComponent<Share>().ShareImage(path,"Artplaced","preview how flat art will look on a wall","like?");
+		gameObject.GetComponent<Share>().ShareImage(path,"Artplaced","preview how flat art will look on a wall","");
     }
 
 	public void Open()
