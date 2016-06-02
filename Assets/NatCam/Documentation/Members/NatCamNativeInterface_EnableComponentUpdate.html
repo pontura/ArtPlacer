@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang='en-US'>
+    <head>
+        <!--Document title is project name-->
+        <title>NatCam Scripting Reference on Calligraphy</title>
+        <!--Extra information-->
+        <meta name='description' content='NatCam API documentation on Calligraphy'> <!--Populate from Calligraphy-->
+        <meta name='keywords' content='NatCam, Unitygram, Calligraphy, Unity'> <!--Populate from Calligraphy-->
+        <meta name='author' content='Calligraphy by Yusuf Olokoba'>
+        <meta charset='UTF-8'>
+        <!--Style sheet-->
+        <link rel='stylesheet' href='../Styles/memberstyles.css'>
+    </head>
+	
+	<body>
+        <h1 class='blockname'><a href='../Groups/NatCamNativeInterface.html'>NatCamNativeInterface</a>.EnableComponentUpdate</h1>
+        <p1 class='faintname'>public static void EnableComponentUpdate (bool state)<b>;</b></p1>
+        <br>
+        <br>
+        <h2>Description</h2>
+        <p1>Enable or disable raw camera buffer native updates. This is disabled by default. Use this to enable luma (Y channel) and 
+    chroma (UV channel) buffer updates in the OnNativePreviewUpdate event. These buffers conform to the YUV 4:2:0 spec. When enabled, these will be propagated before the 
+    RGBA buffer handles are propagated. This is because they are gotten directly from the camera. You can send these buffers to your native layer 
+    for further processing, just remember to perform a memcpy first as these buffers are intended to be readonly.<br><br>If you only need luminance 
+    (or a black-and-white preview), you can disable the rendering pipeline and only use the luma channel.<br><br>To access this method, uncomment 
+    '#define NATCAM_DEVELOPER_MODE' at the top of NatCamNativeInterface.cs.</p1>
+        <br>
+        <br>
+        
+        <!--Code example-->
+        <!--Must not be indented-->
+        <!--There must be no space between the text and the pre tags-->
+
+        
+        <!--See Also-->
+        
+        <p>See Also: 
+        <a href='../Groups/NativePreviewCallback.html'>NativePreviewCallback</a>
+        , 
+        <a href='../Groups/ComponentBuffer.html'>ComponentBuffer</a>
+        .</p>
+        
+        
+        <!--Copyright tag-->
+        <br>
+        <hr>
+        <p1 class='copyright'><small>Copyright (c) Yusuf Olokoba 2016</small></p1>
+        
+	</body>
+</html>        
+        

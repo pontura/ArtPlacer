@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.IO;
+using NatCamU;
 
 public class WebCamPhotoCamera : MonoBehaviour
 {
@@ -21,13 +22,19 @@ public class WebCamPhotoCamera : MonoBehaviour
         //webCamTexture = new WebCamTexture();
         //webCamTexture.requestedHeight = 1280;
         //webCamTexture.requestedWidth = 720;
-		webCamTexture = new WebCamTexture(WebCamTexture.devices[0].name, (int)Data.Instance.defaultCamSize.x, (int)Data.Instance.defaultCamSize.y, 30);
+		/*webCamTexture = new WebCamTexture(WebCamTexture.devices[0].name, (int)Data.Instance.defaultCamSize.x, (int)Data.Instance.defaultCamSize.y, 30);
+		if (webCamTexture.isPlaying)
+		{
+			webCamTexture.Stop();
+		} else
+			webCamTexture.Play();
+		*/
 
-        if (webCamTexture.isPlaying)
-        {
-            webCamTexture.Stop();
-        } else
-        webCamTexture.Play();
+		NatCam.Initialize ();
+		NatCam.PhotoSaveMode = PhotoSaveMode.SaveToAppAlbum;
+
+		NatCam.Play (DeviceCamera.RearCamera);
+		NatCam.ExecuteOnPreviewStart (() => rawImage.texture = NatCam.Preview);
 
         Vector3 scale = rawImage.transform.localScale;
         
@@ -36,6 +43,8 @@ public class WebCamPhotoCamera : MonoBehaviour
        rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 #endif
         rawImage.transform.localScale = scale;
+
+		Events.OnLoading (false);
     }
     void Update()
     {
@@ -47,10 +56,10 @@ public class WebCamPhotoCamera : MonoBehaviour
             else if (!Data.Instance.isPhoto4Room && Data.Instance.lastArtTexture != null)
                 Ready();
         }
-        else
+        /*else
         {
             rawImage.texture = webCamTexture;
-        }
+        }*/
     }
     void Ready()
     {
@@ -59,16 +68,18 @@ public class WebCamPhotoCamera : MonoBehaviour
     }
     void OnDestroy()
     {
-        webCamTexture.Stop();
+        //webCamTexture.Stop();
+		NatCam.Release();
     }
     public void TakePhoto()
     {
+		Events.OnLoading (true);
         photoTaken = true;
         takePhotoButton.gameObject.SetActive(false);
 
         if (Data.Instance.isPhoto4Room)
         {
-			if (Input.deviceOrientation == DeviceOrientation.Portrait){
+			/*if (Input.deviceOrientation == DeviceOrientation.Portrait){
 				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
 				temp.SetPixels(webCamTexture.GetPixels());
 				temp.Apply();				
@@ -86,11 +97,18 @@ public class WebCamPhotoCamera : MonoBehaviour
             	Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
             	Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
 			}
-            Data.Instance.lastPhotoTexture.Apply();
+            Data.Instance.lastPhotoTexture.Apply();*/
+
+			NatCam.CapturePhoto(
+				(Texture2D photo) => {
+					//Set a material's main texture to be the captured photo
+					Data.Instance.lastPhotoTexture = photo;
+					//We don't need to manually unregister this delegate
+				});
         }
         else
         {
-			if (Input.deviceOrientation == DeviceOrientation.Portrait){
+			/*if (Input.deviceOrientation == DeviceOrientation.Portrait){
 				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
 				temp.SetPixels(webCamTexture.GetPixels());
 				temp.Apply();				
@@ -108,7 +126,14 @@ public class WebCamPhotoCamera : MonoBehaviour
             	Data.Instance.lastArtTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
             	Data.Instance.lastArtTexture.SetPixels(webCamTexture.GetPixels());
 			}
-            Data.Instance.lastArtTexture.Apply();
+            Data.Instance.lastArtTexture.Apply();*/
+
+			NatCam.CapturePhoto(
+				(Texture2D photo) => {
+					//Set a material's main texture to be the captured photo
+					Data.Instance.lastArtTexture = photo;
+					//We don't need to manually unregister this delegate
+			});
         }
 
       //  Data.Instance.LoadLevel("ConfirmPhoto");

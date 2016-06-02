@@ -141,30 +141,31 @@ public class TextureUtils{
 	}
 
 	public static Texture2D FlipH(Texture2D source){
-		Texture2D result = new Texture2D (source.height, source.width);
+		Texture2D result = new Texture2D (source.width, source.height);
 		Color32[] cSource = source.GetPixels32 ();
 		Color32[] cRes = new Color32[cSource.Length];
 		
 		for(int x=0;x<source.width;x++){
 			for(int y=0;y<source.height;y++){
-				cRes[((source.width-x-1)*source.height)+y] = cSource[(x*source.height)+y];
+				//cRes[((source.width-x-1)*source.height)+y] = cSource[(x*source.height)+y];
+				cRes[(y*source.width)+source.width-x-1] = cSource[(y*source.width)+x];
 			}
 		}
 		
 		result.SetPixels32 (cRes);
 		result.Apply ();
-		return result;
-		
+		return result;		
 	}
 
 	public static Texture2D FlipV(Texture2D source){
-		Texture2D result = new Texture2D (source.height, source.width);
+		Texture2D result = new Texture2D (source.width, source.height);
 		Color32[] cSource = source.GetPixels32 ();
 		Color32[] cRes = new Color32[cSource.Length];
 		
 		for(int x=0;x<source.width;x++){
 			for(int y=0;y<source.height;y++){
-				cRes[x*source.height+source.height-y-1] = cSource[(x*source.height)+y];
+				//cRes[x*source.height+source.height-y-1] = cSource[(x*source.height)+y];
+				cRes[(source.height-y-1)*source.width+x] = cSource[(y*source.width)+x];
 			}
 		}
 		

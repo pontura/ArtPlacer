@@ -14,7 +14,6 @@ public class ConfirmPhoto : MonoBehaviour {
 
         Invoke("OpenTooltip", 0.5f);
         Events.HelpShow();
-       
     }
     void OpenTooltip()
     {
@@ -52,7 +51,7 @@ public class ConfirmPhoto : MonoBehaviour {
 		}
     }
     public void TurnPhoto()
-    {
+	{			
         int degrees = (int)sprite.transform.localEulerAngles.z;
         degrees += 90;
         sprite.transform.localEulerAngles = new Vector3(0, 0, degrees);
@@ -68,8 +67,42 @@ public class ConfirmPhoto : MonoBehaviour {
         if (Data.Instance.isPhoto4Room)
             Data.Instance.lastPhotoTexture = rotated;
         else
-            Data.Instance.lastArtTexture = rotated;
-
-        
+            Data.Instance.lastArtTexture = rotated;  		
     }
+
+	public void FlipHPhoto()
+	{		
+		sprite.flipX = !sprite.flipX;
+
+		Texture2D image;
+		if (Data.Instance.isPhoto4Room)
+			image = Data.Instance.lastPhotoTexture;
+		else 
+			image = Data.Instance.lastArtTexture;
+
+		Texture2D flipedH = TextureUtils.FlipH(image);
+
+		if (Data.Instance.isPhoto4Room)
+			Data.Instance.lastPhotoTexture = flipedH;
+		else
+			Data.Instance.lastArtTexture = flipedH;		
+	}
+
+	public void FlipVPhoto()
+	{		
+		sprite.flipY = !sprite.flipY;
+
+		Texture2D image;
+		if (Data.Instance.isPhoto4Room)
+			image = Data.Instance.lastPhotoTexture;
+		else 
+			image = Data.Instance.lastArtTexture;
+
+		Texture2D flipedV = TextureUtils.FlipV(image);
+
+		if (Data.Instance.isPhoto4Room)
+			Data.Instance.lastPhotoTexture = flipedV;
+		else
+			Data.Instance.lastArtTexture = flipedV;		
+	}
 }
