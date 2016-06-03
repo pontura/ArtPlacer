@@ -31,7 +31,7 @@ namespace Soomla.Store.Example															//Allows for access to Soomla API
         }
 
         //****************************BOILERPLATE ABOVE(modify as you see fit/ if nessisary)***********************
-        public const string FULL_VERSION_PRODUCT_ID = "fullversion";				//create a string to store the "turn green" in app purchase
+        public const string FULL_VERSION_PRODUCT_ID = "GetFullVersion";				//create a string to store the "turn green" in app purchase
         //public const string SEASON_3_UNLOCK_PRODUCT_ID = "season3unlock";
         //public const string SEASONS_ALL_UNLOCK_PRODUCT_ID = "season4unlock";
 
@@ -47,7 +47,7 @@ namespace Soomla.Store.Example															//Allows for access to Soomla API
         public static VirtualGood FULL_VERSION = new LifetimeVG(
             "Artplacer Full",														    		// Name of IAP
             "All content unblocked",											// Description of IAP
-            "fullversion",													            	// Item ID (different from 'product id" used by itunes, this is used by soomla)
+            "GetFullVersion",													            	// Item ID (different from 'product id" used by itunes, this is used by soomla)
 
             // 1. assign the purchase type of the IAP (purchaseWithMarket == item cost real money),
             // 2. assign the IAP as a market item (using its ID)
