@@ -17,10 +17,12 @@ public class FullVersion : MonoBehaviour {
         Events.Back += Back;
         Events.HelpHide();
         StoreEvents.OnMarketPurchase += onMarketPurchase;
+		StoreEvents.OnRestoreTransactionsFinished += OnRestoreTransactionsFinished;
     }
     void OnDestroy()
     {
         StoreEvents.OnMarketPurchase -= onMarketPurchase;
+		StoreEvents.OnRestoreTransactionsFinished -= OnRestoreTransactionsFinished;
         Events.Back -= Back;
     }
     public void Discard()
@@ -57,6 +59,11 @@ public class FullVersion : MonoBehaviour {
         StoreInventory.BuyItem(StoreAssets.FULL_VERSION_PRODUCT_ID);
         Invoke("GotoMainMenu", 0.1f);
     }
+
+	void OnRestoreTransactionsFinished(bool success){		
+		Invoke("GotoMainMenu", 0.1f);
+	}
+
     void GotoMainMenu()
     {
         Data.Instance.LoadLevel("Intro");

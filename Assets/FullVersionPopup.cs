@@ -17,6 +17,11 @@ public class FullVersionPopup : MonoBehaviour {
         SetOff2();
         buttonField.text = "Full Version";
     }
+	void OnDestroy()
+	{
+		Events.OnGetFullVersion -= OnGetFullVersion;
+	}
+
     void OnGetFullVersion(string field)
     {
         title.text = "GET THE FULL VERSION";
