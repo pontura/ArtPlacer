@@ -6,7 +6,7 @@ public class ThumbImage : MonoBehaviour{
 	
     public GameObject loadingAsset;
 	private Sprite sprite;
-	private Texture2D texture2d;
+	public Texture2D texture2d;
     public Image RawImage;
 	Footer footer;
 	int id;
@@ -99,10 +99,23 @@ public class ThumbImage : MonoBehaviour{
             RawImage.sprite = sprite;
 		}
 	}
-	
+
 	private IEnumerator RealLoadImage(string url)
 	{
-		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+		ImageCache ic = Data.Instance.artWorksThumbs.Find(x => x.url.Equals(url));
+
+		texture2d = ic == null ? null : ic.texture;
+		
+		if (texture2d == null) {
+			yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+			if (texture2d != null) {
+				ImageCache gt = new ImageCache (url, texture2d);
+				Data.Instance.artWorksThumbs.Add (gt);
+			}
+		}
+
+		//yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+
 		//print("url: " + url);
         if (texture2d != null)
         {
@@ -135,10 +148,13 @@ public class ThumbImage : MonoBehaviour{
 	
 	public void OnSelected(Footer footer, int id)
 	{
+		Debug.Log ("ACA");
 		if (sprite) {
+			Debug.Log ("T_W: "+texture2d.width);
 			Data.Instance.SetLastArtTexture(texture2d);
 			//Data.Instance.lastArtTexture = sprite.texture;
 		}
+		Debug.Log ("ACA2");
 		footer.OnSelect(id);
 	}
 	

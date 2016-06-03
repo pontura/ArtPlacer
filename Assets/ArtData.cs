@@ -76,6 +76,20 @@ public class ArtData : MonoBehaviour {
 				return result;
 			}
 
+			public void Clone(ArtData source){
+				title = source.title;
+				url = source.url;
+				thumbnail = source.thumbnail;
+				gallery = source.gallery;
+				galleryId = source.galleryId;
+				artId = source.artId;
+				autor = source.autor;
+				technique = source.technique;
+				filters = source.filters;
+				size = source.size;
+				isLocal = source.isLocal;
+			}
+
 			public void setSizes(){
 				if (size.x == -1) {
 					size.x = Mathf.Round(size.y*Data.Instance.lastArtTexture.width/Data.Instance.lastArtTexture.height);
@@ -227,12 +241,12 @@ public class ArtData : MonoBehaviour {
         }
     }
     public GalleryData.ArtData GetArtData(int galleryId, int artId)
-    {
+    {		
 		GalleryData galleryData = Array.Find(galleries, p => p.id == galleryId);
         GalleryData.ArtData artData = null;
         
         try
-        {
+        {			
             artData = galleryData.artWorksData.Find(x => x.artId == artId);
         }
         catch
@@ -328,22 +342,22 @@ public class ArtData : MonoBehaviour {
 		if (selectedGallery == -1) {
 			Favourite fav = favorites.Find(x => x.artId==id);
 			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
-			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
+			selectedArtWork.Clone(gd.artWorksData.Find(x => x.artId==id));
         }
         else if (selectedGallery == -3)
         {
             Favourite fav = filter.Find(x => x.artId == id);
             GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
-            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
+			selectedArtWork.Clone(gd.artWorksData.Find(x => x.artId == id));
         }
         else if (selectedGallery == -2)
         {
-            selectedArtWork = myArtWorks.artWorksData.Find(x => x.artId == id);
+			selectedArtWork.Clone(myArtWorks.artWorksData.Find(x => x.artId == id));
         }        
         else
         {
             GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
-            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
+			selectedArtWork.Clone(gd.artWorksData.Find(x => x.artId == id));
         }
 	}
 
@@ -353,22 +367,22 @@ public class ArtData : MonoBehaviour {
 		if (selectedGallery == -1) {
 			Favourite fav = favorites.Find(x => x.artId==id);
 			GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
-			selectedArtWork = gd.artWorksData.Find(x => x.artId==id);
+			selectedArtWork.Clone(gd.artWorksData.Find(x => x.artId==id));
         }
         else if (selectedGallery == -3)
         {
             Favourite fav = filter.Find(x => x.artId == id);
             GalleryData gd = Array.Find(galleries, p => p.id == fav.galleryId);
-            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
+			selectedArtWork.Clone(gd.artWorksData.Find(x => x.artId == id));
         }
         else if (selectedGallery == -2)
         {
-            selectedArtWork = myArtWorks.artWorksData.Find(x => x.artId == id);
+			selectedArtWork.Clone(myArtWorks.artWorksData.Find(x => x.artId == id));
         }
         else
         {
             GalleryData gd = Array.Find(galleries, p => p.id == selectedGallery);
-            selectedArtWork = gd.artWorksData.Find(x => x.artId == id);
+			selectedArtWork.Clone(gd.artWorksData.Find(x => x.artId == id));
         }
 	}
 

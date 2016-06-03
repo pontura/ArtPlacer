@@ -36,7 +36,7 @@ public class ArtWorks : MonoBehaviour
 
     void Start()
     {
-        Data.Instance.artData.selectedArtWork.url = "";
+        //Data.Instance.artData.selectedArtWork.url = "";
         gallery = Data.Instance.artData.GetCurrentGallery();
         Data.Instance.SetBackActive(true);
         string _title = "";
@@ -251,7 +251,7 @@ public class ArtWorks : MonoBehaviour
             StartCoroutine(LoadArtWork(Data.Instance.artData.GetArtData(gallery_id, id)));
         }
         else
-        {
+        {	
             StartCoroutine(LoadArtWork(Data.Instance.artData.GetArtData(gallery.id, id)));
         }
 
@@ -270,7 +270,7 @@ public class ArtWorks : MonoBehaviour
     }
     private Texture2D texture2d;
     public IEnumerator LoadArtWork(ArtData.GalleryData.ArtData artData)
-    {
+    {		
         Debug.Log("______" + artData.url + " gallery.id " + Data.Instance.artData.selectedGallery);
 
         if (Data.Instance.artData.selectedGallery == -2)
@@ -281,6 +281,7 @@ public class ArtWorks : MonoBehaviour
         Events.OnLoading(false);
 
         Data.Instance.SetLastArtTexture(texture2d);
+
 
         Data.Instance.artData.SetSelectedArtworkByArtID(artData.artId);
         Data.Instance.artData.SetSelectedArtworkByThumbID(artData.artId);

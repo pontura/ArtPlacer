@@ -23,6 +23,9 @@ public class Data : MonoBehaviour
     public string lastScene = "";
 	public int selectedArea = int.MaxValue;
 
+	public List<ImageCache> galleryThumbs;
+	public List<ImageCache> artWorksThumbs;
+
     const string PREFAB_PATH = "Data";
     private Fade fade;
     static Data mInstance = null;
@@ -145,6 +148,9 @@ public class Data : MonoBehaviour
 		Screen.autorotateToPortraitUpsideDown = false;
 
         Events.ToggleUnit += ToggleUnits;
+
+		galleryThumbs = new List<ImageCache>();
+		artWorksThumbs = new List<ImageCache>();
     }
     public void Reset()
     {

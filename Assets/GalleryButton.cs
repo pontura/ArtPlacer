@@ -48,6 +48,7 @@ public class GalleryButton : MonoBehaviour {
     public void OnSelected(Galleries galleries, int id)
     {
         /////
+		if(Data.Instance.artData.selectedGallery!=id)Data.Instance.artWorksThumbs.Clear();
         galleries.OnSelect(id);
     }
 
@@ -56,8 +57,20 @@ public class GalleryButton : MonoBehaviour {
     {
         print(" LoadThumb " + url);
       //  print("__________texture2d busca");
-		Texture2D texture2d = null;
-		yield return StartCoroutine(TextureUtils.LoadRemote(url, value => texture2d = value));
+
+
+		ImageCache ic = Data.Instance.galleryThumbs.Find(x => x.url==url);
+
+		Texture2D texture2d = ic == null ? null : ic.texture;
+
+		if (texture2d == null) {
+			yield return StartCoroutine (TextureUtils.LoadRemote (url, value => texture2d = value));
+			if (texture2d != null) {
+				ImageCache gt = new ImageCache (url, texture2d);
+				Data.Instance.galleryThumbs.Add (gt);
+			}
+		}
+		
 
         if (texture2d != null)
         {

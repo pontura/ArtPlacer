@@ -94,19 +94,16 @@ public class ConfirmArtWork : MonoBehaviour {
 	}
     public void Back()
     {
-        if (Data.Instance.lastScene == "ConfirmArtworkSize")
-        {
-            Data.Instance.LoadLevel("Artworks");
-            return;
-        }
-        if (Data.Instance.lastScene == "ConfirmArtwork")
-        {
-            Data.Instance.LoadLevel("Artworks");
-            return;
-        }
+		if (Data.Instance.lastScene == "ConfirmArtworkSize") {
+			Data.Instance.LoadLevel ("Artworks");
+		} else if (Data.Instance.lastScene == "ConfirmArtWork") {
+			Debug.Log ("Aca");
+			Data.Instance.LoadLevel ("Artworks");
+		} else {
+			Data.Instance.lastArtTexture = null;
+			Data.Instance.Back ();
+		}
 		Debug.Log (Data.Instance.lastScene);
-		Data.Instance.lastArtTexture = null;
-        Data.Instance.Back();
     }
     public void Galleries()
     {
