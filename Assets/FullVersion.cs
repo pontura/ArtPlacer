@@ -61,6 +61,7 @@ public class FullVersion : MonoBehaviour {
     }
 
 	void OnRestoreTransactionsFinished(bool success){		
+		Data.Instance.mainMenu.fullVersionAsset.SetActive(!StoreData.Instance.fullVersion);
 		Invoke("GotoMainMenu", 0.1f);
 	}
 
