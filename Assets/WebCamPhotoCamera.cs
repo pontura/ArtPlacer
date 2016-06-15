@@ -19,7 +19,6 @@ public class WebCamPhotoCamera : MonoBehaviour
         else 
             Data.Instance.lastArtTexture = null;
 
-		Debug.Log (Screen.currentResolution);
         //webCamTexture = new WebCamTexture();
         //webCamTexture.requestedHeight = 1280;
         //webCamTexture.requestedWidth = 720;
@@ -36,8 +35,9 @@ public class WebCamPhotoCamera : MonoBehaviour
 				NatCam.Play (DeviceCamera.RearCamera);
 		#else*/
 				NatCam.Initialize ();				
-				NatCam.PhotoSaveMode = PhotoSaveMode.SaveToAppAlbum;
 				DeviceCamera.RearCamera.SetResolution (ResolutionPreset.HD);
+				NatCam.PhotoSaveMode = PhotoSaveMode.SaveToAppAlbum;
+				
 				NatCam.Play (DeviceCamera.RearCamera);
 
 		//#endif
@@ -47,8 +47,8 @@ public class WebCamPhotoCamera : MonoBehaviour
         Vector3 scale = rawImage.transform.localScale;
         
 #if UNITY_IOS
-        scale.x *= -1;
-       rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
+       //scale.x *= -1;
+       //rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 #endif
 
 		/*Vector2 winRes = new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
