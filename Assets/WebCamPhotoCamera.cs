@@ -19,6 +19,7 @@ public class WebCamPhotoCamera : MonoBehaviour
         else 
             Data.Instance.lastArtTexture = null;
 
+		Debug.Log (Screen.currentResolution);
         //webCamTexture = new WebCamTexture();
         //webCamTexture.requestedHeight = 1280;
         //webCamTexture.requestedWidth = 720;
@@ -30,10 +31,17 @@ public class WebCamPhotoCamera : MonoBehaviour
 			webCamTexture.Play();
 		*/
 
-		NatCam.Initialize ();
-		NatCam.PhotoSaveMode = PhotoSaveMode.SaveToAppAlbum;
+		/*#if UNITY_EDITOR
+				NatCam.Initialize (NatCamInterface.FallbackInterface, PreviewType.NonReadable, Switch.Off, Switch.On);
+				NatCam.Play (DeviceCamera.RearCamera);
+		#else*/
+				NatCam.Initialize ();				
+				NatCam.PhotoSaveMode = PhotoSaveMode.SaveToAppAlbum;
+				DeviceCamera.RearCamera.SetResolution (ResolutionPreset.HD);
+				NatCam.Play (DeviceCamera.RearCamera);
 
-		NatCam.Play (DeviceCamera.RearCamera);
+		//#endif
+
 		NatCam.ExecuteOnPreviewStart (() => rawImage.texture = NatCam.Preview);
 
         Vector3 scale = rawImage.transform.localScale;
@@ -42,7 +50,18 @@ public class WebCamPhotoCamera : MonoBehaviour
         scale.x *= -1;
        rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 #endif
-        rawImage.transform.localScale = scale;
+
+		/*Vector2 winRes = new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
+		float winAspect = 1f*winRes.x/winRes.y;
+		float photoAspec = 1280f / 720f;
+		float scaleFactor = 1f;
+		if (photoAspec > winAspect) {
+			scaleFactor = 720f / winRes.y;
+		} else if (photoAspec < winAspect) {
+			scaleFactor = 1280f / winRes.x;
+		}*/
+			
+		rawImage.transform.localScale = scale*1.0f;		
 
 		Events.OnLoading (false);
     }
@@ -101,7 +120,6 @@ public class WebCamPhotoCamera : MonoBehaviour
 
 			NatCam.CapturePhoto(
 				(Texture2D photo) => {
-					//Set a material's main texture to be the captured photo
 					Data.Instance.lastPhotoTexture = photo;
 					//We don't need to manually unregister this delegate
 				});

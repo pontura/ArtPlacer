@@ -61,6 +61,7 @@ public class Game : MonoBehaviour {
 			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
 		} else {
 			rect = new Rect (0, 0, (int)(maxWidth), (int)(maxHeight));
+			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
 			//texture.Resize(texture.width,texture.height);
 			//texture.Apply();
 		}        
