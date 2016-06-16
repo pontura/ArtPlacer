@@ -49,7 +49,7 @@ public class Game : MonoBehaviour {
 
 		Rect rect = new Rect();
 
-		float maxWidth = Data.Instance.defaultCamSize.x;
+		/*float maxWidth = Data.Instance.defaultCamSize.x;
 		float maxHeight = Data.Instance.defaultCamSize.y;
 		float aspect = maxWidth / maxHeight;
 		float textAspect = 1f*texture.width / texture.height;
@@ -64,7 +64,10 @@ public class Game : MonoBehaviour {
 			texture = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
 			//texture.Resize(texture.width,texture.height);
 			//texture.Apply();
-		}        
+		} */
+
+		//texture = Data.Instance.Resize2Fit (texture);
+		rect = new Rect (0, 0, texture.width, texture.height);
 
 		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;

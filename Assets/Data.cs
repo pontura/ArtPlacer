@@ -383,4 +383,22 @@ public class Data : MonoBehaviour
 		}
 		Events.ConvertUnits ();
 	}
+
+	public Texture2D Resize2Fit(Texture2D texture){
+		float maxWidth = defaultCamSize.x;
+		float maxHeight = defaultCamSize.y;
+		float aspect = maxWidth / maxHeight;
+		float textAspect = 1f*texture.width / texture.height;
+		Texture2D result = null;
+		if (aspect > textAspect) {
+			result = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxHeight/texture.height);
+		} else if (aspect < textAspect) {			
+			result = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
+		} else {			
+			result = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
+			//texture.Resize(texture.width,texture.height);
+			//texture.Apply();
+		}
+		return result;
+	}
 }

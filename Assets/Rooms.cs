@@ -117,7 +117,7 @@ public class Rooms : MonoBehaviour
 		} else {
 			Data.Instance.lastPhotoTexture = tex;
 		}
-
+		DestroyImmediate(tex);
         Data.Instance.LoadLevel("ConfirmPhoto");
     }
 

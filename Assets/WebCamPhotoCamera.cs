@@ -120,8 +120,25 @@ public class WebCamPhotoCamera : MonoBehaviour
 
 			NatCam.CapturePhoto(
 				(Texture2D photo) => {
-					Data.Instance.lastPhotoTexture = photo;
+					//Data.Instance.lastPhotoTexture = photo;
 					//We don't need to manually unregister this delegate
+
+					/*float maxWidth = Data.Instance.defaultCamSize.x;
+					float maxHeight = Data.Instance.defaultCamSize.y;
+					float aspect = maxWidth / maxHeight;
+					float textAspect = 1f*photo.width / photo.height;
+					if (aspect > textAspect) {						
+						Data.Instance.lastPhotoTexture = TextureUtils.ResizeTexture(photo,TextureUtils.ImageFilterMode.Nearest,maxHeight/photo.height);
+					} else if (aspect < textAspect) {						
+						Data.Instance.lastPhotoTexture = TextureUtils.ResizeTexture(photo,TextureUtils.ImageFilterMode.Nearest,maxWidth/photo.width);
+					} else {
+						Data.Instance.lastPhotoTexture = TextureUtils.ResizeTexture(photo,TextureUtils.ImageFilterMode.Nearest,maxWidth/photo.width);
+						//texture.Resize(texture.width,texture.height);
+						//texture.Apply();
+					}*/
+
+					Data.Instance.lastPhotoTexture = Data.Instance.Resize2Fit(photo);
+					DestroyImmediate(photo);
 				});
         }
         else
@@ -149,8 +166,11 @@ public class WebCamPhotoCamera : MonoBehaviour
 			NatCam.CapturePhoto(
 				(Texture2D photo) => {
 					//Set a material's main texture to be the captured photo
-					Data.Instance.lastArtTexture = photo;
+					//Data.Instance.lastArtTexture = photo;
 					//We don't need to manually unregister this delegate
+
+					Data.Instance.lastArtTexture = Data.Instance.Resize2Fit(photo);
+					DestroyImmediate(photo);
 			});
         }
 

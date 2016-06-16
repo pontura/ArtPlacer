@@ -225,6 +225,7 @@ public class ArtWorks : MonoBehaviour
         Events.OnPicker(false);
         Data.Instance.isPhoto4Room = false;
         Data.Instance.lastArtTexture = tex;
+		DestroyImmediate(tex);
         Data.Instance.LoadLevel("ConfirmPhoto");
     }
 
