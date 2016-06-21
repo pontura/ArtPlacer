@@ -15,7 +15,7 @@ public class TextureUtils{
 		}
 	}
 
-    public static Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
+	public static Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight, float warpFactor = 1f)
     {
         bool heightBigger = false;
 
@@ -31,22 +31,27 @@ public class TextureUtils{
 
         Texture2D result = new Texture2D(targetWidth, targetHeight, TextureFormat.ARGB32, false);
 
-        float _H = 0;
+        /*float _H = 0;
         float _W = 0;
-
         float factor = (source.height / result.height);
         if (factor == 0) factor = 1;
-
         if(heightBigger)
             _H = ((source.height / 2) - (source.width / 2)) / factor;
         else
             _W = ((source.width / 2) - (source.height / 2)) / factor;
+         */
+
+		float factorW = 1f / result.width;
+		float factorH = 1f / result.height;
 
         for (int i = 0; i < result.height; ++i)
         {
             for (int j = 0; j < result.width; ++j)
             {
-                Color newColor = source.GetPixelBilinear((float)((_W + j) / result.width), (float)((_H + i) / result.height));
+				float fragX = warpFactor==1f ? factorW * j : Mathf.Pow (factorW * j, warpFactor);
+				float fragY = warpFactor==1f ? factorH * i : Mathf.Pow (factorH * i, warpFactor);
+                //Color newColor = source.GetPixelBilinear((float)((_W + j) / result.width), (float)((_H + i) / result.height));
+				Color newColor = source.GetPixelBilinear(fragX, fragY);
                 result.SetPixel(j, i, newColor);
             }
         }
@@ -175,6 +180,8 @@ public class TextureUtils{
 		
 	}
 
+
+	// OJO NO COLECTA BIEN EL GARBAGE, SE INCREMENTA MUCHO LA MEMORIA
 	public static Texture2D ResizeTexture(Texture2D pSource, ImageFilterMode pFilterMode, float pScale){
 		
 		//*** Variables
@@ -277,7 +284,7 @@ public class TextureUtils{
 		//*** Set Pixels
 		oNewTex.SetPixels(aColor);
 		oNewTex.Apply();
-		
+
 		//*** Return
 		return oNewTex;
 	}

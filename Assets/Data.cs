@@ -390,15 +390,20 @@ public class Data : MonoBehaviour
 		float aspect = maxWidth / maxHeight;
 		float textAspect = 1f*texture.width / texture.height;
 		Texture2D result = null;
-		if (aspect > textAspect) {
-			result = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxHeight/texture.height);
-		} else if (aspect < textAspect) {			
-			result = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
-		} else {			
-			result = TextureUtils.ResizeTexture(texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
+
+		if (aspect > textAspect) {			
+			result = TextureUtils.ScaleTexture(texture,(int)(texture.width*(maxHeight/texture.height)),(int)maxHeight);
+			//TextureUtils.ResizeTexture(out result, texture,TextureUtils.ImageFilterMode.Nearest,maxHeight/texture.height);
+		} else if (aspect < textAspect) {						
+			result = TextureUtils.ScaleTexture(texture,(int)maxWidth,(int)(texture.height*(maxWidth/texture.width)));
+			//TextureUtils.ResizeTexture(out result,texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
+		} else {						
+			result = TextureUtils.ScaleTexture(texture,(int)maxWidth,(int)(texture.height*(maxWidth/texture.width)));
+			//TextureUtils.ResizeTexture(out result,texture,TextureUtils.ImageFilterMode.Nearest,maxWidth/texture.width);
 			//texture.Resize(texture.width,texture.height);
 			//texture.Apply();
 		}
+
 		return result;
 	}
 }
