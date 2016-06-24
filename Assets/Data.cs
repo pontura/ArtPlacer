@@ -31,6 +31,7 @@ public class Data : MonoBehaviour
     static Data mInstance = null;
 
 	public bool isPhoto4Room = true;
+	public bool isSilentSave = false;
 
 	public bool isArtworkInfo2Place = true;
 	public int thumbHeight = 100;
