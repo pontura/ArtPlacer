@@ -43,7 +43,7 @@ public class ConfirmPhoto : MonoBehaviour {
     {
 		if (Data.Instance.isPhoto4Room) {
 			Data.Instance.areaData.Clear ();
-
+			Data.Instance.isSilentSave = true;
 			//Data.Instance.SaveRoom ();
 			Data.Instance.LoadLevel ("Walls");
 		} else {

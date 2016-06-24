@@ -280,7 +280,7 @@ public class ArtPlaced : MonoBehaviour {
 	}
 
 	public void SaveDialog(){
-		if (!Data.Instance.areaData.url.Equals ("")) {
+		if (!Data.Instance.areaData.url.Equals ("")&&!Data.Instance.isSilentSave) {
 			bool active = !saveDialog.gameObject.activeSelf;
 			saveDialog.gameObject.SetActive (active);
 			SetArtworkColliderActive(!active);
