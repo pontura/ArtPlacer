@@ -78,6 +78,13 @@ namespace NatCamU {
             if (zoomOverride) zoomOverride = false;
             isActive = false;
         }
+
+		protected override void OnDestroy () {
+			base.OnDestroy();
+			if (graphic != null && graphic.material != originalMaterial) graphic.material = originalMaterial;
+			if (zoomOverride) zoomOverride = false;
+			isActive = false;
+		}
         
         private const string modeTip = @"This dictates how NatCam applies zooming. DigitalZoomAsFallback mode will 
         use shader-accelerated digital zoom as a fallback when hardware zooming is not available. ForceDigitalZoomOnly 

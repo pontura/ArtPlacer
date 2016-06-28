@@ -27,6 +27,8 @@ public static class Events {
 	public static System.Action ResetPointers = delegate { };
     public static System.Action<string> OnGetFullVersion = delegate { };
 
+	public static System.Action<float> OnZoom = delegate { };
+
     //help:
     public static System.Action HelpHide = delegate { };
     public static System.Action HelpShow = delegate { };

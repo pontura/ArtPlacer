@@ -21,6 +21,11 @@ namespace NatCamU {
                 NatCam.OnPreviewStart -= Apply;
             }
         }
+
+		protected virtual void OnDestroy () {			
+				//Unsubscribe for Apply event here
+				NatCam.OnPreviewStart -= Apply;
+		}
         
         protected virtual void Apply () {}
     }

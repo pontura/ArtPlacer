@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class TakePhotoScreen : MonoBehaviour {
+
+	public Slider zSlider;
 
     void Start()
     {
@@ -26,4 +29,8 @@ public class TakePhotoScreen : MonoBehaviour {
     {
         Data.Instance.LoadLevel("ConfirmPhoto");
     }
+
+	public void OnZoom () {		
+		Events.OnZoom (zSlider.value);
+	}
 }
