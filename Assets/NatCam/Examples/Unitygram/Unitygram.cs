@@ -57,7 +57,7 @@ public class Unitygram : UnitygramBase {
 		//Play
 		NatCam.Play(NatCam.ActiveCamera);
 		string previewS = NatCam.Preview == null ? "null" : "" + NatCam.Preview.width;
-		ScreenDebugger.Log("NatCam Play: "+NatCam.IsPlaying+" tex: "+previewS);
+		//ScreenDebugger.Log("NatCam Play: "+NatCam.IsPlaying+" tex: "+previewS);
 		//Define a delegate to be executed once the preview starts //Note that this is a MUST when assigning the preview texture to anything
 		NatCam.ExecuteOnPreviewStart(() => {
 			//Set the RawImage texture once the preview starts
