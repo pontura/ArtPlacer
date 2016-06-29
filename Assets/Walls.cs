@@ -112,11 +112,11 @@ public class Walls : MonoBehaviour {
     }
     public void Back()
     {
-        if (Data.Instance.areaData.areas.Count == 0)
+        /*if (Data.Instance.areaData.areas.Count == 0)
         {
             Events.HelpChangeState(true);
             return;
-        }
+        }*/
 		if (Data.Instance.areaData.url.Equals (""))
 			Data.Instance.LoadLevel("ConfirmPhoto");
 		else
