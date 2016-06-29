@@ -210,6 +210,7 @@ public class Unitygram : UnitygramBase {
 
 	public void OnZoom (float z) {		
 		RawImage.GetComponent<NatCamPreviewZoomer>().zoomRatio = z;
+		NatCam.ActiveCamera.ZoomRatio = z;
 	}
 
     #endregion
