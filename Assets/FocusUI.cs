@@ -10,20 +10,20 @@ public class FocusUI : MonoBehaviour {
 	private bool fading = false;
 
 	void Start(){
-		focusRect.color = new Color (0,0,0,0);
+		focusRect.color = new Color (255,255,255,0);
 	}
 
 	void Update(){
 		if (Input.GetButton ("Fire1")) {
 			//if (!fading && Input.mousePosition.y > 50 && Input.mousePosition.y < 300 && Input.mousePosition.x < 440) {
-			if (!fading && Input.mousePosition.y > Screen.height*0.15f && Input.mousePosition.y < Screen.height*0.85&& Input.mousePosition.x < Screen.width*0.85) {
+			if (!fading && Input.mousePosition.y > Screen.height*0.15f && Input.mousePosition.x < Screen.width*0.85) {
 			//if (!fading) {
 				if (focusRect != null) {
 					focusRect.rectTransform.position = Input.mousePosition;
 					FadeLib focusFade = Instantiate (fade).GetComponent<FadeLib>();
 					focusFade.OnLoopMethod = () => {						
 						float v = Mathf.Lerp(0f,1f,focusFade.time);
-						focusRect.color = new Color(0,0,0,v);
+						focusRect.color = new Color(focusRect.color.r,focusRect.color.g,focusRect.color.b,v);
 					};
 					focusFade.OnEndMethod = () => {
 						fading = false;
