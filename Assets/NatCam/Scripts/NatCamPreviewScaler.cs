@@ -48,7 +48,8 @@ namespace NatCamU {
             //Transform
             RectTransform rectTransform = GetComponent<RectTransform>();
             //Positioning term
-            if (positionAtScreenCentre) rectTransform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, rectTransform.position.z - Camera.main.transform.position.z));
+            //if (positionAtScreenCentre) rectTransform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, rectTransform.position.z - Camera.main.transform.position.z));
+			if (positionAtScreenCentre) rectTransform.position = new Vector3(0.5f, 0.5f, rectTransform.position.z);
             //None check
             if (scaleMode == ScaleMode.None) yield break;
             //Scaling

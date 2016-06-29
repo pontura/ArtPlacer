@@ -42,15 +42,18 @@ namespace NatCamU {
 		}
 		
 		public void OnPointerUp (PointerEventData eventData) {
-			if (trackTapGestures && NatCam.ActiveCamera != null && (NatCam.ActiveCamera.FocusMode == FocusMode.TapToFocus || NatCam.ActiveCamera.FocusMode == FocusMode.HybridFocus)) NatCam.ActiveCamera.SetFocus(Camera.main.ScreenToViewportPoint(eventData.pressPosition));
+			//if (trackTapGestures && NatCam.ActiveCamera != null && (NatCam.ActiveCamera.FocusMode == FocusMode.TapToFocus || NatCam.ActiveCamera.FocusMode == FocusMode.HybridFocus)) NatCam.ActiveCamera.SetFocus(Camera.main.ScreenToViewportPoint(eventData.pressPosition));
+			if (trackTapGestures && NatCam.ActiveCamera != null && (NatCam.ActiveCamera.FocusMode == FocusMode.TapToFocus || NatCam.ActiveCamera.FocusMode == FocusMode.HybridFocus)) NatCam.ActiveCamera.SetFocus(eventData.pressPosition);
 		}
 		
 		public void OnDrag (PointerEventData eventData) {
 			if (!trackPinchGestures || NatCam.ActiveCamera == null || eventData.pointerId > 1) return;
 			previous[eventData.pointerId] = eventData.position - eventData.delta;
 			current[eventData.pointerId] = eventData.position;
-			previousDelta = Camera.main.ScreenToViewportPoint(previous[0] - previous[1]).magnitude;
-			currentDelta = Camera.main.ScreenToViewportPoint(current[0] - current[1]).magnitude;
+			//previousDelta = Camera.main.ScreenToViewportPoint(previous[0] - previous[1]).magnitude;
+			previousDelta = (previous[0] - previous[1]).magnitude;
+			//currentDelta = Camera.main.ScreenToViewportPoint(current[0] - current[1]).magnitude;
+			currentDelta = (current[0] - current[1]).magnitude;
 			zoomDelta = currentDelta - previousDelta; //transpose -1
 			//Check for zoom override and zoom support
 			if (NatCam.ActiveCamera == null || !NatCam.ActiveCamera.IsZoomSupported || NatCamPreviewZoomer.zoomOverride) return;

@@ -51,6 +51,7 @@ public class Walls : MonoBehaviour {
         Events.OnWallEdgeSelected += OnNumWallsChanged;
         Events.OnWallEdgeSelected += OnWallEdgeSelected;
         Events.OnWallActive += OnWallActive;
+		Events.OnRemoveArea += OnRemoveArea;
         Invoke("timeOut", 0.2f);
 
        
@@ -129,6 +130,7 @@ public class Walls : MonoBehaviour {
         Events.OnWallEdgeSelected -= OnNumWallsChanged;
         Events.OnWallEdgeSelected -= OnWallEdgeSelected;
         Events.OnWallActive -= OnWallActive;
+		Events.OnRemoveArea -= OnRemoveArea;
     }
     public int totalWalls;
 
@@ -137,6 +139,13 @@ public class Walls : MonoBehaviour {
         state = states.EDITTING_WALL;
         SetState();
     }
+
+	void OnRemoveArea()
+	{
+		state = states.READY;
+		SetState();
+	}
+
     private WallPlane wallPlane;
     void OnWallActive(WallPlane _wallPlane)
     {
@@ -154,10 +163,12 @@ public class Walls : MonoBehaviour {
         AddButton.GetComponentInChildren<Image>().color = Color.white;
         tooltipSelectWall.gameObject.SetActive(false);
 
-        if (qty < 1)
-            Reseted();
-        else
-            Started();
+		if (qty < 1)
+			Reseted ();
+		else {
+			state = states.READY;
+			SetState ();
+		}
 
         totalWalls = qty;
     }

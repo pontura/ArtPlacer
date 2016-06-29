@@ -68,9 +68,10 @@ public class PhotoAddWall : MonoBehaviour {
 			GameObject obj = GameObject.Find ("CreatedPlane_" + last);
 			GameObject.Destroy (obj);
             Data.Instance.areaData.areas.RemoveAt(last);
-            if (Data.Instance.areaData.areas.Count == 0)
-            {
+			if (Data.Instance.areaData.areas.Count == 0) {
 				Events.OnNumWallsChanged (0);
+			} else {
+				Events.OnRemoveArea ();
 			}
 		}
 	}
