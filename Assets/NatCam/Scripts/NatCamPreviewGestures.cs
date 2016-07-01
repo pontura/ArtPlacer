@@ -59,7 +59,7 @@ namespace NatCamU {
 			if (NatCam.ActiveCamera == null || !NatCam.ActiveCamera.IsZoomSupported || NatCamPreviewZoomer.zoomOverride) return;
 			currentRatio = NatCam.ActiveCamera.ZoomRatio;
 			currentRatio = Mathf.Clamp01(currentRatio + zoomDelta * Ext.ZoomMultiplier);
-			NatCam.ActiveCamera.ZoomRatio = currentRatio*currentRatio*currentRatio*currentRatio;
+			NatCam.ActiveCamera.ZoomRatio = currentRatio;
 		}
 		
 		public void OnEndDrag (PointerEventData eventData) {
