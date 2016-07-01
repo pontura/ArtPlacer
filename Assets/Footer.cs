@@ -75,7 +75,7 @@ public class Footer : MonoBehaviour {
     }
     public void Open()
     {
-        if (!FooterPanel.activeSelf) return;
+        //if (!FooterPanel.activeSelf) return;
 
         ArtworkDetail artDetail = GetComponent<ArtworkDetail>();
         if (artDetail.state)
