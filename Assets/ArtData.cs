@@ -148,7 +148,7 @@ public class ArtData : MonoBehaviour {
         //carga las obras:
         for (int i = 0; i < galleries.Length; i++)
         {
-            StartCoroutine(GetArtworksData(galleries[i], jsonArtworks + galleries[i].id));
+			StartCoroutine(GetArtworksData(galleries[i], jsonArtworks + galleries[i].id + "&no-cache=" + UnityEngine.Random.value));
         }	
 	}
 
@@ -156,9 +156,11 @@ public class ArtData : MonoBehaviour {
     public IEnumerator GetArtworksData(GalleryData gdata, string url)
     {
        // url = "http://localhost/madrollers/artplacer.json";
+		//Debug.Log (url);
         WWW textURLWWW = new WWW(url);
         yield return textURLWWW;
 		//Debug.Log (url+" "+textURLWWW.text.Length+" : "+textURLWWW.text);
+
         if (textURLWWW.text.Contains("<html>"))
         {
             print("____________________________ vuelve a intentar");

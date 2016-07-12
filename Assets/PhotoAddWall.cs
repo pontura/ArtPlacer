@@ -7,6 +7,7 @@ public class PhotoAddWall : MonoBehaviour {
 	public GameObject sector;
 	public RectTransform menuArea;
 	public bool add = true;
+	public int selWall;
     private int numWalls;
 
 	Camera cam;
@@ -19,6 +20,17 @@ public class PhotoAddWall : MonoBehaviour {
 				break;
 			}
 		}
+		Events.OnWallActive += OnWallActive;
+	}
+
+	void OnDestroy()
+	{
+		Events.OnWallActive -= OnWallActive;
+	}
+
+	void OnWallActive(WallPlane _wallPlane)
+	{
+		selWall =  _wallPlane.AreaId;
 	}
     public void ActiveAdd()
     {
@@ -58,16 +70,13 @@ public class PhotoAddWall : MonoBehaviour {
 
 	public void RemoveArea(){
 		Events.OnWallEdgeUnSelected ();
-		if (numWalls > 0) {
-			GameObject obj = GameObject.Find ("CreatedPlane_" + (-1 * numWalls));
-			GameObject.Destroy (obj);
+		GameObject obj = GameObject.Find ("CreatedPlane_" + selWall);
+		GameObject.Destroy (obj);
+		if (selWall<0) {			
 			numWalls--;
 			Events.OnNumWallsChanged (numWalls);
-		} else {
-			int last = Data.Instance.areaData.areas.Count - 1;
-			GameObject obj = GameObject.Find ("CreatedPlane_" + last);
-			GameObject.Destroy (obj);
-            Data.Instance.areaData.areas.RemoveAt(last);
+		} else {			
+			Data.Instance.areaData.areas.RemoveAt(selWall);
 			if (Data.Instance.areaData.areas.Count == 0) {
 				Events.OnNumWallsChanged (0);
 			} else {

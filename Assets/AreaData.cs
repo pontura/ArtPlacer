@@ -17,6 +17,7 @@ public class AreaData : MonoBehaviour {
         public float height;
 		public List<ArtWork> artworks;
 		public int artworkCount;
+		public int id;
 
 		public Area(){
 			pointers = new Vector3[4];
@@ -70,12 +71,15 @@ public class AreaData : MonoBehaviour {
 			area.position = position;
             area.height = height;
             area.width = width;
+			area.id = areas.Count;
 			areas.Add (area);
 		} else {
-			areas[id].pointers = pointers;
-			areas[id].position = position;
-            areas[id].height = height;
-            areas[id].width = width;
+			Area area = areas.Find(x => x.id==id);
+			area.pointers = pointers;
+			area.position = position;
+			area.height = height;
+			area.width = width;
+			area.id = areas.IndexOf (area);
 		}		
 
 	}
