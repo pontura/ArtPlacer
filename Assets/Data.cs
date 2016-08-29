@@ -144,7 +144,7 @@ public class Data : MonoBehaviour
 		DontDestroyOnLoad(this.gameObject);
         
 		Screen.autorotateToLandscapeLeft = true;
-		Screen.autorotateToLandscapeRight = true;
+		Screen.autorotateToLandscapeRight = false;
 		Screen.autorotateToPortrait = false;
 		Screen.autorotateToPortraitUpsideDown = false;
 
