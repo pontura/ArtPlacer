@@ -41,7 +41,7 @@ public class ThumbImage : MonoBehaviour{
 	public void OnPointerUp()
 	{
         RawImage.color = Color.white;
-		Invoke ("stopLoading", 0.5f);
+		//Invoke ("stopLoading", 1.25f);
 	}
 
 	void stopLoading(){
@@ -49,7 +49,7 @@ public class ThumbImage : MonoBehaviour{
 	}
 
 	void CallOnSelect(){
-		OnSelected(footer, id);
+		StartCoroutine(OnSelected(footer, id));
 	}
 	
 	public void InitRoom(Rooms rooms, string url, int id)
@@ -146,16 +146,25 @@ public class ThumbImage : MonoBehaviour{
     //}
 	
 	
-	public void OnSelected(Footer footer, int id)
-	{
-		Debug.Log ("ACA");
-		if (sprite) {
+	public IEnumerator OnSelected(Footer footer, int id)
+	{		
+		/*if (sprite) {
 			Debug.Log ("T_W: "+texture2d.width);
 			Data.Instance.SetLastArtTexture(texture2d);
 			//Data.Instance.lastArtTexture = sprite.texture;
 		}
-		Debug.Log ("ACA2");
+		Debug.Log ("ACA2");*/
+
+		Data.Instance.artData.SetSelectedArtworkByArtID (id);
+		string url_ = Data.Instance.artData.selectedArtWork.GetUrl (false);
+			
+		yield return StartCoroutine(TextureUtils.LoadRemote(url_, value => texture2d = value));
+		Data.Instance.SetLastArtTexture(texture2d);
+
+		stopLoading ();
+
 		footer.OnSelect(id);
+		yield return null;
 	}
 	
 	public void OnSelectedLocal(ArtWorks artWorks, int id)
