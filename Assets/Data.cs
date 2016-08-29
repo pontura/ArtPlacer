@@ -38,7 +38,7 @@ public class Data : MonoBehaviour
 
 	//string jsonUrl = "http://www.pontura.com/works/artplacer/artplacer.json";
     //public string json_artworks_jsonUrl = "http://localhost/madrollers/artplacer.json";
-	public string json_galleries_Url = "http://artplacer.com/getalldata.php?type=galleries&no-cache="+Random.value;
+	public string json_galleries_Url = "http://artplacer.com/getalldata.php?type=galleries";
     public string json_artworks_jsonUrl = "http://artplacer.com/getalldata.php?type=artworks&gallery_id=";
 
 	public Slider unitSlider;
@@ -126,7 +126,7 @@ public class Data : MonoBehaviour
 
         filtersManager = GetComponent<FiltersManager>();
 
-		StartCoroutine(GetServerData(json_galleries_Url));
+		StartCoroutine(GetServerData(json_galleries_Url+"&no-cache="+Random.value));
 
 
         cameraData = GetComponent<CameraData>();
@@ -144,7 +144,7 @@ public class Data : MonoBehaviour
 		DontDestroyOnLoad(this.gameObject);
         
 		Screen.autorotateToLandscapeLeft = true;
-		Screen.autorotateToLandscapeRight = false;
+		Screen.autorotateToLandscapeRight = true;
 		Screen.autorotateToPortrait = false;
 		Screen.autorotateToPortraitUpsideDown = false;
 
