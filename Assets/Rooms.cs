@@ -188,7 +188,8 @@ public class Rooms : MonoBehaviour
 #if UNITY_ANDROID
         AndroidPicker.BrowseImage();
 #elif UNITY_IPHONE
-			IOSPicker.BrowseImage();
+		Data.Instance.RotateOnBrowse ();
+		IOSPicker.BrowseImage();
 #endif
 
     }
