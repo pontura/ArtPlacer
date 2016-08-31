@@ -97,7 +97,9 @@ public class Rooms : MonoBehaviour
     }
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
+		#if UNITY_IPHONE
 		Data.Instance.RotateOnBrowse ();
+		#endif
         Data.Instance.SetRoomFromLocalFiles(true);
 
 		float currAspect = Screen.currentResolution.width * 0.8f / Screen.currentResolution.height;
