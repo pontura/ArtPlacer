@@ -12,10 +12,10 @@ public class ConfirmPhoto : MonoBehaviour {
         Events.Back += Back;
         Data.Instance.SetTitle("");
 
-		#if UNITY_IOS
+		/*#if UNITY_IOS
 			if (Data.Instance.oddBrowse)
 				TurnPhoto180();			
-		#endif
+		#endif*/
 
         Invoke("OpenTooltip", 0.5f);
         Events.HelpShow();
