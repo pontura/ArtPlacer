@@ -222,6 +222,7 @@ public class ArtWorks : MonoBehaviour
     }
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
+		Data.Instance.RotateOnBrowse ();
         Events.OnPicker(false);
         Data.Instance.isPhoto4Room = false;
 		Data.Instance.lastArtTexture = Data.Instance.Resize2Fit (tex);
