@@ -160,10 +160,10 @@ public class Data : MonoBehaviour
 		Screen.autorotateToLandscapeLeft = !oddBrowse;
 		Screen.autorotateToLandscapeRight = oddBrowse;
 
-		if(oddBrowse)
+		/*if(oddBrowse)
 			Screen.orientation = ScreenOrientation.LandscapeRight;
 		else
-			Screen.orientation = ScreenOrientation.LandscapeLeft;
+			Screen.orientation = ScreenOrientation.LandscapeLeft;*/
 	}
 
     public void Reset()
