@@ -97,9 +97,7 @@ public class Rooms : MonoBehaviour
     }
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
-		#if UNITY_IPHONE
-		Data.Instance.RotateOnBrowse ();
-		#endif
+		
         Data.Instance.SetRoomFromLocalFiles(true);
 
 		float currAspect = Screen.currentResolution.width * 0.8f / Screen.currentResolution.height;
@@ -181,6 +179,9 @@ public class Rooms : MonoBehaviour
     {
         EventsAnalytics.SendScreen("NEW_ROOM_BROWSE");
         Events.OnPicker(true);
+		#if UNITY_IPHONE
+		Data.Instance.RotateOnBrowse ();
+		#endif
         Invoke("Delay", 0.1f);
     }
     void Delay()

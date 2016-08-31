@@ -12,6 +12,11 @@ public class ConfirmPhoto : MonoBehaviour {
         Events.Back += Back;
         Data.Instance.SetTitle("");
 
+		#if UNITY_IOS
+			if (Data.Instance.oddBrowse)
+				TurnPhoto180();			
+		#endif
+
         Invoke("OpenTooltip", 0.5f);
         Events.HelpShow();
     }
@@ -69,6 +74,26 @@ public class ConfirmPhoto : MonoBehaviour {
         else
             Data.Instance.lastArtTexture = rotated;  		
     }
+
+	public void TurnPhoto180()
+	{			
+		int degrees = (int)sprite.transform.localEulerAngles.z;
+		degrees += 180;
+		sprite.transform.localEulerAngles = new Vector3(0, 0, degrees);
+
+		Texture2D image;
+		if (Data.Instance.isPhoto4Room)
+			image = Data.Instance.lastPhotoTexture;
+		else 
+			image = Data.Instance.lastArtTexture;
+
+		Texture2D rotated = TextureUtils.Rotate180(image);
+
+		if (Data.Instance.isPhoto4Room)
+			Data.Instance.lastPhotoTexture = rotated;
+		else
+			Data.Instance.lastArtTexture = rotated;  		
+	}
 
 	public void FlipHPhoto()
 	{		

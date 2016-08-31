@@ -209,6 +209,9 @@ public class ArtWorks : MonoBehaviour
         EventsAnalytics.SendScreen("NEW_ARTWORK_BROWSE");
         Data.Instance.artData.selectedArtWork.url = "";
         Events.OnPicker(true);
+		#if UNITY_IPHONE
+		Data.Instance.RotateOnBrowse ();
+		#endif
         Invoke("Delay", 0.1f);        
     }
     void Delay()
@@ -221,8 +224,8 @@ public class ArtWorks : MonoBehaviour
 #endif
     }
     public void OnImageLoad(string imgPath, Texture2D tex)
-    {
-		Data.Instance.RotateOnBrowse ();
+    {		
+
         Events.OnPicker(false);
         Data.Instance.isPhoto4Room = false;
 		Data.Instance.lastArtTexture = Data.Instance.Resize2Fit (tex);
