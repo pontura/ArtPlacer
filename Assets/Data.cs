@@ -154,16 +154,16 @@ public class Data : MonoBehaviour
 		artWorksThumbs = new List<ImageCache>();
     }
 
-	private bool oddBrowse = true;
+	public bool oddBrowse;
 	public void RotateOnBrowse(){
 		oddBrowse = !oddBrowse;
-		Screen.autorotateToLandscapeLeft = !oddBrowse;
+		/*Screen.autorotateToLandscapeLeft = !oddBrowse;
 		Screen.autorotateToLandscapeRight = oddBrowse;
 
 		if(oddBrowse)
 			Screen.orientation = ScreenOrientation.LandscapeRight;
 		else
-			Screen.orientation = ScreenOrientation.LandscapeLeft;
+			Screen.orientation = ScreenOrientation.LandscapeLeft;*/
 	}
 
     public void Reset()

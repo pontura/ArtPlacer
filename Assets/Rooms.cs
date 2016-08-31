@@ -185,19 +185,13 @@ public class Rooms : MonoBehaviour
     }
     void Delay()
     {
-		#if UNITY_IPHONE
-		Data.Instance.RotateOnBrowse ();
-		#endif
-		Invoke("Delay2", 0.1f);
-	}
+#if UNITY_ANDROID
+        AndroidPicker.BrowseImage();
+#elif UNITY_IPHONE
+			IOSPicker.BrowseImage();
+#endif
 
-	void Delay2(){
-		#if UNITY_ANDROID
-		AndroidPicker.BrowseImage();
-		#elif UNITY_IPHONE
-		IOSPicker.BrowseImage();
-		#endif
-	}
+    }
     public void OnSelect(int id)
     {
         RoomsData.Room room;
