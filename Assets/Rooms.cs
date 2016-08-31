@@ -97,6 +97,7 @@ public class Rooms : MonoBehaviour
     }
     public void OnImageLoad(string imgPath, Texture2D tex)
     {
+		Data.Instance.RotateOnBrowse ();
         Data.Instance.SetRoomFromLocalFiles(true);
 
 		float currAspect = Screen.currentResolution.width * 0.8f / Screen.currentResolution.height;
