@@ -129,7 +129,7 @@ public class TextureUtils{
 	}
 
 	public static Texture2D Rotate180(Texture2D source){
-		Texture2D result = new Texture2D (source.height, source.width);
+		Texture2D result = new Texture2D (source.width, source.height);
 		Color32[] cSource = source.GetPixels32 ();
 		Color32[] cRes = new Color32[cSource.Length];
 		
