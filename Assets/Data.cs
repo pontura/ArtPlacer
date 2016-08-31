@@ -154,7 +154,7 @@ public class Data : MonoBehaviour
 		artWorksThumbs = new List<ImageCache>();
     }
 
-	private bool oddBrowse;
+	private bool oddBrowse = true;
 	public void RotateOnBrowse(){
 		oddBrowse = !oddBrowse;
 		Screen.autorotateToLandscapeLeft = !oddBrowse;
