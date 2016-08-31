@@ -83,7 +83,7 @@ public class Unitygram : UnitygramBase {
 		//rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 
 		if (Data.Instance.oddBrowse){
-			rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
+			RawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 		#endif
 
 
