@@ -81,9 +81,9 @@ public class Unitygram : UnitygramBase {
 		#if UNITY_IOS
 		//scale.x *= -1;
 		//rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
-		#elif UNITY_IPHONE
-			if (Data.Instance.oddBrowse)
-				RawImage.rectTransform.rotation.eulerAngles = new Vector3 (0, 0, 180);
+
+		if (Data.Instance.oddBrowse){
+			rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 		#endif
 
 
