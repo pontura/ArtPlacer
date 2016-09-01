@@ -25,8 +25,8 @@ public class Game : MonoBehaviour {
         myCamera.enabled = true;
 
 		#if UNITY_IOS
-		if (Data.Instance.lastScene.Equals ("TakePhoto")) {
-		Data.Instance.lastPhotoTexture = TextureUtils.Rotate180(Data.Instance.lastPhotoTexture);
+		if (Data.Instance.lastScene.Equals ("TakePhoto") && Data.Instance.oddBrowse) {
+			Data.Instance.lastPhotoTexture = TextureUtils.Rotate180(Data.Instance.lastPhotoTexture);
 		}
 		#endif
 
@@ -48,7 +48,7 @@ public class Game : MonoBehaviour {
         if (!Data.Instance.isPhoto4Room)
         {
 			#if UNITY_IOS
-			if (Data.Instance.lastScene.Equals ("TakePhoto")) {
+			if (Data.Instance.lastScene.Equals ("TakePhoto") && Data.Instance.oddBrowse) {
 				Data.Instance.lastArtTexture = TextureUtils.Rotate180(Data.Instance.lastArtTexture);
 			}
 			#endif
