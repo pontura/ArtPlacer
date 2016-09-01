@@ -25,6 +25,12 @@ public class Game : MonoBehaviour {
         myCamera.enabled = true;
 
         Texture2D texture = Data.Instance.lastPhotoTexture;
+		#if UNITY_IOS
+		if (Data.Instance.lastScene.Equals ("TakePhoto")) {
+			texture = TextureUtils.Rotate180(Data.Instance.lastPhotoTexture);
+		}
+		#endif
+
 		/*Texture2D texture = new Texture2D (432, 720);
 		Color32[] c = new Color32[texture.GetPixels32(0).Length];
 		for (int i=0; i<c.Length; i++)
@@ -41,6 +47,11 @@ public class Game : MonoBehaviour {
         if (!Data.Instance.isPhoto4Room)
         {
             texture = Data.Instance.lastArtTexture;
+			#if UNITY_IOS
+			if (Data.Instance.lastScene.Equals ("TakePhoto")) {
+			texture = TextureUtils.Rotate180(Data.Instance.lastArtTexture);
+			}
+			#endif
         }
         else if(Data.Instance.RoomFromLocalFiles)
         {

@@ -13,8 +13,9 @@ public class ConfirmPhoto : MonoBehaviour {
         Data.Instance.SetTitle("");
 
 		/*#if UNITY_IOS
-			if (Data.Instance.oddBrowse)
+		if (Data.Instance.oddBrowse){
 				TurnPhoto180();			
+		}
 		#endif*/
 
         Invoke("OpenTooltip", 0.5f);
