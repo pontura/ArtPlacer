@@ -14,6 +14,8 @@ public class RoomImageCreator : MonoBehaviour {
     void Start()
     {
         Events.OnGenerateRoomThumb += OnGenerateRoomThumb;
+		resWidth = Screen.width;
+		resHeight = Screen.height;
     }
     void OnDestroy()
     {
