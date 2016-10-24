@@ -148,23 +148,22 @@ public class ThumbImage : MonoBehaviour{
 	
 	public IEnumerator OnSelected(Footer footer, int id)
 	{		
-		/*if (sprite) {
-			Debug.Log ("T_W: "+texture2d.width);
-			Data.Instance.SetLastArtTexture(texture2d);
-			//Data.Instance.lastArtTexture = sprite.texture;
+		if (Data.Instance.artData.selectedGallery == -2) {			
+			Data.Instance.SetLastArtTexture (TextureUtils.LoadLocal(Data.Instance.artData.GetArtData(-2,id).GetUrl(false)));
+			stopLoading ();
+			footer.OnSelect (id);
+		} else {			
+			Data.Instance.artData.SetSelectedArtworkByArtID (id);
+			string url_ = Data.Instance.artData.selectedArtWork.GetUrl (false);
+				
+			yield return StartCoroutine (TextureUtils.LoadRemote (url_, value => texture2d = value));
+			Data.Instance.SetLastArtTexture (texture2d);
+
+			stopLoading ();
+
+			footer.OnSelect (id);
+			yield return null;
 		}
-		Debug.Log ("ACA2");*/
-
-		Data.Instance.artData.SetSelectedArtworkByArtID (id);
-		string url_ = Data.Instance.artData.selectedArtWork.GetUrl (false);
-			
-		yield return StartCoroutine(TextureUtils.LoadRemote(url_, value => texture2d = value));
-		Data.Instance.SetLastArtTexture(texture2d);
-
-		stopLoading ();
-
-		footer.OnSelect(id);
-		yield return null;
 	}
 	
 	public void OnSelectedLocal(ArtWorks artWorks, int id)

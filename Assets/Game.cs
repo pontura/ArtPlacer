@@ -94,7 +94,7 @@ public class Game : MonoBehaviour {
         background.sprite = sprite;
         
 		background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
-		if (!Data.Instance.lastScene.Equals ("ConfirmArtworkCrop")) {
+		/*if (!Data.Instance.lastScene.Equals ("ConfirmArtworkCrop")) {
 			Data.Instance.cameraData.Calculate (myCamera);
 			switch (Data.Instance.cameraData.aspect) {
 			case CameraData.aspects._3_2:
@@ -109,7 +109,6 @@ public class Game : MonoBehaviour {
 			}
 		}
 		ScreenDebugger.Log ("Screen: "+Screen.width+":"+Screen.height+"Tex: "+texture.width+":"+texture.height+"Scale: " + scaleFor);
-		Debug.Log ("ScreenAspect: "+screenAspect+" TexAspect: "+(1f*texture.height/texture.width)+" Scale: " + scaleFor);
-
+		Debug.Log ("ScreenAspect: "+screenAspect+" TexAspect: "+(1f*texture.height/texture.width)+" Scale: " + scaleFor);*/
     }
 }

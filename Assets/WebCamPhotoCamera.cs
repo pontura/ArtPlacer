@@ -22,19 +22,20 @@ public class WebCamPhotoCamera : MonoBehaviour
         //webCamTexture = new WebCamTexture();
         //webCamTexture.requestedHeight = 1280;
         //webCamTexture.requestedWidth = 720;
-		/*webCamTexture = new WebCamTexture(WebCamTexture.devices[0].name, (int)Data.Instance.defaultCamSize.x, (int)Data.Instance.defaultCamSize.y, 30);
+
+		webCamTexture = new WebCamTexture(WebCamTexture.devices[0].name, (int)Data.Instance.defaultCamSize.x, (int)Data.Instance.defaultCamSize.y, 30);
 		if (webCamTexture.isPlaying)
 		{
 			webCamTexture.Stop();
 		} else
 			webCamTexture.Play();
-		*/
+		
 
 		/*#if UNITY_EDITOR
 				NatCam.Initialize (NatCamInterface.FallbackInterface, PreviewType.NonReadable, Switch.Off, Switch.On);
 				NatCam.Play (DeviceCamera.RearCamera);
 		#else*/
-				NatCam.Initialize ();				
+		/*		NatCam.Initialize ();				
 				DeviceCamera.RearCamera.SetResolution (ResolutionPreset.HD);
 				NatCam.PhotoSaveMode = PhotoSaveMode.SaveToAppAlbum;
 				
@@ -42,13 +43,13 @@ public class WebCamPhotoCamera : MonoBehaviour
 
 		//#endif
 
-		NatCam.ExecuteOnPreviewStart (() => rawImage.texture = NatCam.Preview);
+		NatCam.ExecuteOnPreviewStart (() => rawImage.texture = NatCam.Preview);*/
 
         Vector3 scale = rawImage.transform.localScale;
         
 #if UNITY_IOS
-       //scale.x *= -1;
-       //rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
+       scale.x *= -1;
+       rawImage.transform.localEulerAngles = new Vector3(0, 0, 180);
 #endif
 
 		/*Vector2 winRes = new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
@@ -75,10 +76,10 @@ public class WebCamPhotoCamera : MonoBehaviour
             else if (!Data.Instance.isPhoto4Room && Data.Instance.lastArtTexture != null)
                 Ready();
         }
-        /*else
+        else
         {
             rawImage.texture = webCamTexture;
-        }*/
+        }
     }
     void Ready()
     {
@@ -87,8 +88,8 @@ public class WebCamPhotoCamera : MonoBehaviour
     }
     void OnDestroy()
     {
-        //webCamTexture.Stop();
-		NatCam.Release();
+        webCamTexture.Stop();
+		//NatCam.Release();
     }
     public void TakePhoto()
     {
@@ -98,7 +99,7 @@ public class WebCamPhotoCamera : MonoBehaviour
 
         if (Data.Instance.isPhoto4Room)
         {
-			/*if (Input.deviceOrientation == DeviceOrientation.Portrait){
+			if (Input.deviceOrientation == DeviceOrientation.Portrait){
 				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
 				temp.SetPixels(webCamTexture.GetPixels());
 				temp.Apply();				
@@ -116,9 +117,9 @@ public class WebCamPhotoCamera : MonoBehaviour
             	Data.Instance.lastPhotoTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
             	Data.Instance.lastPhotoTexture.SetPixels(webCamTexture.GetPixels());
 			}
-            Data.Instance.lastPhotoTexture.Apply();*/
+            Data.Instance.lastPhotoTexture.Apply();
 
-			NatCam.CapturePhoto(
+			/*NatCam.CapturePhoto(
 				(Texture2D photo) => {
 					//Data.Instance.lastPhotoTexture = photo;
 					//We don't need to manually unregister this delegate
@@ -137,13 +138,13 @@ public class WebCamPhotoCamera : MonoBehaviour
 						//texture.Apply();
 					}*/
 
-					Data.Instance.lastPhotoTexture = Data.Instance.Resize2Fit(photo);
+				/*	Data.Instance.lastPhotoTexture = Data.Instance.Resize2Fit(photo);
 					DestroyImmediate(photo);
-				});
+				});*/
         }
         else
         {
-			/*if (Input.deviceOrientation == DeviceOrientation.Portrait){
+			if (Input.deviceOrientation == DeviceOrientation.Portrait){
 				Texture2D temp = new Texture2D(webCamTexture.width, webCamTexture.height);
 				temp.SetPixels(webCamTexture.GetPixels());
 				temp.Apply();				
@@ -161,9 +162,9 @@ public class WebCamPhotoCamera : MonoBehaviour
             	Data.Instance.lastArtTexture = new Texture2D(webCamTexture.width, webCamTexture.height);
             	Data.Instance.lastArtTexture.SetPixels(webCamTexture.GetPixels());
 			}
-            Data.Instance.lastArtTexture.Apply();*/
+            Data.Instance.lastArtTexture.Apply();
 
-			NatCam.CapturePhoto(
+			/*NatCam.CapturePhoto(
 				(Texture2D photo) => {
 					//Set a material's main texture to be the captured photo
 					//Data.Instance.lastArtTexture = photo;
@@ -171,10 +172,10 @@ public class WebCamPhotoCamera : MonoBehaviour
 
 					Data.Instance.lastArtTexture = Data.Instance.Resize2Fit(photo);
 					DestroyImmediate(photo);
-			});
+			});*/
         }
 
-      //  Data.Instance.LoadLevel("ConfirmPhoto");
+        Data.Instance.LoadLevel("ConfirmPhoto");
         
     }
 

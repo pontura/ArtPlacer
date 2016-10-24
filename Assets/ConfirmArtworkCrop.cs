@@ -103,4 +103,10 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		Data.Instance.LoadLevel("confirmArtworkSize");
 	}
 
+	public void Continue(){
+		Events.OnLoading(true);
+		area.gameObject.SetActive (false);
+		Data.Instance.LoadLevel("confirmArtworkSize");
+	}
+
 }
