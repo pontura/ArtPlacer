@@ -63,14 +63,13 @@ public class Unitygram : UnitygramBase {
 		scaleFor_16x9 *= texAspect / screenAspect;
 		scaleFor = scaleFor_16x9;*/
 
-		RawImage.rectTransform.sizeDelta = NatCam.ActiveCamera.ActiveResolution;
 
-		float scaleFor = 0;
 		float screenAspect = 1f*Screen.height / Screen.width;
-		float texAspect = RawImage.rectTransform.sizeDelta.y / RawImage.rectTransform.sizeDelta.x;
+		float texAspect = 1f*NatCam.ActiveCamera.ActiveResolution.y / NatCam.ActiveCamera.ActiveResolution.x;
 		Vector3 defaultScale = RawImage.transform.localScale;
-		scaleFor = texAspect / screenAspect;
-		RawImage.transform.localScale = new Vector3(defaultScale.x * scaleFor, defaultScale.x * scaleFor, 1);
+		RawImage.rectTransform.sizeDelta = new Vector2(RawImage.rectTransform.sizeDelta.x,RawImage.rectTransform.sizeDelta.x*texAspect);
+		//float scaleFor = texAspect / screenAspect;
+		//RawImage.transform.localScale = new Vector3(defaultScale.x * scaleFor, defaultScale.x * scaleFor, 1);
 
 		//Play
 		NatCam.Play(NatCam.ActiveCamera);
