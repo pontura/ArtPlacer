@@ -107,7 +107,7 @@ public class ArtPlaced : MonoBehaviour {
 	void Update() {
 
 		if (Input.GetButton ("Fire1")) {
-			if (selected == null) {
+			if (selected == null) {				
 				SelectArtwork2Drag();
 			} else {
 				Ray ray = cam.ScreenPointToRay (Input.mousePosition);
@@ -146,48 +146,50 @@ public class ArtPlaced : MonoBehaviour {
 		}
 	}
 
-	void SelectArtwork2Drag(){
+	void SelectArtwork2Drag(){		
 		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
 		RaycastHit[] hits;
 		hits = Physics.RaycastAll (ray.origin, ray.direction, 100.0F);
-		
+		Debug.Log ("length: " + hits.Length);
 		for (int i = 0; i < hits.Length; i++) {
 			RaycastHit hit = hits [i];			
 			Renderer rend = hit.transform.GetComponent<Renderer> ();
+			Debug.Log("aca "+i+" "+hits [i].collider.name);
+			if (rend != null && rend.material.mainTexture != null) {			
 			
-			if (rend == null || rend.material.mainTexture == null)
-				return;
-			
-			Texture2D tex = rend.material.mainTexture as Texture2D;
-			Vector2 pixelUV = hit.textureCoord;
-			pixelUV.x *= tex.width * rend.material.mainTextureScale.x;
-			pixelUV.x += tex.width * rend.material.mainTextureOffset.x;
-			pixelUV.y *= tex.height * rend.material.mainTextureScale.y;
-			pixelUV.y += tex.height * rend.material.mainTextureOffset.y;
-			if (tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y).a == 1) {
-				//print (hit.collider.name+" Selected, RGBA: "+tex.GetPixel((int)pixelUV.x,(int)pixelUV.y));
-				selected = hit.collider.name;
-				selectedArtwork = hit.collider.gameObject;
-				selectedArtwork.transform.position = selectedArtwork.transform.position-new Vector3(0,0,0.1f);
-				int areaId = hit.collider.GetComponent<DragArtWork>().areaIndex;
-				int artWorkId = hit.collider.GetComponent<DragArtWork>().artWorkIndex;			
-				AreaData.ArtWork aw = Data.Instance.areaData.areas[areaId].artworks.Find(x => x.id==artWorkId);
-				Data.Instance.SetLastArtTexture(aw.texture);
-				Texture2D t = Data.Instance.lastArtThumbTexture;
-				Debug.Log("Gallery Id: "+aw.galleryID);
-				Debug.Log("Art Id: "+aw.galleryArtID);
-				sel_galleryID = aw.galleryID;
-				sel_galleryArtID = aw.galleryArtID;
-				thumbClone = Instantiate(Thumb, Data.Instance.areaData.getPosition(areaId), Quaternion.identity) as GameObject;
-				thumbClone.name = "thumb_"+selected;
-				thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
-				thumbRenderer.sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
-				thumbRenderer.enabled = false;
-				buttonInfo.GetComponent<Button>().interactable = true;
-				StartCoroutine(buttonInfo.GetComponent<ButtonFeedback>().InfoButtonFeedback());
-				break;
-			}					
+				Texture2D tex = rend.material.mainTexture as Texture2D;
+				Vector2 pixelUV = hit.textureCoord;
+				pixelUV.x *= tex.width * rend.material.mainTextureScale.x;
+				pixelUV.x += tex.width * rend.material.mainTextureOffset.x;
+				pixelUV.y *= tex.height * rend.material.mainTextureScale.y;
+				pixelUV.y += tex.height * rend.material.mainTextureOffset.y;
+				if (tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y).a == 1) {
+					Debug.Log ("aca hitter");
+					//print (hit.collider.name+" Selected, RGBA: "+tex.GetPixel((int)pixelUV.x,(int)pixelUV.y));
+					selected = hit.collider.name;
+					selectedArtwork = hit.collider.gameObject;
+					selectedArtwork.transform.position = selectedArtwork.transform.position - new Vector3 (0, 0, 0.1f);
+					int areaId = hit.collider.GetComponent<DragArtWork> ().areaIndex;
+					int artWorkId = hit.collider.GetComponent<DragArtWork> ().artWorkIndex;			
+					AreaData.ArtWork aw = Data.Instance.areaData.areas [areaId].artworks.Find (x => x.id == artWorkId);
+					Data.Instance.SetLastArtTexture (aw.texture);
+					Texture2D t = Data.Instance.lastArtThumbTexture;
+					Debug.Log ("Gallery Id: " + aw.galleryID);
+					Debug.Log ("Art Id: " + aw.galleryArtID);
+					sel_galleryID = aw.galleryID;
+					sel_galleryArtID = aw.galleryArtID;
+					thumbClone = Instantiate (Thumb, Data.Instance.areaData.getPosition (areaId), Quaternion.identity) as GameObject;
+					thumbClone.name = "thumb_" + selected;
+					thumbRenderer = thumbClone.GetComponent<SpriteRenderer> ();
+					thumbRenderer.sprite = Sprite.Create (t, new Rect (0, 0, t.width, t.height), Vector2.zero);
+					thumbRenderer.enabled = false;
+					buttonInfo.GetComponent<Button> ().interactable = true;
+					StartCoroutine (buttonInfo.GetComponent<ButtonFeedback> ().InfoButtonFeedback ());
+					break;
+				}
+			}
 		}
+		Debug.Log("aca done");
 	}
 
 	void DragArtWork(RaycastHit hit){
