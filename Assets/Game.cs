@@ -7,8 +7,8 @@ public class Game : MonoBehaviour {
     private bool photoLoadead;
     public Camera myCamera;
 
-    private float scaleFor_4x3 = 0.28f;
-    private float scaleFor_16x9 = 0.28f;  
+    private float scaleFor_4x3 = 0.24f;
+    private float scaleFor_16x9 = 0.24f;  
 
 	void Start () {
         LoadLastPhotoTexture();
@@ -78,13 +78,22 @@ public class Game : MonoBehaviour {
 			//texture.Apply();
 		} */
 
+
 		//texture = Data.Instance.Resize2Fit (texture);
+
+		float scaleFor = 0;
+		float screenAspect = 1f*Screen.height / Screen.width;
+		float texAspect = 1f * texture.height / texture.width;
+		scaleFor_4x3 *= texAspect / screenAspect;
+		scaleFor_16x9 *= texAspect / screenAspect;
+		scaleFor = scaleFor_16x9;
+
 		rect = new Rect (0, 0, texture.width, texture.height);
 
 		Sprite sprite = Sprite.Create( texture,  rect, new Vector2(0.5f,0.5f));
         background.sprite = sprite;
-        float scaleFor = 0;
-
+        
+		background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
 		if (!Data.Instance.lastScene.Equals ("ConfirmArtworkCrop")) {
 			Data.Instance.cameraData.Calculate (myCamera);
 			switch (Data.Instance.cameraData.aspect) {
@@ -99,5 +108,8 @@ public class Game : MonoBehaviour {
 				break;
 			}
 		}
+		ScreenDebugger.Log ("Screen: "+Screen.width+":"+Screen.height+"Tex: "+texture.width+":"+texture.height+"Scale: " + scaleFor);
+		Debug.Log ("ScreenAspect: "+screenAspect+" TexAspect: "+(1f*texture.height/texture.width)+" Scale: " + scaleFor);
+
     }
 }
