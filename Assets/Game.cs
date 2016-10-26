@@ -10,6 +10,8 @@ public class Game : MonoBehaviour {
     private float scaleFor_4x3 = 0.24f;
     private float scaleFor_16x9 = 0.24f;  
 
+	private float x_pos = -0.23f;
+
 	void Start () {
         LoadLastPhotoTexture();
 	}
@@ -94,6 +96,8 @@ public class Game : MonoBehaviour {
         background.sprite = sprite;
         
 		background.transform.localScale = new Vector3(scaleFor, scaleFor, 1);
+		Vector3 defaultPos = background.transform.position;
+		background.transform.position = new Vector3 (-1f*scaleFor, defaultPos.y, defaultPos.z);
 		/*if (!Data.Instance.lastScene.Equals ("ConfirmArtworkCrop")) {
 			Data.Instance.cameraData.Calculate (myCamera);
 			switch (Data.Instance.cameraData.aspect) {
