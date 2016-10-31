@@ -9,6 +9,7 @@ public class ConfirmArtWork : MonoBehaviour {
     public Button FavoriteOff;
 	public Button PlaceItButton;
 	public Button editButton;
+	public GameObject addButton;
 
     public RawImage rawImage;
     public GameObject paginator;
@@ -155,7 +156,26 @@ public class ConfirmArtWork : MonoBehaviour {
             FavoriteOn.gameObject.SetActive(false);
             FavoriteOff.gameObject.SetActive(true);
         }
+		addButton.SetActive (isFavorite);
     }
+
+	public void Add(){
+
+		if (
+			!StoreData.Instance.fullVersion &&
+			StoreData.Instance.GetComponent<StoreSettings>().loaded &&
+			Data.Instance.artData.myArtWorks.artWorksData.Count >= StoreData.Instance.GetComponent<StoreSettings>().max_artworks
+		)
+		{
+			Events.OnGetFullVersion(StoreData.Instance.GetComponent<StoreSettings>().msg_artworks);
+			return;
+		}
+
+		SwitchFavorites ();
+		Data.Instance.SavePhotoArt(Data.Instance.artData.selectedArtWork.title,Data.Instance.artData.selectedArtWork.autor+", "+Data.Instance.artData.selectedArtWork.gallery,Data.Instance.artData.selectedArtWork.size.x,Data.Instance.artData.selectedArtWork.size.y);
+		Data.Instance.artData.selectedGallery = -2;
+		Data.Instance.LoadLevel("Artworks");
+	}
 
 	private void ConvertUnits(){
 
