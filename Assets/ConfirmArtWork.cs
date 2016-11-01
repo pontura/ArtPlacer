@@ -16,6 +16,7 @@ public class ConfirmArtWork : MonoBehaviour {
    // public Text title;
 
     private bool isFavorite;
+	private bool showingAddTip;
     public ArtData.GalleryData gallery;
 
 	void Start () {
@@ -69,6 +70,12 @@ public class ConfirmArtWork : MonoBehaviour {
 
 
     }
+
+	/*void Update(){
+		if (showingAddTip && Input.anyKey) 
+			Events.HelpChangeState (false);		
+	}*/
+
     public void Confirm()
     {
         Events.OnLoading(true);
@@ -148,13 +155,18 @@ public class ConfirmArtWork : MonoBehaviour {
         if (isFavorite)
         {
             FavoriteOn.gameObject.SetActive(true);
-            FavoriteOff.gameObject.SetActive(false);
+			FavoriteOff.gameObject.SetActive(false);
+			Events.HelpShow ();
+			Events.HelpChangeStep (3);
+			Events.HelpChangeState (true);
+			showingAddTip = true;
             EventsAnalytics.NewFavourite(Data.Instance.artData.selectedArtWork.galleryId.ToString(), Data.Instance.artData.selectedArtWork.artId.ToString());
         }
         else
         {
             FavoriteOn.gameObject.SetActive(false);
             FavoriteOff.gameObject.SetActive(true);
+			Events.HelpHide ();
         }
 		addButton.SetActive (isFavorite);
     }
@@ -260,9 +272,6 @@ public class ConfirmArtWork : MonoBehaviour {
         }
         yield return null;
     }
-
-
-
 
     //public void OnSelected(Footer footer, int id)
     //{

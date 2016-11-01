@@ -15,8 +15,7 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 	private ArtworkArea area;
 
     void Start()
-    {
-        Events.HelpHide();
+    {        
         Data.Instance.SetBackActive(true);
         Events.Back += Back;
         // tooltipSizes.gameObject.SetActive(false);               
@@ -25,9 +24,15 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		area.transform.SetParent(container.transform);
 		area.transform.localPosition = new Vector3(0,0,0);
 		area.transform.localScale = Vector3.one;
-
-        Invoke("startTooltip", 0.5f);
-    }   
+    
+		Invoke("OpenTooltip", 0.5f);
+		Events.HelpShow();
+	}
+	void OpenTooltip()
+	{
+		Events.HelpChangeState(true);
+	}
+       
     
     void OnDestroy()
     {
@@ -101,12 +106,16 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		image.Apply();
 		Data.Instance.lastArtTexture = image;
 		//debugText.text = debug;
+		Events.HelpChangeState(false);
+		Events.HelpHide();		
 		Data.Instance.LoadLevel("confirmArtworkSize");
 	}
 
 	public void Continue(){
 		Events.OnLoading(true);
 		area.gameObject.SetActive (false);
+		Events.HelpChangeState(false);
+		Events.HelpHide();
 		Data.Instance.LoadLevel("confirmArtworkSize");
 	}
 

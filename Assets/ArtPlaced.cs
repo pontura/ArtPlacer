@@ -43,6 +43,7 @@ public class ArtPlaced : MonoBehaviour {
 		Events.OnSelectFooterArtwork += AddFromFooter;
 		Events.ArtworkPreview += Preview;
         Events.HelpShow();
+		Events.HelpChangeState (false);
 
 		Events.MoveButton += MoveButton;
 

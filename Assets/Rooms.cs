@@ -32,6 +32,7 @@ public class Rooms : MonoBehaviour
         Close();
 
         Events.HelpShow();
+		Events.HelpChangeState (false);
 
         Data.Instance.SetTitle("ROOMS");
         Events.Back += Back;

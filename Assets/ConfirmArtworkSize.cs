@@ -32,6 +32,7 @@ public class ConfirmArtworkSize : MonoBehaviour
 
     void Start()
     {
+		Events.HelpHide ();
 
         Events.Back += Back;
 
