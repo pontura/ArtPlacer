@@ -54,8 +54,8 @@ public class ThumbImage : MonoBehaviour{
 	
 	public void InitRoom(Rooms rooms, string url, int id)
 	{
-		//StartCoroutine(RealLoadRoomImage(url));
-		RealLoadLocalImage(url);
+		StartCoroutine(RealLoadLocalImage(url));
+		//RealLoadLocalImage(url);
 		GetComponent<Button>().onClick.AddListener(() =>
 		{
             Data.Instance.SetRoomFromLocalFiles(false);
