@@ -256,7 +256,7 @@ public class ConfirmArtWork : MonoBehaviour {
         else
         {
             if (gallery.id == -2)
-                texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
+				texture2d = TextureUtils.LoadLocal(artData.GetUrl(false), texture2d);
             else
                 yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
 

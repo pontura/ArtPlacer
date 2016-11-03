@@ -3,10 +3,10 @@ using System.Collections;
 
 public class TextureUtils{
 
-	public static Texture2D LoadLocal(string path){
+	public static Texture2D LoadLocal(string path, Texture2D texture2d){
 		if (System.IO.File.Exists(path)){
 			var bytes = System.IO.File.ReadAllBytes(path);
-			Texture2D texture2d = new Texture2D(1, 1);
+			texture2d = new Texture2D(1, 1);
 			texture2d.LoadImage(bytes);
 			return texture2d;
 		}else{

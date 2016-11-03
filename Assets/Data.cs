@@ -244,6 +244,7 @@ public class Data : MonoBehaviour
     public void SavePhotoArt(string name, string author, float height, float width)
 	{
 		byte[] bytes = lastArtTexture.EncodeToPNG();
+		byte[] bytesThumb = lastArtThumbTexture.EncodeToPNG();
 
 		string path = "";
         print(artData.selectedArtWork + "   artData.selectedArtWork.url: " + artData.selectedArtWork.url + "    artData.selectedArtWork.url.length " + artData.selectedArtWork.url.Length);
@@ -258,6 +259,7 @@ public class Data : MonoBehaviour
 		}
 		
 		File.WriteAllBytes(GetFullPathByFolder("Artworks", path + ".png"), bytes);
+		File.WriteAllBytes(GetFullPathByFolder("Artworks", path + "_thumb.png"), bytes);
 	}
 	public void DeletePhotoArt(string path)
 	{

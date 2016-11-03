@@ -104,7 +104,8 @@ public class ConfirmArtworkCrop : MonoBehaviour {
 		#endif
 
 		image.Apply();
-		Data.Instance.lastArtTexture = image;
+		//Data.Instance.lastArtTexture = image;
+		Data.Instance.SetLastArtTexture(image);
 		//debugText.text = debug;
 		Events.HelpChangeState(false);
 		Events.HelpHide();		

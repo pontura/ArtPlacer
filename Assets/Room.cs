@@ -121,7 +121,7 @@ public class Room : MonoBehaviour
         {
             if (areaArtwork.galleryID == -2)
             {
-                tex = TextureUtils.LoadLocal(artData.GetUrl(false));
+                tex = TextureUtils.LoadLocal(artData.GetUrl(false), tex);
             }
             else
             {
@@ -155,8 +155,8 @@ public class Room : MonoBehaviour
 		string filePath = GetUrlPath(Data.Instance.areaData.url + ".png");
 
         print("LoadRoomTexture filePath: " + filePath);
-
-		Texture2D texture2d = TextureUtils.LoadLocal (filePath);
+		Texture2D texture2d = new Texture2D(1, 1);
+		texture2d = TextureUtils.LoadLocal (filePath, texture2d);
 		if (texture2d != null) {
 			Data.Instance.lastPhotoTexture = texture2d;
 		} else {

@@ -279,7 +279,7 @@ public class ArtWorks : MonoBehaviour
         Debug.Log("______" + artData.url + " gallery.id " + Data.Instance.artData.selectedGallery);
 
         if (Data.Instance.artData.selectedGallery == -2)
-            texture2d = TextureUtils.LoadLocal(artData.GetUrl(false));
+			texture2d = TextureUtils.LoadLocal(artData.GetUrl(false), texture2d);
         else
             yield return StartCoroutine(TextureUtils.LoadRemote(artData.url, value => texture2d = value));
 

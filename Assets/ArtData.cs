@@ -65,8 +65,14 @@ public class ArtData : MonoBehaviour {
 			public string GetUrl(bool thumb){
 				string result = "";
 				if (galleryId == -2) {
-					string folder = Data.Instance.GetArtPath ();		
-					result = Path.Combine (folder, url + ".png");
+					string folder = Data.Instance.GetArtPath ();
+					if (thumb){
+						result = Path.Combine (folder, url + "_thumb.png");
+						if (!System.IO.File.Exists (result)) {
+							result = Path.Combine (folder, url + ".png");					
+						}
+					}else
+						result = Path.Combine (folder, url + ".png");					
 				} else {
                     if (thumb)
                         result = thumbnail;
@@ -477,6 +483,7 @@ public class ArtData : MonoBehaviour {
 				
 				string[] result = artworkData.Split(":"[0]);
 				last.url = result[0];
+				last.thumbnail = result[0]+"_thumb";
 				string[] res = result[1].Split("_"[0]);
 				last.title = res[1];
 				last.artId = int.Parse(res[2]);

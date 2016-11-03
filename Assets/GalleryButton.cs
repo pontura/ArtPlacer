@@ -89,7 +89,8 @@ public class GalleryButton : MonoBehaviour {
 
 	private void RealLoadLocalImage(string url)
 	{
-		Texture2D texture2d = TextureUtils.LoadLocal (url);
+		Texture2D texture2d = new Texture2D(1, 1);
+		texture2d = TextureUtils.LoadLocal (url, texture2d);
 		if(texture2d!=null){
 			Sprite sprite = new Sprite();
             sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, 100, 100), new Rect(0, 0, 100, 100), Vector2.zero);			

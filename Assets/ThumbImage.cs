@@ -70,8 +70,8 @@ public class ThumbImage : MonoBehaviour{
 	{
 		url = url_;
 		if (local) {
-            if (loadingAsset) loadingAsset.SetActive(false);
-			RealLoadLocalImage (url);
+            //if (loadingAsset) loadingAsset.SetActive(false);
+			StartCoroutine (RealLoadLocalImage (url));
 			GetComponent<Button>().onClick.AddListener(() =>			                                           {
 				Events.OnLoading(true);
 				OnSelectedLocal(artWorks, id);
@@ -89,15 +89,28 @@ public class ThumbImage : MonoBehaviour{
     private int _w = 400;
     private int _h = 400;
 
-	private void RealLoadLocalImage(string url)
-	{
-		texture2d = TextureUtils.LoadLocal (url);
-		if(texture2d!=null){
-			sprite = new Sprite();
-            sprite = Sprite.Create(TextureUtils.ScaleTexture(texture2d, _w, _h), new Rect(0, 0, _w, _h), Vector2.zero);
+	private IEnumerator RealLoadLocalImage(string url)
+	{		
+		ImageCache ic = Data.Instance.artWorksThumbs.Find(x => x.url.Equals(url));
 
-            RawImage.sprite = sprite;
+		texture2d = ic == null ? null : ic.texture;
+
+		if (texture2d == null) {
+			yield return texture2d = TextureUtils.LoadLocal (url, texture2d);
+			if (texture2d != null) {				
+				ImageCache gt = new ImageCache (url, texture2d);
+				Data.Instance.artWorksThumbs.Add (gt);
+			}
+		} 
+
+		if (texture2d != null) {
+			sprite = new Sprite ();
+			sprite = Sprite.Create (TextureUtils.ScaleTexture (texture2d, _w, _h), new Rect (0, 0, _w, _h), Vector2.zero);
+			RawImage.sprite = sprite;
+			LoadReady();
 		}
+
+		yield return null;
 	}
 
 	private IEnumerator RealLoadImage(string url)
@@ -148,8 +161,10 @@ public class ThumbImage : MonoBehaviour{
 	
 	public IEnumerator OnSelected(Footer footer, int id)
 	{		
-		if (Data.Instance.artData.selectedGallery == -2) {			
-			Data.Instance.SetLastArtTexture (TextureUtils.LoadLocal(Data.Instance.artData.GetArtData(-2,id).GetUrl(false)));
+		if (Data.Instance.artData.selectedGallery == -2) {
+			Texture2D texture2d = new Texture2D(1, 1);
+			texture2d = TextureUtils.LoadLocal (Data.Instance.artData.GetArtData (-2, id).GetUrl (false), texture2d);
+			Data.Instance.SetLastArtTexture (texture2d);
 			stopLoading ();
 			footer.OnSelect (id);
 		} else {			
