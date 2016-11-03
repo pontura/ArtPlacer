@@ -18,7 +18,7 @@ public class ThumbImage : MonoBehaviour{
         else if (loadingAsset) loadingAsset.SetActive(false);
 
 		if (local) 
-			RealLoadLocalImage (url);
+			StartCoroutine (RealLoadLocalImage (url));
 		else
 			StartCoroutine (RealLoadImage (url));
 		
