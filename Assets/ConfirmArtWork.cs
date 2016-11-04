@@ -102,6 +102,7 @@ public class ConfirmArtWork : MonoBehaviour {
 	}
     public void Back()
     {
+		Events.HelpHide();
 		if (Data.Instance.lastScene == "ConfirmArtworkSize") {
 			Data.Instance.LoadLevel ("Artworks");
 		} else if (Data.Instance.lastScene == "ConfirmArtWork") {

@@ -37,6 +37,7 @@ public class ConfirmPhoto : MonoBehaviour {
         }
         else
         {
+			Events.HelpHide();
             Data.Instance.LoadLevel("Artworks");
         }
        // Data.Instance.LoadLevel("TakePhoto");
