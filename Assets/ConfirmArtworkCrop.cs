@@ -40,6 +40,7 @@ public class ConfirmArtworkCrop : MonoBehaviour {
     }
 	public void Back()
 	{
+		Events.HelpHide();
 		Data.Instance.LoadLevel("Artworks");
     }
     public void Ready()
