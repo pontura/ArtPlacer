@@ -159,7 +159,7 @@ public class ConfirmArtWork : MonoBehaviour {
 			FavoriteOff.gameObject.SetActive(false);
 			Events.HelpShow ();
 			Events.HelpChangeStep (3);
-			Events.HelpChangeState (true);
+			Events.HelpChangeState (false);
 			showingAddTip = true;
             EventsAnalytics.NewFavourite(Data.Instance.artData.selectedArtWork.galleryId.ToString(), Data.Instance.artData.selectedArtWork.artId.ToString());
         }
